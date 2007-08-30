@@ -1,0 +1,7 @@
+*.cmi
+*.cmo
+*.cmx
+*.cma
+*.cmxa
+Makefile
+libvirt_version.ml

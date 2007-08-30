@@ -1,0 +1,11 @@
+META
+ocaml-libvirt-*.tar.gz
+html
+configure
+config.log
+config.status
+config.h
+Makefile
+autom4te.cache
+core
+core.*

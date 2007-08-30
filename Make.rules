@@ -1,0 +1,27 @@
+# $Id: Make.rules,v 1.2 2007/08/08 08:34:42 rjones Exp $ -*- Makefile -*-
+# This file is included by Makefiles in subdirectories.
+
+# Common rules for building OCaml objects.
+
+.mli.cmi:
+	ocamlfind ocamlc $(OCAMLCFLAGS) $(OCAMLCINCS) $(OCAMLCPACKAGES) -c $<
+.ml.cmo:
+	ocamlfind ocamlc $(OCAMLCFLAGS) $(OCAMLCINCS) $(OCAMLCPACKAGES) -c $<
+.ml.cmx:
+	ocamlfind ocamlopt $(OCAMLOPTFLAGS) $(OCAMLOPTINCS) $(OCAMLOPTPACKAGES) -c $<
+
+# Dependencies.
+
+depend: .depend
+
+.depend: $(wildcard *.mli) $(wildcard *.ml)
+	rm -f .depend
+	ocamlfind ocamldep $(OCAMLCPACKAGES) $^ > $@
+
+ifeq ($(wildcard .depend),.depend)
+include .depend
+endif
+
+.PHONY: depend dist check-manifest dpkg doc
+
+.SUFFIXES:      .cmo .cmi .cmx .ml .mli .mll

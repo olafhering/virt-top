@@ -1,0 +1,3 @@
+$Id: TODO.libvirt,v 1.1 2007/08/29 15:48:06 rjones Exp $
+
+Turn VIR_ERR_NO_DOMAIN and NO_NETWORK errors into Not_found exceptions.

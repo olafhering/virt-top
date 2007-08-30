@@ -1,0 +1,79 @@
+# $Id: Makefile.in,v 1.6 2007/08/23 11:09:19 rjones Exp $
+
+PACKAGE		:= @PACKAGE_NAME@
+VERSION		:= @PACKAGE_VERSION@
+
+INSTALL		:= @INSTALL@
+HAVE_PERLDOC	:= @HAVE_PERLDOC@
+
+prefix		= @prefix@
+exec_prefix	= @exec_prefix@
+bindir		= @bindir@
+
+pkg_curses	= @pkg_curses@
+pkg_xml_light	= @pkg_xml_light@
+pkg_csv		= @pkg_csv@
+
+OCAMLCPACKAGES	:= -package unix,extlib,curses
+
+OBJS		:= virt_top.cmo
+ifeq ($(pkg_xml_light),yes)
+OBJS		+= virt_top_xml.cmo
+OCAMLCPACKAGES	:= $(OCAMLCPACKAGES),xml-light
+endif
+ifeq ($(pkg_csv),yes)
+OBJS		+= virt_top_csv.cmo
+OCAMLCPACKAGES	:= $(OCAMLCPACKAGES),csv
+endif
+OBJS		+= virt_top_main.cmo
+
+XOBJS		:= $(OBJS:.cmo=.cmx)
+
+OCAMLCPACKAGES  += -I ../libvirt
+OCAMLCFLAGS	:= -g -w s
+OCAMLCLIBS	:= -linkpkg
+
+OCAMLOPTPACKAGES := $(OCAMLCPACKAGES)
+OCAMLOPTFLAGS	:= -w s
+OCAMLOPTLIBS	:= $(OCAMLCLIBS)
+
+export LIBRARY_PATH=../libvirt
+export LD_LIBRARY_PATH=../libvirt
+
+BYTE_TARGETS	:= virt-top
+OPT_TARGETS	:= virt-top.opt
+
+ifeq ($(HAVE_PERLDOC),perldoc)
+BYTE_TARGETS	+= virt-top.1 virt-top.txt
+endif
+
+all: $(BYTE_TARGETS)
+
+opt: $(OPT_TARGETS)
+
+virt-top: $(OBJS)
+	ocamlfind ocamlc $(OCAMLCPACKAGES) $(OCAMLCFLAGS) $(OCAMLCLIBS) \
+	  ../libvirt/mllibvirt.cma -o $@ $^
+
+virt-top.opt: $(XOBJS)
+	ocamlfind ocamlopt \
+	  $(OCAMLOPTPACKAGES) $(OCAMLOPTFLAGS) $(OCAMLOPTLIBS) \
+	  ../libvirt/mllibvirt.cmxa -cclib -lncurses -o $@ $^
+
+# Manual page.
+ifeq ($(HAVE_PERLDOC),perldoc)
+virt-top.1: virt-top.pod
+	pod2man -c "Virtualization Support" --release "$(PACKAGE)-$(VERSION)" \
+		$< > $@
+
+virt-top.txt: virt-top.pod
+	pod2text $< > $@
+endif
+
+install:
+	if [ -x virt-top.opt ]; then \
+	  mkdir -p $(DESTDIR)$(bindir); \
+	  $(INSTALL) -m 0755 virt-top.opt $(DESTDIR)$(bindir)/virt-top; \
+	fi
+
+include ../Make.rules

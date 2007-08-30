@@ -1,0 +1,167 @@
+NAME
+    virt-top - 'top'-like utility for virtualization stats
+
+SUMMARY
+    virt-top [-options]
+
+DESCRIPTION
+    virt-top is a top(1)-like utility for showing stats of virtualized
+    domains. Many keys and command line options are the same as for ordinary
+    *top*.
+
+    It uses libvirt so it is capable of showing stats across a variety of
+    different virtualization systems.
+
+OPTIONS
+    -1  Display physical CPUs by default (instead of domains). When virt-top
+        is running, use the *1* key to toggle between physical CPUs and
+        domains display.
+
+    -2  Display network interfaces by default (instead of domains). When
+        virt-top is running, use the *2* key to toggle between network
+        interfaces and domains display.
+
+    -3  Display block devices (virtual disks) by default (instead of
+        domains). When virt-top is running, use the *3* key to toggle
+        between block devices and domains display.
+
+    -b  Batch mode. In this mode keypresses are ignored.
+
+    -c uri or --connect uri
+        Connect to URI given. The default is to connect to the Xen
+        hypervisor.
+
+    -d delay
+        Set the delay between screen updates in seconds. The default is 3.0
+        seconds. You can change this while virt-top is running by pressing
+        either *s* or *d* key.
+
+    -n iterations
+        Set the number of iterations to run. The default is to run
+        continuously.
+
+    -o sort
+        Set the sort order to one of: cpu (sort by %CPU used), mem (sort by
+        memory used), time (sort by total time), id (sort by domain ID),
+        name (sort by domain name), netrx (sort by network received bytes),
+        nettx (sort by network transmitted bytes), blockrdrq (sort by block
+        device [disk] read requests), blockwrrq (sort by block device [disk]
+        write requests).
+
+        While virt-top is running you can change the sort order using keys
+        *P* (cpu), *M* (memory), *T* (total time), *N* (domain ID), *F*
+        (interactively select the sort field).
+
+    -s  Secure mode. Currently this does nothing.
+
+    --hist-cpu secs
+        Set the time in seconds between updates of the historical %CPU at
+        the top right of the display.
+
+    --csv file.csv
+        Write the statistics to file *file.csv*. First a header is written
+        showing the statistics being recorded in each column, then one line
+        is written for each screen update. The CSV file can be loaded
+        directly by most spreadsheet programs.
+
+        Currently the statistics which this records vary between releases of
+        virt-top (but the column headers will stay the same, so you can use
+        those to process the CSV file).
+
+        Not every version of virt-top supports CSV output - it depends how
+        the program was compiled (see *README* file in the source
+        distribution for details).
+
+    --debug filename
+        Send debug and error messages to *filename*. To send error messages
+        to syslog you can do:
+
+         virt-top --debug >(logger -t virt-top)
+
+        See also REPORTING BUGS below.
+
+    --help
+        Display usage summary.
+
+KEYS
+    Note that keys are case sensitive. For example use upper-case *P* (shift
+    P) to sort by %CPU. *^* before a key means a Ctrl key, so *^L* is Ctrl
+    L.
+
+    *space* or *^L*
+        Updates the display.
+
+    *q* Quits the program.
+
+    *h* Displays help.
+
+    *s* or *d*
+        Change the delay between screen updates.
+
+    *0* (number 0)
+        Show the normal list of domains display.
+
+    *1* (number 1)
+        Toggle into showing physical CPUs. If pressed again toggles back to
+        showing domains (the normal display).
+
+    *2* Toggle into showing network interfaces. If pressed again toggles
+        back to showing domains.
+
+    *3* Toggle into showing block devices (virtual disks). If pressed again
+        toggles back to showing domains.
+
+    *P* Sort by %CPU.
+
+    *M* Sort by memory.
+
+    *T* Sort by total time.
+
+    *N* Sort by domain ID.
+
+    *F* Select the sort field interactively (there are other sort fields you
+        can choose using this key).
+
+SEE ALSO
+    top(1), virsh(1), xm(1), xentop(1), <http://www.libvirt.org/>,
+    <http://et.redhat.com/~rjones/>, <http://caml.inria.fr/>
+
+AUTHORS
+    Richard W.M. Jones <rjones @ redhat . com>
+
+REPORTING BUGS
+    Bugs can be viewed on the Red Hat Bugzilla page:
+    <https://bugzilla.redhat.com/>.
+
+    If you find a bug in virt-top, please follow these steps to report it:
+
+    1. Check for existing bug reports
+        Go to <https://bugzilla.redhat.com/> and search for similar bugs.
+        Someone may already have reported the same bug, and they may even
+        have fixed it.
+
+    2. Capture debug and error messages
+        Run
+
+         virt-top --debug virt-top.log
+
+        and keep *virt-top.log*. It contains error messages which you should
+        submit with your bug report.
+
+    3. Get version of virt-top and version of libvirt.
+        In virt-top, press the *h* (help) key, and write down the version of
+        virt-top and the version of libvirt. They are shown in the first
+        line.
+
+    4. Submit a bug report.
+        Go to <https://bugzilla.redhat.com/> and enter a new bug. Please
+        describe the problem in as much detail as possible.
+
+        Remember to include the version numbers (step 3) and the debug
+        messages file (step 2).
+
+    5. Assign the bug to rjones @ redhat.com
+        Assign or reassign the bug to rjones @ redhat.com (without the
+        spaces). You can also send me an email with the bug number if you
+        want a faster response.
+

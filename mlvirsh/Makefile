@@ -1,0 +1,42 @@
+# $Id: Makefile.in,v 1.2 2007/08/21 14:24:38 rjones Exp $
+
+INSTALL		:= /usr/bin/install -c
+
+prefix		= /usr/local
+exec_prefix	= ${prefix}
+bindir		= ${exec_prefix}/bin
+
+OCAMLCPACKAGES	:= -package extlib,unix -I ../libvirt
+OCAMLCFLAGS	:= -g
+OCAMLCLIBS	:= -linkpkg
+
+OCAMLOPTPACKAGES := $(OCAMLCPACKAGES)
+OCAMLOPTFLAGS	:=
+OCAMLOPTLIBS	:= $(OCAMLCLIBS)
+
+export LIBRARY_PATH=../libvirt
+export LD_LIBRARY_PATH=../libvirt
+
+BYTE_TARGETS	:= mlvirsh
+OPT_TARGETS	:= mlvirsh.opt
+
+all: $(BYTE_TARGETS)
+
+opt: $(OPT_TARGETS)
+
+mlvirsh: mlvirsh.cmo
+	ocamlfind ocamlc $(OCAMLCPACKAGES) $(OCAMLCFLAGS) $(OCAMLCLIBS) \
+	  ../libvirt/mllibvirt.cma -o $@ $<
+
+mlvirsh.opt: mlvirsh.cmx
+	ocamlfind ocamlopt \
+	  $(OCAMLOPTPACKAGES) $(OCAMLOPTFLAGS) $(OCAMLOPTLIBS) \
+	  ../libvirt/mllibvirt.cmxa -o $@ $<
+
+install:
+	if [ -x mlvirsh.opt ]; then \
+	  mkdir -p $(DESTDIR)$(bindir); \
+	  $(INSTALL) -m 0755 mlvirsh.opt $(DESTDIR)$(bindir)/mlvirsh; \
+	fi
+
+include ../Make.rules

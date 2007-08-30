@@ -1,0 +1,154 @@
+$Id: README,v 1.11 2007/08/23 09:36:04 rjones Exp $
+
+ocaml-libvirt
+----------------------------------------------------------------------
+
+Copyright (C) 2007 Richard W.M. Jones, Red Hat Inc.
+http://et.redhat.com/~rjones/ocaml-libvirt/
+http://libvirt.org/
+
+This is a complete set of OCaml bindings around libvirt, exposing all
+known functionality to OCaml programs.
+
+
+Requirements
+----------------------------------------------------------------------
+
+To build the bindings and mlvirsh (required):
+
+  GNU make, gcc
+  libvirt >= 0.2.1 (from http://libvirt.org/,
+  	     	    get the latest version if you can)
+  ocaml >= 3.08 (from http://caml.inria.fr/)
+  findlib (from http://www.ocaml-programming.de/packages/)
+  Extlib (from http://ocaml-lib.sourceforge.net/)
+
+To build the OCaml interface documentation (optional):
+
+  ocamldoc (part of OCaml itself)
+
+To build virt-top (optional):
+
+  ocaml-curses (from http://www.nongnu.org/ocaml-tmk/)
+  xml-light (from http://tech.motion-twin.com/doc/xml-light/)
+  ocaml CSV library (from http://merjis.com/developers/csv)
+
+  [Only ocaml-curses is required for building virt-top.  The other
+  packages are not required, but you will get reduced functionality].
+
+To build mlvirtmanager (optional):
+
+  GTK2 (from http://gtk.org/)
+  lablgtk2 (from http://wwwfun.kurims.kyoto-u.ac.jp/soft/lsl/lablgtk.html)
+
+To build the manpages (optional):
+
+  perldoc (part of Perl)
+
+OCaml packages are available for Fedora 7 and above (ocaml,
+ocaml-findlib, ocaml-findlib-devel, ocaml-ocamldoc, ocaml-extlib,
+ocaml-extlib-devel, ocaml-lablgtk, ocaml-lablgtk-devel, ocaml-curses,
+ocaml-xml-light, ocaml-csv).
+
+  http://www.annexia.org/tmp/ocaml/
+  http://fedoraproject.org/wiki/SIGs/OCaml
+
+Debian/Ubuntu have all the packages you require.
+
+
+Building
+----------------------------------------------------------------------
+
+  ./configure           # Checks that you have all the required bits.
+
+  make all		# Builds the bytecode version of libs/programs.
+  make opt		# Builds the native code version of libs/programs.
+
+  make install          # Install in OCaml directory, and the binaries
+       			# in $prefix/bin.
+
+  make doc              # Build HTML documentation in html/ subdirectory.
+
+Then have a look at the programs 'mlvirsh.opt' and 'mlvirtmanager.opt'.
+
+Note: If you want to run the programs without first installing, you
+may need to set your $LD_LIBRARY_PATH environment variable so it
+contains the build directory.  eg:
+
+  LD_LIBRARY_PATH=libvirt/ mlvirsh/mlvirsh.opt
+
+
+mlvirsh
+----------------------------------------------------------------------
+
+'mlvirsh' is an almost complete reimplementation of virsh, which is
+mostly command compatible (there are a very few commands missing, and
+some commands have a slightly different syntax, but broadly speaking
+they are equivalent programs except that one is written in C and the
+other in OCaml).
+
+At the time of writing:
+
+              wc -c  wc -l
+
+  virsh     126,056  4,641
+  mlvirsh    19,427    598
+
+  % size        15%    13%
+
+
+mlvirtmanager
+----------------------------------------------------------------------
+
+'mlvirtmanager' is a demonstration implementation of virt-manager in
+OCaml.  It is not feature-complete by any means, but does allow you to
+show the running domains and start and stop defined domains.  The main
+functionality _missing_ is the ability to define new virtual machines,
+change the resources allocated to domains, or show the machine
+console.
+
+
+Programming
+----------------------------------------------------------------------
+
+The interface is described in 'libvirt.mli'.  The main modules are
+Libvirt.Connect, Libvirt.Domain and Libvirt.Network, corresponding
+respectively to the virConnect*, virDomain*, and virNetwork*
+functions.  For brevity I usually rename these modules like this:
+
+  module C = Libvirt.Connect
+  module D = Libvirt.Domain
+  module N = Libvirt.Network
+
+To get a connection handle, do:
+
+  let name = "xen:///"
+  let conn = C.connect ~name ()
+
+To list domains, do:
+
+  let n = C.num_of_domains conn
+  let ids = C.list_domains conn n
+  let domains = Array.map (D.lookup_by_id conn) ids
+  let () =
+    Array.iter (
+      fun dom ->
+        printf "%5d %s\n" (D.get_id dom) (D.get_name dom)
+    ) domains
+
+(See also the program list_domains.ml).
+
+For documentation on these bindings, read libvirt.mli and/or 'make
+doc' and browse the HTML documentation in the html/ subdirectory.
+
+For documentation on libvirt itself, see http://libvirt.org/html/
+
+
+Subdirectories
+----------------------------------------------------------------------
+
+libvirt/		The OCaml bindings.
+examples/		Some example programs using the bindings.
+mlvirsh/		'mlvirsh' command line tool.
+mlvirtmanager/		'mlvirtmanager' graphical tool.
+virt-top/		'virt-top' tool.

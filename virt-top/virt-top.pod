@@ -1,0 +1,244 @@
+=head1 NAME
+
+virt-top - 'top'-like utility for virtualization stats
+
+=head1 SUMMARY
+
+virt-top [-options]
+
+=head1 DESCRIPTION
+
+virt-top is a L<top(1)>-like utility for showing stats of virtualized
+domains.  Many keys and command line options are the same as for
+ordinary I<top>.
+
+It uses libvirt so it is capable of showing stats across a variety of
+different virtualization systems.
+
+=head1 OPTIONS
+
+=over 4
+
+=item B<-1>
+
+Display physical CPUs by default (instead of domains).
+When virt-top is running, use the I<1> key to toggle
+between physical CPUs and domains display.
+
+=item B<-2>
+
+Display network interfaces by default (instead of domains).
+When virt-top is running, use the I<2> key to toggle
+between network interfaces and domains display.
+
+=item B<-3>
+
+Display block devices (virtual disks) by default (instead of domains).
+When virt-top is running, use the I<3> key to toggle
+between block devices and domains display.
+
+=item B<-b>
+
+Batch mode.  In this mode keypresses are ignored.
+
+=item B<-c uri> or B<--connect uri>
+
+Connect to URI given.  The default is to connect to the Xen
+hypervisor.
+
+=item B<-d delay>
+
+Set the delay between screen updates in seconds.
+The default is 3.0 seconds.  You can change this
+while virt-top is running by pressing either I<s> or I<d> key.
+
+=item B<-n iterations>
+
+Set the number of iterations to run.  The default
+is to run continuously.
+
+=item B<-o sort>
+
+Set the sort order to one of:
+B<cpu> (sort by %CPU used),
+B<mem> (sort by memory used),
+B<time> (sort by total time),
+B<id> (sort by domain ID),
+B<name> (sort by domain name),
+B<netrx> (sort by network received bytes),
+B<nettx> (sort by network transmitted bytes),
+B<blockrdrq> (sort by block device [disk] read requests),
+B<blockwrrq> (sort by block device [disk] write requests).
+
+While virt-top is running you can change the sort
+order using keys I<P> (cpu), I<M> (memory),
+I<T> (total time), I<N> (domain ID),
+I<F> (interactively select the sort field).
+
+=item B<-s>
+
+Secure mode.  Currently this does nothing.
+
+=item B<--hist-cpu secs>
+
+Set the time in seconds between updates of the historical
+%CPU at the top right of the display.
+
+=item B<--csv file.csv>
+
+Write the statistics to file I<file.csv>.  First a header is written
+showing the statistics being recorded in each column, then one line is
+written for each screen update.  The CSV file can be loaded directly
+by most spreadsheet programs.
+
+Currently the statistics which this records vary between releases of
+virt-top (but the column headers will stay the same, so you can use
+those to process the CSV file).
+
+Not every version of virt-top supports CSV output - it depends how the
+program was compiled (see I<README> file in the source distribution
+for details).
+
+=item B<--debug filename>
+
+Send debug and error messages to I<filename>.
+To send error messages to syslog you can do:
+
+ virt-top --debug >(logger -t virt-top)
+
+See also REPORTING BUGS below.
+
+=item B<--help>
+
+Display usage summary.
+
+=back
+
+=head1 KEYS
+
+Note that keys are case sensitive.  For example use upper-case I<P>
+(shift P) to sort by %CPU.  I<^> before a key means a Ctrl key, so
+I<^L> is Ctrl L.
+
+=over 4
+
+=item I<space> or I<^L>
+
+Updates the display.
+
+=item I<q>
+
+Quits the program.
+
+=item I<h>
+
+Displays help.
+
+=item I<s> or I<d>
+
+Change the delay between screen updates.
+
+=item I<0> (number 0)
+
+Show the normal list of domains display.
+
+=item I<1> (number 1)
+
+Toggle into showing physical CPUs.  If pressed
+again toggles back to showing domains (the normal
+display).
+
+=item I<2>
+
+Toggle into showing network interfaces.  If pressed
+again toggles back to showing domains.
+
+=item I<3>
+
+Toggle into showing block devices (virtual disks).  If pressed again
+toggles back to showing domains.
+
+=item I<P>
+
+Sort by %CPU.
+
+=item I<M>
+
+Sort by memory.
+
+=item I<T>
+
+Sort by total time.
+
+=item I<N>
+
+Sort by domain ID.
+
+=item I<F>
+
+Select the sort field interactively (there are other
+sort fields you can choose using this key).
+
+=back
+
+=head1 SEE ALSO
+
+L<top(1)>,
+L<virsh(1)>,
+L<xm(1)>,
+L<xentop(1)>,
+L<http://www.libvirt.org/>,
+L<http://et.redhat.com/~rjones/>,
+L<http://caml.inria.fr/>
+
+=head1 AUTHORS
+
+Richard W.M. Jones <rjones @ redhat . com>
+
+=head1 REPORTING BUGS
+
+Bugs can be viewed on the Red Hat Bugzilla page:
+L<https://bugzilla.redhat.com/>.
+
+If you find a bug in virt-top, please follow these steps to report it:
+
+=over 4
+
+=item 1. Check for existing bug reports
+
+Go to L<https://bugzilla.redhat.com/> and search for similar bugs.
+Someone may already have reported the same bug, and they may even
+have fixed it.
+
+=item 2. Capture debug and error messages
+
+Run
+
+ virt-top --debug virt-top.log
+
+and keep I<virt-top.log>.  It contains error messages which you
+should submit with your bug report.
+
+=item 3. Get version of virt-top and version of libvirt.
+
+In virt-top, press the I<h> (help) key, and write down the version of
+virt-top and the version of libvirt.  They are shown in the first
+line.
+
+=item 4. Submit a bug report.
+
+Go to L<https://bugzilla.redhat.com/> and enter a new bug.
+Please describe the problem in as much detail as possible.
+
+Remember to include the version numbers (step 3) and the debug
+messages file (step 2).
+
+=item 5. Assign the bug to rjones @ redhat.com
+
+Assign or reassign the bug to B<rjones @ redhat.com> (without the
+spaces).  You can also send me an email with the bug number if you
+want a faster response.
+
+=back
+
+=end

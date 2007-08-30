@@ -1,0 +1,72 @@
+$Id: TODO.virt-top,v 1.2 2007/08/30 13:52:40 rjones Exp $
+
+This is a list of bugs & tasks for virt-top.
+----------------------------------------------------------------------
+
+*** 0 Use public CVS and bug tracker to replace this file (!)
+
+*** 1 Segfault [FIXED 0.3.2.6]
+
+I have seen this segfault once:
+https://www.redhat.com/archives/libvir-list/2007-August/msg00214.html
+
+It appeared to happen when several domains were shut down at the same
+time, but has since been unreproducible.  Suspect crazy reference
+counting in libvirt to be part of the problem.
+
+[As suspected, turned out to be the crazy reference counting in
+libvirt].
+
+*** 2 Virt-top fails silently when started as non-root [FIXED 0.3.2.5]
+
+*** 3 Irix/Solaris mode
+
+'I' (toggles between 100% = all CPUs / 100% = single CPU).
+In top this is called "Irix/Solaris mode" :-)
+
+*** 4 [jmh] Build out the stats collected by the --csv <filename.csv> option.
+
+Suggested being able to give a selection of VMs to monitor from the
+command line.  Also, being able to monitor just particular subsystems
+(-sc for CPU, -sm for memory, etc. as in collectl).
+
+*** 5 [jmh & jneedham] Monitor resources used by dom0 on behalf of the guests.
+
+So that if dom0 is throttled right down, is that affecting throughput
+of guests?  I honestly don't know if it's possible to do this, but
+I'll raise the issue upstream to see if they have any suggestions.
+
+*** 6 Per-guest / per-interface network statistics. [PARTIALLY DONE 0.3.2.6]
+
+Have a separate screen which breaks out the domain name / device name
+and gives complete interface stats.
+
+RXBY TXBY RXRQ TXRQ DOMAIN   INTERFACE
+  5M    0   48    0 debian   vif2.0
+  2M    0   20    0 oracle   vif3.1
+  1M   5K    8    2 oracle   vif3.0 
+
+*** 7 Per-guest / per-device block statistics. [PARTIALLY DONE 0.3.2.6]
+
+Have a separate screen which breaks out the domain name / device name
+and gives complete block stats.
+
+RDBY WRBY RDRQ WRRQ DOMAIN   DEVICE
+  5M    0   48    0 debian   hdb
+  2M    0   20    0 debian   hda
+  1M   5K    8    2 oracle   hda
+
+*** 8 [jneedham asked for] %WAIT
+
+I'm assuming this would mean in the context of the hypervisor, how
+long are runnable domains waiting in the runqueue for access to a free
+pCPU.  I will ask upstream whether this stat is available through Xen,
+and if so put in place the infrastructure to monitor it.
+
+*** 9 [jmh asked for] Configuration file or environment variable
+
+Thinking about maybe this is something we could controly via a
+.virt-top-init file or an environment variable ?  The same could also
+be true for other options such as the selection of subsystems and/or
+ordering/sorting ?
+

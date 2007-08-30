@@ -1,0 +1,32 @@
+# $Id: Makefile.in,v 1.1 2007/08/21 12:33:40 rjones Exp $
+
+OCAMLCPACKAGES	:= -package extlib,unix -I ../libvirt
+OCAMLCFLAGS	:= -g
+OCAMLCLIBS	:= -linkpkg
+
+OCAMLOPTPACKAGES := $(OCAMLCPACKAGES)
+OCAMLOPTFLAGS	:=
+OCAMLOPTLIBS	:= $(OCAMLCLIBS)
+
+export LIBRARY_PATH=../libvirt
+export LD_LIBRARY_PATH=../libvirt
+
+BYTE_TARGETS	:= list_domains
+OPT_TARGETS	:= list_domains.opt
+
+all: $(BYTE_TARGETS)
+
+opt: $(OPT_TARGETS)
+
+list_domains: list_domains.cmo
+	ocamlfind ocamlc $(OCAMLCPACKAGES) $(OCAMLCFLAGS) $(OCAMLCLIBS) \
+	  ../libvirt/mllibvirt.cma -o $@ $<
+
+list_domains.opt: list_domains.cmx
+	ocamlfind ocamlopt \
+	  $(OCAMLOPTPACKAGES) $(OCAMLOPTFLAGS) $(OCAMLOPTLIBS) \
+	  ../libvirt/mllibvirt.cmxa -o $@ $<
+
+install:
+
+include ../Make.rules

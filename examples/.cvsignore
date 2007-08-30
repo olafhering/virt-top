@@ -1,0 +1,8 @@
+*.cmi
+*.cmo
+*.cmx
+*.cma
+*.cmxa
+Makefile
+list_domains
+list_domains.opt

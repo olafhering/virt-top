@@ -1,0 +1,2 @@
+list_domains.cmo: ../libvirt/libvirt.cmi 
+list_domains.cmx: ../libvirt/libvirt.cmx 
