@@ -1,0 +1,27 @@
+syntax: glob
+META
+ocaml-libvirt-*.tar.gz
+html
+configure
+config.log
+config.status
+config.h
+Makefile
+*/Makefile
+autom4te.cache
+core
+core.*
+*.cmi
+*.cmo
+*.cmx
+*.cma
+*.cmxa
+*.o
+*.so
+*.a
+*.opt
+libvirt/libvirt_version.ml
+examples/list_domains
+mlvirsh/mlvirsh
+mlvirtmanager/mlvirtmanager
+virt-top/virt-top

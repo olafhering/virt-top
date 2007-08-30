@@ -1,8 +1,0 @@
-*.cmi
-*.cmo
-*.cmx
-*.cma
-*.cmxa
-Makefile
-mlvirsh
-mlvirsh.opt
