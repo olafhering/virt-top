@@ -1,0 +1,67 @@
+# $Id: Makefile.in,v 1.6 2007/08/23 11:09:19 rjones Exp $
+
+PACKAGE		:= @PACKAGE_NAME@
+VERSION		:= @PACKAGE_VERSION@
+
+INSTALL		:= @INSTALL@
+HAVE_PERLDOC	:= @HAVE_PERLDOC@
+
+prefix		= @prefix@
+exec_prefix	= @exec_prefix@
+bindir		= @bindir@
+
+pkg_xml_light	= @pkg_xml_light@
+
+OCAMLCPACKAGES	:= -package unix,extlib,xml-light
+
+OBJS		:= virt_df.cmo
+XOBJS		:= $(OBJS:.cmo=.cmx)
+
+OCAMLCPACKAGES  += -I ../libvirt
+OCAMLCFLAGS	:= -g -w s
+OCAMLCLIBS	:= -linkpkg
+
+OCAMLOPTPACKAGES := $(OCAMLCPACKAGES)
+OCAMLOPTFLAGS	:= -w s
+OCAMLOPTLIBS	:= $(OCAMLCLIBS)
+
+export LIBRARY_PATH=../libvirt
+export LD_LIBRARY_PATH=../libvirt
+
+BYTE_TARGETS	:= virt-df
+OPT_TARGETS	:= virt-df.opt
+
+#ifeq ($(HAVE_PERLDOC),perldoc)
+#BYTE_TARGETS	+= virt-top.1 virt-top.txt
+#endif
+
+all: $(BYTE_TARGETS)
+
+opt: $(OPT_TARGETS)
+
+virt-df: $(OBJS)
+	ocamlfind ocamlc $(OCAMLCPACKAGES) $(OCAMLCFLAGS) $(OCAMLCLIBS) \
+	  ../libvirt/mllibvirt.cma -o $@ $^
+
+virt-df.opt: $(XOBJS)
+	ocamlfind ocamlopt \
+	  $(OCAMLOPTPACKAGES) $(OCAMLOPTFLAGS) $(OCAMLOPTLIBS) \
+	  ../libvirt/mllibvirt.cmxa -cclib -lncurses -o $@ $^
+
+# Manual page.
+#ifeq ($(HAVE_PERLDOC),perldoc)
+#virt-top.1: virt-top.pod
+#	pod2man -c "Virtualization Support" --release "$(PACKAGE)-$(VERSION)" \
+#		$< > $@
+#
+#virt-top.txt: virt-top.pod
+#	pod2text $< > $@
+#endif
+
+install:
+	if [ -x virt-df.opt ]; then \
+	  mkdir -p $(DESTDIR)$(bindir); \
+	  $(INSTALL) -m 0755 virt-df.opt $(DESTDIR)$(bindir)/virt-df; \
+	fi
+
+include ../Make.rules

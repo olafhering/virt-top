@@ -20,8 +20,10 @@ core.*
 *.so
 *.a
 *.opt
+*~
 libvirt/libvirt_version.ml
 examples/list_domains
 mlvirsh/mlvirsh
 mlvirtmanager/mlvirtmanager
 virt-top/virt-top
+virt-df/virt-df

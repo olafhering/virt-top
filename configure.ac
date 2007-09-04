@@ -88,6 +88,12 @@ if test "x$pkg_curses" = "xyes"; then
 else
    echo "no (needs optional ocaml-curses)"
 fi
+echo -n "  virt-df      . . . . . . . "
+if test "x$pkg_xml_light" = "xyes"; then
+   echo "yes"
+else
+   echo "no (needs optional xml-light)"
+fi
 echo "------------------------------------------------------------"
 
 dnl Produce output files.
@@ -100,5 +106,6 @@ AC_CONFIG_FILES([META
 	mlvirsh/Makefile
 	mlvirtmanager/Makefile
 	virt-top/Makefile
+	virt-df/Makefile
 	])
 AC_OUTPUT

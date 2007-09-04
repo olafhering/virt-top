@@ -7,6 +7,7 @@ INSTALL		= @INSTALL@
 
 pkg_lablgtk2	= @pkg_lablgtk2@
 pkg_curses	= @pkg_curses@
+pkg_xml_light	= @pkg_xml_light@
 
 OCAMLDOCFLAGS	:= -html -sort
 
@@ -18,6 +19,10 @@ endif
 
 ifeq ($(pkg_curses),yes)
 SUBDIRS		+= virt-top
+endif
+
+ifeq ($(pkg_xml_light),yes)
+SUBDIRS		+= virt-df
 endif
 
 all opt depend install:
