@@ -1,0 +1,11 @@
+2007-09-18  Richard Jones  <rjones@redhat.com>
+
+	* virt-df/virt_df.ml: Handle domains with partition-backed
+	  block devices.
+
+	* virt-top/virt_top.ml: Don't fail on older libvirt which would
+	  give an error if list_domains or list_defined_domains was called
+	  with n = 0.
+
+	* ChangeLog: Start tracking changes.
+

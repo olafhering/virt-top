@@ -75,8 +75,8 @@ type domain = {
 and disk = {
   d_type : string option;		(* The <disk type=...> *)
   d_device : string option;		(* The <disk device=...> *)
-  d_file : string option;		(* The <source file=...> *)
-  d_dev : string option;		(* The <target dev=...> *)
+  d_source : string option;		(* The <source file=... or dev> *)
+  d_target : string option;		(* The <target dev=...> *)
 }
 
 let doms : domain list =
@@ -127,6 +127,14 @@ let doms : domain list =
 	| _ :: rest -> source_file_of rest
       in
 
+      let rec source_dev_of = function
+	| [] -> None
+	| Xml.Element ("source", attrs, _) :: rest ->
+	    (try Some (List.assoc "dev" attrs)
+	     with Not_found -> source_dev_of rest)
+	| _ :: rest -> source_dev_of rest
+      in
+
       let disks =
 	List.filter_map (
 	  function
@@ -137,11 +145,15 @@ let doms : domain list =
 	      let device =
 		try Some (List.assoc "device" attrs)
 		with Not_found -> None in
-	      let file = source_file_of children in
-	      let dev = target_dev_of children in
+	      let source =
+		match source_file_of children with
+		| (Some _) as source -> source
+		| None -> source_dev_of children in
+	      let target = target_dev_of children in
 
 	      Some {
-		d_type = typ; d_device = device; d_file = file; d_dev = dev
+		d_type = typ; d_device = device;
+		d_source = source; d_target = target
 	      }
 	  | _ -> None
 	) devices in
@@ -156,8 +168,11 @@ let () =
       printf "%s:\n" dom_name;
       List.iter (
 	function
-	| { d_file = Some file; d_dev = Some dev } ->
-	    printf "\t%s -> %s\n" file dev
+	| { d_source = Some source; d_target = Some target } ->
+	    printf "\t%s -> %s\n" source target
+	| { d_type = None; d_device = Some "cdrom";
+	    d_source = None; d_target = Some target } ->
+	    printf "\t[CD] -> %s\n" target
 	| _ ->
 	    printf "\t(device omitted, missing <source> or <target> in XML\n";
       ) dom_disks

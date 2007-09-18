@@ -439,7 +439,9 @@ let redraw, clear_pcpu_display_data =
     let doms =
       (* Active domains. *)
       let n = C.num_of_domains conn in
-      let ids = Array.to_list (C.list_domains conn n) in
+      let ids =
+	if n > 0 then Array.to_list (C.list_domains conn n)
+	else [] in
       let doms =
 	List.filter_map (
 	  fun id ->
@@ -485,7 +487,9 @@ let redraw, clear_pcpu_display_data =
 
       (* Inactive domains. *)
       let n = C.num_of_defined_domains conn in
-      let names = Array.to_list (C.list_defined_domains conn n) in
+      let names =
+	if n > 0 then Array.to_list (C.list_defined_domains conn n)
+	else [] in
       let doms_inactive = List.map (fun name -> name, Inactive) names in
 
       doms @ doms_inactive in
