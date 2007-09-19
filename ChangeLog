@@ -1,3 +1,9 @@
+2007-09-19  Richard Jones  <rjones@redhat.com>
+
+	* virt-top/virt_top.ml: Ignore transient error from
+	  C.num_of_defined_domains when it cannot contact xend; that
+	  was causing virt-top to exit when xend was restarted.
+
 2007-09-18  Richard Jones  <rjones@redhat.com>
 
 	* virt-df/virt_df.ml: Handle domains with partition-backed

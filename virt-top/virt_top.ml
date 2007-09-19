@@ -486,11 +486,18 @@ let redraw, clear_pcpu_display_data =
 	) ids in
 
       (* Inactive domains. *)
-      let n = C.num_of_defined_domains conn in
-      let names =
-	if n > 0 then Array.to_list (C.list_defined_domains conn n)
-	else [] in
-      let doms_inactive = List.map (fun name -> name, Inactive) names in
+      let doms_inactive =
+	try
+	  let n = C.num_of_defined_domains conn in
+	  let names =
+	    if n > 0 then Array.to_list (C.list_defined_domains conn n)
+	    else [] in
+	  List.map (fun name -> name, Inactive) names
+	with
+	  (* Ignore transient errors, in particular errors from
+	   * num_of_defined_domains if it cannot contact xend.
+	   *)
+	| Libvirt.Virterror _ -> [] in
 
       doms @ doms_inactive in
 
