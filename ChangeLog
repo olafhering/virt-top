@@ -1,3 +1,8 @@
+2007-09-20  Richard Jones  <rjones@redhat.com>
+
+	* Makefile.in: Disable virt-df in this release until I have
+	  time to fix it properly.
+
 2007-09-19  Richard Jones  <rjones@redhat.com>
 
 	* virt-top/virt_top.ml: Ignore transient error from
