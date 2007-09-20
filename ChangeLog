@@ -2,6 +2,8 @@
 
 	* Makefile.in: Disable virt-df in this release until I have
 	  time to fix it properly.
+	* Makefile.in: Fix 'check-manifest' rule.  Added 'make release'.
+	* MANIFEST: Updated MANIFEST.
 
 2007-09-19  Richard Jones  <rjones@redhat.com>
 
