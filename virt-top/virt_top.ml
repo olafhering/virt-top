@@ -137,6 +137,9 @@ OPTIONS" in
   let hostname =
     try C.get_hostname conn
     with
+    (* qemu:/// and other URIs didn't support virConnectGetHostname until
+     * libvirt 0.3.3.  Before that they'd throw a virterror. *)
+    | Libvirt.Virterror _
     | Invalid_argument "virConnectGetHostname not supported" -> "unknown" in
 
   let libvirt_version =

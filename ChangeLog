@@ -1,5 +1,8 @@
 2007-09-20  Richard Jones  <rjones@redhat.com>
 
+	* virt-top/virt_top.ml: qemu:/// URIs (and others) don't support
+	  virConnectGetHostname.  Catch this exception.
+
 	* Makefile.in: Disable virt-df in this release until I have
 	  time to fix it properly.
 	* Makefile.in: Fix 'check-manifest' rule.  Added 'make release'.
