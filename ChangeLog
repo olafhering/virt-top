@@ -1,3 +1,11 @@
+2007-09-24  Richard Jones  <rjones@redhat.com>
+
+	* configure.ac: Version 0.3.2.8 for release.
+	* virt-top/virt-top.ml, virt-top/virt-top.pod: Support for
+	  $HOME/.virt-toprc init file, modelled after top.
+	* virt-top/virt_top_utils.ml: Split out string utilities
+	  into a separate file.
+
 2007-09-20  Richard Jones  <rjones@redhat.com>
 
 	* virt-top/virt_top.ml: qemu:/// URIs (and others) don't support
