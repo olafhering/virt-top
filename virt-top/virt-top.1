@@ -129,7 +129,7 @@
 .\" ========================================================================
 .\"
 .IX Title "VIRT-TOP 1"
-.TH VIRT-TOP 1 "2007-08-30" "ocaml-libvirt-0.3.2.6" "Virtualization Support"
+.TH VIRT-TOP 1 "2007-09-24" "ocaml-libvirt-0.3.2.8" "Virtualization Support"
 .SH "NAME"
 virt\-top \- 'top'\-like utility for virtualization stats
 .SH "SUMMARY"
@@ -224,6 +224,13 @@ To send error messages to syslog you can do:
 .Ve
 .Sp
 See also \s-1REPORTING\s0 \s-1BUGS\s0 below.
+.IP "\fB\-\-init\-file filename\fR" 4
+.IX Item "--init-file filename"
+Read \fIfilename\fR as the init file instead of the default which is
+\&\fI$HOME/.virt\-toprc\fR.  See also \s-1INIT\s0 \s-1FILE\s0 below.
+.IP "\fB\-\-no\-init\-file\fR" 4
+.IX Item "--no-init-file"
+Do not read any init file.
 .IP "\fB\-\-help\fR" 4
 .IX Item "--help"
 Display usage summary.
@@ -276,6 +283,67 @@ Sort by domain \s-1ID\s0.
 .IX Item "F"
 Select the sort field interactively (there are other
 sort fields you can choose using this key).
+.IP "\fIW\fR" 4
+.IX Item "W"
+This creates or overwrites the init file with the current settings.
+.Sp
+This key is disabled if \fI\-\-no\-init\-file\fR was specified on the
+command line or if \fIoverwrite-init-file false\fR is given in
+the init file.
+.SH "INIT FILE"
+.IX Header "INIT FILE"
+When virt-top starts up, it reads initial settings from the
+file \fI.virt\-toprc\fR in the user's home directory.
+.PP
+The name of this file may be overridden using the \fI\-\-init\-file
+filename\fR command line option or may be disabled entirely using
+\&\fI\-\-no\-init\-file\fR.
+.PP
+The init file has a simple format.  Blank lines and comments
+beginning with \fI#\fR are ignored.  Everything else is a set of
+\&\fIkey value\fR pairs, described below.
+.IP "\fBdisplay\fR \fItask|pcpu|block|net\fR" 4
+.IX Item "display task|pcpu|block|net"
+Sets the major display mode to one of \fItask\fR (tasks, the
+default), \fIpcpu\fR (physical CPUs), \fIblock\fR (block devices),
+or \fInet\fR (network interfaces).
+.IP "\fBdelay\fR \fIsecs\fR" 4
+.IX Item "delay secs"
+Sets the delay between display updates in seconds.
+.IP "\fBhist-cpu\fR \fIsecs\fR" 4
+.IX Item "hist-cpu secs"
+Sets the historical \s-1CPU\s0 delay in seconds.
+.IP "\fBiterations\fR \fIn\fR" 4
+.IX Item "iterations n"
+Sets the number of iterations to run before we exit.  Setting
+this to \fI\-1\fR means to run continuously.
+.IP "\fBsort\fR \fIcpu|mem|time|id|name|...\fR" 4
+.IX Item "sort cpu|mem|time|id|name|..."
+Sets the sort order.  The option names are the same as for
+the command line \fI\-o\fR option.
+.IP "\fBconnect\fR \fIuri\fR" 4
+.IX Item "connect uri"
+Sets the default connection \s-1URI\s0.
+.IP "\fBdebug\fR \fIfilename\fR" 4
+.IX Item "debug filename"
+Sets the default filename to use for debug and error messages.
+.IP "\fBcsv\fR \fIfilename\fR" 4
+.IX Item "csv filename"
+Enables \s-1CSV\s0 output to the named file.
+.IP "\fBbatch\fR \fItrue|false\fR" 4
+.IX Item "batch true|false"
+Sets batch mode.
+.IP "\fBsecure\fR \fItrue|false\fR" 4
+.IX Item "secure true|false"
+Sets secure mode.
+.IP "\fBoverwrite-init-file\fR \fIfalse\fR" 4
+.IX Item "overwrite-init-file false"
+If set to \fIfalse\fR then the \fIW\fR key will not overwrite the
+init file.
+.PP
+Note that in the current implementation, options specified in
+the init file override options specified on the command line.
+This is a bug and this behaviour may change in the future.
 .SH "SEE ALSO"
 .IX Header "SEE ALSO"
 \&\fItop\fR\|(1),

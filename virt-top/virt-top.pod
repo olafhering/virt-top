@@ -108,6 +108,15 @@ To send error messages to syslog you can do:
 
 See also REPORTING BUGS below.
 
+=item B<--init-file filename>
+
+Read I<filename> as the init file instead of the default which is
+I<$HOME/.virt-toprc>.  See also INIT FILE below.
+
+=item B<--no-init-file>
+
+Do not read any init file.
+
 =item B<--help>
 
 Display usage summary.
@@ -179,7 +188,86 @@ Sort by domain ID.
 Select the sort field interactively (there are other
 sort fields you can choose using this key).
 
+=item I<W>
+
+This creates or overwrites the init file with the current settings.
+
+This key is disabled if I<--no-init-file> was specified on the
+command line or if I<overwrite-init-file false> is given in
+the init file.
+
 =back
+
+=head1 INIT FILE
+
+When virt-top starts up, it reads initial settings from the
+file I<.virt-toprc> in the user's home directory.
+
+The name of this file may be overridden using the I<--init-file
+filename> command line option or may be disabled entirely using
+I<--no-init-file>.
+
+The init file has a simple format.  Blank lines and comments
+beginning with I<#> are ignored.  Everything else is a set of
+I<key value> pairs, described below.
+
+=over 4
+
+=item B<display> I<task|pcpu|block|net>
+
+Sets the major display mode to one of I<task> (tasks, the
+default), I<pcpu> (physical CPUs), I<block> (block devices),
+or I<net> (network interfaces).
+
+=item B<delay> I<secs>
+
+Sets the delay between display updates in seconds.
+
+=item B<hist-cpu> I<secs>
+
+Sets the historical CPU delay in seconds.
+
+=item B<iterations> I<n>
+
+Sets the number of iterations to run before we exit.  Setting
+this to I<-1> means to run continuously.
+
+=item B<sort> I<cpu|mem|time|id|name|...>
+
+Sets the sort order.  The option names are the same as for
+the command line I<-o> option.
+
+=item B<connect> I<uri>
+
+Sets the default connection URI.
+
+=item B<debug> I<filename>
+
+Sets the default filename to use for debug and error messages.
+
+=item B<csv> I<filename>
+
+Enables CSV output to the named file.
+
+=item B<batch> I<true|false>
+
+Sets batch mode.
+
+=item B<secure> I<true|false>
+
+Sets secure mode.
+
+=item B<overwrite-init-file> I<false>
+
+If set to I<false> then the I<W> key will not overwrite the
+init file.
+
+=back
+
+
+Note that in the current implementation, options specified in
+the init file override options specified on the command line.
+This is a bug and this behaviour may change in the future.
 
 =head1 SEE ALSO
 

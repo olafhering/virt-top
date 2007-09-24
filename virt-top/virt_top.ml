@@ -6,6 +6,8 @@ open Printf
 open ExtList
 open Curses
 
+open Virt_top_utils
+
 module C = Libvirt.Connect
 module D = Libvirt.Domain
 module N = Libvirt.Network
@@ -32,6 +34,7 @@ let (-^) = Int64.sub
 let ( *^ ) = Int64.mul
 let (/^) = Int64.div
 
+(* Sort order. *)
 type sort_order =
   | DomainID | DomainName | Processor | Memory | Time
   | NetRX | NetTX | BlockRdRq | BlockWrRq
@@ -49,9 +52,43 @@ let printable_sort_order = function
   | NetTX -> "Net TX bytes"
   | BlockRdRq -> "Block read reqs"
   | BlockWrRq -> "Block write reqs"
+let sort_order_of_cli = function
+  | "cpu" | "processor" -> Processor
+  | "mem" | "memory" -> Memory
+  | "time" -> Time
+  | "id" -> DomainID
+  | "name" -> DomainName
+  | "netrx" -> NetRX | "nettx" -> NetTX
+  | "blockrdrq" -> BlockRdRq | "blockwrrq" -> BlockWrRq
+  | str -> failwith (str ^ ": sort order should be: cpu|mem|time|id|name|netrx|nettx|blockrdrq|blockwrrq")
+let cli_of_sort_order = function
+  | Processor -> "cpu"
+  | Memory -> "mem"
+  | Time -> "time"
+  | DomainID -> "id"
+  | DomainName -> "name"
+  | NetRX -> "netrx"
+  | NetTX -> "nettx"
+  | BlockRdRq -> "blockrdrq"
+  | BlockWrRq -> "blockwrrq"
 
 (* Current major display mode: TaskDisplay is the normal display. *)
 type display = TaskDisplay | PCPUDisplay | BlockDisplay | NetDisplay
+
+let display_of_cli = function
+  | "task" -> TaskDisplay
+  | "pcpu" -> PCPUDisplay
+  | "block" -> BlockDisplay
+  | "net" -> NetDisplay
+  | str -> failwith (str ^ ": display should be task|pcpu|block|net")
+let cli_of_display = function
+  | TaskDisplay -> "task"
+  | PCPUDisplay -> "pcpu"
+  | BlockDisplay -> "block"
+  | NetDisplay -> "net"
+
+(* Init file. *)
+type init_file = NoInitFile | DefaultInitFile | InitFile of string
 
 (* Settings. *)
 let quit = ref false
@@ -65,6 +102,7 @@ let display_mode = ref TaskDisplay
 let uri = ref None
 let debug_file = ref ""
 let csv_enabled = ref false
+let init_file = ref DefaultInitFile
 
 (* Function to read command line arguments and go into curses mode. *)
 let start_up () =
@@ -74,22 +112,15 @@ let start_up () =
       failwith "-d: cannot set a negative delay";
     delay := int_of_float (newdelay *. 1000.)
   and set_uri = function "" -> uri := None | u -> uri := Some u
-  and set_sort = function
-    | "cpu" | "processor" -> sort_order := Processor
-    | "mem" | "memory" -> sort_order := Memory
-    | "time" -> sort_order := Time
-    | "id" -> sort_order := DomainID
-    | "name" -> sort_order := DomainName
-    | "netrx" -> sort_order := NetRX | "nettx" -> sort_order := NetTX
-    | "blockrdrq" -> sort_order := BlockRdRq
-    | "blockwrrq" -> sort_order := BlockWrRq
-    | str -> failwith (str ^ ": sort order should be: cpu|mem|time|id|name|netrx|nettx|blockrdrq|blockwrrq")
+  and set_sort order = sort_order := sort_order_of_cli order
   and set_pcpu_mode () = display_mode := PCPUDisplay
   and set_net_mode () = display_mode := NetDisplay
   and set_block_mode () = display_mode := BlockDisplay
   and set_csv filename =
     (!csv_start) filename;
     csv_enabled := true
+  and no_init_file () = init_file := NoInitFile
+  and set_init_file filename = init_file := InitFile filename
   in
   let argspec = Arg.align [
     "-1", Arg.Unit set_pcpu_mode, " Start by displaying pCPUs (default: tasks)";
@@ -102,6 +133,8 @@ let start_up () =
     "-d", Arg.Float set_delay, "delay Delay time interval (seconds)";
     "--debug", Arg.Set_string debug_file, "file Send debug messages to file";
     "--hist-cpu", Arg.Set_int historical_cpu_delay, "secs Historical CPU delay";
+    "--init-file", Arg.String set_init_file, "file Set name of init file";
+    "--no-init-file", Arg.Unit no_init_file, " Do not read init file";
     "-n", Arg.Set_int iterations, "iterations Number of iterations to run";
     "-o", Arg.String set_sort, "sort Set sort order (cpu|mem|time|id|name)";
     "-s", Arg.Set secure_mode, " Secure (\"kiosk\") mode";
@@ -114,6 +147,37 @@ SUMMARY
 
 OPTIONS" in
   Arg.parse argspec anon_fun usage_msg;
+
+  (* Read the init file. *)
+  let try_to_read_init_file filename =
+    let config = read_config_file filename in
+    List.iter (
+      function
+      | _, "display", mode -> display_mode := display_of_cli mode
+      | _, "delay", secs -> set_delay (float_of_string secs)
+      | _, "hist-cpu", secs -> historical_cpu_delay := int_of_string secs
+      | _, "iterations", n -> iterations := int_of_string n
+      | _, "sort", order -> set_sort order
+      | _, "connect", uri -> set_uri uri
+      | _, "debug", filename -> debug_file := filename
+      | _, "csv", filename -> set_csv filename
+      | _, "batch", b -> batch_mode := bool_of_string b
+      | _, "secure", b -> secure_mode := bool_of_string b
+      | _, "overwrite-init-file", "false" -> no_init_file ()
+      | lineno, key, _ ->
+	  eprintf "%s:%d: configuration item ``%s'' ignored\n%!"
+	    filename lineno key
+    ) config
+  in
+  (match !init_file with
+   | NoInitFile -> ()
+   | DefaultInitFile ->
+       let home = try Sys.getenv "HOME" with Not_found -> "/" in
+       let filename = home // ".virt-toprc" in
+       try_to_read_init_file filename
+   | InitFile filename ->
+       try_to_read_init_file filename
+  );
 
   (* Connect to the hypervisor before going into curses mode, since
    * this is the most likely thing to fail.
@@ -1187,6 +1251,7 @@ and get_key_press state =
     else if k = Char.code '1' then toggle_pcpu_display ()
     else if k = Char.code '2' then toggle_net_display ()
     else if k = Char.code '3' then toggle_block_display ()
+    else if k = Char.code 'W' then write_init_file ()
     else unknown_command k
   )
 
@@ -1326,6 +1391,77 @@ and toggle_block_display () =		(* key 3 *)
     | PCPUDisplay -> clear_pcpu_display_data (); BlockDisplay
     | TaskDisplay | NetDisplay -> BlockDisplay
     | BlockDisplay -> TaskDisplay
+
+(* Write an init file. *)
+and write_init_file () =
+  match !init_file with
+  | NoInitFile -> ()			(* Do nothing if --no-init-file *)
+  | DefaultInitFile ->
+      let home = try Sys.getenv "HOME" with Not_found -> "/" in
+      let filename = home // ".virt-toprc" in
+      _write_init_file filename
+  | InitFile filename ->
+      _write_init_file filename
+
+and _write_init_file filename =
+  try
+    (* Create the new file as filename.new. *)
+    let chan = open_out (filename ^ ".new") in
+
+    let time = Unix.gettimeofday () in
+    let tm = Unix.localtime time in
+    let printable_date_time =
+      sprintf "%04d-%02d-%02d %02d:%02d:%02d"
+	(tm.Unix.tm_year + 1900) (tm.Unix.tm_mon+1) tm.Unix.tm_mday
+	tm.Unix.tm_hour tm.Unix.tm_min tm.Unix.tm_sec in
+    let username =
+      try
+	let uid = Unix.geteuid () in
+	(Unix.getpwuid uid).Unix.pw_name
+      with
+	Not_found -> "unknown" in
+
+    let fp = fprintf in
+    let nl () = fp chan "\n" in
+    fp chan "# .virt-toprc virt-top configuration file\n";
+    fp chan "# generated on %s by %s\n" printable_date_time username;
+    nl ();
+    fp chan "display %s\n" (cli_of_display !display_mode);
+    fp chan "delay %g\n" (float !delay /. 1000.);
+    fp chan "hist-cpu %d\n" !historical_cpu_delay;
+    if !iterations <> -1 then fp chan "iterations %d\n" !iterations;
+    fp chan "sort %s\n" (cli_of_sort_order !sort_order);
+    (match !uri with
+     | None -> ()
+     | Some uri -> fp chan "connect %s\n" uri
+    );
+    if !batch_mode = true then fp chan "batch true\n";
+    if !secure_mode = true then fp chan "secure true\n";
+    nl ();
+    fp chan "# To send debug and error messages to a file, uncomment next line\n";
+    fp chan "#debug virt-top.out\n";
+    nl ();
+    fp chan "# Enable CSV output to the named file\n";
+    fp chan "#csv virt-top.csv\n";
+    nl ();
+    fp chan "# To protect this file from being overwritten, uncomment next line\n";
+    fp chan "#overwrite-init-file false\n";
+
+    close_out chan;
+
+    (* If the file exists, rename it as filename.old. *)
+    (try Unix.rename filename (filename ^ ".old")
+     with Unix.Unix_error _ -> ());
+
+    (* Rename filename.new to filename. *)
+    Unix.rename (filename ^ ".new") filename;
+
+    print_msg (sprintf "Wrote settings to %s" filename); sleep 2
+  with
+  | Sys_error err -> print_msg "Error: %s"; sleep 2
+  | Unix.Unix_error (err, fn, str) ->
+      print_msg (sprintf "Error: %s %s %s" (Unix.error_message err) fn str);
+      sleep 2
 
 and show_help (_, _, _, hostname,
 	       (libvirt_major, libvirt_minor, libvirt_release)) =

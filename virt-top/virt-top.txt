@@ -80,6 +80,13 @@ OPTIONS
 
         See also REPORTING BUGS below.
 
+    --init-file filename
+        Read *filename* as the init file instead of the default which is
+        *$HOME/.virt-toprc*. See also INIT FILE below.
+
+    --no-init-file
+        Do not read any init file.
+
     --help
         Display usage summary.
 
@@ -121,6 +128,64 @@ KEYS
 
     *F* Select the sort field interactively (there are other sort fields you
         can choose using this key).
+
+    *W* This creates or overwrites the init file with the current settings.
+
+        This key is disabled if *--no-init-file* was specified on the
+        command line or if *overwrite-init-file false* is given in the init
+        file.
+
+INIT FILE
+    When virt-top starts up, it reads initial settings from the file
+    *.virt-toprc* in the user's home directory.
+
+    The name of this file may be overridden using the *--init-file filename*
+    command line option or may be disabled entirely using *--no-init-file*.
+
+    The init file has a simple format. Blank lines and comments beginning
+    with *#* are ignored. Everything else is a set of *key value* pairs,
+    described below.
+
+    display *task|pcpu|block|net*
+        Sets the major display mode to one of *task* (tasks, the default),
+        *pcpu* (physical CPUs), *block* (block devices), or *net* (network
+        interfaces).
+
+    delay *secs*
+        Sets the delay between display updates in seconds.
+
+    hist-cpu *secs*
+        Sets the historical CPU delay in seconds.
+
+    iterations *n*
+        Sets the number of iterations to run before we exit. Setting this to
+        *-1* means to run continuously.
+
+    sort *cpu|mem|time|id|name|...*
+        Sets the sort order. The option names are the same as for the
+        command line *-o* option.
+
+    connect *uri*
+        Sets the default connection URI.
+
+    debug *filename*
+        Sets the default filename to use for debug and error messages.
+
+    csv *filename*
+        Enables CSV output to the named file.
+
+    batch *true|false*
+        Sets batch mode.
+
+    secure *true|false*
+        Sets secure mode.
+
+    overwrite-init-file *false*
+        If set to *false* then the *W* key will not overwrite the init file.
+
+    Note that in the current implementation, options specified in the init
+    file override options specified on the command line. This is a bug and
+    this behaviour may change in the future.
 
 SEE ALSO
     top(1), virsh(1), xm(1), xentop(1), <http://www.libvirt.org/>,

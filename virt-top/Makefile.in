@@ -14,9 +14,9 @@ pkg_curses	= @pkg_curses@
 pkg_xml_light	= @pkg_xml_light@
 pkg_csv		= @pkg_csv@
 
-OCAMLCPACKAGES	:= -package unix,extlib,curses
+OCAMLCPACKAGES	:= -package unix,extlib,curses,str
 
-OBJS		:= virt_top.cmo
+OBJS		:= virt_top_utils.cmo virt_top.cmo
 ifeq ($(pkg_xml_light),yes)
 OBJS		+= virt_top_xml.cmo
 OCAMLCPACKAGES	:= $(OCAMLCPACKAGES),xml-light
