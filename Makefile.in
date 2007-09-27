@@ -21,9 +21,9 @@ ifeq ($(pkg_curses),yes)
 SUBDIRS		+= virt-top
 endif
 
-#ifeq ($(pkg_xml_light),yes)
-#SUBDIRS		+= virt-df
-#endif
+ifeq ($(pkg_xml_light),yes)
+SUBDIRS		+= virt-df
+endif
 
 all opt depend install:
 	for d in $(SUBDIRS); do \

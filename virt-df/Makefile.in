@@ -14,7 +14,11 @@ pkg_xml_light	= @pkg_xml_light@
 
 OCAMLCPACKAGES	:= -package unix,extlib,xml-light
 
-OBJS		:= virt_df.cmo
+OBJS		:= virt_df.cmo \
+		   virt_df_ext2.cmo \
+		   virt_df_linux_swap.cmo \
+		   virt_df_lvm2.cmo \
+		   virt_df_main.cmo
 XOBJS		:= $(OBJS:.cmo=.cmx)
 
 OCAMLCPACKAGES  += -I ../libvirt
@@ -32,7 +36,7 @@ BYTE_TARGETS	:= virt-df
 OPT_TARGETS	:= virt-df.opt
 
 #ifeq ($(HAVE_PERLDOC),perldoc)
-#BYTE_TARGETS	+= virt-top.1 virt-top.txt
+#BYTE_TARGETS	+= virt-df.1 virt-df.txt
 #endif
 
 all: $(BYTE_TARGETS)
@@ -50,11 +54,11 @@ virt-df.opt: $(XOBJS)
 
 # Manual page.
 #ifeq ($(HAVE_PERLDOC),perldoc)
-#virt-top.1: virt-top.pod
+#virt-df.1: virt-df.pod
 #	pod2man -c "Virtualization Support" --release "$(PACKAGE)-$(VERSION)" \
 #		$< > $@
 #
-#virt-top.txt: virt-top.pod
+#virt-df.txt: virt-df.pod
 #	pod2text $< > $@
 #endif
 

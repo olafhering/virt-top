@@ -1,0 +1,35 @@
+$Id$
+
+virt-df is a 'df' tool for printing out the used and available disk
+space in all active and inactive domains.  Without this tool you would
+need to log in to each domain individually or set up monitoring.
+
+It is only a proof-of-concept.  Please bare in mind the following
+limitations when using this tool:
+
+(1) It does not work over remote connections.  Part of the reason why
+I wrote virt-df was to get an idea of how the remote storage API for
+libvirt might look.
+
+(2) It only understands a limited set of partition types.  Assuming
+that the files and partitions that we get back from libvirt / Xen
+correspond to block devices in the guests, we can go some way towards
+manually parsing those partitions to find out what they contain.  We
+can read the MBR, LVM, superblocks and so on.  However that's a lot of
+parsing work, and currently there is no library which understands a
+wide range of partition schemes and filesystem types (not even
+libparted which doesn't support LVM yet).  The Linux kernel does
+support that, but there's not really any good way to access that work.
+
+The current implementation uses a hand-coded parser which understands
+some simple formats (MBR, LVM2, ext2/3).  In future we should use
+something like libparted.
+
+(3) The statistics you get are delayed.  The real state of, for
+example, an ext2 filesystem is only stored in the memory of the
+guest's kernel.  The ext2 superblock contains some meta-information
+about blocks used and free, but this superblock is not up to date.  In
+fact the guest kernel may not update it even on a 'sync', not until
+the filesystem is unmounted.  Some operations do appear to write the
+superblock, for example fsync(2) [that is my reading of the ext2/3
+source code at least].

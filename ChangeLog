@@ -1,3 +1,11 @@
+2007-09-27  Richard Jones  <rjones@redhat.com>
+
+	* configure.ac: Changed version to 0.3.2.9.
+	* Makefile.in: Re-enable virt-df.
+	* virt-df/virt_df*.ml: Mostly finished off the core of virt-df.
+	  Ext2/3 support.  No LVM as yet.
+	* virt-df/README: Added README file.
+
 2007-09-24  Richard Jones  <rjones@redhat.com>
 
 	* configure.ac: Version 0.3.2.8 for release.
