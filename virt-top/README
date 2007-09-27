@@ -2,6 +2,11 @@ $Id: README,v 1.1 2007/08/30 13:52:40 rjones Exp $
 
 The code is structured into these files:
 
+  virt_top_utils.ml
+
+    String functions and other small utility functions.  This is
+    included directly into virt_top.ml.
+
   virt_top.ml
 
     This is the virt-top program.
@@ -24,7 +29,7 @@ The code is structured into these files:
 
   virt_top_csv.ml
 
-    Any code which need the optional ocaml-csv library goes
+    Any code which needs the optional ocaml-csv library goes
     in here.  This implements the --csv command line option.
 
   virt_top_main.ml
