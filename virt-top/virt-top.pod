@@ -99,6 +99,18 @@ Not every version of virt-top supports CSV output - it depends how the
 program was compiled (see I<README> file in the source distribution
 for details).
 
+=item B<--no-csv-cpu>
+
+Disable domain CPU stats in CSV output.
+
+=item B<--no-csv-block>
+
+Disable domain block device stats in CSV output.
+
+=item B<--no-csv-net>
+
+Disable domain network interface stats in CSV output.
+
 =item B<--debug filename>
 
 Send debug and error messages to I<filename>.
@@ -253,6 +265,18 @@ Sets the default filename to use for debug and error messages.
 =item B<csv> I<filename>
 
 Enables CSV output to the named file.
+
+=item B<csv-cpu> I<true|false>
+
+Enable or disable domain CPU stats in CSV output.
+
+=item B<csv-block> I<true|false>
+
+Enable or disable domain block device stats in CSV output.
+
+=item B<csv-net> I<true|false>
+
+Enable or disable domain network interface stats in CSV output.
 
 =item B<batch> I<true|false>
 

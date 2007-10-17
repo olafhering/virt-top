@@ -214,6 +214,15 @@ those to process the \s-1CSV\s0 file).
 Not every version of virt-top supports \s-1CSV\s0 output \- it depends how the
 program was compiled (see \fI\s-1README\s0\fR file in the source distribution
 for details).
+.IP "\fB\-\-no\-csv\-cpu\fR" 4
+.IX Item "--no-csv-cpu"
+Disable domain \s-1CPU\s0 stats in \s-1CSV\s0 output.
+.IP "\fB\-\-no\-csv\-block\fR" 4
+.IX Item "--no-csv-block"
+Disable domain block device stats in \s-1CSV\s0 output.
+.IP "\fB\-\-no\-csv\-net\fR" 4
+.IX Item "--no-csv-net"
+Disable domain network interface stats in \s-1CSV\s0 output.
 .IP "\fB\-\-debug filename\fR" 4
 .IX Item "--debug filename"
 Send debug and error messages to \fIfilename\fR.
@@ -334,6 +343,15 @@ Sets the default filename to use for debug and error messages.
 .IP "\fBcsv\fR \fIfilename\fR" 4
 .IX Item "csv filename"
 Enables \s-1CSV\s0 output to the named file.
+.IP "\fBcsv-cpu\fR \fItrue|false\fR" 4
+.IX Item "csv-cpu true|false"
+Enable or disable domain \s-1CPU\s0 stats in \s-1CSV\s0 output.
+.IP "\fBcsv-block\fR \fItrue|false\fR" 4
+.IX Item "csv-block true|false"
+Enable or disable domain block device stats in \s-1CSV\s0 output.
+.IP "\fBcsv-net\fR \fItrue|false\fR" 4
+.IX Item "csv-net true|false"
+Enable or disable domain network interface stats in \s-1CSV\s0 output.
 .IP "\fBbatch\fR \fItrue|false\fR" 4
 .IX Item "batch true|false"
 Sets batch mode.

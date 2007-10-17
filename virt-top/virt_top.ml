@@ -102,6 +102,9 @@ let display_mode = ref TaskDisplay
 let uri = ref None
 let debug_file = ref ""
 let csv_enabled = ref false
+let csv_cpu = ref true
+let csv_block = ref true
+let csv_net = ref true
 let init_file = ref DefaultInitFile
 let script_mode = ref false
 
@@ -131,6 +134,9 @@ let start_up () =
     "-c", Arg.String set_uri, "uri Connect to URI (default: Xen)";
     "--connect", Arg.String set_uri, "uri Connect to URI (default: Xen)";
     "--csv", Arg.String set_csv, "file Log statistics to CSV file";
+    "--no-csv-cpu", Arg.Clear csv_cpu, " Disable CPU stats in CSV";
+    "--no-csv-block", Arg.Clear csv_block, " Disable block device stats in CSV";
+    "--no-csv-net", Arg.Clear csv_net, " Disable net stats in CSV";
     "-d", Arg.Float set_delay, "delay Delay time interval (seconds)";
     "--debug", Arg.Set_string debug_file, "file Send debug messages to file";
     "--hist-cpu", Arg.Set_int historical_cpu_delay, "secs Historical CPU delay";
@@ -163,6 +169,9 @@ OPTIONS" in
       | _, "connect", uri -> set_uri uri
       | _, "debug", filename -> debug_file := filename
       | _, "csv", filename -> set_csv filename
+      | _, "csv-cpu", b -> csv_cpu := bool_of_string b
+      | _, "csv-block", b -> csv_block := bool_of_string b
+      | _, "csv-net", b -> csv_net := bool_of_string b
       | _, "batch", b -> batch_mode := bool_of_string b
       | _, "secure", b -> secure_mode := bool_of_string b
       | _, "script", b -> script_mode := bool_of_string b
@@ -1221,17 +1230,18 @@ let redraw =
 
 (* Write CSV header row. *)
 let write_csv_header () =
-  (!csv_write)
+  (!csv_write) (
     [ "Hostname"; "Time"; "Arch"; "Physical CPUs";
       "Count"; "Running"; "Blocked"; "Paused"; "Shutdown";
       "Shutoff"; "Crashed"; "Active"; "Inactive";
       "%CPU"; "Total memory (KB)"; "Total guest memory (KB)";
-      "Total CPU time (ns)";
+      "Total CPU time (ns)" ] @
       (* These fields are repeated for each domain: *)
-      "Domain ID"; "Domain name";
-      "CPU (ns)"; "%CPU";
-      "Block RDRQ"; "Block WRRQ";
-      "Net RXBY"; "Net TXBY" ]
+    [ "Domain ID"; "Domain name"; ] @
+    (if !csv_cpu then [ "CPU (ns)"; "%CPU"; ] else []) @
+    (if !csv_block then [ "Block RDRQ"; "Block WRRQ"; ] else []) @
+    (if !csv_net then [ "Net RXBY"; "Net TXBY" ] else [])
+  )
 
 (* Write summary data to CSV file. *)
 let append_csv
@@ -1278,12 +1288,18 @@ let append_csv
 
   let domain_fields = List.map (
     fun (domname, rd) ->
-      [ string_of_int rd.rd_domid; domname;
-	string_of_float rd.rd_cpu_time; string_of_float rd.rd_percent_cpu;
-	string_of_int64_option rd.rd_block_rd_reqs;
-	string_of_int64_option rd.rd_block_wr_reqs;
-	string_of_int64_option rd.rd_net_rx_bytes;
-	string_of_int64_option rd.rd_net_tx_bytes; ]
+      [ string_of_int rd.rd_domid; domname ] @
+	(if !csv_cpu then [
+	   string_of_float rd.rd_cpu_time; string_of_float rd.rd_percent_cpu
+	 ] else []) @
+	(if !csv_block then [
+	   string_of_int64_option rd.rd_block_rd_reqs;
+	   string_of_int64_option rd.rd_block_wr_reqs;
+	 ] else []) @
+	(if !csv_net then [
+	   string_of_int64_option rd.rd_net_rx_bytes;
+	   string_of_int64_option rd.rd_net_tx_bytes;
+	 ] else [])
   ) doms in
   let domain_fields = List.flatten domain_fields in
 

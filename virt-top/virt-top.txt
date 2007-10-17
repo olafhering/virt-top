@@ -72,6 +72,15 @@ OPTIONS
         the program was compiled (see *README* file in the source
         distribution for details).
 
+    --no-csv-cpu
+        Disable domain CPU stats in CSV output.
+
+    --no-csv-block
+        Disable domain block device stats in CSV output.
+
+    --no-csv-net
+        Disable domain network interface stats in CSV output.
+
     --debug filename
         Send debug and error messages to *filename*. To send error messages
         to syslog you can do:
@@ -177,6 +186,15 @@ INIT FILE
 
     csv *filename*
         Enables CSV output to the named file.
+
+    csv-cpu *true|false*
+        Enable or disable domain CPU stats in CSV output.
+
+    csv-block *true|false*
+        Enable or disable domain block device stats in CSV output.
+
+    csv-net *true|false*
+        Enable or disable domain network interface stats in CSV output.
 
     batch *true|false*
         Sets batch mode.
