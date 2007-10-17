@@ -1,5 +1,3 @@
-$Id$
-
 virt-df is a 'df' tool for printing out the used and available disk
 space in all active and inactive domains.  Without this tool you would
 need to log in to each domain individually or set up monitoring.

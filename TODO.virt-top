@@ -1,5 +1,3 @@
-$Id: TODO.virt-top,v 1.2 2007/08/30 13:52:40 rjones Exp $
-
 This is a list of bugs & tasks for virt-top.
 ----------------------------------------------------------------------
 
@@ -25,6 +23,7 @@ libvirt].
 In top this is called "Irix/Solaris mode" :-)
 
 *** 4 [jmh] Build out the stats collected by the --csv <filename.csv> option.
+    [DONE 0.3.2.9]
 
 Suggested being able to give a selection of VMs to monitor from the
 command line.  Also, being able to monitor just particular subsystems
@@ -63,7 +62,7 @@ long are runnable domains waiting in the runqueue for access to a free
 pCPU.  I will ask upstream whether this stat is available through Xen,
 and if so put in place the infrastructure to monitor it.
 
-*** 9 [jmh asked for] Configuration file or environment variable
+*** 9 [jmh asked for] Configuration file or environment variable [DONE 0.3.2.8]
 
 Thinking about maybe this is something we could controly via a
 .virt-top-init file or an environment variable ?  The same could also

@@ -1,5 +1,4 @@
 (* 'top'-like tool for libvirt domains.
- * $Id: virt_top.ml,v 1.5 2007/08/30 13:52:40 rjones Exp $
  *)
 
 open Printf

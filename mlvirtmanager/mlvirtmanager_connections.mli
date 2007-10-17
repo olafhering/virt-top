@@ -1,7 +1,6 @@
 (* virt-manager-like graphical management tool.
    (C) Copyright 2007 Richard W.M. Jones, Red Hat Inc.
    http://libvirt.org/
-   $Id: mlvirtmanager_connections.mli,v 1.1 2007/08/06 10:16:53 rjones Exp $
 
    Handle connections and the complicated GtkTreeView which
    displays the connections / domains.

@@ -1,7 +1,6 @@
 /* OCaml bindings for libvirt.
  * (C) Copyright 2007 Richard W.M. Jones, Red Hat Inc.
  * http://libvirt.org/
- * $Id: libvirt_c.c,v 1.6 2007/08/30 13:16:57 rjones Exp $
  */
 
 #include "config.h"

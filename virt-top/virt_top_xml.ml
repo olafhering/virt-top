@@ -1,5 +1,4 @@
 (* 'top'-like tool for libvirt domains.
- * $Id: virt_top_xml.ml,v 1.1 2007/08/23 09:36:04 rjones Exp $
  *
  * This file contains all code which requires xml-light.
  *)

@@ -1,5 +1,3 @@
-$Id: README,v 1.1 2007/08/30 13:52:40 rjones Exp $
-
 The code is structured into these files:
 
   virt_top_utils.ml

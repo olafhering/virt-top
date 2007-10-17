@@ -1,5 +1,4 @@
 (* 'df' command for virtual domains.
- * $Id$
  *)
 
 open Printf

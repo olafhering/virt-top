@@ -1,5 +1,3 @@
-# $Id: Makefile.in,v 1.7 2007/08/23 09:36:04 rjones Exp $
-
 PACKAGE		= @PACKAGE_NAME@
 VERSION		= @PACKAGE_VERSION@
 
@@ -40,10 +38,18 @@ clean:
 	rm -f mlvirtmanager/mlvirtmanager
 	rm -f virt-top/virt-top
 
-distclean:
-	rm -f config.h config.log config.status configure META
+distclean: clean
+	rm -f config.h config.log config.status configure
 	rm -rf autom4te.cache
+	rm -f META
+	rm -f libvirt/libvirt_version.ml
 	rm -f Makefile
+	rm -f libvirt/Makefile
+	rm -f examples/Makefile
+	rm -f mlvirsh/Makefile
+	rm -f mlvirtmanager/Makefile
+	rm -f virt-top/Makefile
+	rm -f virt-df/Makefile
 
 # Developer documentation (in html/ subdirectory).
 

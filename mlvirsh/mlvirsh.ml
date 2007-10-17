@@ -1,7 +1,6 @@
 (* virsh-like command line tool.
    (C) Copyright 2007 Richard W.M. Jones, Red Hat Inc.
    http://libvirt.org/
-   $Id: mlvirsh.ml,v 1.2 2007/08/21 13:24:09 rjones Exp $
 *)
 
 open ExtString

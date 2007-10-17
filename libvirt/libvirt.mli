@@ -1,7 +1,6 @@
 (** OCaml bindings for libvirt.
     (C) Copyright 2007 Richard W.M. Jones, Red Hat Inc.
     http://libvirt.org/
-    $Id: libvirt.mli,v 1.3 2007/08/22 10:04:07 rjones Exp $
 *)
 
 type uuid = string

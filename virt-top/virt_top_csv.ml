@@ -1,5 +1,4 @@
 (* 'top'-like tool for libvirt domains.
- * $Id: virt_top_csv.ml,v 1.1 2007/08/23 11:09:19 rjones Exp $
  *
  * This file contains all code which requires CSV support.
  *)

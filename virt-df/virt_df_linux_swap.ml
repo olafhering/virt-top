@@ -1,5 +1,4 @@
 (* 'df' command for virtual domains.
- * $Id$
  *
  * Support for Linux swap partitions.
  *)

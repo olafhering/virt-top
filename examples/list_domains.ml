@@ -2,7 +2,6 @@
    Usage: list_domains [URI]
    (C) Copyright 2007 Richard W.M. Jones, Red Hat Inc.
    http://libvirt.org/
-   $Id: list_domains.ml,v 1.1 2007/08/06 10:16:53 rjones Exp $
  *)
 
 open Printf

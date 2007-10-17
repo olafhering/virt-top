@@ -1,5 +1,4 @@
 (* 'top'-like tool for libvirt domains.
- * $Id: virt_top_main.ml,v 1.2 2007/08/30 13:16:57 rjones Exp $
  *
  * Just contains the main function.
  *)

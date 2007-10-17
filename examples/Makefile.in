@@ -1,5 +1,3 @@
-# $Id: Makefile.in,v 1.1 2007/08/21 12:33:40 rjones Exp $
-
 OCAMLCPACKAGES	:= -package extlib,unix -I ../libvirt
 OCAMLCFLAGS	:= -g
 OCAMLCLIBS	:= -linkpkg

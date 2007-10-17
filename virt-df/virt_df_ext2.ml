@@ -1,5 +1,4 @@
 (* 'df' command for virtual domains.
- * $Id$
  *
  * Support for EXT2/EXT3 filesystems.
  *)

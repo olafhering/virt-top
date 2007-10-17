@@ -1,5 +1,4 @@
 (* 'df' command for virtual domains.
- * $Id$
  *
  * Support for LVM2 PVs.
  *)
