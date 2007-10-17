@@ -4,12 +4,6 @@
  * This file contains all code which requires CSV support.
  *)
 
-open ExtList
-
-module C = Libvirt.Connect
-module D = Libvirt.Domain
-module N = Libvirt.Network
-
 (* Output channel, or None if CSV output not enabled. *)
 let chan = ref None ;;
 
