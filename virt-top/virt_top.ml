@@ -1,5 +1,21 @@
 (* 'top'-like tool for libvirt domains.
- *)
+   (C) Copyright 2007 Richard W.M. Jones, Red Hat Inc.
+   http://libvirt.org/
+
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2 of the License, or
+   (at your option) any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to the Free Software
+   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+*)
 
 open Printf
 open ExtList
@@ -489,7 +505,6 @@ let collect, clear_pcpu_display_data =
     let tm = Unix.localtime time in
     let printable_time =
       sprintf "%02d:%02d:%02d" tm.Unix.tm_hour tm.Unix.tm_min tm.Unix.tm_sec in
-    mvaddstr top_lineno 0 ("virt-top " ^ printable_time ^ " - ");
 
     (* What's the total CPU time elapsed since we were last called? (ns) *)
     let total_cpu_per_pcpu = 1_000_000_000. *. (time -. !last_time) in
@@ -801,6 +816,9 @@ let redraw =
 
     (* Get the screen/window size. *)
     let lines, cols = get_size () in
+
+    (* Time. *)
+    mvaddstr top_lineno 0 ("virt-top " ^ printable_time ^ " - ");
 
     (* Basic node_info. *)
     addstr (sprintf "%s %d/%dCPU %dMHz %LdMB "
