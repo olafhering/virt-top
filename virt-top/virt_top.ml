@@ -251,7 +251,8 @@ OPTIONS" in
    *)
   (conn,
    !batch_mode, !script_mode, !csv_enabled, (* immutable modes *)
-   node_info, hostname, libvirt_version)
+   node_info, hostname, libvirt_version (* info that doesn't change *)
+  )
 
 (* Show a percentage in 4 chars. *)
 let show_percent percent =
@@ -408,14 +409,6 @@ let domains_lineno = 5
 (* Print in the "message area". *)
 let clear_msg () = move message_lineno 0; clrtoeol ()
 let print_msg str = clear_msg (); mvaddstr message_lineno 0 str; ()
-
-(* Write CSV header row. *)
-let write_csv_header () =
-  (!csv_write) [ "Hostname"; "Time"; "Arch"; "Physical CPUs";
-		 "Count"; "Running"; "Blocked"; "Paused"; "Shutdown";
-		 "Shutoff"; "Crashed"; "Active"; "Inactive";
-		 "%CPU"; "Total memory KB"; "Total guest memory KB";
-		 "Total CPU time ns" ]
 
 (* Intermediate "domain + stats" structure that we use to collect
  * everything we know about a domain within the collect function.
@@ -1226,21 +1219,37 @@ let redraw =
     refresh ();		   (* Refresh the display. *)
     ()
 
-(* Write summary data to CSV file.  See also write_csv_header (). *)
+(* Write CSV header row. *)
+let write_csv_header () =
+  (!csv_write)
+    [ "Hostname"; "Time"; "Arch"; "Physical CPUs";
+      "Count"; "Running"; "Blocked"; "Paused"; "Shutdown";
+      "Shutoff"; "Crashed"; "Active"; "Inactive";
+      "%CPU"; "Total memory (KB)"; "Total guest memory (KB)";
+      "Total CPU time (ns)";
+      (* These fields are repeated for each domain: *)
+      "Domain ID"; "Domain name";
+      "CPU (ns)"; "%CPU";
+      "Block RDRQ"; "Block WRRQ";
+      "Net RXBY"; "Net TXBY" ]
+
+(* Write summary data to CSV file. *)
 let append_csv
     (_, _, _, _, node_info, hostname, _) (* setup *)
-    (_,
+    (doms,
      _, printable_time,
      nr_pcpus, total_cpu, _,
      totals,
      _) (* state *) =
+
+  (* The totals / summary fields. *)
   let (count, running, blocked, paused, shutdown, shutoff,
        crashed, active, inactive,
        total_cpu_time, total_memory, total_domU_memory) = totals in
 
   let percent_cpu = 100. *. total_cpu_time /. total_cpu in
 
-  (!csv_write) [
+  let summary_fields = [
     hostname; printable_time; node_info.C.model; string_of_int nr_pcpus;
     string_of_int count; string_of_int running; string_of_int blocked;
     string_of_int paused; string_of_int shutdown; string_of_int shutoff;
@@ -1248,7 +1257,37 @@ let append_csv
     sprintf "%2.1f" percent_cpu;
     Int64.to_string total_memory; Int64.to_string total_domU_memory;
     Int64.to_string (Int64.of_float total_cpu_time)
-  ]
+  ] in
+
+  (* The domains.
+   *
+   * Sort them by ID so that the list of relatively stable.  Ignore
+   * inactive domains.
+   *)
+  let doms = List.filter_map (
+    function
+    | _, Inactive -> None		(* Ignore inactive domains. *)
+    | name, Active rd -> Some (name, rd)
+  ) doms in
+  let cmp (_, { rd_domid = rd_domid1 }) (_, { rd_domid = rd_domid2 }) =
+    compare rd_domid1 rd_domid2
+  in
+  let doms = List.sort ~cmp doms in
+
+  let string_of_int64_option = Option.map_default Int64.to_string "" in
+
+  let domain_fields = List.map (
+    fun (domname, rd) ->
+      [ string_of_int rd.rd_domid; domname;
+	string_of_float rd.rd_cpu_time; string_of_float rd.rd_percent_cpu;
+	string_of_int64_option rd.rd_block_rd_reqs;
+	string_of_int64_option rd.rd_block_wr_reqs;
+	string_of_int64_option rd.rd_net_rx_bytes;
+	string_of_int64_option rd.rd_net_tx_bytes; ]
+  ) doms in
+  let domain_fields = List.flatten domain_fields in
+
+  (!csv_write) (summary_fields @ domain_fields)
 
 (* Main loop. *)
 let rec main_loop ((_, batch_mode, script_mode, csv_enabled, _, _, _)
