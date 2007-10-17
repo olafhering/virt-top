@@ -11,12 +11,18 @@ The code is structured into these files:
 
     This is the virt-top program.
 
-    The interesting function is called 'redraw', which is responsible
-    for redrawing the display on each frame.  Another interesting
-    function is 'start_up' which handles all start-up stuff, eg.
-    command line arguments, connecting to the hypervisor, enabling
-    curses.  The function 'main_loop' runs the main loop and has
-    sub-functions to deal with keypresses, help screens and so on.
+    The two interesting functions are called 'collect' and 'redraw'.
+
+    'collect' collects all the information about domains, etc.
+
+    'redraw' updates the display on each frame.
+
+    Another interesting function is 'start_up' which handles all
+    start-up stuff, eg. command line arguments, connecting to the
+    hypervisor, enabling curses.
+
+    The function 'main_loop' runs the main loop and has sub-functions
+    to deal with keypresses, help screens and so on.
 
   virt_top_xml.ml
 

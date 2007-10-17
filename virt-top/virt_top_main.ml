@@ -15,10 +15,10 @@ open Virt_top
  * the program under --debug ...).
  *)
 let error =
-  let state = start_up () in
+  let setup = start_up () in
 
   try
-    main_loop state;
+    main_loop setup;
     endwin ();
     false
   with

@@ -117,6 +117,11 @@ I<$HOME/.virt-toprc>.  See also INIT FILE below.
 
 Do not read any init file.
 
+=item B<--script>
+
+Script mode.  There will be no user interface.  This is most useful
+when used together with the I<--csv> and I<-n> options.
+
 =item B<--help>
 
 Display usage summary.
@@ -256,6 +261,10 @@ Sets batch mode.
 =item B<secure> I<true|false>
 
 Sets secure mode.
+
+=item B<script> I<true|false>
+
+Sets script mode.
 
 =item B<overwrite-init-file> I<false>
 

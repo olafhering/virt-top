@@ -87,6 +87,10 @@ OPTIONS
     --no-init-file
         Do not read any init file.
 
+    --script
+        Script mode. There will be no user interface. This is most useful
+        when used together with the *--csv* and *-n* options.
+
     --help
         Display usage summary.
 
@@ -179,6 +183,9 @@ INIT FILE
 
     secure *true|false*
         Sets secure mode.
+
+    script *true|false*
+        Sets script mode.
 
     overwrite-init-file *false*
         If set to *false* then the *W* key will not overwrite the init file.

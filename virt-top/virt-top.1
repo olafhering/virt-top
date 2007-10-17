@@ -129,7 +129,7 @@
 .\" ========================================================================
 .\"
 .IX Title "VIRT-TOP 1"
-.TH VIRT-TOP 1 "2007-09-24" "ocaml-libvirt-0.3.2.8" "Virtualization Support"
+.TH VIRT-TOP 1 "2007-10-17" "ocaml-libvirt-0.3.2.9" "Virtualization Support"
 .SH "NAME"
 virt\-top \- 'top'\-like utility for virtualization stats
 .SH "SUMMARY"
@@ -231,6 +231,10 @@ Read \fIfilename\fR as the init file instead of the default which is
 .IP "\fB\-\-no\-init\-file\fR" 4
 .IX Item "--no-init-file"
 Do not read any init file.
+.IP "\fB\-\-script\fR" 4
+.IX Item "--script"
+Script mode.  There will be no user interface.  This is most useful
+when used together with the \fI\-\-csv\fR and \fI\-n\fR options.
 .IP "\fB\-\-help\fR" 4
 .IX Item "--help"
 Display usage summary.
@@ -336,6 +340,9 @@ Sets batch mode.
 .IP "\fBsecure\fR \fItrue|false\fR" 4
 .IX Item "secure true|false"
 Sets secure mode.
+.IP "\fBscript\fR \fItrue|false\fR" 4
+.IX Item "script true|false"
+Sets script mode.
 .IP "\fBoverwrite-init-file\fR \fIfalse\fR" 4
 .IX Item "overwrite-init-file false"
 If set to \fIfalse\fR then the \fIW\fR key will not overwrite the

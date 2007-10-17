@@ -103,6 +103,7 @@ let uri = ref None
 let debug_file = ref ""
 let csv_enabled = ref false
 let init_file = ref DefaultInitFile
+let script_mode = ref false
 
 (* Function to read command line arguments and go into curses mode. *)
 let start_up () =
@@ -138,6 +139,7 @@ let start_up () =
     "-n", Arg.Set_int iterations, "iterations Number of iterations to run";
     "-o", Arg.String set_sort, "sort Set sort order (cpu|mem|time|id|name)";
     "-s", Arg.Set secure_mode, " Secure (\"kiosk\") mode";
+    "--script", Arg.Set script_mode, " Run from a script (no user interface)";
   ] in
   let anon_fun str = raise (Arg.Bad (str ^ ": unknown parameter")) in
   let usage_msg = "virt-top : a 'top'-like utility for virtualization
@@ -163,6 +165,7 @@ OPTIONS" in
       | _, "csv", filename -> set_csv filename
       | _, "batch", b -> batch_mode := bool_of_string b
       | _, "secure", b -> secure_mode := bool_of_string b
+      | _, "script", b -> script_mode := bool_of_string b
       | _, "overwrite-init-file", "false" -> no_init_file ()
       | lineno, key, _ ->
 	  eprintf "%s:%d: configuration item ``%s'' ignored\n%!"
@@ -214,13 +217,13 @@ OPTIONS" in
    * NB: Do this just before jumping into curses mode.
    *)
   (match !debug_file with
-   | "" -> (* No debug file specified, send stderr to /dev/null. *)
-       (try
-	  let fd = Unix.openfile "/dev/null" [Unix.O_WRONLY] 0o644 in
-	  Unix.dup2 fd Unix.stderr;
-	  Unix.close fd
-	with
-	  Unix.Unix_error _ -> ()
+   | "" -> (* No debug file specified, send stderr to /dev/null unless
+	    * we're in script mode.
+	    *)
+       if not !script_mode then (
+	 let fd = Unix.openfile "/dev/null" [Unix.O_WRONLY] 0o644 in
+	 Unix.dup2 fd Unix.stderr;
+	 Unix.close fd
        )
    | filename -> (* Send stderr to the named file. *)
        let fd =
@@ -231,7 +234,7 @@ OPTIONS" in
   );
 
   (* Curses voodoo (see ncurses(3)). *)
-  let stdscr =
+  if not !script_mode then (
     initscr ();
     cbreak ();
     noecho ();
@@ -239,13 +242,16 @@ OPTIONS" in
     let stdscr = stdscr () in
     intrflush stdscr false;
     keypad stdscr true;
-    stdscr in
+    ()
+  );
 
-  (* This tuple of static information is called 'state' in other parts
+  (* This tuple of static information is called 'setup' in other parts
    * of this program, and is passed to other functions such as redraw and
-   * main_loop.  See virt_top_main.ml.  It's not really "state" though.
+   * main_loop.  See virt_top_main.ml.
    *)
-  conn, stdscr, node_info, hostname, libvirt_version
+  (conn,
+   !batch_mode, !script_mode, !csv_enabled, (* immutable modes *)
+   node_info, hostname, libvirt_version)
 
 (* Show a percentage in 4 chars. *)
 let show_percent percent =
@@ -412,7 +418,7 @@ let write_csv_header () =
 		 "Total CPU time ns" ]
 
 (* Intermediate "domain + stats" structure that we use to collect
- * everything we know about a domain within the redraw function.
+ * everything we know about a domain within the collect function.
  *)
 type rd_domain = Inactive | Active of rd_active
 and rd_active = {
@@ -438,8 +444,8 @@ and rd_active = {
   rd_net_tx_bytes : int64 option;	(* Number of bytes transmitted. *)
 }
 
-(* Redraw the display. *)
-let redraw, clear_pcpu_display_data =
+(* Collect stats. *)
+let collect, clear_pcpu_display_data =
   (* We cache the list of block devices and interfaces for each domain
    * here, so we don't need to reparse the XML each time.
    *)
@@ -466,16 +472,14 @@ let redraw, clear_pcpu_display_data =
   (* Save vcpuinfo structures across redraws too (only for pCPU display). *)
   let last_vcpu_info = Hashtbl.create 13 in
 
-  (* Keep a historical list of %CPU usages. *)
-  let historical_cpu = ref [] in
-  let historical_cpu_last_time = ref (Unix.gettimeofday ()) in
+  let clear_pcpu_display_data () =
+    (* Clear out vcpu_info used by PCPUDisplay display_mode
+     * when we switch back to TaskDisplay mode.
+     *)
+    Hashtbl.clear last_vcpu_info
+  in
 
-  let redraw (conn, stdscr, node_info, hostname, _) =
-    clear ();
-
-    (* Get the screen/window size. *)
-    let lines, cols = get_size () in
-
+  let collect (conn, _, _, _, node_info, _, _) =
     (* Number of physical CPUs (some may be disabled). *)
     let nr_pcpus = C.maxcpus_of_node_info node_info in
 
@@ -492,15 +496,6 @@ let redraw, clear_pcpu_display_data =
     let total_cpu_per_pcpu =
       if total_cpu_per_pcpu <= 0. then 1. else total_cpu_per_pcpu in
     let total_cpu = float node_info.C.cpus *. total_cpu_per_pcpu in
-
-    (* Basic node_info. *)
-    addstr (sprintf "%s %d/%dCPU %dMHz %LdMB "
-	      node_info.C.model node_info.C.cpus nr_pcpus node_info.C.mhz
-	      (node_info.C.memory /^ 1024L));
-    (* Save the cursor position for when we come to draw the
-     * historical CPU times (down in this function).
-     *)
-    let historical_cursor = getyx stdscr in
 
     (* Get the domains.  Match up with their last_info (if any). *)
     let doms =
@@ -648,6 +643,174 @@ let redraw, clear_pcpu_display_data =
 	| rd -> rd
       ) doms in
 
+    (* Collect some extra information in PCPUDisplay display_mode. *)
+    let pcpu_display =
+      if !display_mode = PCPUDisplay then (
+	(* Get the VCPU info and VCPU->PCPU mappings for active domains.
+	 * Also cull some data we don't care about.
+	 *)
+	let doms = List.filter_map (
+	  function
+	  | (name, Active rd) ->
+	      (try
+		 let domid = rd.rd_domid in
+		 let maplen = C.cpumaplen nr_pcpus in
+		 let maxinfo = rd.rd_info.D.nr_virt_cpu in
+		 let nr_vcpus, vcpu_infos, cpumaps =
+		   D.get_vcpus rd.rd_dom maxinfo maplen in
+
+		 (* Got previous vcpu_infos for this domain? *)
+		 let prev_vcpu_infos =
+		   try Some (Hashtbl.find last_vcpu_info domid)
+		   with Not_found -> None in
+		 (* Update last_vcpu_info. *)
+		 Hashtbl.replace last_vcpu_info domid vcpu_infos;
+
+		 (match prev_vcpu_infos with
+		  | Some prev_vcpu_infos
+		      when Array.length prev_vcpu_infos = Array.length vcpu_infos ->
+		      Some (domid, name, nr_vcpus, vcpu_infos, prev_vcpu_infos,
+			    cpumaps, maplen)
+		  | _ -> None (* ignore missing / unequal length prev_vcpu_infos *)
+		 );
+	       with
+		 Libvirt.Virterror _ -> None(* ignore transient libvirt errs *)
+	      )
+	  | (_, Inactive) -> None (* ignore inactive doms *)
+	) doms in
+	let nr_doms = List.length doms in
+
+	(* Rearrange the data into a matrix.  Major axis (down) is
+	 * pCPUs.  Minor axis (right) is domains.  At each node we store:
+	 *  cpu_time (on this pCPU only, nanosecs),
+	 *  average? (if set, then cpu_time is an average because the
+	 *     vCPU is pinned to more than one pCPU)
+	 *  running? (if set, we were instantaneously running on this pCPU)
+	 *)
+	let empty_node = (0L, false, false) in
+	let pcpus = Array.make_matrix nr_pcpus nr_doms empty_node in
+
+	List.iteri (
+	  fun di (domid, name, nr_vcpus, vcpu_infos, prev_vcpu_infos,
+		  cpumaps, maplen) ->
+	    (* Which pCPUs can this dom run on? *)
+	    for v = 0 to nr_vcpus-1 do
+	      let pcpu = vcpu_infos.(v).D.cpu in (* instantaneous pCPU *)
+	      let nr_poss_pcpus = ref 0 in (* how many pcpus can it run on? *)
+	      for p = 0 to nr_pcpus-1 do
+		(* vcpu v can reside on pcpu p *)
+		if C.cpu_usable cpumaps maplen v p then
+		  incr nr_poss_pcpus
+	      done;
+	      let nr_poss_pcpus = Int64.of_int !nr_poss_pcpus in
+	      for p = 0 to nr_pcpus-1 do
+		(* vcpu v can reside on pcpu p *)
+		if C.cpu_usable cpumaps maplen v p then
+		  let vcpu_time_on_pcpu =
+		    vcpu_infos.(v).D.vcpu_time
+		    -^ prev_vcpu_infos.(v).D.vcpu_time in
+		  let vcpu_time_on_pcpu =
+		    vcpu_time_on_pcpu /^ nr_poss_pcpus in
+		  pcpus.(p).(di) <-
+		    (vcpu_time_on_pcpu, nr_poss_pcpus > 1L, p = pcpu)
+	      done
+	    done
+	) doms;
+
+	(* Sum the CPU time used by each pCPU, for the %CPU column. *)
+	let pcpus_cpu_time = Array.map (
+	  fun row ->
+	    let cpu_time = ref 0L in
+	    for di = 0 to Array.length row-1 do
+	      let t, _, _ = row.(di) in
+	      cpu_time := !cpu_time +^ t
+	    done;
+	    Int64.to_float !cpu_time
+	) pcpus in
+
+	Some (doms, pcpus, pcpus_cpu_time)
+      ) else
+	None in
+
+    (* Calculate totals. *)
+    let totals = List.fold_left (
+      fun (count, running, blocked, paused, shutdown, shutoff,
+	   crashed, active, inactive,
+	   total_cpu_time, total_memory, total_domU_memory) ->
+	function
+	| (name, Active rd) ->
+	    let test state orig =
+	      if rd.rd_info.D.state = state then orig+1 else orig
+	    in
+	    let running = test D.InfoRunning running in
+	    let blocked = test D.InfoBlocked blocked in
+	    let paused = test D.InfoPaused paused in
+	    let shutdown = test D.InfoShutdown shutdown in
+	    let shutoff = test D.InfoShutoff shutoff in
+	    let crashed = test D.InfoCrashed crashed in
+
+	    let total_cpu_time = total_cpu_time +. rd.rd_cpu_time in
+	    let total_memory = total_memory +^ rd.rd_info.D.memory in
+	    let total_domU_memory = total_domU_memory +^
+	      if rd.rd_domid > 0 then rd.rd_info.D.memory else 0L in
+
+	    (count+1, running, blocked, paused, shutdown, shutoff,
+	     crashed, active+1, inactive,
+	     total_cpu_time, total_memory, total_domU_memory)
+
+	| (name, Inactive) -> (* inactive domain *)
+	    (count+1, running, blocked, paused, shutdown, shutoff,
+	     crashed, active, inactive+1,
+	     total_cpu_time, total_memory, total_domU_memory)
+    ) (0,0,0,0,0,0,0,0,0, 0.,0L,0L) doms in
+
+    (* Update last_time, last_info. *)
+    last_time := time;
+    Hashtbl.clear last_info;
+    List.iter (
+      function
+      | (_, Active rd) ->
+	  let info = rd.rd_info, rd.rd_block_stats, rd.rd_interface_stats in
+	  Hashtbl.add last_info rd.rd_domid info
+      | _ -> ()
+    ) doms;
+
+    (doms,
+     time, printable_time,
+     nr_pcpus, total_cpu, total_cpu_per_pcpu,
+     totals,
+     pcpu_display)
+  in
+
+  collect, clear_pcpu_display_data
+
+(* Redraw the display. *)
+let redraw =
+  (* Keep a historical list of %CPU usages. *)
+  let historical_cpu = ref [] in
+  let historical_cpu_last_time = ref (Unix.gettimeofday ()) in
+  fun
+  (_, _, _, _, node_info, _, _) (* setup *)
+  (doms,
+   time, printable_time,
+   nr_pcpus, total_cpu, total_cpu_per_pcpu,
+   totals,
+   pcpu_display) (* state *) ->
+    clear ();
+
+    (* Get the screen/window size. *)
+    let lines, cols = get_size () in
+
+    (* Basic node_info. *)
+    addstr (sprintf "%s %d/%dCPU %dMHz %LdMB "
+	      node_info.C.model node_info.C.cpus nr_pcpus node_info.C.mhz
+	      (node_info.C.memory /^ 1024L));
+    (* Save the cursor position for when we come to draw the
+     * historical CPU times (down in this function).
+     *)
+    let stdscr = stdscr () in
+    let historical_cursor = getyx stdscr in
+
     (match !display_mode with
      | TaskDisplay -> (*---------- Showing domains ----------*)
 	 (* Sort domains on current sort_order. *)
@@ -763,87 +926,10 @@ let redraw, clear_pcpu_display_data =
 	 loop domains_lineno doms
 
      | PCPUDisplay -> (*---------- Showing physical CPUs ----------*)
-	 (* Get the VCPU info and VCPU->PCPU mappings for active domains.
-	  * Also cull some data we don't care about.
-	  *)
-	 let doms = List.filter_map (
-	   function
-	   | (name, Active rd) ->
-	       (try
-		  let domid = rd.rd_domid in
-		  let maplen = C.cpumaplen nr_pcpus in
-		  let maxinfo = rd.rd_info.D.nr_virt_cpu in
-		  let nr_vcpus, vcpu_infos, cpumaps =
-		    D.get_vcpus rd.rd_dom maxinfo maplen in
-
-		  (* Got previous vcpu_infos for this domain? *)
-		  let prev_vcpu_infos =
-		    try Some (Hashtbl.find last_vcpu_info domid)
-		    with Not_found -> None in
-		  (* Update last_vcpu_info. *)
-		  Hashtbl.replace last_vcpu_info domid vcpu_infos;
-
-		  (match prev_vcpu_infos with
-		   | Some prev_vcpu_infos
-		       when Array.length prev_vcpu_infos = Array.length vcpu_infos ->
-		       Some (domid, name, nr_vcpus, vcpu_infos, prev_vcpu_infos,
-			     cpumaps, maplen)
-		   | _ -> None (* ignore missing / unequal length prev_vcpu_infos *)
-		  );
-		with
-		  Libvirt.Virterror _ -> None(* ignore transient libvirt errs *)
-	       )
-	   | (_, Inactive) -> None (* ignore inactive doms *)
-	 ) doms in
-	 let nr_doms = List.length doms in
-
-	 (* Rearrange the data into a matrix.  Major axis (down) is
-	  * pCPUs.  Minor axis (right) is domains.  At each node we store:
-	  *  cpu_time (on this pCPU only, nanosecs),
-	  *  average? (if set, then cpu_time is an average because the
-	  *     vCPU is pinned to more than one pCPU)
-	  *  running? (if set, we were instantaneously running on this pCPU)
-	  *)
-	 let empty_node = (0L, false, false) in
-	 let pcpus = Array.make_matrix nr_pcpus nr_doms empty_node in
-
-	 List.iteri (
-	   fun di (domid, name, nr_vcpus, vcpu_infos, prev_vcpu_infos,
-		   cpumaps, maplen) ->
-	     (* Which pCPUs can this dom run on? *)
-	     for v = 0 to nr_vcpus-1 do
-	       let pcpu = vcpu_infos.(v).D.cpu in (* instantaneous pCPU *)
-	       let nr_poss_pcpus = ref 0 in (* how many pcpus can it run on? *)
-	       for p = 0 to nr_pcpus-1 do
-		 (* vcpu v can reside on pcpu p *)
-		 if C.cpu_usable cpumaps maplen v p then
-		   incr nr_poss_pcpus
-	       done;
-	       let nr_poss_pcpus = Int64.of_int !nr_poss_pcpus in
-	       for p = 0 to nr_pcpus-1 do
-		 (* vcpu v can reside on pcpu p *)
-		 if C.cpu_usable cpumaps maplen v p then
-		   let vcpu_time_on_pcpu =
-		     vcpu_infos.(v).D.vcpu_time
-		     -^ prev_vcpu_infos.(v).D.vcpu_time in
-		   let vcpu_time_on_pcpu =
-		     vcpu_time_on_pcpu /^ nr_poss_pcpus in
-		   pcpus.(p).(di) <-
-		     (vcpu_time_on_pcpu, nr_poss_pcpus > 1L, p = pcpu)
-	       done
-	     done
-	 ) doms;
-
-	 (* Sum the CPU time used by each pCPU, for the %CPU column. *)
-	 let pcpus_cpu_time = Array.map (
-	   fun row ->
-	     let cpu_time = ref 0L in
-	     for di = 0 to Array.length row-1 do
-	       let t, _, _ = row.(di) in
-	       cpu_time := !cpu_time +^ t
-	     done;
-	     Int64.to_float !cpu_time
-	 ) pcpus in
+	 let doms, pcpus, pcpus_cpu_time =
+	   match pcpu_display with
+	   | Some p -> p
+	   | None -> failwith "internal error: no pcpu_display data" in
 
 	 (* Display the pCPUs. *)
 	 let dom_names =
@@ -938,7 +1024,7 @@ let redraw, clear_pcpu_display_data =
 		 (fun (_, { rd_domid = id1 }, _, { rd_domid = id2 }) ->
 		    compare id1 id2)
 	     | Processor | Memory | Time | BlockRdRq | BlockWrRq
-		 (* fallthrough to RXBY comparison. *)
+		   (* fallthrough to RXBY comparison. *)
 	     | NetRX ->
 		 (fun ({ D.rx_bytes = b1 }, _, { D.rx_bytes = b2 }, _) ->
 		    compare b2 b1)
@@ -959,7 +1045,7 @@ let redraw, clear_pcpu_display_data =
 	   (pad cols "   ID S RXBY TXBY RXPK TXPK DOMAIN       INTERFACE");
 	 attroff A.reverse;
 
-         (* Print domains and devices. *)
+	 (* Print domains and devices. *)
 	 let rec loop lineno = function
 	   | [] -> ()
 	   | (dev, name, rd, stats) :: devs ->
@@ -1046,7 +1132,7 @@ let redraw, clear_pcpu_display_data =
 		 (fun (_, { rd_domid = id1 }, _, { rd_domid = id2 }) ->
 		    compare id1 id2)
 	     | Processor | Memory | Time | NetRX | NetTX
-		 (* fallthrough to RDRQ comparison. *)
+		   (* fallthrough to RDRQ comparison. *)
 	     | BlockRdRq ->
 		 (fun ({ D.rd_req = b1 }, _, { D.rd_req = b2 }, _) ->
 		    compare b2 b1)
@@ -1067,7 +1153,7 @@ let redraw, clear_pcpu_display_data =
 	   (pad cols "   ID S RDBY WRBY RDRQ WRRQ DOMAIN       DEVICE");
 	 attroff A.reverse;
 
-         (* Print domains and devices. *)
+	 (* Print domains and devices. *)
 	 let rec loop lineno = function
 	   | [] -> ()
 	   | (dev, name, rd, stats) :: devs ->
@@ -1101,127 +1187,85 @@ let redraw, clear_pcpu_display_data =
 	       )
 	 in
 	 loop domains_lineno devs
+    ); (* end of display_mode conditional section *)
+
+    let (count, running, blocked, paused, shutdown, shutoff,
+	 crashed, active, inactive,
+	 total_cpu_time, total_memory, total_domU_memory) = totals in
+
+    mvaddstr summary_lineno 0
+      (sprintf "%d domains, %d active, %d running, %d sleeping, %d paused, %d inactive D:%d O:%d X:%d"
+	 count active running blocked paused inactive shutdown shutoff
+	 crashed);
+
+    (* Total %CPU used, and memory summary. *)
+    let percent_cpu = 100. *. total_cpu_time /. total_cpu in
+    mvaddstr (summary_lineno+1) 0
+      (sprintf "CPU: %2.1f%%  Mem: %Ld MB (%Ld MB by guests)"
+	 percent_cpu (total_memory /^ 1024L) (total_domU_memory /^ 1024L));
+
+    (* Time to grab another historical %CPU for the list? *)
+    if time >= !historical_cpu_last_time +. float !historical_cpu_delay
+    then (
+      historical_cpu := percent_cpu :: List.take 10 !historical_cpu;
+      historical_cpu_last_time := time
     );
 
-    (* Calculate and print totals. *)
+    (* Display historical CPU time. *)
     let () =
-      let totals = List.fold_left (
-	fun (count, running, blocked, paused, shutdown, shutoff,
-	     crashed, active, inactive,
-	     total_cpu_time, total_memory, total_domU_memory) ->
-	  function
-	  | (name, Active rd) ->
-	      let test state orig =
-		if rd.rd_info.D.state = state then orig+1 else orig
-	      in
-	      let running = test D.InfoRunning running in
-	      let blocked = test D.InfoBlocked blocked in
-	      let paused = test D.InfoPaused paused in
-	      let shutdown = test D.InfoShutdown shutdown in
-	      let shutoff = test D.InfoShutoff shutoff in
-	      let crashed = test D.InfoCrashed crashed in
+      let x, y = historical_cursor in (* Yes, it's a bug in ocaml-curses *)
+      let maxwidth = cols - x in
+      let line =
+	String.concat " "
+	  (List.map (sprintf "%2.1f%%") !historical_cpu) in
+      let line = pad maxwidth line in
+      mvaddstr y x line;
+      () in
 
-	      let total_cpu_time = total_cpu_time +. rd.rd_cpu_time in
-	      let total_memory = total_memory +^ rd.rd_info.D.memory in
-	      let total_domU_memory = total_domU_memory +^
-		if rd.rd_domid > 0 then rd.rd_info.D.memory else 0L in
+    move message_lineno 0; (* Park cursor in message area, as with top. *)
+    refresh ();		   (* Refresh the display. *)
+    ()
 
-	      (count+1, running, blocked, paused, shutdown, shutoff,
-	       crashed, active+1, inactive,
-	       total_cpu_time, total_memory, total_domU_memory)
+(* Write summary data to CSV file.  See also write_csv_header (). *)
+let append_csv
+    (_, _, _, _, node_info, hostname, _) (* setup *)
+    (_,
+     _, printable_time,
+     nr_pcpus, total_cpu, _,
+     totals,
+     _) (* state *) =
+  let (count, running, blocked, paused, shutdown, shutoff,
+       crashed, active, inactive,
+       total_cpu_time, total_memory, total_domU_memory) = totals in
 
-	  | (name, Inactive) -> (* inactive domain *)
-	      (count+1, running, blocked, paused, shutdown, shutoff,
-	       crashed, active, inactive+1,
-	       total_cpu_time, total_memory, total_domU_memory)
-      ) (0,0,0,0,0,0,0,0,0, 0.,0L,0L) doms in
+  let percent_cpu = 100. *. total_cpu_time /. total_cpu in
 
-      let (count, running, blocked, paused, shutdown, shutoff,
-	   crashed, active, inactive,
-	   total_cpu_time, total_memory, total_domU_memory) = totals in
-
-      mvaddstr summary_lineno 0
-	(sprintf "%d domains, %d active, %d running, %d sleeping, %d paused, %d inactive D:%d O:%d X:%d"
-	   count active running blocked paused inactive shutdown shutoff
-	   crashed);
-
-      (* Total %CPU used, and memory summary. *)
-      let percent_cpu = 100. *. total_cpu_time /. total_cpu in
-      mvaddstr (summary_lineno+1) 0
-	(sprintf "CPU: %2.1f%%  Mem: %Ld MB (%Ld MB by guests)"
-	   percent_cpu (total_memory /^ 1024L) (total_domU_memory /^ 1024L));
-
-      (* Time to grab another historical %CPU for the list? *)
-      if time >= !historical_cpu_last_time +. float !historical_cpu_delay
-      then (
-	historical_cpu := percent_cpu :: List.take 10 !historical_cpu;
-	historical_cpu_last_time := time
-      );
-
-      (* Display historical CPU time. *)
-      let () =
-	let x, y = historical_cursor in (* Yes, it's a bug in ocaml-curses *)
-	let maxwidth = cols - x in
-	let line =
-	  String.concat " "
-	    (List.map (sprintf "%2.1f%%") !historical_cpu) in
-	let line = pad maxwidth line in
-	mvaddstr y x line;
-	() in
-
-      (* Write summary data to CSV file.  See also write_csv_header (). *)
-      if !csv_enabled then (
-	(!csv_write) [
-	  hostname; printable_time; node_info.C.model; string_of_int nr_pcpus;
-	  string_of_int count; string_of_int running; string_of_int blocked;
-	  string_of_int paused; string_of_int shutdown; string_of_int shutoff;
-	  string_of_int crashed; string_of_int active; string_of_int inactive;
-	  sprintf "%2.1f" percent_cpu;
-	  Int64.to_string total_memory; Int64.to_string total_domU_memory;
-	  Int64.to_string (Int64.of_float total_cpu_time)
-	]
-      );
-
-      ()
-    in
-
-    (* Update last_info, last_time. *)
-    last_time := time;
-    Hashtbl.clear last_info;
-    List.iter (
-      function
-      | (_, Active rd) ->
-	  let info = rd.rd_info, rd.rd_block_stats, rd.rd_interface_stats in
-	  Hashtbl.add last_info rd.rd_domid info
-      | _ -> ()
-    ) doms;
-
-    move message_lineno 0 (* Park cursor in message area, as with top. *)
-  in
-
-  let clear_pcpu_display_data () =
-    (* Clear out vcpu_info used by PCPUDisplay
-     * display_mode when we switch back to TaskDisplay mode.
-     *)
-    Hashtbl.clear last_vcpu_info
-  in
-
-  redraw, clear_pcpu_display_data
+  (!csv_write) [
+    hostname; printable_time; node_info.C.model; string_of_int nr_pcpus;
+    string_of_int count; string_of_int running; string_of_int blocked;
+    string_of_int paused; string_of_int shutdown; string_of_int shutoff;
+    string_of_int crashed; string_of_int active; string_of_int inactive;
+    sprintf "%2.1f" percent_cpu;
+    Int64.to_string total_memory; Int64.to_string total_domU_memory;
+    Int64.to_string (Int64.of_float total_cpu_time)
+  ]
 
 (* Main loop. *)
-let rec main_loop state =
-  if !csv_enabled then write_csv_header ();
+let rec main_loop ((_, batch_mode, script_mode, csv_enabled, _, _, _)
+		     as setup) =
+  if csv_enabled then write_csv_header ();
 
   while not !quit do
-    redraw state;
-    refresh ();
+    let state = collect setup in	        (* Collect stats. *)
+    if not script_mode then redraw setup state; (* Redraw display. *)
+    if csv_enabled then append_csv setup state; (* Update CSV file. *)
 
     (* Clear up unused virDomainPtr objects. *)
     Gc.compact ();
 
-    if not !batch_mode then
-      get_key_press state
-    else (* Batch mode - just sleep, ignore keys. *)
+    if not batch_mode && not script_mode then
+      get_key_press setup
+    else (* Batch mode or script mode - just sleep, ignore keys. *)
       Unix.sleep (!delay / 1000);
 
     (* Max iterations? *)
@@ -1231,7 +1275,7 @@ let rec main_loop state =
     );
   done
 
-and get_key_press state =
+and get_key_press setup =
   (* Read the next key, waiting up to !delay milliseconds. *)
   timeout !delay;
   let k = getch () in
@@ -1240,7 +1284,7 @@ and get_key_press state =
   if k >= 0 && k <> 32 (* ' ' *) && k <> 12 (* ^L *) && k <> Key.resize
   then (
     if k = Char.code 'q' then quit := true
-    else if k = Char.code 'h' then show_help state
+    else if k = Char.code 'h' then show_help setup
     else if k = Char.code 's' || k = Char.code 'd' then change_delay ()
     else if k = Char.code 'M' then sort_order := Memory
     else if k = Char.code 'P' then sort_order := Processor
@@ -1463,7 +1507,7 @@ and _write_init_file filename =
       print_msg (sprintf "Error: %s %s %s" (Unix.error_message err) fn str);
       sleep 2
 
-and show_help (_, _, _, hostname,
+and show_help (_, _, _, _, _, hostname,
 	       (libvirt_major, libvirt_minor, libvirt_release)) =
   clear ();
 
