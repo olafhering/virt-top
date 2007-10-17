@@ -1,3 +1,12 @@
+2007-10-17  Richard Jones  <rjones@redhat.com>
+
+	* virt-top/virt_top.ml: Added --script option.
+	* virt-top/virt_top.ml: Log domain data to CSV file.
+	* virt-top/virt_top.ml: Added --no-csv-cpu, --no-csv-block and
+	  --no-csv-net flags.
+	* virt-top/*.ml: Much code clean-up and restructuring.
+	* *: Added GNU GPL/LGPL copyright messages to all files.
+
 2007-09-27  Richard Jones  <rjones@redhat.com>
 
 	* configure.ac: Changed version to 0.3.2.9.
