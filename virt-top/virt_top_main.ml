@@ -34,7 +34,7 @@ let error =
 
   try
     main_loop setup;
-    endwin ();
+    if !script_mode then endwin ();
     false
   with
   | Libvirt.Virterror err ->
