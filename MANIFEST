@@ -39,6 +39,11 @@ TODO.libvirt
 TODO.virt-top
 virt-df/Makefile.in
 virt-df/virt_df.ml
+virt-df/README
+virt-df/virt_df_ext2.ml
+virt-df/virt_df_linux_swap.ml
+virt-df/virt_df_lvm2.ml
+virt-df/virt_df_main.ml
 virt-top/.depend
 virt-top/Makefile.in
 virt-top/README
