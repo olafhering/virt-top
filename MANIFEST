@@ -51,7 +51,10 @@ virt-top/virt-top.1
 virt-top/virt-top.pod
 virt-top/virt-top.txt
 virt-top/virt_top.ml
+virt-top/virt_top.mli
+virt-top/virt_top_calendar.ml
 virt-top/virt_top_csv.ml
 virt-top/virt_top_main.ml
 virt-top/virt_top_utils.ml
+virt-top/virt_top_utils.mli
 virt-top/virt_top_xml.ml
