@@ -79,3 +79,9 @@ to the current time.
 
 In --csv mode, allow the CSV file to be rolled over and compressed
 periodically (eg. every so often, specific time of day, etc.)
+
+*** 12 [cywse] How much memory is a guest actually using
+
+Can we look inside the guest to find out how much memory the guest
+is actually using?  Scenario is: One guest is maxed out and swapping
+while other guests aren't using much of their allocated memory.
