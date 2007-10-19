@@ -30,19 +30,19 @@ open Virt_top
  * the program under --debug ...).
  *)
 let error =
-  let setup = start_up () in
+  let ((_, _, script_mode, _, _, _, _) as setup) = start_up () in
 
   try
     main_loop setup;
-    if !script_mode then endwin ();
+    if not script_mode then endwin ();
     false
   with
   | Libvirt.Virterror err ->
-      endwin ();
+      if not script_mode then endwin ();
       prerr_endline (Libvirt.Virterror.to_string err);
       true
   | exn ->
-      endwin ();
+      if not script_mode then endwin ();
       prerr_endline ("Error: " ^ Printexc.to_string exn);
       true
 

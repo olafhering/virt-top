@@ -1,3 +1,8 @@
+2007-10-19  Richard Jones  <rjones@redhat.com>
+
+	* virt-top/virt_top_utils.mli, virt-top/virt_top.mli: Reorganise
+	  the code and add some interfaces.
+
 2007-10-17  Richard Jones  <rjones@redhat.com>
 
 	* virt-top/virt_top.ml: Added --script option.

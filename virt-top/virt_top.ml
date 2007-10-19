@@ -43,12 +43,6 @@ let csv_write : (string list -> unit) ref =
     fun _ -> ()
   )
 
-(* Int64 operators for convenience. *)
-let (+^) = Int64.add
-let (-^) = Int64.sub
-let ( *^ ) = Int64.mul
-let (/^) = Int64.div
-
 (* Sort order. *)
 type sort_order =
   | DomainID | DomainName | Processor | Memory | Time
@@ -122,6 +116,11 @@ let csv_block = ref true
 let csv_net = ref true
 let init_file = ref DefaultInitFile
 let script_mode = ref false
+
+(* Tuple of never-changing data returned by start_up function. *)
+type setup =
+    Libvirt.ro C.t * bool * bool * bool * C.node_info * string *
+      (int * int * int)
 
 (* Function to read command line arguments and go into curses mode. *)
 let start_up () =
@@ -278,54 +277,6 @@ OPTIONS" in
    node_info, hostname, libvirt_version (* info that doesn't change *)
   )
 
-(* Show a percentage in 4 chars. *)
-let show_percent percent =
-  if percent <= 0. then " 0.0"
-  else if percent <= 9.9 then sprintf " %1.1f" percent
-  else if percent <= 99.9 then sprintf "%2.1f" percent
-  else "100 "
-
-(* Show an int64 option in 4 chars. *)
-let rec show_int64_option = function
-  | None -> "    "
-  | Some n -> show_int64 n
-(* Show an int64 in 4 chars. *)
-and show_int64 = function
-  | n when n < 0L -> "-!!!"
-  | n when n <= 9999L ->
-      sprintf "%4Ld" n
-  | n when n /^ 1024L <= 999L ->
-      sprintf "%3LdK" (n /^ 1024L)
-  | n when n /^ 1_048_576L <= 999L ->
-      sprintf "%3LdM" (n /^ 1_048_576L)
-  | n when n /^ 1_073_741_824L <= 999L ->
-      sprintf "%3LdG" (n /^ 1_073_741_824L)
-  | _ -> ">!!!"
-
-(* Format the total time (may be large!) in 9 chars. *)
-let show_time ns =
-  let secs_in_ns = 1_000_000_000L in
-  let mins_in_ns = 60_000_000_000L in
-  let hours_in_ns = 3_600_000_000_000L in
-
-  let hours = ns /^ hours_in_ns in
-  let ns = ns -^ (hours *^ hours_in_ns) in
-  let mins = ns /^ mins_in_ns in
-  let ns = ns -^ (mins *^ mins_in_ns) in
-  let secs = ns /^ secs_in_ns in
-  let ns = ns -^ (secs *^ secs_in_ns) in
-  let pennies = ns /^ 10_000_000L in
-
-  if hours < 12L then
-    sprintf "%3Ld:%02Ld.%02Ld" (hours *^ 60L +^ mins) secs pennies
-  else if hours <= 999L then
-    sprintf "%3Ld:%02Ld:%02Ld" hours mins secs
-  else (
-    let days = hours /^ 24L in
-    let hours = hours -^ (days *^ 24L) in
-    sprintf "%3Ldd%02Ld:%02Ld" days hours mins
-  )
-
 (* Show a domain state (the 'S' column). *)
 let show_state = function
   | D.InfoNoState -> '?'
@@ -335,65 +286,6 @@ let show_state = function
   | D.InfoShutdown -> 'D'
   | D.InfoShutoff -> 'O'
   | D.InfoCrashed -> 'X'
-
-(* Sum Domain.block_stats structures together.  Missing fields
- * get forced to 0.  Empty list returns all 0.
- *)
-let zero_block_stats =
-  { D.rd_req = 0L; rd_bytes = 0L; wr_req = 0L; wr_bytes = 0L; errs = 0L }
-let add_block_stats bs1 bs2 =
-  let add f1 f2 = if f1 >= 0L && f2 >= 0L then f1 +^ f2 else 0L in
-  { D.rd_req = add bs1.D.rd_req   bs2.D.rd_req;
-    rd_bytes = add bs1.D.rd_bytes bs2.D.rd_bytes;
-    wr_req   = add bs1.D.wr_req   bs2.D.wr_req;
-    wr_bytes = add bs1.D.wr_bytes bs2.D.wr_bytes;
-    errs     = add bs1.D.errs     bs2.D.errs }
-let sum_block_stats =
-  List.fold_left add_block_stats zero_block_stats
-
-(* Get the difference between two block_stats structures.  Missing data
- * forces the difference to -1.
- *)
-let diff_block_stats curr prev =
-  let sub f1 f2 = if f1 >= 0L && f2 >= 0L then f1 -^ f2 else -1L in
-  { D.rd_req = sub curr.D.rd_req   prev.D.rd_req;
-    rd_bytes = sub curr.D.rd_bytes prev.D.rd_bytes;
-    wr_req   = sub curr.D.wr_req   prev.D.wr_req;
-    wr_bytes = sub curr.D.wr_bytes prev.D.wr_bytes;
-    errs     = sub curr.D.errs     prev.D.errs }
-
-(* Sum Domain.interface_stats structures together.  Missing fields
- * get forced to 0.  Empty list returns all 0.
- *)
-let zero_interface_stats =
-  { D.rx_bytes = 0L; rx_packets = 0L; rx_errs = 0L; rx_drop = 0L;
-    tx_bytes = 0L; tx_packets = 0L; tx_errs = 0L; tx_drop = 0L }
-let add_interface_stats is1 is2 =
-  let add f1 f2 = if f1 >= 0L && f2 >= 0L then f1 +^ f2 else 0L in
-  { D.rx_bytes = add is1.D.rx_bytes   is2.D.rx_bytes;
-    rx_packets = add is1.D.rx_packets is2.D.rx_packets;
-    rx_errs    = add is1.D.rx_errs    is2.D.rx_errs;
-    rx_drop    = add is1.D.rx_drop    is2.D.rx_drop;
-    tx_bytes   = add is1.D.tx_bytes   is2.D.tx_bytes;
-    tx_packets = add is1.D.tx_packets is2.D.tx_packets;
-    tx_errs    = add is1.D.tx_errs    is2.D.tx_errs;
-    tx_drop    = add is1.D.tx_drop    is2.D.tx_drop }
-let sum_interface_stats =
-  List.fold_left add_interface_stats zero_interface_stats
-
-(* Get the difference between two interface_stats structures.
- * Missing data forces the difference to -1.
- *)
-let diff_interface_stats curr prev =
-  let sub f1 f2 = if f1 >= 0L && f2 >= 0L then f1 -^ f2 else -1L in
-  { D.rx_bytes = sub curr.D.rx_bytes   prev.D.rx_bytes;
-    rx_packets = sub curr.D.rx_packets prev.D.rx_packets;
-    rx_errs    = sub curr.D.rx_errs    prev.D.rx_errs;
-    rx_drop    = sub curr.D.rx_drop    prev.D.rx_drop;
-    tx_bytes   = sub curr.D.tx_bytes   prev.D.tx_bytes;
-    tx_packets = sub curr.D.tx_packets prev.D.tx_packets;
-    tx_errs    = sub curr.D.tx_errs    prev.D.tx_errs;
-    tx_drop    = sub curr.D.tx_drop    prev.D.tx_drop }
 
 (* Update the display and sleep for given number of seconds. *)
 let sleep n = refresh (); Unix.sleep n
@@ -415,13 +307,6 @@ let get_string maxlen =
     with
       Not_found -> str (* it is full maxlen bytes *)
   )
-
-(* Pad a string to the full width with spaces.  If too long, truncate. *)
-let pad width str =
-  let n = String.length str in
-  if n = width then str
-  else if n > width then String.sub str 0 width
-  else (* if n < width then *) str ^ String.make (width-n) ' '
 
 (* Line numbers. *)
 let top_lineno = 0
@@ -913,16 +798,16 @@ let redraw =
 	   | (name, Active rd) :: doms ->
 	       if lineno < lines then (
 		 let state = show_state rd.rd_info.D.state in
-		 let rd_req = show_int64_option rd.rd_block_rd_reqs in
-		 let wr_req = show_int64_option rd.rd_block_wr_reqs in
-		 let rx_bytes = show_int64_option rd.rd_net_rx_bytes in
-		 let tx_bytes = show_int64_option rd.rd_net_tx_bytes in
-		 let percent_cpu = show_percent rd.rd_percent_cpu in
+		 let rd_req = Show.int64_option rd.rd_block_rd_reqs in
+		 let wr_req = Show.int64_option rd.rd_block_wr_reqs in
+		 let rx_bytes = Show.int64_option rd.rd_net_rx_bytes in
+		 let tx_bytes = Show.int64_option rd.rd_net_tx_bytes in
+		 let percent_cpu = Show.percent rd.rd_percent_cpu in
 		 let percent_mem =
 		   100L *^ rd.rd_info.D.memory /^ node_info.C.memory in
 		 let percent_mem = Int64.to_float percent_mem in
-		 let percent_mem = show_percent percent_mem in
-		 let time = show_time rd.rd_info.D.cpu_time in
+		 let percent_mem = Show.percent percent_mem in
+		 let time = Show.time rd.rd_info.D.cpu_time in
 
 		 let line = sprintf "%5d %c %s %s %s %s %s %s %s %s"
 		   rd.rd_domid state rd_req wr_req rx_bytes tx_bytes
@@ -969,7 +854,7 @@ let redraw =
 	     mvaddstr (p+domains_lineno) 0 (sprintf "%4d   " p);
 	     let cpu_time = pcpus_cpu_time.(p) in (* ns used on this CPU *)
 	     let percent_cpu = 100. *. cpu_time /. total_cpu_per_pcpu in
-	     addstr (show_percent percent_cpu);
+	     addstr (Show.percent percent_cpu);
 	     addch 32;
 
 	     List.iteri (
@@ -982,7 +867,7 @@ let redraw =
 		   else (
 		     let t = Int64.to_float t in
 		     let percent = 100. *. t /. total_cpu_per_pcpu in
-		     sprintf "%s%c%c " (show_percent percent)
+		     sprintf "%s%c%c " (Show.percent percent)
 		       (if is_average then '=' else ' ')
 		       (if is_running then '#' else ' ')
 		   ) in
@@ -1072,19 +957,19 @@ let redraw =
 		 let state = show_state rd.rd_info.D.state in
 		 let rx_bytes =
 		   if stats.D.rx_bytes >= 0L
-		   then show_int64 stats.D.rx_bytes
+		   then Show.int64 stats.D.rx_bytes
 		   else "    " in
 		 let tx_bytes =
 		   if stats.D.tx_bytes >= 0L
-		   then show_int64 stats.D.tx_bytes
+		   then Show.int64 stats.D.tx_bytes
 		   else "    " in
 		 let rx_packets =
 		   if stats.D.rx_packets >= 0L
-		   then show_int64 stats.D.rx_packets
+		   then Show.int64 stats.D.rx_packets
 		   else "    " in
 		 let tx_packets =
 		   if stats.D.tx_packets >= 0L
-		   then show_int64 stats.D.tx_packets
+		   then Show.int64 stats.D.tx_packets
 		   else "    " in
 
 		 let line = sprintf "%5d %c %s %s %s %s %-12s %s"
@@ -1180,19 +1065,19 @@ let redraw =
 		 let state = show_state rd.rd_info.D.state in
 		 let rd_bytes =
 		   if stats.D.rd_bytes >= 0L
-		   then show_int64 stats.D.rd_bytes
+		   then Show.int64 stats.D.rd_bytes
 		   else "    " in
 		 let wr_bytes =
 		   if stats.D.wr_bytes >= 0L
-		   then show_int64 stats.D.wr_bytes
+		   then Show.int64 stats.D.wr_bytes
 		   else "    " in
 		 let rd_req =
 		   if stats.D.rd_req >= 0L
-		   then show_int64 stats.D.rd_req
+		   then Show.int64 stats.D.rd_req
 		   else "    " in
 		 let wr_req =
 		   if stats.D.wr_req >= 0L
-		   then show_int64 stats.D.wr_req
+		   then Show.int64 stats.D.wr_req
 		   else "    " in
 
 		 let line = sprintf "%5d %c %s %s %s %s %-12s %s"

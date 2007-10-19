@@ -1,11 +1,11 @@
 The code is structured into these files:
 
-  virt_top_utils.ml
+  virt_top_utils.mli / virt_top_utils.ml
 
     String functions and other small utility functions.  This is
     included directly into virt_top.ml.
 
-  virt_top.ml
+  virt_top.mli / virt_top.ml
 
     This is the virt-top program.
 
