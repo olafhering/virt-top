@@ -77,12 +77,14 @@ AC_CHECK_OCAML_PKG(curses)
 AC_CHECK_OCAML_PKG(gettext)
 AC_CHECK_OCAML_PKG(xml-light)
 AC_CHECK_OCAML_PKG(csv)
+AC_CHECK_OCAML_PKG(calendar)
 
 AC_SUBST(pkg_lablgtk2)
 AC_SUBST(pkg_curses)
 AC_SUBST(pkg_gettext)
 AC_SUBST(pkg_xml_light)
 AC_SUBST(pkg_csv)
+AC_SUBST(pkg_calendar)
 
 dnl Check for optional perldoc (for building manual pages).
 AC_CHECK_PROG(HAVE_PERLDOC,perldoc,perldoc)

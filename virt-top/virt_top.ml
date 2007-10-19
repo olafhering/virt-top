@@ -36,11 +36,18 @@ let parse_device_xml : (int -> [>`R] D.t -> string list * string list) ref =
 (* Hooks for CSV support (see virt_top_csv.ml). *)
 let csv_start : (string -> unit) ref =
   ref (
-    fun _ -> failwith "virt-top was compiled without support for CSV"
+    fun _ -> failwith "virt-top was compiled without support for CSV files"
   )
 let csv_write : (string list -> unit) ref =
   ref (
     fun _ -> ()
+  )
+
+(* Hook for calendar support (see virt_top_calendar.ml). *)
+let parse_date_time : (string -> float) ref =
+  ref (
+    fun _ ->
+      failwith "virt-top was compiled without support for dates and times"
   )
 
 (* Sort order. *)
@@ -104,6 +111,7 @@ let quit = ref false
 let delay = ref 3000 (* milliseconds *)
 let historical_cpu_delay = ref 20 (* secs *)
 let iterations = ref (-1)
+let end_time = ref None
 let batch_mode = ref false
 let secure_mode = ref false
 let sort_order = ref Processor
@@ -139,6 +147,7 @@ let start_up () =
     csv_enabled := true
   and no_init_file () = init_file := NoInitFile
   and set_init_file filename = init_file := InitFile filename
+  and set_end_time time = end_time := Some ((!parse_date_time) time)
   in
   let argspec = Arg.align [
     "-1", Arg.Unit set_pcpu_mode, " Start by displaying pCPUs (default: tasks)";
@@ -153,6 +162,7 @@ let start_up () =
     "--no-csv-net", Arg.Clear csv_net, " Disable net stats in CSV";
     "-d", Arg.Float set_delay, "delay Delay time interval (seconds)";
     "--debug", Arg.Set_string debug_file, "file Send debug messages to file";
+    "--end-time", Arg.String set_end_time, "time Exit at given time";
     "--hist-cpu", Arg.Set_int historical_cpu_delay, "secs Historical CPU delay";
     "--init-file", Arg.String set_init_file, "file Set name of init file";
     "--no-init-file", Arg.Unit no_init_file, " Do not read init file";
@@ -189,6 +199,7 @@ OPTIONS" in
       | _, "batch", b -> batch_mode := bool_of_string b
       | _, "secure", b -> secure_mode := bool_of_string b
       | _, "script", b -> script_mode := bool_of_string b
+      | _, "end-time", t -> set_end_time t
       | _, "overwrite-init-file", "false" -> no_init_file ()
       | lineno, key, _ ->
 	  eprintf "%s:%d: configuration item ``%s'' ignored\n%!"
@@ -287,8 +298,12 @@ let show_state = function
   | D.InfoShutoff -> 'O'
   | D.InfoCrashed -> 'X'
 
-(* Update the display and sleep for given number of seconds. *)
-let sleep n = refresh (); Unix.sleep n
+(* Sleep in seconds. *)
+let sleep = Unix.sleep
+
+(* Sleep in milliseconds. *)
+let usleep n =
+  ignore (Unix.select [] [] [] (float n /. 1000.))
 
 (* The curses getstr/getnstr functions are just weird.
  * This helper function also enables echo temporarily.
@@ -1220,16 +1235,31 @@ let rec main_loop ((_, batch_mode, script_mode, csv_enabled, _, _, _)
     (* Clear up unused virDomainPtr objects. *)
     Gc.compact ();
 
+    (* Get next key.  This does the sleep. *)
     if not batch_mode && not script_mode then
-      get_key_press setup
-    else (* Batch mode or script mode - just sleep, ignore keys. *)
-      Unix.sleep (!delay / 1000);
+      get_key_press setup;
 
     (* Max iterations? *)
     if !iterations >= 0 then (
       decr iterations;
       if !iterations = 0 then quit := true
     );
+
+    (* End time? *)
+    (match !end_time with
+     | None -> ()
+     | Some end_time ->
+	 let (_, time, _, _, _, _, _, _) = state in
+	 let delay_secs = float !delay /. 1000. in
+	 if end_time <= time +. delay_secs then quit := true
+    );
+
+    (* Batch mode or script mode.  We didn't call get_key_press above, so
+     * we didn't sleep.  Sleep now, unless we are about to quit.
+     *)
+    if batch_mode || script_mode then
+      if not !quit then
+	usleep !delay;
   done
 
 and get_key_press setup =
@@ -1271,6 +1301,7 @@ and change_delay () =
     with
       Failure "float_of_string" ->
 	print_msg "Not a valid number"; true in
+  refresh ();
   sleep (if error then 2 else 1)
 
 and change_sort_order () =
@@ -1360,7 +1391,10 @@ and change_sort_order () =
 	 sort_order := new_order;
 	 print_msg (sprintf "Sort order changed to: %s"
 		      (printable_sort_order new_order));
-	 if not loop then sleep 1
+	 if not loop then (
+	   refresh ();
+	   sleep 1
+	 )
     );
 
     if loop then change_sort_order ()
@@ -1457,11 +1491,14 @@ and _write_init_file filename =
     (* Rename filename.new to filename. *)
     Unix.rename (filename ^ ".new") filename;
 
-    print_msg (sprintf "Wrote settings to %s" filename); sleep 2
+    print_msg (sprintf "Wrote settings to %s" filename);
+    refresh ();
+    sleep 2
   with
-  | Sys_error err -> print_msg "Error: %s"; sleep 2
+  | Sys_error err -> print_msg "Error: %s"; refresh (); sleep 2
   | Unix.Unix_error (err, fn, str) ->
       print_msg (sprintf "Error: %s %s %s" (Unix.error_message err) fn str);
+      refresh ();
       sleep 2
 
 and show_help (_, _, _, _, _, hostname,
@@ -1553,4 +1590,5 @@ and show_help (_, _, _, _, _, hostname,
 
 and unknown_command k =
   print_msg "Unknown command - try 'h' for help";
+  refresh ();
   sleep 1

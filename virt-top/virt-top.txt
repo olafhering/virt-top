@@ -72,6 +72,17 @@ OPTIONS
         the program was compiled (see *README* file in the source
         distribution for details).
 
+        To save space you can compress your CSV files (if your shell
+        supports this feature, eg. *bash*):
+
+         virt-top --csv >(gzip -9 > output.csv.gz)
+
+        You can use a similar trick to split the CSV file up. In this
+        example the CSV file is split every 1000 lines into files called
+        *output.csv.00*, *output.csv.01* etc.
+
+         virt-top --csv >(split -d -l 1000 - output.csv.)
+
     --no-csv-cpu
         Disable domain CPU stats in CSV output.
 
@@ -100,8 +111,38 @@ OPTIONS
         Script mode. There will be no user interface. This is most useful
         when used together with the *--csv* and *-n* options.
 
+    --end-time time
+        The program will exit at the *time* given.
+
+        The time may be given in one of the following formats:
+
+    *YYYY-MM-DD HH:MM:SS*
+        End time is the date and time given.
+
+    *HH:MM:SS*
+        End time is the time given, today.
+
+    *+HH:MM:SS*
+        End time is HH hours, MM minutes, SS seconds in the future (counted
+        from the moment that program starts).
+
+    *+secs*
+        End time is *secs* seconds in the future.
+
+    For example to run the program for 3 minutes you could do:
+
+     virt-top --end-time +00:03:00
+
+    or:
+
+     virt-top --end-time +180
+
+    Not every version of virt-top supports this option - it depends how the
+    program was compiled (see *README* file in the source distribution for
+    details).
+
     --help
-        Display usage summary.
+    Display usage summary.
 
 KEYS
     Note that keys are case sensitive. For example use upper-case *P* (shift
@@ -204,6 +245,10 @@ INIT FILE
 
     script *true|false*
         Sets script mode.
+
+    end-time *time*
+        Set the time at which the program exits. See above for the time
+        formats supported.
 
     overwrite-init-file *false*
         If set to *false* then the *W* key will not overwrite the init file.

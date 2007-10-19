@@ -99,6 +99,17 @@ Not every version of virt-top supports CSV output - it depends how the
 program was compiled (see I<README> file in the source distribution
 for details).
 
+To save space you can compress your CSV files (if your shell supports
+this feature, eg. I<bash>):
+
+ virt-top --csv >(gzip -9 > output.csv.gz)
+
+You can use a similar trick to split the CSV file up.  In this example
+the CSV file is split every 1000 lines into files called
+I<output.csv.00>, I<output.csv.01> etc.
+
+ virt-top --csv >(split -d -l 1000 - output.csv.)
+
 =item B<--no-csv-cpu>
 
 Disable domain CPU stats in CSV output.
@@ -133,6 +144,45 @@ Do not read any init file.
 
 Script mode.  There will be no user interface.  This is most useful
 when used together with the I<--csv> and I<-n> options.
+
+=item B<--end-time time>
+
+The program will exit at the I<time> given.
+
+The time may be given in one of the following formats:
+
+=over 4
+
+=item I<YYYY-MM-DD HH:MM:SS>
+
+End time is the date and time given.
+
+=item I<HH:MM:SS>
+
+End time is the time given, today.
+
+=item I<+HH:MM:SS>
+
+End time is HH hours, MM minutes, SS seconds in the future (counted
+from the moment that program starts).
+
+=item I<+secs>
+
+End time is I<secs> seconds in the future.
+
+=back
+
+For example to run the program for 3 minutes you could do:
+
+ virt-top --end-time +00:03:00
+
+or:
+
+ virt-top --end-time +180
+
+Not every version of virt-top supports this option - it depends how the
+program was compiled (see I<README> file in the source distribution
+for details).
 
 =item B<--help>
 
@@ -289,6 +339,11 @@ Sets secure mode.
 =item B<script> I<true|false>
 
 Sets script mode.
+
+=item B<end-time> I<time>
+
+Set the time at which the program exits.  See above for the
+time formats supported.
 
 =item B<overwrite-init-file> I<false>
 

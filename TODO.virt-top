@@ -69,13 +69,15 @@ Thinking about maybe this is something we could controly via a
 be true for other options such as the selection of subsystems and/or
 ordering/sorting ?
 
-*** 10 [jmh] End time for data collection
+*** 10 [jmh] End time for data collection [DONE 0.3.3.0]
 
 In --script mode allow an end time to be specified (when the program
 quits).  Be nice to allow the end time to also be specified relative
 to the current time.
 
 *** 11 [jmh] Roll over CSV log file
+    [PUNTED, but documented a way to do it using ordinary shell
+     scripting in the manual page]
 
 In --csv mode, allow the CSV file to be rolled over and compressed
 periodically (eg. every so often, specific time of day, etc.)

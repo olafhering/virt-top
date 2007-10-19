@@ -129,7 +129,7 @@
 .\" ========================================================================
 .\"
 .IX Title "VIRT-TOP 1"
-.TH VIRT-TOP 1 "2007-10-17" "ocaml-libvirt-0.3.2.9" "Virtualization Support"
+.TH VIRT-TOP 1 "2007-10-19" "ocaml-libvirt-0.3.3.0" "Virtualization Support"
 .SH "NAME"
 virt\-top \- 'top'\-like utility for virtualization stats
 .SH "SUMMARY"
@@ -214,6 +214,21 @@ those to process the \s-1CSV\s0 file).
 Not every version of virt-top supports \s-1CSV\s0 output \- it depends how the
 program was compiled (see \fI\s-1README\s0\fR file in the source distribution
 for details).
+.Sp
+To save space you can compress your \s-1CSV\s0 files (if your shell supports
+this feature, eg. \fIbash\fR):
+.Sp
+.Vb 1
+\& virt-top --csv >(gzip -9 > output.csv.gz)
+.Ve
+.Sp
+You can use a similar trick to split the \s-1CSV\s0 file up.  In this example
+the \s-1CSV\s0 file is split every 1000 lines into files called
+\&\fIoutput.csv.00\fR, \fIoutput.csv.01\fR etc.
+.Sp
+.Vb 1
+\& virt-top --csv >(split -d -l 1000 - output.csv.)
+.Ve
 .IP "\fB\-\-no\-csv\-cpu\fR" 4
 .IX Item "--no-csv-cpu"
 Disable domain \s-1CPU\s0 stats in \s-1CSV\s0 output.
@@ -244,6 +259,44 @@ Do not read any init file.
 .IX Item "--script"
 Script mode.  There will be no user interface.  This is most useful
 when used together with the \fI\-\-csv\fR and \fI\-n\fR options.
+.IP "\fB\-\-end\-time time\fR" 4
+.IX Item "--end-time time"
+The program will exit at the \fItime\fR given.
+.Sp
+The time may be given in one of the following formats:
+.RS 4
+.IP "\fIYYYY-MM-DD \s-1HH:MM:SS\s0\fR" 4
+.IX Item "YYYY-MM-DD HH:MM:SS"
+End time is the date and time given.
+.IP "\fI\s-1HH:MM:SS\s0\fR" 4
+.IX Item "HH:MM:SS"
+End time is the time given, today.
+.IP "\fI+HH:MM:SS\fR" 4
+.IX Item "+HH:MM:SS"
+End time is \s-1HH\s0 hours, \s-1MM\s0 minutes, \s-1SS\s0 seconds in the future (counted
+from the moment that program starts).
+.IP "\fI+secs\fR" 4
+.IX Item "+secs"
+End time is \fIsecs\fR seconds in the future.
+.RE
+.RS 4
+.Sp
+For example to run the program for 3 minutes you could do:
+.Sp
+.Vb 1
+\& virt-top --end-time +00:03:00
+.Ve
+.Sp
+or:
+.Sp
+.Vb 1
+\& virt-top --end-time +180
+.Ve
+.Sp
+Not every version of virt-top supports this option \- it depends how the
+program was compiled (see \fI\s-1README\s0\fR file in the source distribution
+for details).
+.RE
 .IP "\fB\-\-help\fR" 4
 .IX Item "--help"
 Display usage summary.
@@ -361,6 +414,10 @@ Sets secure mode.
 .IP "\fBscript\fR \fItrue|false\fR" 4
 .IX Item "script true|false"
 Sets script mode.
+.IP "\fBend-time\fR \fItime\fR" 4
+.IX Item "end-time time"
+Set the time at which the program exits.  See above for the
+time formats supported.
 .IP "\fBoverwrite-init-file\fR \fIfalse\fR" 4
 .IX Item "overwrite-init-file false"
 If set to \fIfalse\fR then the \fIW\fR key will not overwrite the

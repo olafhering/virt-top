@@ -1,5 +1,11 @@
 2007-10-19  Richard Jones  <rjones@redhat.com>
 
+	* virt-top/virt_top_calendar.ml: Added --end-time option.
+	  Extra optional dep on ocaml-calendar.
+	* virt-top/virt-top.pod: Document how to compress and split
+	  CSV files.  Document --end-time option and time formats.
+	* virt-top/virt_top.ml: Allow sub-second delays when in batch
+	  and script mode.
 	* virt-top/virt_top_utils.mli, virt-top/virt_top.mli: Reorganise
 	  the code and add some interfaces.
 

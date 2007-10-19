@@ -1,5 +1,7 @@
 virt_top.cmi: ../libvirt/libvirt.cmi 
 virt_top_utils.cmi: ../libvirt/libvirt.cmi 
+virt_top_calendar.cmo: virt_top.cmi 
+virt_top_calendar.cmx: virt_top.cmx 
 virt_top_csv.cmo: virt_top.cmi 
 virt_top_csv.cmx: virt_top.cmx 
 virt_top_main.cmo: virt_top.cmi ../libvirt/libvirt.cmi 

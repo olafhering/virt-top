@@ -28,6 +28,7 @@ bindir		= @bindir@
 pkg_curses	= @pkg_curses@
 pkg_xml_light	= @pkg_xml_light@
 pkg_csv		= @pkg_csv@
+pkg_calendar    = @pkg_calendar@
 
 OCAMLCPACKAGES	:= -package unix,extlib,curses,str
 
@@ -39,6 +40,10 @@ endif
 ifeq ($(pkg_csv),yes)
 OBJS		+= virt_top_csv.cmo
 OCAMLCPACKAGES	:= $(OCAMLCPACKAGES),csv
+endif
+ifeq ($(pkg_calendar),yes)
+OBJS		+= virt_top_calendar.cmo
+OCAMLCPACKAGES	:= $(OCAMLCPACKAGES),calendar
 endif
 OBJS		+= virt_top_main.cmo
 

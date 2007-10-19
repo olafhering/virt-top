@@ -30,6 +30,7 @@ To build virt-top (optional):
   ocaml-curses (from http://www.nongnu.org/ocaml-tmk/)
   xml-light (from http://tech.motion-twin.com/doc/xml-light/)
   ocaml CSV library (from http://merjis.com/developers/csv)
+  ocaml-calendar (http://www.lri.fr/~signoles/prog.en.html)
 
   [Only ocaml-curses is required for building virt-top.  The other
   packages are not required, but you will get reduced functionality].
