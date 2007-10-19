@@ -116,33 +116,33 @@ OPTIONS
 
         The time may be given in one of the following formats:
 
-    *YYYY-MM-DD HH:MM:SS*
-        End time is the date and time given.
+        *YYYY-MM-DD HH:MM:SS*
+            End time is the date and time given.
 
-    *HH:MM:SS*
-        End time is the time given, today.
+        *HH:MM:SS*
+            End time is the time given, today.
 
-    *+HH:MM:SS*
-        End time is HH hours, MM minutes, SS seconds in the future (counted
-        from the moment that program starts).
+        *+HH:MM:SS*
+            End time is HH hours, MM minutes, SS seconds in the future
+            (counted from the moment that program starts).
 
-    *+secs*
-        End time is *secs* seconds in the future.
+        *+secs*
+            End time is *secs* seconds in the future.
 
-    For example to run the program for 3 minutes you could do:
+        For example to run the program for 3 minutes you could do:
 
-     virt-top --end-time +00:03:00
+         virt-top --end-time +00:03:00
 
-    or:
+        or:
 
-     virt-top --end-time +180
+         virt-top --end-time +180
 
-    Not every version of virt-top supports this option - it depends how the
-    program was compiled (see *README* file in the source distribution for
-    details).
+        Not every version of virt-top supports this option - it depends how
+        the program was compiled (see *README* file in the source
+        distribution for details).
 
     --help
-    Display usage summary.
+        Display usage summary.
 
 KEYS
     Note that keys are case sensitive. For example use upper-case *P* (shift
