@@ -1,5 +1,13 @@
 2007-11-14  Richard Jones  <rjones@redhat.com>
 
+	* libvirt/libvirt.mli: Added filename = string type to clarify
+	  some function signatures which take a filename.  Added lots
+	  of function documentation.
+	* libvirt/libvirt.ml: Added VIR_FROM_OPENVZ.
+	* configure.ac: Version 0.3.3.3 for release.
+
+2007-11-14  Richard Jones  <rjones@redhat.com>
+
 	* Makefile.in: New rules for releasing and uploading.
 
 2007-11-14  Richard Jones  <rjones@redhat.com>

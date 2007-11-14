@@ -21,6 +21,8 @@ type uuid = string
 
 type xml = string
 
+type filename = string
+
 external get_version : ?driver:string -> unit -> int * int = "ocaml_libvirt_get_version"
 
 let uuid_length = 16
@@ -55,7 +57,7 @@ struct
   external get_max_vcpus : [>`R] t -> ?type_:string -> unit -> int = "ocaml_libvirt_connect_get_max_vcpus"
   external list_domains : [>`R] t -> int -> int array = "ocaml_libvirt_connect_list_domains"
   external num_of_domains : [>`R] t -> int = "ocaml_libvirt_connect_num_of_domains"
-  external get_capabilities : [>`R] t -> string = "ocaml_libvirt_connect_get_capabilities"
+  external get_capabilities : [>`R] t -> xml = "ocaml_libvirt_connect_get_capabilities"
   external num_of_defined_domains : [>`R] t -> int = "ocaml_libvirt_connect_num_of_defined_domains"
   external list_defined_domains : [>`R] t -> int -> string array = "ocaml_libvirt_connect_list_defined_domains"
   external num_of_networks : [>`R] t -> int = "ocaml_libvirt_connect_num_of_networks"
@@ -150,9 +152,9 @@ struct
   external free : [>`R] t -> unit = "ocaml_libvirt_domain_free"
   external suspend : [>`W] t -> unit = "ocaml_libvirt_domain_suspend"
   external resume : [>`W] t -> unit = "ocaml_libvirt_domain_resume"
-  external save : [>`W] t -> string -> unit = "ocaml_libvirt_domain_save"
-  external restore : [>`W] Connect.t -> string -> unit = "ocaml_libvirt_domain_restore"
-  external core_dump : [>`W] t -> string -> unit = "ocaml_libvirt_domain_core_dump"
+  external save : [>`W] t -> filename -> unit = "ocaml_libvirt_domain_save"
+  external restore : [>`W] Connect.t -> filename -> unit = "ocaml_libvirt_domain_restore"
+  external core_dump : [>`W] t -> filename -> unit = "ocaml_libvirt_domain_core_dump"
   external shutdown : [>`W] t -> unit = "ocaml_libvirt_domain_shutdown"
   external reboot : [>`W] t -> unit = "ocaml_libvirt_domain_reboot"
   external get_name : [>`R] t -> string = "ocaml_libvirt_domain_get_name"
@@ -330,6 +332,7 @@ struct
     | VIR_FROM_NET
     | VIR_FROM_TEST
     | VIR_FROM_REMOTE
+    | VIR_FROM_OPENVZ
 
   let string_of_domain = function
     | VIR_FROM_NONE -> "VIR_FROM_NONE"
@@ -346,6 +349,7 @@ struct
     | VIR_FROM_NET -> "VIR_FROM_NET"
     | VIR_FROM_TEST -> "VIR_FROM_TEST"
     | VIR_FROM_REMOTE -> "VIR_FROM_REMOTE"
+    | VIR_FROM_OPENVZ -> "VIR_FROM_OPENVZ"
 
   type t = {
     code : code;
