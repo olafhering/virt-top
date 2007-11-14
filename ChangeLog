@@ -1,3 +1,9 @@
+2007-11-14  Richard Jones  <rjones@redhat.com>
+
+	* libvirt/libvirt.mli, libvirt/libvirt.ml, libvirt/libvirt_c.c:
+	  Added support for virNodeGetFreeMemory and virNodeGetCellsFreeMemory
+	* mlvirsh/mlvirsh.ml: Added 'freecell' command.
+
 2007-10-19  Richard Jones  <rjones@redhat.com>
 
 	* virt-top/virt_top_calendar.ml: Added --end-time option.
