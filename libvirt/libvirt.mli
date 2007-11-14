@@ -105,6 +105,22 @@ sig
      *)
   val get_node_info : [>`R] t -> node_info
 
+  val node_get_free_memory : [> `R] t -> int64
+    (**
+       [node_get_free_memory conn]
+       returns the amount of free memory (not allocated to any guest)
+       in the machine.
+    *)
+
+  val node_get_cells_free_memory : [> `R] t -> int -> int -> int64 array
+    (**
+       [node_get_cells_free_memory conn start max]
+       returns the amount of free memory on each NUMA cell in kilobytes.
+       [start] is the first cell for which we return free memory.
+       [max] is the maximum number of cells for which we return free memory.
+       Returns an array of up to [max] entries in length.
+    *)
+
   val maxcpus_of_node_info : node_info -> int
     (** Calculate the total number of CPUs supported (but not necessarily
 	active) in the host.

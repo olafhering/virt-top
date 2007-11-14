@@ -116,6 +116,16 @@ extern int virDomainSetSchedulerParameters (virDomainPtr domain,
 					    int nparams)
   __attribute__((weak));
 #endif
+#ifdef HAVE_VIRNODEGETFREEMEMORY
+extern unsigned long long virNodeGetFreeMemory (virConnectPtr conn)
+  __attribute__((weak));
+#endif
+#ifdef HAVE_VIRNODEGETCELLSFREEMEMORY
+extern int virNodeGetCellsFreeMemory (virConnectPtr conn,
+				      unsigned long long *freeMems,
+				      int startCell, int maxCells)
+  __attribute__((weak));
+#endif
 #endif /* HAVE_WEAK_SYMBOLS */
 
 /*----------------------------------------------------------------------*/
@@ -531,6 +541,55 @@ ocaml_libvirt_connect_get_node_info (value connv)
   Store_field (rv, 7, Val_int (info.threads));
 
   CAMLreturn (rv);
+}
+
+CAMLprim value
+ocaml_libvirt_connect_node_get_free_memory (value connv)
+{
+#ifdef HAVE_VIRNODEGETFREEMEMORY
+  CAMLparam1 (connv);
+  CAMLlocal1 (rv);
+  virConnectPtr conn = Connect_val (connv);
+  unsigned long long r;
+
+  WEAK_SYMBOL_CHECK (virNodeGetFreeMemory);
+  r = virNodeGetFreeMemory (conn);
+  CHECK_ERROR (r == 0, conn, "virNodeGetFreeMemory");
+
+  rv = caml_copy_int64 ((int64) r);
+  CAMLreturn (rv);
+#else
+  NOT_SUPPORTED ("virNodeGetFreeMemory");
+#endif
+}
+
+CAMLprim value
+ocaml_libvirt_connect_node_get_cells_free_memory (value connv,
+						  value startv, value maxv)
+{
+#ifdef HAVE_VIRNODEGETCELLSFREEMEMORY
+  CAMLparam3 (connv, startv, maxv);
+  CAMLlocal2 (rv, iv);
+  virConnectPtr conn = Connect_val (connv);
+  int start = Int_val (startv);
+  int max = Int_val (maxv);
+  int r, i;
+  unsigned long long freemems[max];
+
+  WEAK_SYMBOL_CHECK (virNodeGetCellsFreeMemory);
+  r = virNodeGetCellsFreeMemory (conn, freemems, start, max);
+  CHECK_ERROR (r == -1, conn, "virNodeGetCellsFreeMemory");
+
+  rv = caml_alloc (r, 0);
+  for (i = 0; i < r; ++i) {
+    iv = caml_copy_int64 ((int64) freemems[i]);
+    Store_field (rv, i, iv);
+  }
+
+  CAMLreturn (rv);
+#else
+  NOT_SUPPORTED ("virNodeGetCellsFreeMemory");
+#endif
 }
 
 CAMLprim value

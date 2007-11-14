@@ -63,6 +63,8 @@ struct
   external num_of_defined_networks : [>`R] t -> int = "ocaml_libvirt_connect_num_of_defined_networks"
   external list_defined_networks : [>`R] t -> int -> string array = "ocaml_libvirt_connect_list_defined_networks"
   external get_node_info : [>`R] t -> node_info = "ocaml_libvirt_connect_get_node_info"
+  external node_get_free_memory : [> `R] t -> int64 = "ocaml_libvirt_connect_node_get_free_memory"
+  external node_get_cells_free_memory : [> `R] t -> int -> int -> int64 array = "ocaml_libvirt_connect_node_get_cells_free_memory"
 
   (* See VIR_NODEINFO_MAXCPUS macro defined in <libvirt.h>. *)
   let maxcpus_of_node_info { nodes = nodes; sockets = sockets;

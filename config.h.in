@@ -57,6 +57,12 @@
 /* Define to 1 if you have the `virDomainSetSchedulerParameters' function. */
 #undef HAVE_VIRDOMAINSETSCHEDULERPARAMETERS
 
+/* Define to 1 if you have the `virNodeGetCellsFreeMemory' function. */
+#undef HAVE_VIRNODEGETCELLSFREEMEMORY
+
+/* Define to 1 if you have the `virNodeGetFreeMemory' function. */
+#undef HAVE_VIRNODEGETFREEMEMORY
+
 /* Define to 1 if your C compiler doesn't accept -c and -o together. */
 #undef NO_MINUS_C_MINUS_O
 

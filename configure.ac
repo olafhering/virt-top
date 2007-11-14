@@ -52,7 +52,7 @@ AC_CHECK_FUNC(virConnectGetCapabilities,
 
 dnl Check for optional libvirt functions added since 0.2.1.
 dnl See: http://libvirt.org/hvsupport.html
-AC_CHECK_FUNCS([virConnectGetHostname virConnectGetURI virDomainBlockStats virDomainGetSchedulerParameters virDomainGetSchedulerType virDomainInterfaceStats virDomainMigrate virDomainSetSchedulerParameters])
+AC_CHECK_FUNCS([virConnectGetHostname virConnectGetURI virDomainBlockStats virDomainGetSchedulerParameters virDomainGetSchedulerType virDomainInterfaceStats virDomainMigrate virDomainSetSchedulerParameters virNodeGetFreeMemory virNodeGetCellsFreeMemory])
 
 dnl Check for optional ncurses.
 AC_CHECK_LIB(ncurses,initscr)

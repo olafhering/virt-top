@@ -138,6 +138,12 @@ let do_command =
     | [str1; str2] -> print (fn (arg1 str1) (Some (arg2 str2)))
     | _ -> failwith "incorrect number of arguments for function"
   in
+  let cmd012 print fn arg1 arg2 = function (* Command with 0, 1 or 2 args. *)
+    | [] -> print (fn None None)
+    | [str1] -> print (fn (Some (arg1 str1)) None)
+    | [str1; str2] -> print (fn (Some (arg1 str1)) (Some (arg2 str2)))
+    | _ -> failwith "incorrect number of arguments for function"
+  in
   let cmdN print fn =		(* Command with any number of args. *)
     fun args -> print (fn args)
   in
@@ -226,6 +232,7 @@ let do_command =
   let no_return _ = () in
   let print_int i = print_endline (string_of_int i) in
   let print_int64 i = print_endline (Int64.to_string i) in
+  let print_int64_array a = Array.iter print_int64 a in
   let print_bool b = print_endline (string_of_bool b) in
   let print_version v =
     let major = v / 1000000 in
@@ -426,6 +433,19 @@ let do_command =
       cmd1 print_endline D.get_xml_desc
 	(arg_full_connection domain_of_string),
       "Print the XML description of a domain.";
+    "freecell",
+      cmd012 print_int64_array (
+	fun start max ->
+	  let conn = get_readonly_connection () in
+	  match start, max with
+	  | None, _ ->
+	      [| C.node_get_free_memory conn |]
+	  | Some start, None ->
+	      C.node_get_cells_free_memory conn start 1
+	  | Some start, Some max ->
+	      C.node_get_cells_free_memory conn start max
+          ) int_of_string int_of_string,
+      "Display free memory for machine, NUMA cell or range of cells";
     "get-autostart",
       cmd1 print_bool D.get_autostart
 	(arg_readonly_connection domain_of_string),
