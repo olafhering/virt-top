@@ -2,7 +2,7 @@ ocaml-libvirt
 ----------------------------------------------------------------------
 
 Copyright (C) 2007 Richard W.M. Jones, Red Hat Inc.
-http://et.redhat.com/~rjones/ocaml-libvirt/
+http://libvirt.org/ocaml/
 http://libvirt.org/
 
 This is a complete set of OCaml bindings around libvirt, exposing all

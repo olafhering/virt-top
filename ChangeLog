@@ -1,5 +1,9 @@
 2007-11-14  Richard Jones  <rjones@redhat.com>
 
+	* Makefile.in: New rules for releasing and uploading.
+
+2007-11-14  Richard Jones  <rjones@redhat.com>
+
 	* libvirt/libvirt.mli, libvirt/libvirt.ml, libvirt/libvirt_c.c:
 	  Added support for virNodeGetFreeMemory and virNodeGetCellsFreeMemory
 	* mlvirsh/mlvirsh.ml: Added 'freecell' command.

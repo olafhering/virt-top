@@ -112,16 +112,27 @@ release: configure
 release_stage_2: clean all opt doc dist
 	$(MAKE) release_stage_3
 
-WEBSITE	= ../redhat/et-website
+WEBSITE	= ../redhat/websites
 
 release_stage_3:
 	rm -f $(WEBSITE)/ocaml-libvirt/html/*.{html,css}
 	cp html/*.{html,css} $(WEBSITE)/ocaml-libvirt/html/
-	cp $(PACKAGE)-$(VERSION).tar.gz $(WEBSITE)/ocaml-libvirt/
 	cp README $(WEBSITE)/ocaml-libvirt/README.txt
 	cp ChangeLog $(WEBSITE)/ocaml-libvirt/ChangeLog.txt
-	cp virt-top/virt-top.txt $(WEBSITE)/virt-top/
-	cp ChangeLog $(WEBSITE)/virt-top/ChangeLog.txt
+#	cp virt-top/virt-top.txt $(WEBSITE)/virt-top/
+#	cp ChangeLog $(WEBSITE)/virt-top/ChangeLog.txt
+
+# Upload to main website.
+
+upload:
+	cd $(WEBSITE)/ocaml-libvirt && \
+	scp ChangeLog.txt index.html README.txt Screenshot*.png \
+	  libvirt.org:/data/www/libvirt.org/ocaml && \
+	scp css/*.css \
+	  libvirt.org:/data/www/libvirt.org/ocaml/css/ && \
+	scp html/*.html html/*.css \
+	  libvirt.org:/data/www/libvirt.org/ocaml/html/
+	scp $(PACKAGE)-$(VERSION).tar.gz libvirt.org:/data/ftp/libvirt/ocaml/
 
 force:
 
