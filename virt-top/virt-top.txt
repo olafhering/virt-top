@@ -31,6 +31,14 @@ OPTIONS
         Connect to URI given. The default is to connect to the Xen
         hypervisor.
 
+        To connect to QEMU/KVM you would normally do *-c qemu:///system*
+
+        To connect to libvirtd on a remote machine you would normally do *-c
+        xen://host/*
+
+        Full details on connection URIs is available at
+        <http://libvirt.org/uri.html>
+
     -d delay
         Set the delay between screen updates in seconds. The default is 3.0
         seconds. You can change this while virt-top is running by pressing

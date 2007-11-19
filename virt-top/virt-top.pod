@@ -46,6 +46,14 @@ Batch mode.  In this mode keypresses are ignored.
 Connect to URI given.  The default is to connect to the Xen
 hypervisor.
 
+To connect to QEMU/KVM you would normally do I<-c qemu:///system>
+
+To connect to libvirtd on a remote machine you would normally do
+I<-c xen://host/>
+
+Full details on connection URIs is available at
+L<http://libvirt.org/uri.html>
+
 =item B<-d delay>
 
 Set the delay between screen updates in seconds.

@@ -129,7 +129,7 @@
 .\" ========================================================================
 .\"
 .IX Title "VIRT-TOP 1"
-.TH VIRT-TOP 1 "2007-10-19" "ocaml-libvirt-0.3.3.0" "Virtualization Support"
+.TH VIRT-TOP 1 "2007-11-19" "ocaml-libvirt-0.3.3.3" "Virtualization Support"
 .SH "NAME"
 virt\-top \- 'top'\-like utility for virtualization stats
 .SH "SUMMARY"
@@ -167,6 +167,14 @@ Batch mode.  In this mode keypresses are ignored.
 .IX Item "-c uri or --connect uri"
 Connect to \s-1URI\s0 given.  The default is to connect to the Xen
 hypervisor.
+.Sp
+To connect to \s-1QEMU/KVM\s0 you would normally do \fI\-c qemu:///system\fR
+.Sp
+To connect to libvirtd on a remote machine you would normally do
+\&\fI\-c xen://host/\fR
+.Sp
+Full details on connection URIs is available at
+<http://libvirt.org/uri.html>
 .IP "\fB\-d delay\fR" 4
 .IX Item "-d delay"
 Set the delay between screen updates in seconds.
