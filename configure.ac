@@ -17,7 +17,7 @@
 
 dnl Process this file with autoconf to produce a configure script.
 
-AC_INIT(ocaml-libvirt,0.3.3.3)
+AC_INIT(ocaml-libvirt,0.3.3.4)
 
 dnl Check for basic C environment.
 AC_PROG_CC
@@ -53,6 +53,11 @@ AC_CHECK_FUNC(virConnectGetCapabilities,
 dnl Check for optional libvirt functions added since 0.2.1.
 dnl See: http://libvirt.org/hvsupport.html
 AC_CHECK_FUNCS([virConnectGetHostname virConnectGetURI virDomainBlockStats virDomainGetSchedulerParameters virDomainGetSchedulerType virDomainInterfaceStats virDomainMigrate virDomainSetSchedulerParameters virNodeGetFreeMemory virNodeGetCellsFreeMemory])
+
+dnl We also use <libvirt/virterror.h>
+AC_CHECK_HEADER([libvirt/virterror.h],
+	[],
+	AC_MSG_ERROR([You must install libvirt development package]))
 
 dnl Check for optional ncurses.
 AC_CHECK_LIB(ncurses,initscr)

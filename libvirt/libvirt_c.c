@@ -1795,6 +1795,72 @@ _raise_virterror (virConnectPtr conn, const char *fn)
   CAMLreturn (Val_unit);
 }
 
+/* Convert the virErrorNumber, virErrorDomain and virErrorLevel enums
+ * into values (longs because they are variants in OCaml).
+ *
+ * The enum values are part of the libvirt ABI so they cannot change,
+ * which means that we can convert these numbers directly into
+ * OCaml variants (which use the same ordering) very fast.
+ *
+ * The tricky part here is when we are linked to a newer version of
+ * libvirt than the one we were compiled against.  If the newer libvirt
+ * generates an error code which we don't know about then we need
+ * to convert it into VIR_*_UNKNOWN (code).
+ */
+
+#define MAX_VIR_CODE 44 /* VIR_ERR_INVALID_MAC */
+#define MAX_VIR_DOMAIN 16 /* VIR_FROM_STATS_LINUX */
+#define MAX_VIR_LEVEL VIR_ERR_ERROR
+
+static inline value
+Val_err_number (virErrorNumber code)
+{
+  CAMLparam0 ();
+  CAMLlocal1 (rv);
+
+  if (0 <= code && code <= MAX_VIR_CODE)
+    rv = Val_int (code);
+  else {
+    rv = caml_alloc (1, 0);	/* VIR_ERR_UNKNOWN (code) */
+    Store_field (rv, 0, Val_int (code));
+  }
+
+  CAMLreturn (rv);
+}
+
+static inline value
+Val_err_domain (virErrorDomain code)
+{
+  CAMLparam0 ();
+  CAMLlocal1 (rv);
+
+  if (0 <= code && code <= MAX_VIR_DOMAIN)
+    rv = Val_int (code);
+  else {
+    rv = caml_alloc (1, 0);	/* VIR_FROM_UNKNOWN (code) */
+    Store_field (rv, 0, Val_int (code));
+  }
+
+  CAMLreturn (rv);
+}
+
+static inline value
+Val_err_level (virErrorLevel code)
+{
+  CAMLparam0 ();
+  CAMLlocal1 (rv);
+
+  if (0 <= code && code <= MAX_VIR_LEVEL)
+    rv = Val_int (code);
+  else {
+    rv = caml_alloc (1, 0);	/* VIR_ERR_UNKNOWN_LEVEL (code) */
+    Store_field (rv, 0, Val_int (code));
+  }
+
+  CAMLreturn (rv);
+}
+
+/* Convert a virterror to a value. */
 static value
 Val_virterror (virErrorPtr err)
 {
@@ -1802,11 +1868,11 @@ Val_virterror (virErrorPtr err)
   CAMLlocal3 (rv, connv, optv);
 
   rv = caml_alloc (12, 0);
-  Store_field (rv, 0, Val_int (err->code));
-  Store_field (rv, 1, Val_int (err->domain));
+  Store_field (rv, 0, Val_err_number (err->code));
+  Store_field (rv, 1, Val_err_domain (err->domain));
   Store_field (rv, 2,
 	       Val_opt (err->message, (Val_ptr_t) caml_copy_string));
-  Store_field (rv, 3, Val_int (err->level));
+  Store_field (rv, 3, Val_err_level (err->level));
 
   /* conn, dom and net fields, all optional */
   if (err->conn) {

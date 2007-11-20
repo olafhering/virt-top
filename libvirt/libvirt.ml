@@ -260,6 +260,8 @@ struct
     | VIR_WAR_NO_NETWORK
     | VIR_ERR_NO_DOMAIN
     | VIR_ERR_NO_NETWORK
+    | VIR_ERR_INVALID_MAC
+    | VIR_ERR_UNKNOWN of int
 
   let string_of_code = function
     | VIR_ERR_OK -> "VIR_ERR_OK"
@@ -306,16 +308,8 @@ struct
     | VIR_WAR_NO_NETWORK -> "VIR_WAR_NO_NETWORK"
     | VIR_ERR_NO_DOMAIN -> "VIR_ERR_NO_DOMAIN"
     | VIR_ERR_NO_NETWORK -> "VIR_ERR_NO_NETWORK"
-
-  type level =
-    | VIR_ERR_NONE
-    | VIR_ERR_WARNING
-    | VIR_ERR_ERROR
-
-  let string_of_level = function
-    | VIR_ERR_NONE -> "VIR_ERR_NONE"
-    | VIR_ERR_WARNING -> "VIR_ERR_WARNING"
-    | VIR_ERR_ERROR -> "VIR_ERR_ERROR"
+    | VIR_ERR_INVALID_MAC -> "VIR_ERR_INVALID_MAC"
+    | VIR_ERR_UNKNOWN i -> "VIR_ERR_" ^ string_of_int i
 
   type domain =
     | VIR_FROM_NONE
@@ -333,6 +327,9 @@ struct
     | VIR_FROM_TEST
     | VIR_FROM_REMOTE
     | VIR_FROM_OPENVZ
+    | VIR_FROM_XENXM
+    | VIR_FROM_STATS_LINUX
+    | VIR_FROM_UNKNOWN of int
 
   let string_of_domain = function
     | VIR_FROM_NONE -> "VIR_FROM_NONE"
@@ -350,6 +347,21 @@ struct
     | VIR_FROM_TEST -> "VIR_FROM_TEST"
     | VIR_FROM_REMOTE -> "VIR_FROM_REMOTE"
     | VIR_FROM_OPENVZ -> "VIR_FROM_OPENVZ"
+    | VIR_FROM_XENXM -> "VIR_FROM_XENXM"
+    | VIR_FROM_STATS_LINUX -> "VIR_FROM_STATS_LINUX"
+    | VIR_FROM_UNKNOWN i -> "VIR_FROM_" ^ string_of_int i
+
+  type level =
+    | VIR_ERR_NONE
+    | VIR_ERR_WARNING
+    | VIR_ERR_ERROR
+    | VIR_ERR_UNKNOWN_LEVEL of int
+
+  let string_of_level = function
+    | VIR_ERR_NONE -> "VIR_ERR_NONE"
+    | VIR_ERR_WARNING -> "VIR_ERR_WARNING"
+    | VIR_ERR_ERROR -> "VIR_ERR_ERROR"
+    | VIR_ERR_UNKNOWN_LEVEL i -> "VIR_ERR_LEVEL_" ^ string_of_int i
 
   type t = {
     code : code;

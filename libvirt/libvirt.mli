@@ -463,17 +463,12 @@ sig
     | VIR_WAR_NO_NETWORK
     | VIR_ERR_NO_DOMAIN
     | VIR_ERR_NO_NETWORK
+    | VIR_ERR_INVALID_MAC
+	(* ^^ NB: If you add a variant you MUST edit libvirt_c.c:MAX_VIR_* *)
+    | VIR_ERR_UNKNOWN of int
 	(** See [<libvirt/virterror.h>] for meaning of these codes. *)
 
   val string_of_code : code -> string
-
-  type level =
-    | VIR_ERR_NONE
-    | VIR_ERR_WARNING
-    | VIR_ERR_ERROR
-	(** No error, a warning or an error. *)
-
-  val string_of_level : level -> string
 
   type domain =
     | VIR_FROM_NONE
@@ -491,9 +486,23 @@ sig
     | VIR_FROM_TEST
     | VIR_FROM_REMOTE
     | VIR_FROM_OPENVZ
+    | VIR_FROM_XENXM
+    | VIR_FROM_STATS_LINUX
+	(* ^^ NB: If you add a variant you MUST edit libvirt_c.c: MAX_VIR_* *)
+    | VIR_FROM_UNKNOWN of int
 	(** Subsystem / driver which produced the error. *)
 
   val string_of_domain : domain -> string
+
+  type level =
+    | VIR_ERR_NONE
+    | VIR_ERR_WARNING
+    | VIR_ERR_ERROR
+	(* ^^ NB: If you add a variant you MUST edit libvirt_c.c: MAX_VIR_* *)
+    | VIR_ERR_UNKNOWN_LEVEL of int
+	(** No error, a warning or an error. *)
+
+  val string_of_level : level -> string
 
   type t = {
     code : code;			(** Error code. *)

@@ -1,3 +1,19 @@
+2007-11-20  Richard Jones  <rjones@redhat.com>
+
+	* libvirt/libvirt.mli, libvirt/libvirt.ml: New error numbers
+	  in base libvirt.
+	* libvirt/libvirt_c.c: Gracefully handle the case where libvirt
+	  throws an error number we have not heard of before (eg. when
+	  dynamic linking with newer libvirt).
+	* configure.ac: Check <libvirt/virterror.h> exists.
+	* configure.ac: Version 0.3.3.4.
+	* virt-top/virt-top.pod: Fixed ocaml libvirt website URI in manpage.
+
+2007-11-19  Richard Jones  <rjones@redhat.com>
+
+	* virt-top/virt-top.pod: Example connection URIs in virt-top manpage
+	  (bug 390691).
+
 2007-11-14  Richard Jones  <rjones@redhat.com>
 
 	* libvirt/libvirt.mli: Added filename = string type to clarify
