@@ -266,8 +266,9 @@ INIT FILE
     this behaviour may change in the future.
 
 SEE ALSO
-    top(1), virsh(1), xm(1), xentop(1), <http://www.libvirt.org/>,
-    <http://et.redhat.com/~rjones/>, <http://caml.inria.fr/>
+    top(1), virsh(1), xm(1), xentop(1), <http://www.libvirt.org/ocaml/>,
+    <http://www.libvirt.org/>, <http://et.redhat.com/~rjones/>,
+    <http://caml.inria.fr/>
 
 AUTHORS
     Richard W.M. Jones <rjones @ redhat . com>
