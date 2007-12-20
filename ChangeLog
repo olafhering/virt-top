@@ -3,6 +3,7 @@
 	* libvirt/libvirt_c.c: Use enter/leave_blocking_section around
 	  synchronous libvirt API calls, so that multithreaded OCaml
 	  programs can be used.
+	* configure.ac: Version 0.4.0.0 for release.
 
 2007-11-20  Richard Jones  <rjones@redhat.com>
 
