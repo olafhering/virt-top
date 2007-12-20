@@ -4,6 +4,11 @@
 	  synchronous libvirt API calls, so that multithreaded OCaml
 	  programs can be used.
 	* configure.ac: Version 0.4.0.0 for release.
+	* libvirt/libvirt.ml, libvirt/libvirt.mli, libvirt/libvirt_c.c:
+	  Change the ad-hoc "foo not supported" exception into a
+	  specific Libvirt.Not_supported "foo" exception.
+	* virt-top/virt_top.ml: Change virt-top to understand new
+	  exception type.
 
 2007-11-20  Richard Jones  <rjones@redhat.com>
 

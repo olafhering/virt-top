@@ -401,10 +401,13 @@ struct
 end
 
 exception Virterror of Virterror.t
+exception Not_supported of string
 
 (* Initialization. *)
 external c_init : unit -> unit = "ocaml_libvirt_init"
 let () =
   Callback.register_exception
     "ocaml_libvirt_virterror" (Virterror (Virterror.no_error ()));
+  Callback.register_exception
+    "ocaml_libvirt_not_supported" (Not_supported "");
   c_init ()

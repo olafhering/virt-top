@@ -241,7 +241,7 @@ OPTIONS" in
     (* qemu:/// and other URIs didn't support virConnectGetHostname until
      * libvirt 0.3.3.  Before that they'd throw a virterror. *)
     | Libvirt.Virterror _
-    | Invalid_argument "virConnectGetHostname not supported" -> "unknown" in
+    | Libvirt.Not_supported "virConnectGetHostname" -> "unknown" in
 
   let libvirt_version =
     let v, _ = Libvirt.get_version () in
@@ -433,12 +433,12 @@ let collect, clear_pcpu_display_data =
 	      let block_stats =
 		try List.map (fun dev -> dev, D.block_stats dom dev) blkdevs
 		with
-		| Invalid_argument "virDomainBlockStats not supported"
+		| Libvirt.Not_supported "virDomainBlockStats"
 		| Libvirt.Virterror _ -> [] in
 	      let interface_stats =
 		try List.map (fun dev -> dev, D.interface_stats dom dev) netifs
 		with
-		| Invalid_argument "virDomainInterfaceStats not supported"
+		| Libvirt.Not_supported "virDomainInterfaceStats"
 		| Libvirt.Virterror _ -> [] in
 
 	      let prev_info, prev_block_stats, prev_interface_stats =

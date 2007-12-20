@@ -40,7 +40,8 @@ static char *Optstring_val (value strv);
 typedef value (*Val_ptr_t) (void *);
 static value Val_opt (void *ptr, Val_ptr_t Val_ptr);
 /*static value option_default (value option, value deflt);*/
-static value _raise_virterror (virConnectPtr conn, const char *fn);
+static void _raise_virterror (virConnectPtr conn, const char *fn);
+static void not_supported (const char *fn);
 static value Val_virterror (virErrorPtr err);
 
 /* Use this around synchronous libvirt API calls to release the OCaml
@@ -61,9 +62,6 @@ static value Val_virterror (virErrorPtr err);
 #define CHECK_ERROR(cond, conn, fn) \
   do { if (cond) _raise_virterror (conn, fn); } while (0)
 
-#define NOT_SUPPORTED(fn)			\
-  caml_invalid_argument (fn " not supported")
-
 /* For more about weak symbols, see:
  * http://kolpackov.net/pipermail/notes/2004-March/000006.html
  * We are using this to do runtime detection of library functions
@@ -81,7 +79,7 @@ static value Val_virterror (virErrorPtr err);
 
 #ifdef HAVE_WEAK_SYMBOLS
 #define WEAK_SYMBOL_CHECK(sym)				\
-  do { if (!sym) NOT_SUPPORTED(#sym); } while (0)
+  do { if (!sym) not_supported(#sym); } while (0)
 #else
 #define WEAK_SYMBOL_CHECK(sym)
 #endif /* HAVE_WEAK_SYMBOLS */
@@ -338,7 +336,7 @@ ocaml_libvirt_connect_get_hostname (value connv)
   free (r);
   CAMLreturn (rv);
 #else
-  NOT_SUPPORTED ("virConnectGetHostname");
+  not_supported ("virConnectGetHostname");
 #endif
 }
 
@@ -359,7 +357,7 @@ ocaml_libvirt_connect_get_uri (value connv)
   free (r);
   CAMLreturn (rv);
 #else
-  NOT_SUPPORTED ("virConnectGetURI");
+  not_supported ("virConnectGetURI");
 #endif
 }
 
@@ -575,7 +573,7 @@ ocaml_libvirt_connect_node_get_free_memory (value connv)
   rv = caml_copy_int64 ((int64) r);
   CAMLreturn (rv);
 #else
-  NOT_SUPPORTED ("virNodeGetFreeMemory");
+  not_supported ("virNodeGetFreeMemory");
 #endif
 }
 
@@ -604,7 +602,7 @@ ocaml_libvirt_connect_node_get_cells_free_memory (value connv,
 
   CAMLreturn (rv);
 #else
-  NOT_SUPPORTED ("virNodeGetCellsFreeMemory");
+  not_supported ("virNodeGetCellsFreeMemory");
 #endif
 }
 
@@ -1014,7 +1012,7 @@ ocaml_libvirt_domain_get_scheduler_type (value domv)
   Store_field (rv, 1, nparams);
   CAMLreturn (rv);
 #else
-  NOT_SUPPORTED ("virDomainGetSchedulerType");
+  not_supported ("virDomainGetSchedulerType");
 #endif
 }
 
@@ -1070,7 +1068,7 @@ ocaml_libvirt_domain_get_scheduler_parameters (value domv, value nparamsv)
   }
   CAMLreturn (rv);
 #else
-  NOT_SUPPORTED ("virDomainGetSchedulerParameters");
+  not_supported ("virDomainGetSchedulerParameters");
 #endif
 }
 
@@ -1129,7 +1127,7 @@ ocaml_libvirt_domain_set_scheduler_parameters (value domv, value paramsv)
 
   CAMLreturn (Val_unit);
 #else
-  NOT_SUPPORTED ("virDomainSetSchedulerParameters");
+  not_supported ("virDomainSetSchedulerParameters");
 #endif
 }
 
@@ -1360,7 +1358,7 @@ ocaml_libvirt_domain_migrate_native (value domv, value dconnv, value flagsv, val
   CAMLreturn (rv);
 
 #else /* virDomainMigrate not supported */
-  NOT_SUPPORTED ("virDomainMigrate");
+  not_supported ("virDomainMigrate");
 #endif
 }
 
@@ -1397,7 +1395,7 @@ ocaml_libvirt_domain_block_stats (value domv, value pathv)
 
   CAMLreturn (rv);
 #else
-  NOT_SUPPORTED ("virDomainBlockStats");
+  not_supported ("virDomainBlockStats");
 #endif
 }
 
@@ -1429,7 +1427,7 @@ ocaml_libvirt_domain_interface_stats (value domv, value pathv)
 
   CAMLreturn (rv);
 #else
-  NOT_SUPPORTED ("virDomainInterfaceStats");
+  not_supported ("virDomainInterfaceStats");
 #endif
 }
 
@@ -1784,7 +1782,7 @@ option_default (value option, value deflt)
 }
 #endif
 
-static value
+static void
 _raise_virterror (virConnectPtr conn, const char *fn)
 {
   CAMLparam0 ();
@@ -1808,7 +1806,21 @@ _raise_virterror (virConnectPtr conn, const char *fn)
   caml_raise_with_arg (*caml_named_value ("ocaml_libvirt_virterror"), rv);
 
   /*NOTREACHED*/
-  CAMLreturn (Val_unit);
+  CAMLreturn0;
+}
+
+/* Raise an error if a function is not supported. */
+static void
+not_supported (const char *fn)
+{
+  CAMLparam0 ();
+  CAMLlocal1 (fnv);
+
+  fnv = caml_copy_string (fn);
+  caml_raise_with_arg (*caml_named_value ("ocaml_libvirt_not_supported"), fnv);
+
+  /*NOTREACHED*/
+  CAMLreturn0;
 }
 
 /* Convert the virErrorNumber, virErrorDomain and virErrorLevel enums

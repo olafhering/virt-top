@@ -550,12 +550,16 @@ exception Virterror of Virterror.t
 (** This exception can be raised by any library function that detects
     an error.  To get a printable error message, call
     {!Virterror.to_string} on the content of this exception.
+*)
 
-    Note that functions may also raise
-    [Invalid_argument "virFoo not supported"]
-    (where virFoo is the libvirt function name) if a function is
-    not supported at either compile or runtime.  This applies to
+exception Not_supported of string
+(**
+    Functions may raise
+    [Not_supported "virFoo"]
+    (where [virFoo] is the libvirt function name) if a function is
+    not supported at either compile or run time.  This applies to
     any libvirt function added after version 0.2.1.
+
     See also [http://libvirt.org/hvsupport.html]
 *)
 
