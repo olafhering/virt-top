@@ -1,3 +1,9 @@
+2007-12-20  Richard Jones  <rjones@redhat.com>
+
+	* libvirt/libvirt_c.c: Use enter/leave_blocking_section around
+	  synchronous libvirt API calls, so that multithreaded OCaml
+	  programs can be used.
+
 2007-11-20  Richard Jones  <rjones@redhat.com>
 
 	* libvirt/libvirt.mli, libvirt/libvirt.ml: New error numbers
