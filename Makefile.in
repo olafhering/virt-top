@@ -20,23 +20,28 @@ VERSION		= @PACKAGE_VERSION@
 
 INSTALL		= @INSTALL@
 
+pkg_extlib	= @pkg_extlib@
 pkg_lablgtk2	= @pkg_lablgtk2@
 pkg_curses	= @pkg_curses@
 pkg_xml_light	= @pkg_xml_light@
 
 OCAMLDOCFLAGS	:= -html -sort
 
-SUBDIRS		:= libvirt examples mlvirsh
+SUBDIRS		:= libvirt examples
+
+ifeq ($(pkg_extlib),yes)
+SUBDIRS		+= mlvirsh
+endif
 
 ifeq ($(pkg_lablgtk2),yes)
 SUBDIRS		+= mlvirtmanager
 endif
 
-ifeq ($(pkg_curses),yes)
+ifeq ($(pkg_extlib)$(pkg_curses),yesyes)
 SUBDIRS		+= virt-top
 endif
 
-ifeq ($(pkg_xml_light),yes)
+ifeq ($(pkg_extlib)$(pkg_xml_light),yesyes)
 SUBDIRS		+= virt-df
 endif
 
@@ -54,6 +59,7 @@ clean:
 	rm -f mlvirsh/mlvirsh
 	rm -f mlvirtmanager/mlvirtmanager
 	rm -f virt-top/virt-top
+	rm -f virt-df/virt-df
 
 distclean: clean
 	rm -f config.h config.log config.status configure

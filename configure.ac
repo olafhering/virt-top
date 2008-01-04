@@ -65,18 +65,18 @@ AC_CHECK_LIB(ncurses,initscr)
 dnl Check for basic OCaml environment & findlib.
 AC_PROG_OCAML
 AC_PROG_FINDLIB
+if test "x$OCAMLFIND" = "x"; then
+   AC_MSG_ERROR([Cannot find required program 'ocamlfind' (part of findlib)])
+fi
 
 dnl Check for required OCaml packages.
 AC_CHECK_OCAML_PKG(unix)
 if test "x$pkg_unix" != "xyes"; then
    AC_MSG_ERROR([Cannot find required OCaml package 'unix'])
 fi
-AC_CHECK_OCAML_PKG(extlib)
-if test "x$pkg_extlib" != "xyes"; then
-   AC_MSG_ERROR([Cannot find required OCaml package 'extlib'])
-fi
 
 dnl Check for optional OCaml packages.
+AC_CHECK_OCAML_PKG(extlib)
 AC_CHECK_OCAML_PKG(lablgtk2)
 AC_CHECK_OCAML_PKG(curses)
 AC_CHECK_OCAML_PKG(gettext)

@@ -1,3 +1,11 @@
+2008-01-04  Richard Jones  <rjones@redhat.com>
+
+	Make extlib an optional dependency.
+	* Makefile.in, README, configure.ac, examples/Makefile.in,
+	  libvirt/Makefile.in, mlvirtmanager/Makefile.in: Much code
+	  doesn't really need extlib, so make it optional.
+	  Bail earlier in configure step if we don't have ocamlfind.
+
 2007-12-20  Richard Jones  <rjones@redhat.com>
 
 	* libvirt/libvirt_c.c: Use enter/leave_blocking_section around

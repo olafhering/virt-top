@@ -12,28 +12,33 @@ known functionality to OCaml programs.
 Requirements
 ----------------------------------------------------------------------
 
-To build the bindings and mlvirsh (required):
+To build the bindings (required):
 
   GNU make, gcc
   libvirt >= 0.2.1 (from http://libvirt.org/,
   	     	    get the latest version if you can)
   ocaml >= 3.08 (from http://caml.inria.fr/)
   findlib (from http://www.ocaml-programming.de/packages/)
-  Extlib (from http://ocaml-lib.sourceforge.net/)
 
 To build the OCaml interface documentation (optional):
 
   ocamldoc (part of OCaml itself)
 
+To build mlvirsh (optional):
+
+  Extlib (from http://ocaml-lib.sourceforge.net/)
+
 To build virt-top (optional):
 
   ocaml-curses (from http://www.nongnu.org/ocaml-tmk/)
+  Extlib (from http://ocaml-lib.sourceforge.net/)
   xml-light (from http://tech.motion-twin.com/doc/xml-light/)
   ocaml CSV library (from http://merjis.com/developers/csv)
   ocaml-calendar (http://www.lri.fr/~signoles/prog.en.html)
 
-  [Only ocaml-curses is required for building virt-top.  The other
-  packages are not required, but you will get reduced functionality].
+  [Only ocaml-curses and Extlib are required for building virt-top.
+  The other packages are not required, but you will get reduced
+  functionality].
 
 To build mlvirtmanager (optional):
 

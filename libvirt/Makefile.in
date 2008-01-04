@@ -23,7 +23,7 @@ CFLAGS		:= @CFLAGS@ \
 		   -g
 LDFLAGS		:= @LDFLAGS@
 
-OCAMLCPACKAGES	:= -package extlib,unix
+OCAMLCPACKAGES	:= -package unix
 OCAMLCFLAGS	:= -g
 OCAMLCLIBS	:= -linkpkg
 

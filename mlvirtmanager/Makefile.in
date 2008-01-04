@@ -21,7 +21,7 @@ prefix		= @prefix@
 exec_prefix	= @exec_prefix@
 bindir		= @bindir@
 
-OCAMLCPACKAGES	:= -package extlib,unix,lablgtk2 -I ../libvirt
+OCAMLCPACKAGES	:= -package unix,lablgtk2 -I ../libvirt
 OCAMLCFLAGS	:= -g
 OCAMLCLIBS	:= -linkpkg
 

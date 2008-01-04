@@ -1,4 +1,4 @@
-OCAMLCPACKAGES	:= -package extlib,unix -I ../libvirt
+OCAMLCPACKAGES	:= -package unix -I ../libvirt
 OCAMLCFLAGS	:= -g
 OCAMLCLIBS	:= -linkpkg
 
