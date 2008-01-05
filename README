@@ -18,6 +18,9 @@ To build the bindings (required):
   libvirt >= 0.2.1 (from http://libvirt.org/,
   	     	    get the latest version if you can)
   ocaml >= 3.08 (from http://caml.inria.fr/)
+
+Optional, but highly recommended:
+
   findlib (from http://www.ocaml-programming.de/packages/)
 
 To build the OCaml interface documentation (optional):
@@ -80,6 +83,14 @@ may need to set your $LD_LIBRARY_PATH environment variable so it
 contains the build directory.  eg:
 
   LD_LIBRARY_PATH=libvirt/ mlvirsh/mlvirsh.opt
+
+
+Windows
+----------------------------------------------------------------------
+
+I have built libvirt (the bindings) and examples on Windows using the
+MinGW port of OCaml.  It's quite likely that it will also work under
+VC++, but I have not tested this.
 
 
 mlvirsh

@@ -1,5 +1,8 @@
 2008-01-05  Richard Jones  <rjones@redhat.com>
 
+	Update documentation for Windows.
+	* README: Update documentation for Windows.
+
 	Build libvirt and examples on Windows (MinGW).
 	* aclocal.m4: Add AC_CHECK_OCAML_MODULE to check for OCaml
 	  modules directly (without ocamlfind being needed).
