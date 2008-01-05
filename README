@@ -84,9 +84,9 @@ contains the build directory.  eg:
 Windows
 ----------------------------------------------------------------------
 
-I have built libvirt (the bindings) and examples on Windows using the
-MinGW port of OCaml.  It's quite likely that it will also work under
-VC++, but I have not tested this.
+I have built libvirt (the bindings), examples, mlvirsh and
+mlvirtmanager on Windows using the MinGW port of OCaml.  It's quite
+likely that it will also work under VC++, but I have not tested this.
 
 
 mlvirsh

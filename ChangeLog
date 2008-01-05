@@ -1,5 +1,11 @@
 2008-01-05  Richard Jones  <rjones@redhat.com>
 
+	mlvirtmanager compiles and runs on Windows (MinGW).
+	* configure.ac: Directories to search for optional modules were
+	  specified incorrectly - fixed.
+	* mlvirtmanager/Makefile.in: Changed so can build without
+	  ocamlfind, and checked it can build on Windows.
+
 	mlvirsh can compile without extlib
 	* mlvirsh/mlvirsh.ml: mlvirsh only needed three functions from
 	  extlib, so copy them in here to avoid the dependency.

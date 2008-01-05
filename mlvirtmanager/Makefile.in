@@ -21,13 +21,23 @@ prefix		= @prefix@
 exec_prefix	= @exec_prefix@
 bindir		= @bindir@
 
+OCAMLFIND	= @OCAMLFIND@
+
+ifneq ($(OCAMLFIND),)
 OCAMLCPACKAGES	:= -package unix,lablgtk2 -I ../libvirt
 OCAMLCFLAGS	:= -g
 OCAMLCLIBS	:= -linkpkg
-
 OCAMLOPTPACKAGES := $(OCAMLCPACKAGES)
 OCAMLOPTFLAGS	:=
 OCAMLOPTLIBS	:= $(OCAMLCLIBS)
+else
+OCAMLCINCS	:= -I @pkg_lablgtk2@ -I ../libvirt
+OCAMLCFLAGS	:= -g
+OCAMLCLIBS	:= unix.cma lablgtk.cma
+OCAMLOPTINCS	:= $(OCAMLCINCS)
+OCAMLOPTFLAGS	:=
+OCAMLOPTLIBS	:= unix.cmxa lablgtk.cmxa
+endif
 
 export LIBRARY_PATH=../libvirt
 export LD_LIBRARY_PATH=../libvirt
@@ -48,14 +58,25 @@ all: $(BYTE_TARGETS)
 
 opt: $(OPT_TARGETS)
 
+ifneq ($(OCAMLFIND),)
 mlvirtmanager: $(VIRTMANAGER_OBJS)
-	ocamlfind ocamlc $(OCAMLCPACKAGES) $(OCAMLCFLAGS) $(OCAMLCLIBS) \
-	  ../libvirt/mllibvirt.cma gtkInit.cmo -o $@ $<
+	$(OCAMLFIND) ocamlc $(OCAMLCPACKAGES) $(OCAMLCFLAGS) $(OCAMLCLIBS) \
+	  ../libvirt/mllibvirt.cma gtkInit.cmo -o $@ $^
 
 mlvirtmanager.opt: $(VIRTMANAGER_XOBJS)
-	ocamlfind ocamlopt \
+	$(OCAMLFIND) ocamlopt \
 	  $(OCAMLOPTPACKAGES) $(OCAMLOPTFLAGS) $(OCAMLOPTLIBS) \
-	  ../libvirt/mllibvirt.cmxa gtkInit.cmx -o $@ $<
+	  ../libvirt/mllibvirt.cmxa gtkInit.cmx -o $@ $^
+else
+mlvirtmanager: $(VIRTMANAGER_OBJS)
+	$(OCAMLC) $(OCAMLCINCS) $(OCAMLCFLAGS) $(OCAMLCLIBS) \
+	  ../libvirt/mllibvirt.cma gtkInit.cmo -o $@ $^
+
+mlvirtmanager.opt: $(VIRTMANAGER_XOBJS)
+	$(OCAMLOPT) \
+	  $(OCAMLOPTINCS) $(OCAMLOPTFLAGS) $(OCAMLOPTLIBS) \
+	  ../libvirt/mllibvirt.cmxa gtkInit.cmx -o $@ $^
+endif
 
 install:
 	if [ -x mlvirtmanager.opt ]; then \

@@ -122,13 +122,13 @@ else
     fi
 
     dnl Check for optional OCaml modules.
-    AC_CHECK_OCAML_MODULE(extlib,pkg_extlib,ExtString,[extlib])
-    AC_CHECK_OCAML_MODULE(lablgtk2,pkg_lablgtk2,GMain,[lablgtk2])
-    AC_CHECK_OCAML_MODULE(curses,pkg_curses,Curses,[curses])
-    AC_CHECK_OCAML_MODULE(gettext,pkg_gettext,Gettext,[gettext]) dnl XXX
-    AC_CHECK_OCAML_MODULE(xml-light,pkg_xml_light,Xml,[xml-light])
-    AC_CHECK_OCAML_MODULE(csv,pkg_csv,Csv,[csv])
-    AC_CHECK_OCAML_MODULE(calendar,pkg_calendar,Calendar,[calendar])
+    AC_CHECK_OCAML_MODULE(extlib,pkg_extlib,ExtString,[+extlib])
+    AC_CHECK_OCAML_MODULE(lablgtk2,pkg_lablgtk2,GMain,[+lablgtk2])
+    AC_CHECK_OCAML_MODULE(curses,pkg_curses,Curses,[+curses])
+    AC_CHECK_OCAML_MODULE(gettext,pkg_gettext,Gettext,[+gettext]) dnl XXX
+    AC_CHECK_OCAML_MODULE(xml-light,pkg_xml_light,Xml,[+xml-light])
+    AC_CHECK_OCAML_MODULE(csv,pkg_csv,Csv,[+csv])
+    AC_CHECK_OCAML_MODULE(calendar,pkg_calendar,Calendar,[+calendar])
 fi
 
 dnl Which subpackages (== subdirs) will we build?
