@@ -132,10 +132,7 @@ else
 fi
 
 dnl Which subpackages (== subdirs) will we build?
-subdirs="libvirt examples"
-if test "x$pkg_extlib" != "xno"; then
-    subdirs="$subdirs mlvirsh"
-fi
+subdirs="libvirt examples mlvirsh"
 if test "x$pkg_lablgtk2" != "xno"; then
     subdirs="$subdirs mlvirtmanager"
 fi

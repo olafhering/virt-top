@@ -17,7 +17,6 @@
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 *)
 
-open ExtString
 open Printf
 
 module C = Libvirt.Connect
@@ -75,6 +74,48 @@ and input_all chan =
     Buffer.add_substring buf tmp 0 !n;
   done;
   Buffer.contents buf
+
+(* Split a string at a separator.
+ * Functions copied from extlib Copyright (C) 2003 Nicolas Cannasse et al.
+ * to avoid the explicit dependency on extlib.
+ *)
+let str_find str sub =
+  let sublen = String.length sub in
+  if sublen = 0 then
+    0
+  else
+    let found = ref 0 in
+    let len = String.length str in
+    try
+      for i = 0 to len - sublen do
+        let j = ref 0 in
+        while String.unsafe_get str (i + !j) = String.unsafe_get sub !j do
+          incr j;
+          if !j = sublen then begin found := i; raise Exit; end;
+        done;
+      done;
+      raise Not_found
+    with
+      Exit -> !found
+
+let str_split str sep =
+  let p = str_find str sep in
+  let len = String.length sep in
+  let slen = String.length str in
+  String.sub str 0 p, String.sub str (p + len) (slen - p - len)
+
+let str_nsplit str sep =
+  if str = "" then []
+  else (
+    let rec nsplit str sep =
+      try
+	let s1 , s2 = str_split str sep in
+	s1 :: nsplit s2 sep
+      with
+	Not_found -> [str]
+    in
+    nsplit str sep
+  )
 
 (* Hypervisor connection. *)
 type conn_t = No_connection | RO of Libvirt.ro C.t | RW of Libvirt.rw C.t
@@ -224,7 +265,7 @@ let do_command =
     let cpumap =
       String.make (C.cpumaplen (C.maxcpus_of_node_info info)) '\000' in
     List.iter (C.use_cpu cpumap)
-      (List.map int_of_string (String.nsplit str ","));
+      (List.map int_of_string (str_nsplit str ","));
     cpumap
   in
 
@@ -680,7 +721,7 @@ let rec interactive_mode () =
     | RW _ -> "mlvirsh# " in
   print_string prompt;
   let command = read_line () in
-  (match String.nsplit command " " with
+  (match str_nsplit command " " with
    | [] -> ()
    | command :: args ->
        do_command command args

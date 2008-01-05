@@ -1,5 +1,12 @@
 2008-01-05  Richard Jones  <rjones@redhat.com>
 
+	mlvirsh can compile without extlib
+	* mlvirsh/mlvirsh.ml: mlvirsh only needed three functions from
+	  extlib, so copy them in here to avoid the dependency.
+	* configure.ac: No dependency on extlib for mlvirsh.
+	* mlvirsh/Makefile.in: Changed so can build without ocamlfind.
+	* README: Updated documentation.
+
 	Update documentation for Windows.
 	* README: Update documentation for Windows.
 

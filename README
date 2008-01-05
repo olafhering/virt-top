@@ -12,7 +12,7 @@ known functionality to OCaml programs.
 Requirements
 ----------------------------------------------------------------------
 
-To build the bindings (required):
+To build the bindings, examples, and mlvirsh (required):
 
   GNU make, gcc
   libvirt >= 0.2.1 (from http://libvirt.org/,
@@ -26,10 +26,6 @@ Optional, but highly recommended:
 To build the OCaml interface documentation (optional):
 
   ocamldoc (part of OCaml itself)
-
-To build mlvirsh (optional):
-
-  Extlib (from http://ocaml-lib.sourceforge.net/)
 
 To build virt-top (optional):
 
