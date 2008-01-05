@@ -16,23 +16,43 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
 
 # This file is included by Makefiles in subdirectories.
-#
+
+OCAMLFIND	= @OCAMLFIND@
+OCAMLDEP	= @OCAMLDEP@
+OCAMLC		= @OCAMLC@
+OCAMLOPT	= @OCAMLOPT@
+
 # Common rules for building OCaml objects.
 
+ifneq ($(OCAMLFIND),)
 .mli.cmi:
-	ocamlfind ocamlc $(OCAMLCFLAGS) $(OCAMLCINCS) $(OCAMLCPACKAGES) -c $<
+	$(OCAMLFIND) ocamlc $(OCAMLCFLAGS) $(OCAMLCPACKAGES) -c $<
 .ml.cmo:
-	ocamlfind ocamlc $(OCAMLCFLAGS) $(OCAMLCINCS) $(OCAMLCPACKAGES) -c $<
+	$(OCAMLFIND) ocamlc $(OCAMLCFLAGS) $(OCAMLCPACKAGES) -c $<
 .ml.cmx:
-	ocamlfind ocamlopt $(OCAMLOPTFLAGS) $(OCAMLOPTINCS) $(OCAMLOPTPACKAGES) -c $<
+	$(OCAMLFIND) ocamlopt $(OCAMLOPTFLAGS) $(OCAMLOPTPACKAGES) -c $<
+else
+.mli.cmi:
+	$(OCAMLC) $(OCAMLCFLAGS) $(OCAMLCINCS) -c $<
+.ml.cmo:
+	$(OCAMLC) $(OCAMLCFLAGS) $(OCAMLCINCS) -c $<
+.ml.cmx:
+	$(OCAMLOPT) $(OCAMLOPTFLAGS) $(OCAMLOPTINCS) -c $<
+endif
 
 # Dependencies.
 
 depend: .depend
 
+ifneq ($(OCAMLFIND),)
 .depend: $(wildcard *.mli) $(wildcard *.ml)
 	rm -f .depend
-	ocamlfind ocamldep $(OCAMLCPACKAGES) $^ > $@
+	$(OCAMLFIND) ocamldep $(OCAMLCPACKAGES) $^ > $@
+else
+.depend: $(wildcard *.mli) $(wildcard *.ml)
+	rm -f .depend
+	$(OCAMLDEP) $(OCAMLCINCS) $^ > $@
+endif
 
 ifeq ($(wildcard .depend),.depend)
 include .depend

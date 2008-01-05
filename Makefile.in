@@ -20,30 +20,10 @@ VERSION		= @PACKAGE_VERSION@
 
 INSTALL		= @INSTALL@
 
-pkg_extlib	= @pkg_extlib@
-pkg_lablgtk2	= @pkg_lablgtk2@
-pkg_curses	= @pkg_curses@
-pkg_xml_light	= @pkg_xml_light@
-
+OCAMLDOC        = @OCAMLDOC@
 OCAMLDOCFLAGS	:= -html -sort
 
-SUBDIRS		:= libvirt examples
-
-ifeq ($(pkg_extlib),yes)
-SUBDIRS		+= mlvirsh
-endif
-
-ifeq ($(pkg_lablgtk2),yes)
-SUBDIRS		+= mlvirtmanager
-endif
-
-ifeq ($(pkg_extlib)$(pkg_curses),yesyes)
-SUBDIRS		+= virt-top
-endif
-
-ifeq ($(pkg_extlib)$(pkg_xml_light),yesyes)
-SUBDIRS		+= virt-df
-endif
+SUBDIRS		= @subdirs@
 
 all opt depend install:
 	for d in $(SUBDIRS); do \
@@ -53,7 +33,7 @@ all opt depend install:
 
 clean:
 	for d in . $(SUBDIRS); do \
-	  (cd $$d; rm -f *.cmi *.cmo *.cmx *.cma *.cmxa *.o *.a *.so *.opt *~ core); \
+	  (cd $$d; rm -f *.cmi *.cmo *.cmx *.cma *.cmxa *.o *.a *.so *.opt *~ *.dll core); \
 	done
 	rm -f examples/list_domains
 	rm -f mlvirsh/mlvirsh
@@ -76,12 +56,14 @@ distclean: clean
 
 # Developer documentation (in html/ subdirectory).
 
+ifneq ($(OCAMLDOC),)
 doc:
 	rm -rf html
 	mkdir html
 	-cd libvirt; \
-	ocamlfind ocamldoc $(OCAMLDOCFLAGS) -d ../html \
+	$(OCAMLDOC) $(OCAMLDOCFLAGS) -d ../html \
 	  libvirt.{ml,mli} libvirt_version.{ml,mli}
+endif
 
 # Update configure and rerun.
 

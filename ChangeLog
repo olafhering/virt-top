@@ -1,3 +1,17 @@
+2008-01-05  Richard Jones  <rjones@redhat.com>
+
+	Build libvirt and examples on Windows (MinGW).
+	* aclocal.m4: Add AC_CHECK_OCAML_MODULE to check for OCaml
+	  modules directly (without ocamlfind being needed).
+	* configure.ac: Remove requirement for ocamlfind.
+	* config.guess, config.sub: Ship these files to guess host,
+	  build and target.
+	* libvirt/Makefile.in, examples/Makefile.in: Change these
+	  so they don't require ocamlfind, do the right thing on MinGW.
+	* Make.rules.in: Make.rules is now generated from this file.
+	  File can use ocamlfind or direct ocaml commands as available.
+	* .hgignore: Ignore some generated files on Windows.
+
 2008-01-04  Richard Jones  <rjones@redhat.com>
 
 	Make extlib an optional dependency.

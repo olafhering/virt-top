@@ -78,9 +78,8 @@ AC_SUBST(OCAMLLIB)
 AC_SUBST(OCAMLMKLIB)
 AC_SUBST(OCAMLDOC)
 ])
-dnl
-dnl
-dnl
+
+
 dnl macro AC_PROG_OCAML_TOOLS will check OCamllex and OCamlyacc :
 dnl   OCAMLLEX      "ocamllex" or "ocamllex.opt" if present
 dnl   OCAMLYACC     "ocamlyac"
@@ -100,9 +99,8 @@ AC_CHECK_PROG(OCAMLYACC,ocamlyacc,ocamlyacc,AC_MSG_ERROR(Cannot find ocamlyacc.)
 AC_SUBST(OCAMLLEX)
 AC_SUBST(OCAMLYACC)
 ])
-dnl
-dnl
-dnl
+
+
 dnl AC_PROG_CAMLP4 checks for Camlp4
 AC_DEFUN(AC_PROG_CAMLP4,
 [dnl
@@ -116,21 +114,19 @@ if test "$CAMLP4"; then
 	fi
 fi
 ])
-dnl
-dnl
-dnl
+
+
 dnl macro AC_PROG_FINDLIB will check for the presence of
 dnl   ocamlfind
 AC_DEFUN(AC_PROG_FINDLIB,
 [dnl
 # checking for ocamlfind
 AC_CHECK_PROG(OCAMLFIND,ocamlfind,ocamlfind,
-	AC_MSG_ERROR(ocamlfind not found))
+	AC_MSG_WARN([ocamlfind not found]))
 AC_SUBST(OCAMLFIND)
 ])
-dnl
-dnl
-dnl
+
+
 dnl AC_CHECK_OCAML_PKG checks wether a findlib package is present
 dnl   defines pkg_name to "yes"
 AC_DEFUN(AC_CHECK_OCAML_PKG,
@@ -145,3 +141,30 @@ AC_MSG_RESULT(not found)
 eval "pkg_`echo $1 | tr - _`=no"
 fi
 ])
+
+
+dnl AC_CHECK_OCAML_MODULE looks for a module in a given path
+dnl 1st arg -> name (just for printing messages)
+dnl 2nd arg -> env var name (set to include path, or "no" if not found)
+dnl 3rd arg -> module to check
+dnl 4th arg -> default include dirs to check
+AC_DEFUN([AC_CHECK_OCAML_MODULE],
+[dnl
+AC_MSG_CHECKING(for module $1)
+cat > conftest.ml <<EOF
+open $3
+EOF
+unset found
+for $2 in $$2 $4 ; do
+  if $OCAMLC -c -I "$$2" conftest.ml >&5 2>&5 ; then
+    found=yes
+    break
+  fi
+done
+if test "$found" ; then
+  AC_MSG_RESULT($$2)
+else
+  AC_MSG_RESULT(not found)
+  $2=no
+fi
+AC_SUBST($2)])

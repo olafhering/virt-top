@@ -15,37 +15,88 @@
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
 
-CFLAGS		:= @CFLAGS@ \
-		   -I.. \
-		   -I$(shell ocamlc -where) \
-		   -Wall -Werror \
-		   -fPIC \
-		   -g
-LDFLAGS		:= @LDFLAGS@
+WIN32		= @WIN32@
 
+CFLAGS		= @CFLAGS@ \
+		   -I.. \
+		   -I"$(shell ocamlc -where)" \
+		   @DEBUG@ @WARNINGS@ @CFLAGS_FPIC@
+LDFLAGS		= @LDFLAGS@
+#		   -L"$(shell ocamlc -where)"
+
+OCAMLC		= @OCAMLC@
+OCAMLOPT	= @OCAMLOPT@
+OCAMLFIND	= @OCAMLFIND@
+OCAMLMKLIB	= @OCAMLMKLIB@
+
+ifneq ($(OCAMLFIND),)
 OCAMLCPACKAGES	:= -package unix
 OCAMLCFLAGS	:= -g
 OCAMLCLIBS	:= -linkpkg
+else
+OCAMLCINCS	:=
+OCAMLCFLAGS	:= -g
+OCAMLCLIBS	:= unix.cma
+endif
 
-OCAMLOPTPACKAGES := $(OCAMLCPACKAGES)
 OCAMLOPTFLAGS	:=
+ifneq ($(OCAMLFIND),)
+OCAMLOPTPACKAGES := $(OCAMLCPACKAGES)
 OCAMLOPTLIBS	:= $(OCAMLCLIBS)
+else
+OCAMLOPTINCS	:= $(OCAMLCINCS)
+OCAMLOPTLIBS	:= unix.cmxa
+endif
 
 export LIBRARY_PATH=.
 export LD_LIBRARY_PATH=.
 
-BYTE_TARGETS	:= libvirt.cma
-OPT_TARGETS	:= libvirt.cmxa
+BYTE_TARGETS	:= mllibvirt.cma
+OPT_TARGETS	:= mllibvirt.cmxa
 
 all: $(BYTE_TARGETS)
 
 opt: $(OPT_TARGETS)
 
-libvirt.cma: libvirt_c.o libvirt.cmo libvirt_version.cmo
-	ocamlmklib -o mllibvirt $^ $(LDFLAGS) -lvirt
+COBJS := libvirt.cmo libvirt_version.cmo
+OPTOBJS := libvirt.cmx libvirt_version.cmx
 
-libvirt.cmxa: libvirt_c.o libvirt.cmx libvirt_version.cmx
-	ocamlmklib -o mllibvirt $^ $(LDFLAGS) -lvirt
+ifneq ($(OCAMLMKLIB),)
+# Good, we can just use ocamlmklib
+mllibvirt.cma: libvirt_c.o $(COBJS)
+	$(OCAMLMKLIB) -o mllibvirt $^ $(LDFLAGS) -lvirt
+
+mllibvirt.cmxa: libvirt_c.o $(OPTOBJS)
+	$(OCAMLMKLIB) -o mllibvirt $^ $(LDFLAGS) -lvirt
+
+else
+ifeq ($(WIN32),yes)
+# Ugh, MinGW doesn't have ocamlmklib.  This technique is copied from the
+# example in OCaml distribution, otherlibs/win32unix/Makefile.nt
+
+mllibvirt.cma: dllmllibvirt.dll libmllibvirt.a $(COBJS)
+	$(OCAMLC) -a -linkall -o $@ $(COBJS) \
+	  -dllib -lmllibvirt -cclib -lmllibvirt -cclib "$(LDFLAGS) -lvirt"
+
+mllibvirt.cmxa: libmllibvirt.a $(OPTOBJS)
+	$(OCAMLOPT) -a -linkall -o $@ $(OPTOBJS) \
+	  -cclib -lmllibvirt -cclib "$(LDFLAGS) -lvirt"
+
+dllmllibvirt.dll: libvirt_c.o
+	$(CC) -shared -o $@ $^ \
+	  $(LDFLAGS) "$(shell ocamlc -where)"/ocamlrun.a -lvirt
+
+libmllibvirt.a: libvirt_c.o
+	ar rc $@ $^
+	ranlib $@
+
+else
+# Don't know how to build a library on this platform.
+$(BYTE_TARGETS) $(OPT_TARGETS):
+	echo "Error: ocamlmklib missing, and no known way to build libraries on this platform"
+	exit 1
+endif
+endif
 
 libvirt.cmo: libvirt.cmi
 libvirt.cmi: libvirt.mli

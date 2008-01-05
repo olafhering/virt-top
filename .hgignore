@@ -7,6 +7,7 @@ config.log
 config.status
 config.h
 Makefile
+Make.rules
 */Makefile
 autom4te.cache
 core
@@ -20,6 +21,7 @@ core.*
 *.so
 *.a
 *.opt
+*.dll
 *~
 libvirt/libvirt_version.ml
 examples/list_domains
