@@ -1,0 +1,10 @@
+virt_df_ext2.cmo: virt_df.cmo 
+virt_df_ext2.cmx: virt_df.cmx 
+virt_df_linux_swap.cmo: virt_df.cmo 
+virt_df_linux_swap.cmx: virt_df.cmx 
+virt_df_lvm2.cmo: virt_df.cmo 
+virt_df_lvm2.cmx: virt_df.cmx 
+virt_df_main.cmo: virt_df.cmo 
+virt_df_main.cmx: virt_df.cmx 
+virt_df.cmo: ../libvirt/libvirt.cmi 
+virt_df.cmx: ../libvirt/libvirt.cmx 
