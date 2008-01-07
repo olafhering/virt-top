@@ -1,6 +1,8 @@
 aclocal.m4
 ChangeLog
+config.guess
 config.h.in
+config.sub
 configure.ac
 COPYING
 COPYING.LIB
@@ -17,7 +19,7 @@ libvirt/libvirt_version.ml.in
 libvirt/libvirt_version.mli
 libvirt/Makefile.in
 Makefile.in
-Make.rules
+Make.rules.in
 MANIFEST
 META.in
 mlvirsh/.depend
@@ -37,6 +39,7 @@ virt-ctrl/virt_ctrl.ml
 README
 TODO.libvirt
 TODO.virt-top
+virt-df/.depend
 virt-df/Makefile.in
 virt-df/virt_df.ml
 virt-df/README
@@ -58,3 +61,5 @@ virt-top/virt_top_main.ml
 virt-top/virt_top_utils.ml
 virt-top/virt_top_utils.mli
 virt-top/virt_top_xml.ml
+wininstaller.nsis.in
+winlicense.rtf

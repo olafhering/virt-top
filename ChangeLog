@@ -1,5 +1,8 @@
 2008-01-07  Richard Jones  <rjones@redhat.com>
 
+	Updated MANIFEST.
+	* MANIFEST: Bring the MANIFEST file up to date.
+
 	mlvirtmanager renamed as virt-ctrl.
 	* .hgignore, Makefile.in, configure.ac: Rename
 	  mlvirtmanager as virt-ctrl to avoid any confusion with
