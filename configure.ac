@@ -134,7 +134,7 @@ fi
 dnl Which subpackages (== subdirs) will we build?
 subdirs="libvirt examples mlvirsh"
 if test "x$pkg_lablgtk2" != "xno"; then
-    subdirs="$subdirs mlvirtmanager"
+    subdirs="$subdirs virt-ctrl"
 fi
 if test "x$pkg_extlib" != "xno" -a "x$pkg_curses" != "xno"; then
     subdirs="$subdirs virt-top"
@@ -251,7 +251,7 @@ AC_CONFIG_FILES([META
 	libvirt/Makefile
 	examples/Makefile
 	mlvirsh/Makefile
-	mlvirtmanager/Makefile
+	virt-ctrl/Makefile
 	virt-top/Makefile
 	virt-df/Makefile
 	])

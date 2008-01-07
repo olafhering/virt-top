@@ -39,7 +39,7 @@ clean:
 	done
 	rm -f examples/list_domains
 	rm -f mlvirsh/mlvirsh
-	rm -f mlvirtmanager/mlvirtmanager
+	rm -f virt-ctrl/virt-ctrl
 	rm -f virt-top/virt-top
 	rm -f virt-df/virt-df
 
@@ -52,7 +52,7 @@ distclean: clean
 	rm -f libvirt/Makefile
 	rm -f examples/Makefile
 	rm -f mlvirsh/Makefile
-	rm -f mlvirtmanager/Makefile
+	rm -f virt-ctrl/Makefile
 	rm -f virt-top/Makefile
 	rm -f virt-df/Makefile
 

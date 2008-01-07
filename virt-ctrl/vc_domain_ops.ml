@@ -27,7 +27,7 @@ module N = Libvirt.Network
 
 (* Get the selected domain (if there is one) or return None. *)
 let get_domain (tree : GTree.view) (model : GTree.tree_store)
-    (columns : Mlvirtmanager_connections.columns) =
+    (columns : Vc_connections.columns) =
   let path, _ = tree#get_cursor () in
   match path with
   | None -> None			(* No row at all selected. *)
@@ -44,7 +44,7 @@ let get_domain (tree : GTree.view) (model : GTree.tree_store)
 	    let (_, col_domname, _, _, _, col_id) = columns in
 	    let conn_id = model#get ~row:parent ~column:col_id in
 	    let conn =
-	      List.assoc conn_id (Mlvirtmanager_connections.get_conns ()) in
+	      List.assoc conn_id (Vc_connections.get_conns ()) in
 	    let domid = model#get ~row ~column:col_id in
 	    if domid = -1 then (	(* Inactive domain. *)
 	      let domname = model#get ~row ~column:col_domname in

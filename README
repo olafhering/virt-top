@@ -39,7 +39,7 @@ To build virt-top (optional):
   The other packages are not required, but you will get reduced
   functionality].
 
-To build mlvirtmanager (optional):
+To build virt-ctrl (optional):
 
   GTK2 (from http://gtk.org/)
   lablgtk2 (from http://wwwfun.kurims.kyoto-u.ac.jp/soft/lsl/lablgtk.html)
@@ -76,7 +76,7 @@ Building
 
   make doc              # Build HTML documentation in html/ subdirectory.
 
-Then have a look at the programs 'mlvirsh.opt' and 'mlvirtmanager.opt'.
+Then have a look at the programs 'mlvirsh.opt' and 'virt-ctrl.opt'.
 
 Note: If you want to run the programs without first installing, you
 may need to set your $LD_LIBRARY_PATH environment variable so it
@@ -88,9 +88,9 @@ contains the build directory.  eg:
 Windows
 ----------------------------------------------------------------------
 
-I have built libvirt (the bindings), examples, mlvirsh and
-mlvirtmanager on Windows using the MinGW port of OCaml.  It's quite
-likely that it will also work under VC++, but I have not tested this.
+I have built libvirt (the bindings), examples, mlvirsh and virt-ctrl
+on Windows using the MinGW port of OCaml.  It's quite likely that it
+will also work under VC++, but I have not tested this.
 
 You should make sure that your $PATH (environment variable) contains
 the names of the directories containing all required DLLs, in
@@ -103,7 +103,7 @@ particular you will require:
   libtasn1-*.dll
   libxdr.dll		(from libxdr)
   libxml2-*.dll		(from libxml2)
-  and, a multitude of DLLs from GTK if you want to run mlvirtmanager
+  and, a multitude of DLLs from GTK if you want to run virt-ctrl
 
 You can use a tool such as Dependency Walker to find/check the
 locations of dependent libraries.
@@ -138,15 +138,15 @@ At the time of writing:
   % size        15%    13%
 
 
-mlvirtmanager
+virt-ctrl
 ----------------------------------------------------------------------
 
-'mlvirtmanager' is a demonstration implementation of virt-manager in
-OCaml.  It is not feature-complete by any means, but does allow you to
-show the running domains and start and stop defined domains.  The main
-functionality _missing_ is the ability to define new virtual machines,
-change the resources allocated to domains, or show the machine
-console.
+'virt-ctrl' (originally called 'mlvirtmanager') is a reimplementation
+of virt-manager in OCaml.  It is not feature-complete by any means,
+but does allow you to show the running domains and start and stop
+defined domains.  The main functionality _missing_ is the ability to
+define new virtual machines, change the resources allocated to
+domains, or show the machine console.
 
 
 Programming
@@ -191,5 +191,6 @@ Subdirectories
 libvirt/		The OCaml bindings.
 examples/		Some example programs using the bindings.
 mlvirsh/		'mlvirsh' command line tool.
-mlvirtmanager/		'mlvirtmanager' graphical tool.
+virt-ctrl/		'virt-ctrl' graphical tool.
 virt-top/		'virt-top' tool.
+virt-df/		'virt-df' tool.

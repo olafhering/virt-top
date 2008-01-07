@@ -109,7 +109,7 @@ let make ~open_connection
 
   (* The treeview. *)
   let (tree, model, columns, initial_state) =
-    Mlvirtmanager_connections.make_treeview
+    Vc_connections.make_treeview
       ~packing:(vbox#pack ~expand:true ~fill:true) () in
 
   ignore (start_button#connect#clicked
@@ -124,7 +124,7 @@ let make ~open_connection
   (* Make a timeout function which is called once per second. *)
   let state = ref initial_state in
   let callback () =
-    state := Mlvirtmanager_connections.repopulate tree model columns !state;
+    state := Vc_connections.repopulate tree model columns !state;
     true
   in
   let timeout_id = GMain.Timeout.add ~ms:1000 ~callback in

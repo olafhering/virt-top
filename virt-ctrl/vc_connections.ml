@@ -23,7 +23,7 @@ module C = Libvirt.Connect
 module D = Libvirt.Domain
 module N = Libvirt.Network
 
-open Mlvirtmanager_helpers
+open Vc_helpers
 
 (* List of currently open connections.  Actually it's a list of
  * (id, Libvirt.Connect.t) so that we can easily identify

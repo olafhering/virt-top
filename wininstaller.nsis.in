@@ -86,7 +86,7 @@ SectionEnd
 Section "Programs (recommended)"
 	SetOutPath $INSTDIR
 	File "/oname=mlvirsh.exe" "mlvirsh\mlvirsh.opt"
-	File "/oname=mlvirtmanager.exe" "mlvirsh\mlvirtmanager.opt"
+	File "/oname=virt-ctrl.exe" "mlvirsh\virt-ctrl.opt"
 SectionEnd
 
 Section "OCaml Libvirt bindings (for developers only)"
@@ -97,12 +97,12 @@ Section "Start Menu Shortcuts"
 	CreateDirectory "$SMPROGRAMS\${PACKAGE}"
 	CreateShortCut "$SMPROGRAMS\${PACKAGE}\Uninstall.lnk" "$INSTDIR\Uninstall ${PACKAGE}.exe" "" "$INSTDIR\Uninstall ${PACKAGE}.exe" 0
 	CreateShortCut "$SMPROGRAMS\${PACKAGE}\Virt Shell.lnk" "$INSTDIR\mlvirsh.exe" "" "$INSTDIR\mlvirsh.exe" 0
-	CreateShortCut "$SMPROGRAMS\${PACKAGE}\Virt Control.lnk" "$INSTDIR\mlvirtmanager.exe" "" "$INSTDIR\mlvirtmanager.exe" 0
+	CreateShortCut "$SMPROGRAMS\${PACKAGE}\Virt Control.lnk" "$INSTDIR\virt-ctrlr.exe" "" "$INSTDIR\virt-ctrl.exe" 0
 SectionEnd
 
 Section "Desktop Icons"
 	CreateShortCut "$DESKTOP\Virt Shell.lnk" "$INSTDIR\mlvirsh.exe" "" "$INSTDIR\mlvirsh.exe" 0
-	CreateShortCut "$DESKTOP\Virt Control.lnk" "$INSTDIR\mlvirtmanager.exe" "" "$INSTDIR\mlvirtmanager.exe" 0
+	CreateShortCut "$DESKTOP\Virt Control.lnk" "$INSTDIR\virt-ctrl.exe" "" "$INSTDIR\virt-ctrl.exe" 0
 SectionEnd
 
 Section "Uninstall"

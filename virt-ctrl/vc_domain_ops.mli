@@ -15,18 +15,11 @@
    You should have received a copy of the GNU General Public License
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+   Domain operations buttons.
 *)
 
-open Printf
-
-let () =
-  (* Build the main window and wire up the buttons to the callback functions *)
-  Mlvirtmanager_mainwindow.make
-    ~open_connection:Mlvirtmanager_connections.open_connection
-    ~start_domain:Mlvirtmanager_domain_ops.start_domain
-    ~pause_domain:Mlvirtmanager_domain_ops.pause_domain
-    ~resume_domain:Mlvirtmanager_domain_ops.resume_domain
-    ~shutdown_domain:Mlvirtmanager_domain_ops.shutdown_domain;
-
-  (* Enter the Gtk main loop. *)
-  GMain.main ()
+val start_domain : GTree.view -> GTree.tree_store -> Vc_connections.columns -> unit -> unit
+val pause_domain : GTree.view -> GTree.tree_store -> Vc_connections.columns -> unit -> unit
+val resume_domain : GTree.view -> GTree.tree_store -> Vc_connections.columns -> unit -> unit
+val shutdown_domain : GTree.view -> GTree.tree_store -> Vc_connections.columns -> unit -> unit

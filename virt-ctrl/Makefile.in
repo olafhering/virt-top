@@ -1,4 +1,4 @@
-# mlvirtmanager
+# virt-ctrl (originally called mlvirtmanager)
 # Copyright (C) 2007 Red Hat Inc., Richard W.M. Jones
 #
 # This program is free software; you can redistribute it and/or modify
@@ -42,46 +42,46 @@ endif
 export LIBRARY_PATH=../libvirt
 export LD_LIBRARY_PATH=../libvirt
 
-BYTE_TARGETS	:= mlvirtmanager
-OPT_TARGETS	:= mlvirtmanager.opt
+BYTE_TARGETS	:= virt-ctrl
+OPT_TARGETS	:= virt-ctrl.opt
 
-VIRTMANAGER_OBJS := \
-	mlvirtmanager_helpers.cmo \
-	mlvirtmanager_connections.cmo \
-	mlvirtmanager_domain_ops.cmo \
-	mlvirtmanager_mainwindow.cmo \
-	mlvirtmanager.cmo
+OBJS := \
+	vc_helpers.cmo \
+	vc_connections.cmo \
+	vc_domain_ops.cmo \
+	vc_mainwindow.cmo \
+	virt_ctrl.cmo
 
-VIRTMANAGER_XOBJS := $(VIRTMANAGER_OBJS:.cmo=.cmx)
+XOBJS := $(OBJS:.cmo=.cmx)
 
 all: $(BYTE_TARGETS)
 
 opt: $(OPT_TARGETS)
 
 ifneq ($(OCAMLFIND),)
-mlvirtmanager: $(VIRTMANAGER_OBJS)
+virt-ctrl: $(OBJS)
 	$(OCAMLFIND) ocamlc $(OCAMLCPACKAGES) $(OCAMLCFLAGS) $(OCAMLCLIBS) \
 	  ../libvirt/mllibvirt.cma gtkInit.cmo -o $@ $^
 
-mlvirtmanager.opt: $(VIRTMANAGER_XOBJS)
+virt-ctrl.opt: $(XOBJS)
 	$(OCAMLFIND) ocamlopt \
 	  $(OCAMLOPTPACKAGES) $(OCAMLOPTFLAGS) $(OCAMLOPTLIBS) \
 	  ../libvirt/mllibvirt.cmxa gtkInit.cmx -o $@ $^
 else
-mlvirtmanager: $(VIRTMANAGER_OBJS)
+virt-ctrl: $(OBJS)
 	$(OCAMLC) $(OCAMLCINCS) $(OCAMLCFLAGS) $(OCAMLCLIBS) \
 	  ../libvirt/mllibvirt.cma gtkInit.cmo -o $@ $^
 
-mlvirtmanager.opt: $(VIRTMANAGER_XOBJS)
+virt-ctrl.opt: $(XOBJS)
 	$(OCAMLOPT) -verbose $(OCAMLOPTINCS) $(OCAMLOPTFLAGS) $(OCAMLOPTLIBS) \
 	  -cclib "$(LDFLAGS)" \
 	  ../libvirt/mllibvirt.cmxa gtkInit.cmx -o $@ $^
 endif
 
 install:
-	if [ -x mlvirtmanager.opt ]; then \
+	if [ -x virt-ctrl.opt ]; then \
 	  mkdir -p $(DESTDIR)$(bindir); \
-	  $(INSTALL) -m 0755 mlvirtmanager.opt $(DESTDIR)$(bindir)/mlvirtmanager; \
+	  $(INSTALL) -m 0755 virt-ctrl.opt $(DESTDIR)$(bindir)/virt-ctrl; \
 	fi
 
 include ../Make.rules

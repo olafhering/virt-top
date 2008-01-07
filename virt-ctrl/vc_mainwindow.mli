@@ -16,10 +16,14 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   Domain operations buttons.
+   Make the main window.
 *)
 
-val start_domain : GTree.view -> GTree.tree_store -> Mlvirtmanager_connections.columns -> unit -> unit
-val pause_domain : GTree.view -> GTree.tree_store -> Mlvirtmanager_connections.columns -> unit -> unit
-val resume_domain : GTree.view -> GTree.tree_store -> Mlvirtmanager_connections.columns -> unit -> unit
-val shutdown_domain : GTree.view -> GTree.tree_store -> Mlvirtmanager_connections.columns -> unit -> unit
+(** This function creates the main window.  You have to pass in
+    callback functions to wire everything up.
+*)
+val make : open_connection:(unit -> unit) ->
+  start_domain:(GTree.view -> GTree.tree_store -> Vc_connections.columns -> unit -> unit) ->
+  pause_domain:(GTree.view -> GTree.tree_store -> Vc_connections.columns -> unit -> unit) ->
+  resume_domain:(GTree.view -> GTree.tree_store -> Vc_connections.columns -> unit -> unit) ->
+  shutdown_domain:(GTree.view -> GTree.tree_store -> Vc_connections.columns -> unit -> unit) -> unit

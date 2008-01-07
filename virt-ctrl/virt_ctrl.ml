@@ -15,15 +15,18 @@
    You should have received a copy of the GNU General Public License
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
-
-   Make the main window.
 *)
 
-(** This function creates the main window.  You have to pass in
-    callback functions to wire everything up.
-*)
-val make : open_connection:(unit -> unit) ->
-  start_domain:(GTree.view -> GTree.tree_store -> Mlvirtmanager_connections.columns -> unit -> unit) ->
-  pause_domain:(GTree.view -> GTree.tree_store -> Mlvirtmanager_connections.columns -> unit -> unit) ->
-  resume_domain:(GTree.view -> GTree.tree_store -> Mlvirtmanager_connections.columns -> unit -> unit) ->
-  shutdown_domain:(GTree.view -> GTree.tree_store -> Mlvirtmanager_connections.columns -> unit -> unit) -> unit
+open Printf
+
+let () =
+  (* Build the main window and wire up the buttons to the callback functions *)
+  Vc_mainwindow.make
+    ~open_connection:Vc_connections.open_connection
+    ~start_domain:Vc_domain_ops.start_domain
+    ~pause_domain:Vc_domain_ops.pause_domain
+    ~resume_domain:Vc_domain_ops.resume_domain
+    ~shutdown_domain:Vc_domain_ops.shutdown_domain;
+
+  (* Enter the Gtk main loop. *)
+  GMain.main ()
