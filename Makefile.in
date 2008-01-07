@@ -75,7 +75,7 @@ wininstaller: $(PACKAGE)-$(VERSION).exe
 $(PACKAGE)-$(VERSION).exe: wininstaller.nsis all # opt
 	"$(MAKENSIS)" \
 	  //DPACKAGE=$(PACKAGE) //DVERSION=$(VERSION) \
-	  //DOUTFILE=$@ //V2 $<
+	  //DOUTFILE=$@ $<
 	ls -l $@
 endif
 

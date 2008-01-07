@@ -1,4 +1,5 @@
 #!Nsis Installer Command Script
+# @configure_input@
 # Copyright (C) 2008 Red Hat Inc., Richard W.M. Jones
 #
 # This library is free software; you can redistribute it and/or
@@ -63,19 +64,29 @@ Section "Libvirt and its libraries (required)"
 	SectionIn RO
 
 	SetOutPath $INSTDIR
-	# XXX Get these paths automatically.
-	File "c:\msys\1.0\local\bin\libvirt-?.dll"
-	File "c:\msys\1.0\local\bin\libxdr.dll"
-	File "c:\msys\1.0\local\bin\libxml2-?.dll"
-	File "c:\gnutls\bin\libgcrypt-??.dll"
-	File "c:\gnutls\bin\libgnutls-??.dll"
-	File "c:\gnutls\bin\libgpg-error-?.dll"
-	File "c:\gnutls\bin\libtasn1-?.dll"
+	File "@LIBVIRT_DLL_PATH@\libvirt-0.dll"
+	File "@LIBXDR_DLL_PATH@\libxdr.dll"
+	File "@LIBXML2_DLL_PATH@\libxml2-2.dll"
+	File "@GNUTLS_DLL_PATH@\libgcrypt-??.dll"
+	File "@GNUTLS_DLL_PATH@\libgnutls-??.dll"
+	File "@GNUTLS_DLL_PATH@\libgpg-error-?.dll"
+	File "@GNUTLS_DLL_PATH@\libtasn1-?.dll"
+	File "@GTK_DLL_PATH@\*.dll"
+
+	SetOutPath $INSTDIR\lib
+	File /r "@GTK_PATH@\lib\gtk-2.0"
+	File /r "@GTK_PATH@\lib\pango"
+
+	SetOutPath $INSTDIR
+	File /r "@GTK_PATH@\etc"
+
+	SetOutPath $INSTDIR
 SectionEnd
 
 Section "Programs (recommended)"
 	SetOutPath $INSTDIR
 	File "/oname=mlvirsh.exe" "mlvirsh\mlvirsh.opt"
+	#File "/oname=mlvirtmanager.exe" "mlvirsh\mlvirtmanager.opt"
 SectionEnd
 
 Section "OCaml Libvirt bindings (for developers only)"
@@ -102,6 +113,8 @@ Section "Uninstall"
 	RMDir "$SMPROGRAMS\${PACKAGE}"
 
 	# Files in installation directory.
+	RMDir /r "$INSTDIR\etc"
+	RMDir /r "$INSTDIR\lib"
 	Delete /rebootok "$INSTDIR\*.exe"
 	Delete /rebootok "$INSTDIR\*.dll"
 

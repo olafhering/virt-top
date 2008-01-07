@@ -147,20 +147,94 @@ AC_SUBST(subdirs)
 dnl Check for optional perldoc (for building manual pages).
 AC_CHECK_PROG(HAVE_PERLDOC,perldoc,perldoc)
 
-dnl Check for optional NSIS.
+dnl Check for optional NSIS (for building a Windows installer).
 AC_ARG_WITH([nsis],
 	[AS_HELP_STRING([--with-nsis],
 	    [use NSIS to build a Windows installer])],
 	[],
 	[with_nsis=no])
+
 MAKENSIS=
+LIBVIRT_DLL_PATH=
+LIBXDR_DLL_PATH=
+LIBXML2_DLL_PATH=
+GNUTLS_DLL_PATH=
+GTK_PATH=
+GTK_DLL_PATH=
+
+[
+msys_to_win_dir () {
+    eval pushd "\$$1" > /dev/null
+    eval $1=`pwd -W`
+    popd > /dev/null
+}
+]
+
 if test "x$with_nsis" != "xno"; then
     AC_PATH_PROG(MAKENSIS,makensis,[],[$with_nsis:$PATH])
     if test "x$MAKENSIS" = "x"; then
 	AC_MSG_FAILURE([--with-nsis was given, but could not find MAKENSIS.EXE])
     fi
+
+    # MAKENSIS is set so we will build a rule for making a Windows
+    # installer.  To support this, generate wininstaller.nsis.
+    saved_IFS=$IFS
+    IFS=$PATH_SEPARATOR
+    for d in $PATH; do
+    	IFS=$saved_IFS
+	echo Checking $d for DLLs ... >&5
+	if test -f "$d/libvirt-0.dll"; then
+	    LIBVIRT_DLL_PATH="$d"
+	fi
+	if test -f "$d/libxdr.dll"; then
+	    LIBXDR_DLL_PATH="$d"
+	fi
+	if test -f "$d/libxml2-2.dll"; then
+	    LIBXML2_DLL_PATH="$d"
+	fi
+	if test -f "$d/libgpg-error-0.dll"; then
+	    GNUTLS_DLL_PATH="$d"
+	fi
+	if test -f "$d/libgtk-win32-2.0-0.dll"; then
+	    GTK_DLL_PATH="$d"
+	    GTK_PATH="$d/.."
+	fi
+    done
+    IFS=$saved_IFS
+
+    if test "x$LIBVIRT_DLL_PATH" = "x"; then
+    	AC_MSG_FAILURE([cannot find libvirt-0.dll in PATH])
+    fi
+    if test "x$LIBXDR_DLL_PATH" = "x"; then
+    	AC_MSG_FAILURE([cannot find libxdr.dll in PATH])
+    fi
+    if test "x$LIBXML2_DLL_PATH" = "x"; then
+    	AC_MSG_FAILURE([cannot find libxml2-2.dll in PATH])
+    fi
+    if test "x$GNUTLS_DLL_PATH" = "x"; then
+    	AC_MSG_FAILURE([cannot find GnuTLS DLLs in PATH])
+    fi
+    if test "x$GTK_DLL_PATH" = "x"; then
+        AC_MSG_WARN([cannot find GTK DLLs in PATH])
+    fi
+
+    # Change the paths to Windows paths.
+    msys_to_win_dir LIBVIRT_DLL_PATH
+    msys_to_win_dir LIBXDR_DLL_PATH
+    msys_to_win_dir LIBXML2_DLL_PATH
+    msys_to_win_dir GNUTLS_DLL_PATH
+    if test "x$GTK_DLL_PATH" != "x"; then
+    	msys_to_win_dir GTK_DLL_PATH
+    	msys_to_win_dir GTK_PATH
+    fi
 fi
 AC_SUBST(MAKENSIS)
+AC_SUBST(LIBVIRT_DLL_PATH)
+AC_SUBST(LIBXDR_DLL_PATH)
+AC_SUBST(LIBXML2_DLL_PATH)
+AC_SUBST(GNUTLS_DLL_PATH)
+AC_SUBST(GTK_DLL_PATH)
+AC_SUBST(GTK_PATH)
 
 dnl Summary.
 echo "------------------------------------------------------------"
@@ -181,4 +255,7 @@ AC_CONFIG_FILES([META
 	virt-top/Makefile
 	virt-df/Makefile
 	])
+if test "x$MAKENSIS" != "x"; then
+	AC_CONFIG_FILES([wininstaller.nsis])
+fi
 AC_OUTPUT

@@ -30,3 +30,4 @@ mlvirsh/mlvirsh
 mlvirtmanager/mlvirtmanager
 virt-top/virt-top
 virt-df/virt-df
+wininstaller.nsis
