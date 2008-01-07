@@ -20,6 +20,8 @@ VERSION		= @PACKAGE_VERSION@
 
 INSTALL		= @INSTALL@
 
+MAKENSIS	= @MAKENSIS@
+
 OCAMLDOC        = @OCAMLDOC@
 OCAMLDOCFLAGS	:= -html -sort
 
@@ -63,6 +65,18 @@ doc:
 	-cd libvirt; \
 	$(OCAMLDOC) $(OCAMLDOCFLAGS) -d ../html \
 	  libvirt.{ml,mli} libvirt_version.{ml,mli}
+endif
+
+# Windows installer (requires NSIS).
+
+ifneq ($(MAKENSIS),)
+wininstaller: $(PACKAGE)-$(VERSION).exe
+
+$(PACKAGE)-$(VERSION).exe: wininstaller.nsis all # opt
+	"$(MAKENSIS)" \
+	  //DPACKAGE=$(PACKAGE) //DVERSION=$(VERSION) \
+	  //DOUTFILE=$@ //V2 $<
+	ls -l $@
 endif
 
 # Update configure and rerun.

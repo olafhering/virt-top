@@ -1,0 +1,103 @@
+#!Nsis Installer Command Script
+# Copyright (C) 2008 Red Hat Inc., Richard W.M. Jones
+#
+# This library is free software; you can redistribute it and/or
+# modify it under the terms of the GNU Lesser General Public
+# License as published by the Free Software Foundation; either
+# version 2 of the License, or (at your option) any later version.
+#
+# This library is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public
+# License along with this library; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
+
+# To build the installer:
+#
+# ./configure --with-nsis=/c/Progra~1/NSIS
+# make all opt
+# make wininstaller
+
+# Installer name.
+Name "OCaml Libvirt ${VERSION}"
+
+# This is where we will write the installer to, set by Makefile.
+OutFile "${OUTFILE}"
+
+# Target directory, or use value from the registry.
+InstallDir "c:\${PACKAGE}"
+InstallDirRegKey HKLM SOFTWARE\OCAML-LIBVIRT "Install_Dir"
+
+# Hide details.
+ShowInstDetails hide
+ShowUninstDetails hide
+
+# BZip2-compressed files are smaller but use more memory at runtime.
+SetCompressor bzip2
+
+# Include an XP manifest.
+XPStyle on
+
+# Pages in the installer wizard.
+Page license
+Page components
+Page directory
+Page instfiles
+
+# Title, data for license page.
+LicenseText "Continue"
+LicenseData "winlicense.rtf"
+
+# Title for components page.
+ComponentText "This will install OCaml libvirt bindings, dependent libraries and programs on your computer. Select which optional components you want installed."
+
+# Title for the install directory page.
+DirText "Please select the installation folder."
+
+# Installer section.
+Section "OCaml Libvirt bindings (required)"
+	SectionIn RO
+SectionEnd
+
+Section "Libraries (required)"
+	SectionIn RO
+SectionEnd
+
+Section "Programs (recommended)"
+	SetOutPath $INSTDIR
+	File "/oname=mlvirsh.exe" "mlvirsh\mlvirsh.opt"
+SectionEnd
+
+Section "Start Menu Shortcuts"
+	CreateDirectory "$SMPROGRAMS\${PACKAGE}"
+	CreateShortCut "$SMPROGRAMS\${PACKAGE}\Uninstall.lnk" "$INSTDIR\Uninstall ${PACKAGE}.exe" "" "$INSTDIR\Uninstall ${PACKAGE}.exe" 0
+	CreateShortCut "$SMPROGRAMS\${PACKAGE}\Virt Shell.lnk" "$INSTDIR\mlvirsh.exe" "" "$INSTDIR\mlvirsh.exe" 0
+SectionEnd
+
+Section "Desktop Icons"
+	CreateShortCut "$DESKTOP\Virt Shell.lnk" "$INSTDIR\mlvirsh.exe" "" "$INSTDIR\mlvirsh.exe" 0
+SectionEnd
+
+Section "Uninstall"
+	# Desktop icons
+	Delete /rebootok "$DESKTOP\Virt Shell.lnk"
+
+	# Menu shortcuts
+	Delete /rebootok "$SMPROGRAMS\${PACKAGE}\Virt Shell.lnk"
+	Delete /rebootok "$SMPROGRAMS\${PACKAGE}\Uninstall.lnk"
+	RMDir "$SMPROGRAMS\${PACKAGE}"
+
+	# Files in installation directory.
+	Delete /rebootok "$INSTDIR\mlvirsh.exe"
+	Delete /rebootok "$INSTDIR\Uninstall ${PACKAGE}.exe"
+
+	RMDir "$INSTDIR"
+SectionEnd
+
+# Write an uninstaller into the installation directory.
+Section -post
+	WriteUninstaller "$INSTDIR\Uninstall ${PACKAGE}.exe"
+SectionEnd

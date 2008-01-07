@@ -147,6 +147,21 @@ AC_SUBST(subdirs)
 dnl Check for optional perldoc (for building manual pages).
 AC_CHECK_PROG(HAVE_PERLDOC,perldoc,perldoc)
 
+dnl Check for optional NSIS.
+AC_ARG_WITH([nsis],
+	[AS_HELP_STRING([--with-nsis],
+	    [use NSIS to build a Windows installer])],
+	[],
+	[with_nsis=no])
+MAKENSIS=
+if test "x$with_nsis" != "xno"; then
+    AC_PATH_PROG(MAKENSIS,makensis,[],[$with_nsis:$PATH])
+    if test "x$MAKENSIS" = "x"; then
+	AC_MSG_FAILURE([--with-nsis was given, but could not find MAKENSIS.EXE])
+    fi
+fi
+AC_SUBST(MAKENSIS)
+
 dnl Summary.
 echo "------------------------------------------------------------"
 echo "Thanks for downloading" $PACKAGE_STRING

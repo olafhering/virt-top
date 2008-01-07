@@ -1,6 +1,7 @@
 syntax: glob
 META
 ocaml-libvirt-*.tar.gz
+ocaml-libvirt-*.exe
 html
 configure
 config.log
