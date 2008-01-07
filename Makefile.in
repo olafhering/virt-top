@@ -72,7 +72,7 @@ endif
 ifneq ($(MAKENSIS),)
 wininstaller: $(PACKAGE)-$(VERSION).exe
 
-$(PACKAGE)-$(VERSION).exe: wininstaller.nsis all # opt
+$(PACKAGE)-$(VERSION).exe: wininstaller.nsis all opt
 	"$(MAKENSIS)" \
 	  //DPACKAGE=$(PACKAGE) //DVERSION=$(VERSION) \
 	  //DOUTFILE=$@ $<

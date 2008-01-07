@@ -1,5 +1,12 @@
 2008-01-07  Richard Jones  <rjones@redhat.com>
 
+	Include mlvirtmanager in the Windows installer.
+	* wininstaller.nsis.in: Include mlvirtmanager in the Windows
+	  installer.
+	* Makefile.in: Re-enable native code builds for Windows installer.
+	* mlvirtmanager/Makefile.in: Pass $(LDFLAGS) when building on
+	  Windows - you need to specify the location of $GTK/lib.
+
 	Bundle Gtk DLLs and support files in the Windows installer.
 	* configure.ac: Detect library paths instead of hard-
 	  coding them.

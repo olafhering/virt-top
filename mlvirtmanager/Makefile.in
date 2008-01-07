@@ -73,8 +73,8 @@ mlvirtmanager: $(VIRTMANAGER_OBJS)
 	  ../libvirt/mllibvirt.cma gtkInit.cmo -o $@ $^
 
 mlvirtmanager.opt: $(VIRTMANAGER_XOBJS)
-	$(OCAMLOPT) \
-	  $(OCAMLOPTINCS) $(OCAMLOPTFLAGS) $(OCAMLOPTLIBS) \
+	$(OCAMLOPT) -verbose $(OCAMLOPTINCS) $(OCAMLOPTFLAGS) $(OCAMLOPTLIBS) \
+	  -cclib "$(LDFLAGS)" \
 	  ../libvirt/mllibvirt.cmxa gtkInit.cmx -o $@ $^
 endif
 
