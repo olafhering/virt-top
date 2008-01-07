@@ -57,18 +57,29 @@ ComponentText "This will install OCaml libvirt bindings, dependent libraries and
 # Title for the install directory page.
 DirText "Please select the installation folder."
 
-# Installer section.
-Section "OCaml Libvirt bindings (required)"
+# Installer sections.
+Section "Libvirt and its libraries (required)"
+	# Make this required.
 	SectionIn RO
-SectionEnd
 
-Section "Libraries (required)"
-	SectionIn RO
+	SetOutPath $INSTDIR
+	# XXX Get these paths automatically.
+	File "c:\msys\1.0\local\bin\libvirt-?.dll"
+	File "c:\msys\1.0\local\bin\libxdr.dll"
+	File "c:\msys\1.0\local\bin\libxml2-?.dll"
+	File "c:\gnutls\bin\libgcrypt-??.dll"
+	File "c:\gnutls\bin\libgnutls-??.dll"
+	File "c:\gnutls\bin\libgpg-error-?.dll"
+	File "c:\gnutls\bin\libtasn1-?.dll"
 SectionEnd
 
 Section "Programs (recommended)"
 	SetOutPath $INSTDIR
 	File "/oname=mlvirsh.exe" "mlvirsh\mlvirsh.opt"
+SectionEnd
+
+Section "OCaml Libvirt bindings (for developers only)"
+	# XXX Need to find out where Objective CAML is installed.
 SectionEnd
 
 Section "Start Menu Shortcuts"
@@ -91,8 +102,8 @@ Section "Uninstall"
 	RMDir "$SMPROGRAMS\${PACKAGE}"
 
 	# Files in installation directory.
-	Delete /rebootok "$INSTDIR\mlvirsh.exe"
-	Delete /rebootok "$INSTDIR\Uninstall ${PACKAGE}.exe"
+	Delete /rebootok "$INSTDIR\*.exe"
+	Delete /rebootok "$INSTDIR\*.dll"
 
 	RMDir "$INSTDIR"
 SectionEnd

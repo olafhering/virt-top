@@ -92,6 +92,22 @@ I have built libvirt (the bindings), examples, mlvirsh and
 mlvirtmanager on Windows using the MinGW port of OCaml.  It's quite
 likely that it will also work under VC++, but I have not tested this.
 
+You should make sure that your $PATH (environment variable) contains
+the names of the directories containing all required DLLs, in
+particular you will require:
+
+  libvirt-*.dll		(from libvirt)
+  libgnutls-*.dll	(from GnuTLS)
+  libgcrypt-*.dll
+  libgpg-error-*.dll
+  libtasn1-*.dll
+  libxdr.dll		(from libxdr)
+  libxml2-*.dll		(from libxml2)
+  and, a multitude of DLLs from GTK if you want to run mlvirtmanager
+
+You can use a tool such as Dependency Walker to find/check the
+locations of dependent libraries.
+
 To build the Windows installer, you will need NSIS.  Then do:
 
   ./configure --with-nsis=/c/Progra~1/NSIS

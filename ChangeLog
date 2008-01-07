@@ -1,5 +1,8 @@
 2008-01-07  Richard Jones  <rjones@redhat.com>
 
+	Include required libraries in the Windows installer.
+	* wininstaller.nsis: Include *.dll files.
+
 	Windows installer.
 	* Makefile.in, configure.ac: Add --with-nsis[=path/to/nsis] and
 	  call out to 'makensis.exe'.
