@@ -67,6 +67,9 @@ let get_domain (tree : GTree.view) (model : GTree.tree_store)
 	      prerr_endline (Libvirt.Virterror.to_string err);
 	      None
 
+type dops_callback_fn =
+    GTree.view -> GTree.tree_store -> Vc_connections.columns -> unit -> unit
+
 let start_domain tree model columns () =
   match get_domain tree model columns with
   | None -> ()

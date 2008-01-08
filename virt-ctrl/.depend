@@ -1,7 +1,7 @@
 vc_connections.cmi: ../libvirt/libvirt.cmi 
 vc_domain_ops.cmi: vc_connections.cmi 
 vc_helpers.cmi: ../libvirt/libvirt.cmi 
-vc_mainwindow.cmi: vc_connections.cmi 
+vc_mainwindow.cmi: vc_domain_ops.cmi 
 vc_connections.cmo: vc_helpers.cmi ../libvirt/libvirt.cmi vc_connections.cmi 
 vc_connections.cmx: vc_helpers.cmx ../libvirt/libvirt.cmx vc_connections.cmi 
 vc_domain_ops.cmo: vc_connections.cmi ../libvirt/libvirt.cmi \

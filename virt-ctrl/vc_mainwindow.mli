@@ -23,7 +23,8 @@
     callback functions to wire everything up.
 *)
 val make : open_connection:(unit -> unit) ->
-  start_domain:(GTree.view -> GTree.tree_store -> Vc_connections.columns -> unit -> unit) ->
-  pause_domain:(GTree.view -> GTree.tree_store -> Vc_connections.columns -> unit -> unit) ->
-  resume_domain:(GTree.view -> GTree.tree_store -> Vc_connections.columns -> unit -> unit) ->
-  shutdown_domain:(GTree.view -> GTree.tree_store -> Vc_connections.columns -> unit -> unit) -> unit
+  start_domain:Vc_domain_ops.dops_callback_fn ->
+  pause_domain:Vc_domain_ops.dops_callback_fn ->
+  resume_domain:Vc_domain_ops.dops_callback_fn ->
+  shutdown_domain:Vc_domain_ops.dops_callback_fn ->
+  unit

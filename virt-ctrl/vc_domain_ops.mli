@@ -19,7 +19,16 @@
    Domain operations buttons.
 *)
 
-val start_domain : GTree.view -> GTree.tree_store -> Vc_connections.columns -> unit -> unit
-val pause_domain : GTree.view -> GTree.tree_store -> Vc_connections.columns -> unit -> unit
-val resume_domain : GTree.view -> GTree.tree_store -> Vc_connections.columns -> unit -> unit
-val shutdown_domain : GTree.view -> GTree.tree_store -> Vc_connections.columns -> unit -> unit
+type dops_callback_fn =
+    GTree.view -> GTree.tree_store -> Vc_connections.columns -> unit -> unit
+      (** Domain ops callback function type.
+
+	  The parameters are: tree (view), model, columns.
+	  The extra unit parameter is there to make it easier to
+	  turn into a callback.
+      *)
+
+val start_domain : dops_callback_fn
+val pause_domain : dops_callback_fn
+val resume_domain : dops_callback_fn
+val shutdown_domain : dops_callback_fn
