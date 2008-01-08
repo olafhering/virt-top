@@ -23,6 +23,7 @@ core.*
 *.a
 *.opt
 *.dll
+*.exe
 *~
 libvirt/libvirt_version.ml
 examples/list_domains

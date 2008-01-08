@@ -72,10 +72,25 @@ virt-ctrl: $(OBJS)
 	$(OCAMLC) $(OCAMLCINCS) $(OCAMLCFLAGS) $(OCAMLCLIBS) \
 	  ../libvirt/mllibvirt.cma gtkInit.cmo -o $@ $^
 
+host_os		= @host_os@
+
+ifneq ($(host_os),mingw32)
 virt-ctrl.opt: $(XOBJS)
-	$(OCAMLOPT) -verbose $(OCAMLOPTINCS) $(OCAMLOPTFLAGS) $(OCAMLOPTLIBS) \
-	  -cclib "$(LDFLAGS)" \
+	$(OCAMLOPT) $(OCAMLOPTINCS) $(OCAMLOPTFLAGS) $(OCAMLOPTLIBS) \
+	  $(patsubst %,-cclib %,$(LDFLAGS)) \
 	  ../libvirt/mllibvirt.cmxa gtkInit.cmx -o $@ $^
+else
+# On MinGW, use a hacked 'gcc' wrapper which understands the @...
+# syntax for extending the command line.
+gcc.exe: mingw-gcc-wrapper.ml
+	$(OCAMLC) unix.cma $< -o $@
+
+virt-ctrl.opt: $(XOBJS) gcc.exe
+	PATH=.:$$PATH \
+	$(OCAMLOPT) $(OCAMLOPTINCS) $(OCAMLOPTFLAGS) $(OCAMLOPTLIBS) \
+	  $(patsubst %,-cclib %,$(LDFLAGS)) \
+	  ../libvirt/mllibvirt.cmxa gtkInit.cmx -o $@ $(XOBJS)
+endif
 endif
 
 install:

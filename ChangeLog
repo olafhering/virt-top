@@ -1,3 +1,10 @@
+2008-01-08  Richard Jones  <rjones@redhat.com>
+
+	Fix native virt-ctrl on Windows.
+	* virt-ctrl/Makefile.in, virt-ctrl/mingw-gcc-wrapper.ml: Wrapper
+	  around 'gcc' to fix native virt-ctrl builds on Windows/MinGW.
+	* .hgignore: Ignore *.exe files.
+
 2008-01-07  Richard Jones  <rjones@redhat.com>
 
 	Updated MANIFEST.
