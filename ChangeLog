@@ -1,5 +1,8 @@
 2008-01-08  Richard Jones  <rjones@redhat.com>
 
+	Clean up *.exe files.
+	* Makefile.in: Clean up *.exe files.
+
 	Version 0.4.0.1 released.
 	* Makefile.in: Provide a 'winupload' target.
 

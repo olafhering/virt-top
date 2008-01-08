@@ -35,7 +35,7 @@ all opt depend install:
 
 clean:
 	for d in . $(SUBDIRS); do \
-	  (cd $$d; rm -f *.cmi *.cmo *.cmx *.cma *.cmxa *.o *.a *.so *.opt *~ *.dll core); \
+	  (cd $$d; rm -f *.cmi *.cmo *.cmx *.cma *.cmxa *.o *.a *.so *.opt *~ *.dll *.exe core); \
 	done
 	rm -f examples/list_domains
 	rm -f mlvirsh/mlvirsh
