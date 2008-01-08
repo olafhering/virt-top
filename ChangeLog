@@ -1,5 +1,9 @@
 2008-01-08  Richard Jones  <rjones@redhat.com>
 
+	Change comments virt-manager -> virt-ctrl.
+	* virt-ctrl/*.ml, virt-ctrl/*.mli: Change comments virt-manager ->
+	  virt-ctrl.
+
 	Move programming information to libvirt generated doc.
 	* README, libvirt/libvirt.mli: Moved programming information to
 	  libvirt generated documentation, greatly expanded examples and

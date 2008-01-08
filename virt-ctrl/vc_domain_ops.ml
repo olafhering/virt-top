@@ -1,4 +1,4 @@
-(* virt-manager-like graphical management tool.
+(* virt-ctrl: A graphical management tool.
    (C) Copyright 2007 Richard W.M. Jones, Red Hat Inc.
    http://libvirt.org/
 
