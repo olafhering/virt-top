@@ -59,6 +59,12 @@ and inactive = string (* domain's name *)
 let last_cpu_time = Hashtbl.create 13
 let last_time = ref (Unix.gettimeofday ())
 
+(* Store the node_info and hostname for each connection, fetched
+ * once just after we connect since these don't normally change.
+ * Hash of connid -> (C.node_info, hostname option, uri)
+ *)
+let static_conn_info = Hashtbl.create 13
+
 type columns = string GTree.column * string GTree.column * string GTree.column * string GTree.column * string GTree.column * int GTree.column
 
 let debug_repopulate = true
@@ -97,14 +103,15 @@ let repopulate (tree : GTree.view) (model : GTree.tree_store)
   List.iter (
     fun conn_id ->
       let row = model#append () in
-      (* Get the connection name. *)
+      (* Get the connection name, usually the hostname. *)
       let name =
-	try C.get_hostname (List.assoc conn_id conns)
-	with Not_found | Libvirt.Virterror _ ->
-	  "Conn #" ^ string_of_int conn_id in
+	match Hashtbl.find static_conn_info conn_id with
+	| (_, Some hostname, _) -> hostname
+	| (_, None, _) -> sprintf "Conn #%d" conn_id in
       model#set ~row ~column:col_name_id name;
       model#set ~row ~column:col_id conn_id;
-      (* XXX This doesn't work, why? *)
+      (* Expand the new row. *)
+      (* XXX This doesn't work, why? - Because we haven't create subrows yet.*)
       tree#expand_row (model#get_path row)
   ) added;
 
@@ -127,8 +134,8 @@ let repopulate (tree : GTree.view) (model : GTree.tree_store)
 	  with Not_found -> assert false (* Should never happen. *) in
 
 	try
-	  (* Node info & number of CPUs available. *)
-	  let node_info = C.get_node_info conn in
+	  (* Number of CPUs available. *)
+	  let node_info, _, _ = Hashtbl.find static_conn_info conn_id in
 	  let nr_cpus = C.maxcpus_of_node_info node_info in
 
 	  (* For this connection, get a current list of active domains (IDs) *)
@@ -314,13 +321,23 @@ let make_treeview ?packing () =
  *)
 let open_connection () =
   let title = "Open connection to hypervisor" in
-  let name =
+  let uri =
     GToolbox.input_string ~title ~text:"xen:///" ~ok:"Open" "Connection:" in
-  match name with
+  match uri with
   | None -> ()
-  | Some name ->
+  | Some uri ->
       (* If this fails, let the exception escape and be printed
        * in the global exception handler.
        *)
-      let conn = C.connect ~name () in
-      ignore (add_conn conn)
+      let conn = C.connect ~name:uri () in
+
+      let node_info = C.get_node_info conn in
+      let hostname =
+	try Some (C.get_hostname conn)
+	with
+	| Libvirt.Not_supported "virConnectGetHostname"
+	| Libvirt.Virterror _ -> None in
+
+      (* Add it to our list of connections. *)
+      let conn_id = add_conn conn in
+      Hashtbl.add static_conn_info conn_id (node_info, hostname, uri)

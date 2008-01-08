@@ -41,7 +41,9 @@ val repopulate : GTree.view -> GTree.tree_store -> columns -> state -> state
 (** Create the GtkTreeView.  Returns the widget itself, the model,
     the list of columns, and the initial state.
 *)
-val make_treeview : ?packing:(GObj.widget -> unit) -> unit -> GTree.view * GTree.tree_store * columns * state
+val make_treeview :
+  ?packing:(GObj.widget -> unit) -> unit ->
+    GTree.view * GTree.tree_store * columns * state
 
 (** This callback creates the Connect to hypervisor dialog. *)
 val open_connection : unit -> unit

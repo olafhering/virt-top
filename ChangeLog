@@ -1,5 +1,10 @@
 2008-01-08  Richard Jones  <rjones@redhat.com>
 
+	Get node_info just once for each connection.
+	* vc_connections.ml: Get node_info just once for each connection,
+	  which is more efficient.
+	* vc_connections.mli: Tidy up.
+
 	Type Vc_domain_ops.dops_callback_fn for clarity.
 	* virt-ctrl/vc_domain_ops.mli, virt-ctrl/vc_domain_ops.ml,
 	  virt-ctrl/vc_mainwindow.mli: Give a type name to the domain_ops
