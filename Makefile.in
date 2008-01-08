@@ -69,10 +69,12 @@ endif
 
 # Windows installer (requires NSIS).
 
-ifneq ($(MAKENSIS),)
-wininstaller: $(PACKAGE)-$(VERSION).exe
+WININSTALLER := $(PACKAGE)-$(VERSION).exe
 
-$(PACKAGE)-$(VERSION).exe: wininstaller.nsis all opt
+ifneq ($(MAKENSIS),)
+wininstaller: $(WININSTALLER)
+
+$(WININSTALLER): wininstaller.nsis all opt
 	"$(MAKENSIS)" \
 	  //DPACKAGE=$(PACKAGE) //DVERSION=$(VERSION) \
 	  //DOUTFILE=$@ $<
@@ -135,6 +137,11 @@ upload:
 	scp html/*.html html/*.css \
 	  libvirt.org:/data/www/libvirt.org/ocaml/html/
 	scp $(PACKAGE)-$(VERSION).tar.gz libvirt.org:/data/ftp/libvirt/ocaml/
+
+# Upload Windows binary installer to main website.
+
+winupload:
+	scp $(WININSTALLER) libvirt.org:/data/ftp/libvirt/ocaml/
 
 force:
 
