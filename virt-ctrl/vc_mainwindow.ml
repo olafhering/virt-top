@@ -19,7 +19,7 @@
 
 open Printf
 
-let title = "Virtual Machine Manager"
+let title = "Virtual Control"
 
 let utf8_copyright = "\194\169"
 
@@ -35,7 +35,7 @@ let help_about () =
   GToolbox.message_box
     ~title
     ~icon
-    ("Virtual machine manager (OCaml version) by\n" ^
+    ("Virtual control (virt-ctrl) by\n" ^
      "Richard W.M. Jones (rjones@redhat.com).\n\n" ^
      "Copyright " ^ utf8_copyright ^ " 2007 Red Hat Inc.\n\n" ^
      "Libvirt version: " ^ virt_version ^ "\n" ^
