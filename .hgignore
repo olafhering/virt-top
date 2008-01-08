@@ -27,6 +27,7 @@ core.*
 *~
 libvirt/libvirt_version.ml
 examples/list_domains
+examples/node_info
 mlvirsh/mlvirsh
 virt-ctrl/virt-ctrl
 virt-top/virt-top

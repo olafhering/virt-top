@@ -17,7 +17,7 @@ let () =
 	Some (Sys.argv.(1))
       else
 	None in
-    let conn = C.connect ?name () in
+    let conn = C.connect_readonly ?name () in
 
     (* List running domains. *)
     let n = C.num_of_domains conn in

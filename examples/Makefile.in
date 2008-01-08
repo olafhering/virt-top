@@ -36,8 +36,8 @@ endif
 export LIBRARY_PATH=../libvirt
 export LD_LIBRARY_PATH=../libvirt
 
-BYTE_TARGETS	:= list_domains
-OPT_TARGETS	:= list_domains.opt
+BYTE_TARGETS	:= list_domains node_info
+OPT_TARGETS	:= list_domains.opt node_info.opt
 
 all: $(BYTE_TARGETS)
 
@@ -53,6 +53,16 @@ list_domains.opt: list_domains.cmx
 	$(OCAMLFIND) ocamlopt \
 	  $(OCAMLOPTPACKAGES) $(OCAMLOPTFLAGS) $(OCAMLOPTLIBS) \
 	  ../libvirt/mllibvirt.cmxa -o $@ $<
+
+node_info: node_info.cmo
+	$(OCAMLFIND) ocamlc \
+	  $(OCAMLCPACKAGES) $(OCAMLCFLAGS) $(OCAMLCLIBS) \
+	  ../libvirt/mllibvirt.cma -o $@ $<
+
+node_info.opt: node_info.cmx
+	$(OCAMLFIND) ocamlopt \
+	  $(OCAMLOPTPACKAGES) $(OCAMLOPTFLAGS) $(OCAMLOPTLIBS) \
+	  ../libvirt/mllibvirt.cmxa -o $@ $<
 else
 list_domains: list_domains.cmo
 	$(OCAMLC) \
@@ -60,6 +70,16 @@ list_domains: list_domains.cmo
 	  ../libvirt/mllibvirt.cma -o $@ $<
 
 list_domains.opt: list_domains.cmx
+	$(OCAMLOPT) \
+	  $(OCAMLOPTINCS) $(OCAMLOPTFLAGS) $(OCAMLOPTLIBS) \
+	  ../libvirt/mllibvirt.cmxa -o $@ $<
+
+node_info: node_info.cmo
+	$(OCAMLC) \
+	  $(OCAMLCINCS) $(OCAMLCFLAGS) $(OCAMLCLIBS) \
+	  ../libvirt/mllibvirt.cma -o $@ $<
+
+node_info.opt: node_info.cmx
 	$(OCAMLOPT) \
 	  $(OCAMLOPTINCS) $(OCAMLOPTFLAGS) $(OCAMLOPTLIBS) \
 	  ../libvirt/mllibvirt.cmxa -o $@ $<

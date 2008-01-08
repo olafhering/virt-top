@@ -38,6 +38,7 @@ clean:
 	  (cd $$d; rm -f *.cmi *.cmo *.cmx *.cma *.cmxa *.o *.a *.so *.opt *~ *.dll *.exe core); \
 	done
 	rm -f examples/list_domains
+	rm -f examples/node_info
 	rm -f mlvirsh/mlvirsh
 	rm -f virt-ctrl/virt-ctrl
 	rm -f virt-top/virt-top

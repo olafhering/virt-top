@@ -152,33 +152,6 @@ domains, or show the machine console.
 Programming
 ----------------------------------------------------------------------
 
-The interface is described in 'libvirt.mli'.  The main modules are
-Libvirt.Connect, Libvirt.Domain and Libvirt.Network, corresponding
-respectively to the virConnect*, virDomain*, and virNetwork*
-functions.  For brevity I usually rename these modules like this:
-
-  module C = Libvirt.Connect
-  module D = Libvirt.Domain
-  module N = Libvirt.Network
-
-To get a connection handle, do:
-
-  let name = "xen:///"
-  let conn = C.connect ~name ()
-
-To list domains, do:
-
-  let n = C.num_of_domains conn
-  let ids = C.list_domains conn n
-  let domains = Array.map (D.lookup_by_id conn) ids
-  let () =
-    Array.iter (
-      fun dom ->
-        printf "%5d %s\n" (D.get_id dom) (D.get_name dom)
-    ) domains
-
-(See also the program list_domains.ml).
-
 For documentation on these bindings, read libvirt.mli and/or 'make
 doc' and browse the HTML documentation in the html/ subdirectory.
 

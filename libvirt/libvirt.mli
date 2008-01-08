@@ -1,6 +1,6 @@
-(** OCaml bindings for libvirt.
-    (C) Copyright 2007 Richard W.M. Jones, Red Hat Inc.
-    http://libvirt.org/
+(** OCaml bindings for libvirt. *)
+(* (C) Copyright 2007 Richard W.M. Jones, Red Hat Inc.
+   http://libvirt.org/
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -17,16 +17,185 @@
    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
 *)
 
-type uuid = string
-(** This is a "raw" UUID, ie. a packed string of bytes. *)
+(**
+   {2 Introduction and examples}
 
-type xml = string
-(** Type of XML (an uninterpreted string of bytes).  Use PXP, expat,
-    xml-light, etc. if you want to do anything useful with the XML.
+   This is a set of bindings for writing OCaml programs to
+   manage virtual machines through {{:http://libvirt.org/}libvirt}.
+
+   {3 Using libvirt interactively}
+
+   Using the interactive toplevel:
+
+{v
+$ ocaml -I +libvirt
+        Objective Caml version 3.10.0
+
+# #load "unix.cma";;
+# #load "mllibvirt.cma";;
+# let name = "test:///default";;
+val name : string = "test:///default"
+# let conn = Libvirt.Connect.connect_readonly ~name () ;;
+val conn : Libvirt.ro Libvirt.Connect.t = <abstr>
+# Libvirt.Connect.get_node_info conn;;
+  : Libvirt.Connect.node_info =
+{Libvirt.Connect.model = "i686"; Libvirt.Connect.memory = 3145728L;
+ Libvirt.Connect.cpus = 16; Libvirt.Connect.mhz = 1400;
+ Libvirt.Connect.nodes = 2; Libvirt.Connect.sockets = 2;
+ Libvirt.Connect.cores = 2; Libvirt.Connect.threads = 2}
+v}
+
+   {3 Compiling libvirt programs}
+
+   This command compiles a program to native code:
+
+{v
+ocamlopt -I +libvirt mllibvirt.cmxa list_domains.ml -o list_domains
+v}
+
+   {3 Example: Connect to the hypervisor}
+
+   The main modules are {!Libvirt.Connect}, {!Libvirt.Domain} and
+   {!Libvirt.Network} corresponding respectively to the
+   {{:http://libvirt.org/html/libvirt-libvirt.html}virConnect*, virDomain* and virNetwork* functions from libvirt}.
+   For brevity I usually rename these modules like this:
+
+{v
+module C = Libvirt.Connect
+module D = Libvirt.Domain
+module N = Libvirt.Network
+v}
+
+   To get a connection handle, assuming a Xen hypervisor:
+
+{v
+let name = "xen:///"
+let conn = C.connect_readonly ~name ()
+v}
+
+   {3 Example: List running domains}
+
+{v
+open Printf
+
+let n = C.num_of_domains conn in
+let ids = C.list_domains conn n in
+let domains = Array.map (D.lookup_by_id conn) ids in
+Array.iter (
+  fun dom ->
+    printf "%8d %s\n%!" (D.get_id dom) (D.get_name dom)
+) domains;
+v}
+
+   {3 Example: List inactive domains}
+
+{v
+let n = C.num_of_defined_domains conn in
+let names = C.list_defined_domains conn n in
+Array.iter (
+  fun name ->
+    printf "inactive %s\n%!" name
+) names;
+v}
+
+   {3 Example: Print node info}
+
+{v
+let node_info = C.get_node_info conn in
+printf "model = %s\n" node_info.C.model;
+printf "memory = %Ld K\n" node_info.C.memory;
+printf "cpus = %d\n" node_info.C.cpus;
+printf "mhz = %d\n" node_info.C.mhz;
+printf "nodes = %d\n" node_info.C.nodes;
+printf "sockets = %d\n" node_info.C.sockets;
+printf "cores = %d\n" node_info.C.cores;
+printf "threads = %d\n%!" node_info.C.threads;
+
+let hostname = C.get_hostname conn in
+printf "hostname = %s\n%!" hostname;
+
+let uri = C.get_uri conn in
+printf "uri = %s\n%!" uri
+v}
+
 *)
 
+
+(** {2 Programming issues}
+
+    {3 General safety issues}
+
+    Memory allocation / automatic garbage collection of all libvirt
+    objects should be completely safe (except in the specific
+    virterror case noted below).  If you find any safety issues or if your
+    pure OCaml program ever segfaults, please contact the author.
+
+    You can force a libvirt object to be freed early by calling
+    the [close] function on the object.  This shouldn't affect
+    the safety of garbage collection and should only be used when
+    you want to explicitly free memory.  Note that explicitly
+    closing a connection object does nothing if there are still
+    unclosed domain or network objects referencing it.
+
+    Note that even though you hold open (eg) a domain object, that
+    doesn't mean that the domain (virtual machine) actually exists.
+    The domain could have been shut down or deleted by another user.
+    Thus domain objects can through odd exceptions at any time.
+    This is just the nature of virtualisation.
+
+    Virterror has a specific design error which means that the
+    objects embedded in a virterror exception message are only
+    valid as long as the connection handle is still open.  This
+    is a design flaw in the C code of libvirt and we cannot fix
+    or work around it in the OCaml bindings.
+
+    {3 Backwards and forwards compatibility}
+
+    OCaml-libvirt is backwards and forwards compatible with
+    any libvirt >= 0.2.1.  One consequence of this is that
+    your program can dynamically link to a {i newer} version of
+    libvirt than it was compiled with, and it should still
+    work.
+
+    When we link to an older version of libvirt.so, there may
+    be missing functions.  If ocaml-libvirt was compiled with
+    gcc, then these are turned into OCaml {!Libvirt.Not_supported}
+    exceptions.
+
+    We don't support libvirt < 0.2.1, and never will so don't ask us.
+
+    {3 Threads}
+
+    You can issue multiple concurrent libvirt requests in
+    different threads.  However you must follow this rule:
+    Each thread must have its own separate libvirt connection, {i or}
+    you must implement your own mutex scheme to ensure that no
+    two threads can ever make concurrent calls using the same
+    libvirt connection.
+
+    (Note that multithreaded code is not well tested.  If you find
+    bugs please report them.)
+
+    {3 Initialisation}
+
+    Libvirt requires all callers to call virInitialize before
+    using the library.  This is done automatically for you by
+    these bindings when the program starts up, and we believe
+    that the way this is done is safe.
+
+    {2 Reference}
+*)
+
+type uuid = string
+    (** This is a "raw" UUID, ie. a packed string of bytes. *)
+
+type xml = string
+    (** Type of XML (an uninterpreted string of bytes).  Use PXP, expat,
+	xml-light, etc. if you want to do anything useful with the XML.
+    *)
+
 type filename = string
-(** A filename. *)
+    (** A filename. *)
 
 val get_version : ?driver:string -> unit -> int * int
   (** [get_version ()] returns the library version in the first part
@@ -46,12 +215,34 @@ val uuid_length : int
 val uuid_string_length : int
   (** Length of UUID strings. *)
 
-(* These phantom types are used to ensure the type-safety of read-only
- * versus read-write connections.  For more information see:
- * http://caml.inria.fr/pub/ml-archives/caml-list/2004/07/80683af867cce6bf8fff273973f70c95.en.html
- *)
 type rw = [`R|`W]
 type ro = [`R]
+    (** These
+	{{:http://caml.inria.fr/pub/ml-archives/caml-list/2004/07/80683af867cce6bf8fff273973f70c95.en.html}phantom types}
+	are used to ensure the type-safety of read-only
+	versus read-write connections.
+
+	All connection/domain/etc. objects are marked with
+	a phantom read-write or read-only type, and trying to
+	pass a read-only object into a function which could
+	mutate the object will cause a compile time error.
+
+	Each module provides a function like {!Libvirt.Connect.const}
+	to demote a read-write object into a read-only object.  The
+	opposite operation is, of course, not allowed.
+
+	If you want to handle both read-write and read-only
+	connections at runtime, use a variant similar to this:
+{v
+type conn_t =
+    | No_connection
+    | Read_only of Libvirt.ro Libvirt.Connect.t
+    | Read_write of Libvirt.rw Libvirt.Connect.t
+v}
+	See also the source of [mlvirsh].
+    *)
+
+(** {3 Connections} *)
 
 module Connect :
 sig
@@ -184,6 +375,8 @@ end
   (** Module dealing with connections.  [Connect.t] is the
       connection object.
   *)
+
+(** {3 Domains} *)
 
 module Domain :
 sig
@@ -361,6 +554,8 @@ end
       domain object.
   *)
 
+(** {3 Networks} *)
+
 module Network : 
 sig
   type 'rw t
@@ -415,6 +610,8 @@ end
   (** Module dealing with networks.  [Network.t] is the
       network object.
   *)
+
+(** {3 Error handling and exceptions} *)
 
 module Virterror :
 sig
@@ -560,6 +757,6 @@ exception Not_supported of string
     not supported at either compile or run time.  This applies to
     any libvirt function added after version 0.2.1.
 
-    See also [http://libvirt.org/hvsupport.html]
+    See also {{:http://libvirt.org/hvsupport.html}http://libvirt.org/hvsupport.html}
 *)
 

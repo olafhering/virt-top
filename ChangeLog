@@ -1,5 +1,14 @@
 2008-01-08  Richard Jones  <rjones@redhat.com>
 
+	Move programming information to libvirt generated doc.
+	* README, libvirt/libvirt.mli: Moved programming information to
+	  libvirt generated documentation, greatly expanded examples and
+	  other issues.
+	* examples/Makefile.in, examples/node_info.ml, examples/.depend:
+	  Added node_info example program.
+	* .hgignore, Makefile.in: Ignore, clean up node_info binary.
+	* examples/list_domains.ml: Make a read-only connection.
+
 	Clean up *.exe files.
 	* Makefile.in: Clean up *.exe files.
 
