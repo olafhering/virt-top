@@ -7,6 +7,7 @@ configure
 config.log
 config.status
 config.h
+config.cache
 Makefile
 Make.rules
 */Makefile
