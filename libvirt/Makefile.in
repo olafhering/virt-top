@@ -102,6 +102,13 @@ endif
 libvirt_c.c: generator.pl
 	perl -w $< > $@
 
+# Status of automatically generated bindings.
+autostatus:
+	@echo -n "Functions which have manual bindings: "
+	@grep ^ocaml_libvirt_ libvirt_c_oneoffs.c  | wc -l
+	@echo -n "LOC in manual bindings: "
+	@wc -l < libvirt_c_oneoffs.c
+
 libvirt.cmo: libvirt.cmi
 libvirt.cmi: libvirt.mli
 
