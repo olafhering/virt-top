@@ -119,7 +119,6 @@ AC_CHECK_FUNCS([virConnectGetHostname \
 		virStoragePoolSetAutostart \
 		virStoragePoolNumOfVolumes \
 		virStoragePoolListVolumes \
-		virStorageVolGetConnect \
 		virStorageVolLookupByName \
 		virStorageVolLookupByKey \
 		virStorageVolLookupByPath \

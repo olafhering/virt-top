@@ -293,38 +293,6 @@ ocaml_libvirt_domain_lookup_by_uuid (value connv, value uuidv)
 }
 
 CAMLprim value
-ocaml_libvirt_domain_lookup_by_uuid_string (value connv, value uuidv)
-{
-  CAMLparam2 (connv, uuidv);
-  CAMLlocal1 (rv);
-  virConnectPtr conn = Connect_val (connv);
-  char *uuid = String_val (uuidv);
-  virDomainPtr r;
-
-  NONBLOCKING (r = virDomainLookupByUUIDString (conn, uuid));
-  CHECK_ERROR (!r, conn, "virDomainLookupByUUIDString");
-
-  rv = Val_domain (r, connv);
-  CAMLreturn (rv);
-}
-
-CAMLprim value
-ocaml_libvirt_domain_lookup_by_name (value connv, value namev)
-{
-  CAMLparam2 (connv, namev);
-  CAMLlocal1 (rv);
-  virConnectPtr conn = Connect_val (connv);
-  char *name = String_val (namev);
-  virDomainPtr r;
-
-  NONBLOCKING (r = virDomainLookupByName (conn, name));
-  CHECK_ERROR (!r, conn, "virDomainLookupByName");
-
-  rv = Val_domain (r, connv);
-  CAMLreturn (rv);
-}
-
-CAMLprim value
 ocaml_libvirt_domain_destroy (value domv)
 {
   CAMLparam1 (domv);
@@ -936,22 +904,6 @@ ocaml_libvirt_domain_interface_stats (value domv, value pathv)
 }
 
 CAMLprim value
-ocaml_libvirt_network_lookup_by_name (value connv, value namev)
-{
-  CAMLparam2 (connv, namev);
-  CAMLlocal1 (rv);
-  virConnectPtr conn = Connect_val (connv);
-  char *name = String_val (namev);
-  virNetworkPtr r;
-
-  NONBLOCKING (r = virNetworkLookupByName (conn, name));
-  CHECK_ERROR (!r, conn, "virNetworkLookupByName");
-
-  rv = Val_network (r, connv);
-  CAMLreturn (rv);
-}
-
-CAMLprim value
 ocaml_libvirt_network_lookup_by_uuid (value connv, value uuidv)
 {
   CAMLparam2 (connv, uuidv);
@@ -962,22 +914,6 @@ ocaml_libvirt_network_lookup_by_uuid (value connv, value uuidv)
 
   NONBLOCKING (r = virNetworkLookupByUUID (conn, (unsigned char *) uuid));
   CHECK_ERROR (!r, conn, "virNetworkLookupByUUID");
-
-  rv = Val_network (r, connv);
-  CAMLreturn (rv);
-}
-
-CAMLprim value
-ocaml_libvirt_network_lookup_by_uuid_string (value connv, value uuidv)
-{
-  CAMLparam2 (connv, uuidv);
-  CAMLlocal1 (rv);
-  virConnectPtr conn = Connect_val (connv);
-  char *uuid = String_val (uuidv);
-  virNetworkPtr r;
-
-  NONBLOCKING (r = virNetworkLookupByUUIDString (conn, uuid));
-  CHECK_ERROR (!r, conn, "virNetworkLookupByUUIDString");
 
   rv = Val_network (r, connv);
   CAMLreturn (rv);

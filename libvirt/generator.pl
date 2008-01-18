@@ -51,6 +51,8 @@ my @functions = (
       sig => "conn, int : string array", weak => 1 },
     { name => "virConnectGetCapabilities", sig => "conn : string" },
 
+    { name => "virDomainLookupByName", sig => "conn, string : dom" },
+    { name => "virDomainLookupByUUIDString", sig => "conn, string : dom" },
     { name => "virDomainGetName", sig => "dom : static string" },
     { name => "virDomainGetOSType", sig => "dom : string" },
     { name => "virDomainGetXMLDesc", sig => "dom, 0 : string" },
@@ -61,12 +63,18 @@ my @functions = (
     { name => "virDomainUndefine", sig => "dom : unit" },
     { name => "virDomainCreate", sig => "dom : unit" },
 
+    { name => "virNetworkLookupByName", sig => "conn, string : net" },
+    { name => "virNetworkLookupByUUIDString", sig => "conn, string : net" },
     { name => "virNetworkGetName", sig => "net : static string" },
     { name => "virNetworkGetXMLDesc", sig => "net, 0 : string" },
     { name => "virNetworkGetBridgeName", sig => "net : string" },
     { name => "virNetworkUndefine", sig => "net : unit" },
     { name => "virNetworkCreate", sig => "net : unit" },
 
+    { name => "virStoragePoolLookupByName",
+      sig => "conn, string : pool", weak => 1 },
+    { name => "virStoragePoolLookupByUUIDString",
+      sig => "conn, string : pool", weak => 1 },
     { name => "virStoragePoolGetName",
       sig => "pool : static string", weak => 1 },
     { name => "virStoragePoolGetXMLDesc",
@@ -80,6 +88,12 @@ my @functions = (
     { name => "virStoragePoolRefresh",
       sig => "pool, 0 : string", weak => 1 },
 
+    { name => "virStorageVolLookupByName",
+      sig => "conn, string : vol", weak => 1 },
+    { name => "virStorageVolLookupByKey",
+      sig => "conn, string : vol", weak => 1 },
+    { name => "virStorageVolLookupByPath",
+      sig => "conn, string : vol", weak => 1 },
     { name => "virStorageVolGetXMLDesc",
       sig => "pool, 0 : string", weak => 1 },
     { name => "virStorageVolGetPath",
@@ -112,17 +126,12 @@ my @unimplemented = (
     "ocaml_libvirt_storage_pool_destroy",
     "ocaml_libvirt_storage_pool_define_xml",
     "ocaml_libvirt_storage_pool_create_xml",
-    "ocaml_libvirt_storage_pool_lookup_by_uuid_string",
     "ocaml_libvirt_storage_pool_lookup_by_uuid",
-    "ocaml_libvirt_storage_pool_lookup_by_name",
     "ocaml_libvirt_storage_vol_free",
     "ocaml_libvirt_storage_vol_destroy",
     "ocaml_libvirt_storage_vol_create_xml",
     "ocaml_libvirt_storage_vol_get_info",
     "ocaml_libvirt_pool_of_volume",
-    "ocaml_libvirt_storage_vol_lookup_by_path",
-    "ocaml_libvirt_storage_vol_lookup_by_key",
-    "ocaml_libvirt_storage_vol_lookup_by_name",
     "ocaml_libvirt_job_cancel",
     "ocaml_libvirt_job_get_network",
     "ocaml_libvirt_job_get_domain",
@@ -193,7 +202,7 @@ sub camel_case_to_underscores
 {
     my $name = shift;
 
-    $name =~ s/([A-Z][a-z]+|XML|URI|OS)/$1,/g;
+    $name =~ s/([A-Z][a-z]+|XML|URI|OS|UUID)/$1,/g;
     my @subs = split (/,/, $name);
     @subs = map { lc($_) } @subs;
     join "_", @subs
@@ -242,6 +251,10 @@ sub gen_c_signature
     } elsif ($sig =~ /^(\w+) : unit$/) {
 	my $c_type = short_name_to_c_type ($1);
 	"int $c_name ($c_type $1 dom)"
+    } elsif ($sig =~ /^(\w+), string : (\w+)$/) {
+	my $c_type = short_name_to_c_type ($1);
+	my $c_ret_type = short_name_to_c_type ($2);
+	"$c_ret_type $c_name ($c_type $1 dom)"
     } else {
 	die "unknown signature $sig"
     }
@@ -267,6 +280,8 @@ sub gen_arg_names
 	( "$1v" )
     } elsif ($sig =~ /^(\w+) : unit$/) {
 	( "$1v" )
+    } elsif ($sig =~ /^(\w+), string : (\w+)$/) {
+	( "$1v", "strv" )
     } else {
 	die "unknown signature $sig"
     }
@@ -292,6 +307,21 @@ sub gen_unpack_args
 	"  virConnectPtr conn = Connect_volv (volv);"
     } else {
 	die "unknown short name $_"
+    }
+}
+
+sub gen_pack_result
+{
+    local $_ = shift;
+
+    if ($_ eq "dom") {
+	"rv = Val_domain (r, connv);"
+    } elsif ($_ eq "net") {
+	"rv = Val_network (r, connv);"
+    } elsif ($_ eq "pool") {
+	"rv = Val_pool (r, connv);"
+    } elsif ($_ eq "vol") {
+	"rv = Val_volume (r, connv);"
     }
 }
 
@@ -403,6 +433,21 @@ sub gen_c_code
   CHECK_ERROR (r == -1, conn, \"$c_name\");
 
   CAMLreturn (Val_unit);
+"
+    } elsif ($sig =~ /^(\w+), string : (\w+)$/) {
+	my $c_ret_type = short_name_to_c_type ($2);
+	"\
+  CAMLlocal1 (rv);
+  " . gen_unpack_args ($1) . "
+  char *str = String_val (strv);
+  $c_ret_type r;
+
+  NONBLOCKING (r = $c_name ($1, str));
+  CHECK_ERROR (!r, conn, \"$c_name\");
+
+  " . gen_pack_result ($2) . "
+
+  CAMLreturn (rv);
 "
     } else {
 	die "unknown signature $sig"

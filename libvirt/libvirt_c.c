@@ -438,6 +438,42 @@ ocaml_libvirt_connect_get_capabilities (value connv)
 }
 
 CAMLprim value
+ocaml_libvirt_domain_lookup_by_name (value connv, value strv)
+{
+  CAMLparam2 (connv, strv);
+
+  CAMLlocal1 (rv);
+  virConnectPtr conn = Connect_val (connv);
+  char *str = String_val (strv);
+  virDomainPtr r;
+
+  NONBLOCKING (r = virDomainLookupByName (conn, str));
+  CHECK_ERROR (!r, conn, "virDomainLookupByName");
+
+  rv = Val_domain (r, connv);
+
+  CAMLreturn (rv);
+}
+
+CAMLprim value
+ocaml_libvirt_domain_lookup_by_uuid_string (value connv, value strv)
+{
+  CAMLparam2 (connv, strv);
+
+  CAMLlocal1 (rv);
+  virConnectPtr conn = Connect_val (connv);
+  char *str = String_val (strv);
+  virDomainPtr r;
+
+  NONBLOCKING (r = virDomainLookupByUUIDString (conn, str));
+  CHECK_ERROR (!r, conn, "virDomainLookupByUUIDString");
+
+  rv = Val_domain (r, connv);
+
+  CAMLreturn (rv);
+}
+
+CAMLprim value
 ocaml_libvirt_domain_get_name (value domv)
 {
   CAMLparam1 (domv);
@@ -581,6 +617,42 @@ ocaml_libvirt_domain_create (value domv)
 }
 
 CAMLprim value
+ocaml_libvirt_network_lookup_by_name (value connv, value strv)
+{
+  CAMLparam2 (connv, strv);
+
+  CAMLlocal1 (rv);
+  virConnectPtr conn = Connect_val (connv);
+  char *str = String_val (strv);
+  virNetworkPtr r;
+
+  NONBLOCKING (r = virNetworkLookupByName (conn, str));
+  CHECK_ERROR (!r, conn, "virNetworkLookupByName");
+
+  rv = Val_network (r, connv);
+
+  CAMLreturn (rv);
+}
+
+CAMLprim value
+ocaml_libvirt_network_lookup_by_uuid_string (value connv, value strv)
+{
+  CAMLparam2 (connv, strv);
+
+  CAMLlocal1 (rv);
+  virConnectPtr conn = Connect_val (connv);
+  char *str = String_val (strv);
+  virNetworkPtr r;
+
+  NONBLOCKING (r = virNetworkLookupByUUIDString (conn, str));
+  CHECK_ERROR (!r, conn, "virNetworkLookupByUUIDString");
+
+  rv = Val_network (r, connv);
+
+  CAMLreturn (rv);
+}
+
+CAMLprim value
 ocaml_libvirt_network_get_name (value netv)
 {
   CAMLparam1 (netv);
@@ -661,6 +733,76 @@ ocaml_libvirt_network_create (value netv)
   CHECK_ERROR (r == -1, conn, "virNetworkCreate");
 
   CAMLreturn (Val_unit);
+}
+
+#ifdef HAVE_WEAK_SYMBOLS
+#ifdef HAVE_VIRSTORAGEPOOLLOOKUPBYNAME
+extern virStoragePoolPtr virStoragePoolLookupByName (virConnectPtr conn dom) __attribute__((weak));
+#endif
+#endif
+
+CAMLprim value
+ocaml_libvirt_storage_pool_lookup_by_name (value connv, value strv)
+{
+  CAMLparam2 (connv, strv);
+#ifndef HAVE_VIRSTORAGEPOOLLOOKUPBYNAME
+  /* Symbol virStoragePoolLookupByName not found at compile time. */
+  not_supported ("virStoragePoolLookupByName");
+  /* Suppresses a compiler warning. */
+  (void) caml__frame;
+#else
+  /* Check that the symbol virStoragePoolLookupByName
+   * is in runtime version of libvirt.
+   */
+  WEAK_SYMBOL_CHECK (virStoragePoolLookupByName);
+
+  CAMLlocal1 (rv);
+  virConnectPtr conn = Connect_val (connv);
+  char *str = String_val (strv);
+  virStoragePoolPtr r;
+
+  NONBLOCKING (r = virStoragePoolLookupByName (conn, str));
+  CHECK_ERROR (!r, conn, "virStoragePoolLookupByName");
+
+  rv = Val_pool (r, connv);
+
+  CAMLreturn (rv);
+#endif
+}
+
+#ifdef HAVE_WEAK_SYMBOLS
+#ifdef HAVE_VIRSTORAGEPOOLLOOKUPBYUUIDSTRING
+extern virStoragePoolPtr virStoragePoolLookupByUUIDString (virConnectPtr conn dom) __attribute__((weak));
+#endif
+#endif
+
+CAMLprim value
+ocaml_libvirt_storage_pool_lookup_by_uuid_string (value connv, value strv)
+{
+  CAMLparam2 (connv, strv);
+#ifndef HAVE_VIRSTORAGEPOOLLOOKUPBYUUIDSTRING
+  /* Symbol virStoragePoolLookupByUUIDString not found at compile time. */
+  not_supported ("virStoragePoolLookupByUUIDString");
+  /* Suppresses a compiler warning. */
+  (void) caml__frame;
+#else
+  /* Check that the symbol virStoragePoolLookupByUUIDString
+   * is in runtime version of libvirt.
+   */
+  WEAK_SYMBOL_CHECK (virStoragePoolLookupByUUIDString);
+
+  CAMLlocal1 (rv);
+  virConnectPtr conn = Connect_val (connv);
+  char *str = String_val (strv);
+  virStoragePoolPtr r;
+
+  NONBLOCKING (r = virStoragePoolLookupByUUIDString (conn, str));
+  CHECK_ERROR (!r, conn, "virStoragePoolLookupByUUIDString");
+
+  rv = Val_pool (r, connv);
+
+  CAMLreturn (rv);
+#endif
 }
 
 #ifdef HAVE_WEAK_SYMBOLS
@@ -868,6 +1010,111 @@ ocaml_libvirt_storage_pool_refresh (value poolv)
 
   rv = caml_copy_string (r);
   free (r);
+  CAMLreturn (rv);
+#endif
+}
+
+#ifdef HAVE_WEAK_SYMBOLS
+#ifdef HAVE_VIRSTORAGEVOLLOOKUPBYNAME
+extern virStorageVolPtr virStorageVolLookupByName (virConnectPtr conn dom) __attribute__((weak));
+#endif
+#endif
+
+CAMLprim value
+ocaml_libvirt_storage_vol_lookup_by_name (value connv, value strv)
+{
+  CAMLparam2 (connv, strv);
+#ifndef HAVE_VIRSTORAGEVOLLOOKUPBYNAME
+  /* Symbol virStorageVolLookupByName not found at compile time. */
+  not_supported ("virStorageVolLookupByName");
+  /* Suppresses a compiler warning. */
+  (void) caml__frame;
+#else
+  /* Check that the symbol virStorageVolLookupByName
+   * is in runtime version of libvirt.
+   */
+  WEAK_SYMBOL_CHECK (virStorageVolLookupByName);
+
+  CAMLlocal1 (rv);
+  virConnectPtr conn = Connect_val (connv);
+  char *str = String_val (strv);
+  virStorageVolPtr r;
+
+  NONBLOCKING (r = virStorageVolLookupByName (conn, str));
+  CHECK_ERROR (!r, conn, "virStorageVolLookupByName");
+
+  rv = Val_volume (r, connv);
+
+  CAMLreturn (rv);
+#endif
+}
+
+#ifdef HAVE_WEAK_SYMBOLS
+#ifdef HAVE_VIRSTORAGEVOLLOOKUPBYKEY
+extern virStorageVolPtr virStorageVolLookupByKey (virConnectPtr conn dom) __attribute__((weak));
+#endif
+#endif
+
+CAMLprim value
+ocaml_libvirt_storage_vol_lookup_by_key (value connv, value strv)
+{
+  CAMLparam2 (connv, strv);
+#ifndef HAVE_VIRSTORAGEVOLLOOKUPBYKEY
+  /* Symbol virStorageVolLookupByKey not found at compile time. */
+  not_supported ("virStorageVolLookupByKey");
+  /* Suppresses a compiler warning. */
+  (void) caml__frame;
+#else
+  /* Check that the symbol virStorageVolLookupByKey
+   * is in runtime version of libvirt.
+   */
+  WEAK_SYMBOL_CHECK (virStorageVolLookupByKey);
+
+  CAMLlocal1 (rv);
+  virConnectPtr conn = Connect_val (connv);
+  char *str = String_val (strv);
+  virStorageVolPtr r;
+
+  NONBLOCKING (r = virStorageVolLookupByKey (conn, str));
+  CHECK_ERROR (!r, conn, "virStorageVolLookupByKey");
+
+  rv = Val_volume (r, connv);
+
+  CAMLreturn (rv);
+#endif
+}
+
+#ifdef HAVE_WEAK_SYMBOLS
+#ifdef HAVE_VIRSTORAGEVOLLOOKUPBYPATH
+extern virStorageVolPtr virStorageVolLookupByPath (virConnectPtr conn dom) __attribute__((weak));
+#endif
+#endif
+
+CAMLprim value
+ocaml_libvirt_storage_vol_lookup_by_path (value connv, value strv)
+{
+  CAMLparam2 (connv, strv);
+#ifndef HAVE_VIRSTORAGEVOLLOOKUPBYPATH
+  /* Symbol virStorageVolLookupByPath not found at compile time. */
+  not_supported ("virStorageVolLookupByPath");
+  /* Suppresses a compiler warning. */
+  (void) caml__frame;
+#else
+  /* Check that the symbol virStorageVolLookupByPath
+   * is in runtime version of libvirt.
+   */
+  WEAK_SYMBOL_CHECK (virStorageVolLookupByPath);
+
+  CAMLlocal1 (rv);
+  virConnectPtr conn = Connect_val (connv);
+  char *str = String_val (strv);
+  virStorageVolPtr r;
+
+  NONBLOCKING (r = virStorageVolLookupByPath (conn, str));
+  CHECK_ERROR (!r, conn, "virStorageVolLookupByPath");
+
+  rv = Val_volume (r, connv);
+
   CAMLreturn (rv);
 #endif
 }
@@ -1107,21 +1354,9 @@ ocaml_libvirt_storage_pool_create_xml ()
 }
 
 CAMLprim value
-ocaml_libvirt_storage_pool_lookup_by_uuid_string ()
-{
-  failwith ("ocaml_libvirt_storage_pool_lookup_by_uuid_string is unimplemented");
-}
-
-CAMLprim value
 ocaml_libvirt_storage_pool_lookup_by_uuid ()
 {
   failwith ("ocaml_libvirt_storage_pool_lookup_by_uuid is unimplemented");
-}
-
-CAMLprim value
-ocaml_libvirt_storage_pool_lookup_by_name ()
-{
-  failwith ("ocaml_libvirt_storage_pool_lookup_by_name is unimplemented");
 }
 
 CAMLprim value
@@ -1152,24 +1387,6 @@ CAMLprim value
 ocaml_libvirt_pool_of_volume ()
 {
   failwith ("ocaml_libvirt_pool_of_volume is unimplemented");
-}
-
-CAMLprim value
-ocaml_libvirt_storage_vol_lookup_by_path ()
-{
-  failwith ("ocaml_libvirt_storage_vol_lookup_by_path is unimplemented");
-}
-
-CAMLprim value
-ocaml_libvirt_storage_vol_lookup_by_key ()
-{
-  failwith ("ocaml_libvirt_storage_vol_lookup_by_key is unimplemented");
-}
-
-CAMLprim value
-ocaml_libvirt_storage_vol_lookup_by_name ()
-{
-  failwith ("ocaml_libvirt_storage_vol_lookup_by_name is unimplemented");
 }
 
 CAMLprim value
