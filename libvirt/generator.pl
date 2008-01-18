@@ -117,18 +117,18 @@ my @unimplemented = (
     "ocaml_libvirt_connect_create_linux_job",
     "ocaml_libvirt_network_create_job",
     "ocaml_libvirt_network_create_xml_job",
-    "ocaml_libvirt_storage_pool_set_autostart",
-    "ocaml_libvirt_storage_pool_get_autostart",
+    "ocaml_libvirt_storage_pool_set_autostart", #?
+    "ocaml_libvirt_storage_pool_get_autostart", #?
     "ocaml_libvirt_storage_pool_get_info",
-    "ocaml_libvirt_storage_pool_get_uuid_string",
-    "ocaml_libvirt_storage_pool_get_uuid",
-    "ocaml_libvirt_storage_pool_free",
-    "ocaml_libvirt_storage_pool_destroy",
+    "ocaml_libvirt_storage_pool_get_uuid_string", #?
+    "ocaml_libvirt_storage_pool_get_uuid", #?
+    "ocaml_libvirt_storage_pool_free", #?
+    "ocaml_libvirt_storage_pool_destroy", #?
     "ocaml_libvirt_storage_pool_define_xml",
     "ocaml_libvirt_storage_pool_create_xml",
     "ocaml_libvirt_storage_pool_lookup_by_uuid",
-    "ocaml_libvirt_storage_vol_free",
-    "ocaml_libvirt_storage_vol_destroy",
+    "ocaml_libvirt_storage_vol_free", #?
+    "ocaml_libvirt_storage_vol_destroy", #?
     "ocaml_libvirt_storage_vol_create_xml",
     "ocaml_libvirt_storage_vol_get_info",
     "ocaml_libvirt_pool_of_volume",
