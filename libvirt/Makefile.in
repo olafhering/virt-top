@@ -98,6 +98,10 @@ $(BYTE_TARGETS) $(OPT_TARGETS):
 endif
 endif
 
+# Automatically generate the C code from a Perl script 'generator.pl'.
+libvirt_c.c: generator.pl
+	perl -w $< > $@
+
 libvirt.cmo: libvirt.cmi
 libvirt.cmi: libvirt.mli
 

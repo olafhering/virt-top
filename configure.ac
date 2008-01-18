@@ -80,7 +80,61 @@ AC_CHECK_FUNCS([virConnectGetHostname \
 		virDomainSetSchedulerParameters \
 		virNodeGetFreeMemory \
 		virNodeGetCellsFreeMemory \
+		virJobGetInfo \
+		virJobGetDomain \
+		virJobGetNetwork \
+		virJobCancel \
+		virJobFree \
+		virDomainCreateLinuxJob \
+		virDomainSaveJob \
+		virDomainRestoreJob \
+		virDomainCoreDumpJob \
+		virDomainCreateJob \
+		virNetworkCreateXMLJob \
+		virNetworkCreateJob \
+		virStoragePoolGetConnect \
+		virConnectNumOfStoragePools \
+		virConnectListStoragePools \
+		virConnectNumOfDefinedStoragePools \
+		virConnectListDefinedStoragePools \
+		virConnectDiscoverStoragePools \
+		virStoragePoolLookupByName \
+		virStoragePoolLookupByUUID \
+		virStoragePoolLookupByUUIDString \
+		virStoragePoolLookupByVolume \
+		virStoragePoolCreateXML \
+		virStoragePoolDefineXML \
+		virStoragePoolUndefine \
+		virStoragePoolCreate \
+		virStoragePoolDestroy \
+		virStoragePoolShutdown \
+		virStoragePoolFree \
+		virStoragePoolRefresh \
+		virStoragePoolGetName \
+		virStoragePoolGetUUID \
+		virStoragePoolGetUUIDString \
+		virStoragePoolGetInfo \
+		virStoragePoolGetXMLDesc \
+		virStoragePoolGetAutostart \
+		virStoragePoolSetAutostart \
+		virStoragePoolNumOfVolumes \
+		virStoragePoolListVolumes \
+		virStorageVolGetConnect \
+		virStorageVolLookupByName \
+		virStorageVolLookupByKey \
+		virStorageVolLookupByPath \
+		virStorageVolGetName \
+		virStorageVolGetKey \
+		virStorageVolCreateXML \
+		virStorageVolDestroy \
+		virStorageVolFree \
+		virStorageVolGetInfo \
+		virStorageVolGetXMLDesc \
+		virStorageVolGetPath \
 ])
+
+dnl Check for optional types added since 0.2.1.
+AC_CHECK_TYPES([virJobPtr, virStoragePoolPtr, virStorageVolPtr])
 
 dnl We also use <libvirt/virterror.h>
 AC_CHECK_HEADER([libvirt/virterror.h],

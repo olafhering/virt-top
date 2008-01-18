@@ -242,6 +242,9 @@ v}
 	See also the source of [mlvirsh].
     *)
 
+type ('a, 'b) job_t
+(** Forward definition of {!Job.t} to avoid recursive module dependencies. *)
+
 (** {3 Connections} *)
 
 module Connect :
@@ -326,6 +329,15 @@ sig
 	of [max] entries.
 	Call {!num_of_defined_networks} first to get a value for [max].
     *)
+
+  val num_of_pools : [>`R] t -> int
+    (** Returns the number of storage pools. *)
+  val list_pools : [>`R] t -> int -> string array
+    (** Return list of storage pools. *)
+  val num_of_defined_pools : [>`R] t -> int
+    (** Returns the number of storage pools. *)
+  val list_defined_pools : [>`R] t -> int -> string array
+    (** Return list of storage pools. *)
 
     (* The name of this function is inconsistent, but the inconsistency
      * is really in libvirt itself.
@@ -437,6 +449,8 @@ sig
     (** Create a new guest domain (not necessarily a Linux one)
 	from the given XML.
     *)
+  val create_linux_job : [>`W] Connect.t -> xml -> ([`Domain], rw) job_t
+    (** Asynchronous domain creation. *)
   val lookup_by_id : 'a Connect.t -> int -> 'a t
     (** Lookup a domain by ID. *)
   val lookup_by_uuid : 'a Connect.t -> uuid -> 'a t
@@ -461,10 +475,16 @@ sig
     (** Resume a domain. *)
   val save : [>`W] t -> filename -> unit
     (** Suspend a domain, then save it to the file. *)
+  val save_job : [>`W] t -> filename -> ([`Domain_nocreate], rw) job_t
+    (** Asynchronous domain suspend. *)
   val restore : [>`W] Connect.t -> filename -> unit
     (** Restore a domain from a file. *)
+  val restore_job : [>`W] Connect.t -> filename -> ([`Domain_nocreate], rw) job_t
+    (** Asynchronous domain restore. *)
   val core_dump : [>`W] t -> filename -> unit
     (** Force a domain to core dump to the named file. *)
+  val core_dump_job : [>`W] t -> filename -> ([`Domain_nocreate], rw) job_t
+    (** Asynchronous core dump. *)
   val shutdown : [>`W] t -> unit
     (** Shutdown a domain. *)
   val reboot : [>`W] t -> unit
@@ -506,6 +526,8 @@ sig
     (** Undefine a domain - removes its configuration. *)
   val create : [>`W] t -> unit
     (** Launch a defined (inactive) domain. *)
+  val create_job : [>`W] t -> ([`Domain_nocreate], rw) job_t
+    (** Asynchronous launch domain. *)
   val get_autostart : [>`R] t -> bool
     (** Get the autostart flag for a domain. *)
   val set_autostart : [>`W] t -> bool -> unit
@@ -571,12 +593,16 @@ sig
     (** Lookup a network by UUID string. *)
   val create_xml : [>`W] Connect.t -> xml -> rw t
     (** Create a network. *)
+  val create_xml_job : [>`W] Connect.t -> xml -> ([`Network], rw) job_t
+    (** Asynchronous create network. *)
   val define_xml : [>`W] Connect.t -> xml -> rw t
     (** Define but don't activate a network. *)
   val undefine : [>`W] t -> unit
     (** Undefine configuration of a network. *)
   val create : [>`W] t -> unit
     (** Start up a defined (inactive) network. *)
+  val create_job : [>`W] t -> ([`Network_nocreate], rw) job_t
+    (** Asynchronous start network. *)
   val destroy : [>`W] t -> unit
     (** Destroy a network. *)
   val free : [>`R] t -> unit
@@ -610,6 +636,179 @@ end
   (** Module dealing with networks.  [Network.t] is the
       network object.
   *)
+
+(** {3 Storage pools} *)
+
+module Pool :
+sig
+  type 'rw t
+    (** Storage pool handle. *)
+
+  type pool_state = Inactive | Active
+    (** State of the storage pool. *)
+
+  type pool_info = {
+    capacity : int64;			(** Logical size in bytes. *)
+    allocation : int64;			(** Currently allocated in bytes. *)
+  }
+
+  val lookup_by_name : 'a Connect.t -> string -> 'a t
+  val lookup_by_uuid : 'a Connect.t -> uuid -> 'a t
+  val lookup_by_uuid_string : 'a Connect.t -> string -> 'a t
+    (** Look up a storage pool by name, UUID or UUID string. *)
+
+  val create_xml : [>`W] Connect.t -> xml -> rw t
+    (** Create a storage pool. *)
+  val define_xml : [>`W] Connect.t -> xml -> rw t
+    (** Define but don't activate a storage pool. *)
+  val undefine : [>`W] t -> unit
+    (** Undefine configuration of a storage pool. *)
+  val create : [>`W] t -> unit
+    (** Start up a defined (inactive) storage pool. *)
+  val destroy : [>`W] t -> unit
+    (** Destroy a storage pool. *)
+  val shutdown : [>`W] t -> unit
+    (** Shutdown a storage pool. *)
+  val free : [>`R] t -> unit
+    (** Free a storage pool object in memory.
+
+	The storage pool object is automatically freed if it is garbage
+	collected.  This function just forces it to be freed right
+	away.
+    *)
+  val refresh : [`R] t -> unit
+    (** Refresh the list of volumes in the storage pool. *)
+
+  val get_name : [`R] t -> string
+    (** Name of the pool. *)
+  val get_uuid : [`R] t -> uuid
+    (** Get the UUID (as a packed byte array). *)
+  val get_uuid_string : [`R] t -> string
+    (** Get the UUID (as a printable string). *)
+  val get_info : [`R] t -> pool_info
+    (** Get information about the pool. *)
+  val get_xml_desc : [`R] t -> xml
+    (** Get the XML description. *)
+  val get_autostart : [`R] t -> bool
+    (** Get the autostart flag for the storage pool. *)
+  val set_autostart : [`W] t -> bool -> unit
+    (** Set the autostart flag for the storage pool. *)
+
+  external const : [>`R] t -> ro t = "%identity"
+    (** [const conn] turns a read/write storage pool into a read-only
+	pool.  Note that the opposite operation is impossible.
+      *)
+end
+  (** Module dealing with storage pools. *)
+
+(** {3 Storage volumes} *)
+
+module Volume :
+sig
+  type 'rw t
+    (** Storage volume handle. *)
+
+  type vol_type = File | Block | Virtual
+    (** Type of a storage volume. *)
+
+  type vol_info = {
+    typ : vol_type;			(** Type of storage volume. *)
+    capacity : int64;			(** Logical size in bytes. *)
+    allocation : int64;			(** Currently allocated in bytes. *)
+  }
+
+  val lookup_by_name : 'a Pool.t -> string -> 'a t
+  val lookup_by_key : 'a Pool.t -> string -> 'a t
+  val lookup_by_path : 'a Pool.t -> string -> 'a t
+    (** Look up a storage volume by name, key or path volume. *)
+
+  val pool_of_volume : 'a t -> 'a Pool.t
+    (** Get the storage pool containing this volume. *)
+
+  val get_name : [`R] t -> string
+    (** Name of the volume. *)
+  val get_key : [`R] t -> string
+    (** Key of the volume. *)
+  val get_path : [`R] t -> string
+    (** Path of the volume. *)
+  val get_info : [`R] t -> vol_info
+    (** Get information about the storage volume. *)
+  val get_xml_desc : [`R] t -> xml
+    (** Get the XML description. *)
+
+  val create_xml : [`W] Pool.t -> xml -> unit
+    (** Create a storage volume. *)
+  val destroy : [`W] t -> unit
+    (** Destroy a storage volume. *)
+  val free : [>`R] t -> unit
+    (** Free a storage volume object in memory.
+
+	The storage volume object is automatically freed if it is garbage
+	collected.  This function just forces it to be freed right
+	away.
+    *)
+
+  external const : [>`R] t -> ro t = "%identity"
+    (** [const conn] turns a read/write storage volume into a read-only
+	volume.  Note that the opposite operation is impossible.
+      *)
+end
+  (** Module dealing with storage volumes. *)
+
+(** {3 Jobs and asynchronous processing} *)
+
+module Job :
+sig
+  type ('jobclass, 'rw) t = ('jobclass, 'rw) job_t
+    (** A background asynchronous job.
+
+        Jobs represent a pending operation such as domain creation.
+	The possible types for a job are:
+
+{v
+(`Domain, `W) Job.t            Job creating a r/w domain
+(`Domain_nocreate, `W) Job.t   Job acting on an existing domain
+(`Network, `W) Job.t           Job creating a r/w network
+(`Network_nocreate, `W) Job.t  Job acting on an existing network
+v}
+      *)
+
+  type job_type = Bounded | Unbounded
+    (** A Bounded job is one where we can estimate time to completion. *)
+
+  type job_state = Running | Complete | Failed | Cancelled
+    (** State of the job. *)
+
+  type job_info = {
+    typ : job_type;			(** Job type *)
+    state : job_state;			(** Job state *)
+    running_time : int;			(** Actual running time (seconds) *)
+    (** The following fields are only available in Bounded jobs: *)
+    remaining_time : int;		(** Estimated time left (seconds) *)
+    percent_complete : int		(** Estimated percent complete *)
+  }
+
+  val get_info : ('a,'b) t -> job_info
+    (** Get information and status about the job. *)
+
+  val get_domain : ([`Domain], 'a) t -> 'a Domain.t
+    (** Get the completed domain from a job.
+
+        You should only call it on a job in state Complete. *)
+
+  val get_network : ([`Network], 'a) t -> 'a Network.t
+    (** Get the completed network from a job.
+
+        You should only call it on a job in state Complete. *)
+
+  val cancel : ('a,'b) t -> unit
+    (** Cancel a job. *)
+
+  external const : ('a, [>`R]) t -> ('a, ro) t = "%identity"
+    (** [const conn] turns a read/write job into a read-only
+	job.  Note that the opposite operation is impossible.
+      *)
+end
 
 (** {3 Error handling and exceptions} *)
 

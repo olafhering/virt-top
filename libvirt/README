@@ -1,0 +1,27 @@
+README for generated code
+-------------------------
+
+The C bindings in 'libvirt_c.c' are now generated automatically by a
+Perl script called 'generator.pl'.  You do not normally need to run
+this script, but you may need to if you want to extend libvirt
+coverage.
+
+The generated 'libvirt_c.c' #includes some other C files in this
+directory:
+
+  #include "libvirt_c_prologue.c"
+
+    A prologue that prototypes some static functions which are defined
+    in the epilogue (see below), and provides some general macros.
+
+  #include "libvirt_c_oneoffs.c"
+
+    One-off bindings: Bindings which are too specialised or one-of-a-kind
+    to be worth generating automatically.
+
+  [Followed by generated bindings, then ...]
+
+  #include "libvirt_c_epilogue.c"
+
+    An epilogue which defines some standard static functions (eg.) for
+    wrapping and unwrapping libvirt objects.
