@@ -70,7 +70,17 @@ AC_CHECK_FUNC(virConnectGetCapabilities,
 
 dnl Check for optional libvirt functions added since 0.2.1.
 dnl See: http://libvirt.org/hvsupport.html
-AC_CHECK_FUNCS([virConnectGetHostname virConnectGetURI virDomainBlockStats virDomainGetSchedulerParameters virDomainGetSchedulerType virDomainInterfaceStats virDomainMigrate virDomainSetSchedulerParameters virNodeGetFreeMemory virNodeGetCellsFreeMemory])
+AC_CHECK_FUNCS([virConnectGetHostname \
+		virConnectGetURI \
+		virDomainBlockStats \
+		virDomainGetSchedulerParameters \
+		virDomainGetSchedulerType \
+		virDomainInterfaceStats \
+		virDomainMigrate \
+		virDomainSetSchedulerParameters \
+		virNodeGetFreeMemory \
+		virNodeGetCellsFreeMemory \
+])
 
 dnl We also use <libvirt/virterror.h>
 AC_CHECK_HEADER([libvirt/virterror.h],
