@@ -56,6 +56,8 @@ my @functions = (
     { name => "virDomainGetName", sig => "dom : static string" },
     { name => "virDomainGetOSType", sig => "dom : string" },
     { name => "virDomainGetXMLDesc", sig => "dom, 0 : string" },
+    { name => "virDomainGetUUID", sig => "dom : uuid" },
+    { name => "virDomainGetUUIDString", sig => "dom : uuid string" },
     { name => "virDomainSuspend", sig => "dom : unit" },
     { name => "virDomainResume", sig => "dom : unit" },
     { name => "virDomainShutdown", sig => "dom : unit" },
@@ -70,6 +72,8 @@ my @functions = (
     { name => "virNetworkGetName", sig => "net : static string" },
     { name => "virNetworkGetXMLDesc", sig => "net, 0 : string" },
     { name => "virNetworkGetBridgeName", sig => "net : string" },
+    { name => "virNetworkGetUUID", sig => "net : uuid" },
+    { name => "virNetworkGetUUIDString", sig => "net : uuid string" },
     { name => "virNetworkUndefine", sig => "net : unit" },
     { name => "virNetworkCreate", sig => "net : unit" },
     { name => "virNetworkGetAutostart", sig => "net : bool" },
@@ -83,6 +87,10 @@ my @functions = (
       sig => "pool : static string", weak => 1 },
     { name => "virStoragePoolGetXMLDesc",
       sig => "pool, 0 : string", weak => 1 },
+    { name => "virStoragePoolGetUUID",
+      sig => "pool : uuid", weak => 1 },
+    { name => "virStoragePoolGetUUIDString",
+      sig => "pool : uuid string", weak => 1 },
     { name => "virStoragePoolUndefine",
       sig => "pool : unit", weak => 1 },
     { name => "virStoragePoolCreate",
@@ -126,8 +134,6 @@ my @unimplemented = (
     "ocaml_libvirt_network_create_job",
     "ocaml_libvirt_network_create_xml_job",
     "ocaml_libvirt_storage_pool_get_info",
-    "ocaml_libvirt_storage_pool_get_uuid_string", #?
-    "ocaml_libvirt_storage_pool_get_uuid", #?
     "ocaml_libvirt_storage_pool_free", #?
     "ocaml_libvirt_storage_pool_destroy", #?
     "ocaml_libvirt_storage_pool_define_xml",
@@ -248,6 +254,12 @@ sub gen_c_signature
     } elsif ($sig =~ /^(\w+) : int$/) {
 	my $c_type = short_name_to_c_type ($1);
 	"int $c_name ($c_type $1)"
+    } elsif ($sig =~ /^(\w+) : uuid$/) {
+	my $c_type = short_name_to_c_type ($1);
+	"int $c_name ($c_type $1, unsigned char *)"
+    } elsif ($sig =~ /^(\w+) : uuid string$/) {
+	my $c_type = short_name_to_c_type ($1);
+	"int $c_name ($c_type $1, char *)"
     } elsif ($sig =~ /^(\w+) : bool$/) {
 	my $c_type = short_name_to_c_type ($1);
 	"int $c_name ($c_type $1, int *r)"
@@ -287,6 +299,10 @@ sub gen_arg_names
     } elsif ($sig =~ /^(\w+) : static string$/) {
 	( "$1v" )
     } elsif ($sig =~ /^(\w+) : int$/) {
+	( "$1v" )
+    } elsif ($sig =~ /^(\w+) : uuid$/) {
+	( "$1v" )
+    } elsif ($sig =~ /^(\w+) : uuid string$/) {
 	( "$1v" )
     } elsif ($sig =~ /^(\w+) : bool$/) {
 	( "$1v" )
@@ -386,6 +402,32 @@ sub gen_c_code
   CHECK_ERROR (r == -1, conn, \"$c_name\");
 
   CAMLreturn (Val_int (r));
+"
+    } elsif ($sig =~ /^(\w+) : uuid$/) {
+	"\
+  CAMLlocal1 (rv);
+  " . gen_unpack_args ($1) . "
+  unsigned char uuid[VIR_UUID_BUFLEN];
+  int r;
+
+  NONBLOCKING (r = $c_name ($1, uuid));
+  CHECK_ERROR (r == -1, conn, \"$c_name\");
+
+  rv = caml_copy_string ((char *) uuid);
+  CAMLreturn (rv);
+"
+    } elsif ($sig =~ /^(\w+) : uuid string$/) {
+	"\
+  CAMLlocal1 (rv);
+  " . gen_unpack_args ($1) . "
+  char uuid[VIR_UUID_STRING_BUFLEN];
+  int r;
+
+  NONBLOCKING (r = $c_name ($1, uuid));
+  CHECK_ERROR (r == -1, conn, \"$c_name\");
+
+  rv = caml_copy_string (uuid);
+  CAMLreturn (rv);
 "
     } elsif ($sig =~ /^(\w+) : bool$/) {
 	"\

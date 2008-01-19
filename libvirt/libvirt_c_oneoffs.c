@@ -371,40 +371,6 @@ ocaml_libvirt_domain_core_dump (value domv, value pathv)
 }
 
 CAMLprim value
-ocaml_libvirt_domain_get_uuid (value domv)
-{
-  CAMLparam1 (domv);
-  CAMLlocal1 (rv);
-  virDomainPtr dom = Domain_val (domv);
-  virConnectPtr conn = Connect_domv (domv);
-  unsigned char uuid[VIR_UUID_BUFLEN];
-  int r;
-
-  NONBLOCKING (r = virDomainGetUUID (dom, uuid));
-  CHECK_ERROR (r == -1, conn, "virDomainGetUUID");
-
-  rv = caml_copy_string ((char *) uuid);
-  CAMLreturn (rv);
-}
-
-CAMLprim value
-ocaml_libvirt_domain_get_uuid_string (value domv)
-{
-  CAMLparam1 (domv);
-  CAMLlocal1 (rv);
-  virDomainPtr dom = Domain_val (domv);
-  virConnectPtr conn = Connect_domv (domv);
-  char uuid[VIR_UUID_STRING_BUFLEN];
-  int r;
-
-  NONBLOCKING (r = virDomainGetUUIDString (dom, uuid));
-  CHECK_ERROR (r == -1, conn, "virDomainGetUUIDString");
-
-  rv = caml_copy_string (uuid);
-  CAMLreturn (rv);
-}
-
-CAMLprim value
 ocaml_libvirt_domain_get_id (value domv)
 {
   CAMLparam1 (domv);
@@ -955,40 +921,6 @@ ocaml_libvirt_network_free (value netv)
   Network_val (netv) = NULL;
 
   CAMLreturn (Val_unit);
-}
-
-CAMLprim value
-ocaml_libvirt_network_get_uuid (value netv)
-{
-  CAMLparam1 (netv);
-  CAMLlocal1 (rv);
-  virNetworkPtr net = Network_val (netv);
-  virConnectPtr conn = Connect_netv (netv);
-  unsigned char uuid[VIR_UUID_BUFLEN];
-  int r;
-
-  NONBLOCKING (r = virNetworkGetUUID (net, uuid));
-  CHECK_ERROR (r == -1, conn, "virNetworkGetUUID");
-
-  rv = caml_copy_string ((char *) uuid);
-  CAMLreturn (rv);
-}
-
-CAMLprim value
-ocaml_libvirt_network_get_uuid_string (value netv)
-{
-  CAMLparam1 (netv);
-  CAMLlocal1 (rv);
-  virNetworkPtr net = Network_val (netv);
-  virConnectPtr conn = Connect_netv (netv);
-  char uuid[VIR_UUID_STRING_BUFLEN];
-  int r;
-
-  NONBLOCKING (r = virNetworkGetUUIDString (net, uuid));
-  CHECK_ERROR (r == -1, conn, "virNetworkGetUUIDString");
-
-  rv = caml_copy_string (uuid);
-  CAMLreturn (rv);
 }
 
 /*----------------------------------------------------------------------*/

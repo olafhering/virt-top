@@ -530,6 +530,42 @@ ocaml_libvirt_domain_get_xml_desc (value domv)
 }
 
 CAMLprim value
+ocaml_libvirt_domain_get_uuid (value domv)
+{
+  CAMLparam1 (domv);
+
+  CAMLlocal1 (rv);
+  virDomainPtr dom = Domain_val (domv);
+  virConnectPtr conn = Connect_domv (domv);
+  unsigned char uuid[VIR_UUID_BUFLEN];
+  int r;
+
+  NONBLOCKING (r = virDomainGetUUID (dom, uuid));
+  CHECK_ERROR (r == -1, conn, "virDomainGetUUID");
+
+  rv = caml_copy_string ((char *) uuid);
+  CAMLreturn (rv);
+}
+
+CAMLprim value
+ocaml_libvirt_domain_get_uuid_string (value domv)
+{
+  CAMLparam1 (domv);
+
+  CAMLlocal1 (rv);
+  virDomainPtr dom = Domain_val (domv);
+  virConnectPtr conn = Connect_domv (domv);
+  char uuid[VIR_UUID_STRING_BUFLEN];
+  int r;
+
+  NONBLOCKING (r = virDomainGetUUIDString (dom, uuid));
+  CHECK_ERROR (r == -1, conn, "virDomainGetUUIDString");
+
+  rv = caml_copy_string (uuid);
+  CAMLreturn (rv);
+}
+
+CAMLprim value
 ocaml_libvirt_domain_suspend (value domv)
 {
   CAMLparam1 (domv);
@@ -741,6 +777,42 @@ ocaml_libvirt_network_get_bridge_name (value netv)
 }
 
 CAMLprim value
+ocaml_libvirt_network_get_uuid (value netv)
+{
+  CAMLparam1 (netv);
+
+  CAMLlocal1 (rv);
+  virNetworkPtr net = Network_val (netv);
+  virConnectPtr conn = Connect_netv (netv);
+  unsigned char uuid[VIR_UUID_BUFLEN];
+  int r;
+
+  NONBLOCKING (r = virNetworkGetUUID (net, uuid));
+  CHECK_ERROR (r == -1, conn, "virNetworkGetUUID");
+
+  rv = caml_copy_string ((char *) uuid);
+  CAMLreturn (rv);
+}
+
+CAMLprim value
+ocaml_libvirt_network_get_uuid_string (value netv)
+{
+  CAMLparam1 (netv);
+
+  CAMLlocal1 (rv);
+  virNetworkPtr net = Network_val (netv);
+  virConnectPtr conn = Connect_netv (netv);
+  char uuid[VIR_UUID_STRING_BUFLEN];
+  int r;
+
+  NONBLOCKING (r = virNetworkGetUUIDString (net, uuid));
+  CHECK_ERROR (r == -1, conn, "virNetworkGetUUIDString");
+
+  rv = caml_copy_string (uuid);
+  CAMLreturn (rv);
+}
+
+CAMLprim value
 ocaml_libvirt_network_undefine (value netv)
 {
   CAMLparam1 (netv);
@@ -937,6 +1009,76 @@ ocaml_libvirt_storage_pool_get_xml_desc (value poolv)
 
   rv = caml_copy_string (r);
   free (r);
+  CAMLreturn (rv);
+#endif
+}
+
+#ifdef HAVE_WEAK_SYMBOLS
+#ifdef HAVE_VIRSTORAGEPOOLGETUUID
+extern int virStoragePoolGetUUID (virStoragePoolPtr pool, unsigned char *) __attribute__((weak));
+#endif
+#endif
+
+CAMLprim value
+ocaml_libvirt_storage_pool_get_uuid (value poolv)
+{
+  CAMLparam1 (poolv);
+#ifndef HAVE_VIRSTORAGEPOOLGETUUID
+  /* Symbol virStoragePoolGetUUID not found at compile time. */
+  not_supported ("virStoragePoolGetUUID");
+  /* Suppresses a compiler warning. */
+  (void) caml__frame;
+#else
+  /* Check that the symbol virStoragePoolGetUUID
+   * is in runtime version of libvirt.
+   */
+  WEAK_SYMBOL_CHECK (virStoragePoolGetUUID);
+
+  CAMLlocal1 (rv);
+  virStoragePoolPtr pool = Pool_val (poolv);
+  virConnectPtr conn = Connect_polv (poolv);
+  unsigned char uuid[VIR_UUID_BUFLEN];
+  int r;
+
+  NONBLOCKING (r = virStoragePoolGetUUID (pool, uuid));
+  CHECK_ERROR (r == -1, conn, "virStoragePoolGetUUID");
+
+  rv = caml_copy_string ((char *) uuid);
+  CAMLreturn (rv);
+#endif
+}
+
+#ifdef HAVE_WEAK_SYMBOLS
+#ifdef HAVE_VIRSTORAGEPOOLGETUUIDSTRING
+extern int virStoragePoolGetUUIDString (virStoragePoolPtr pool, char *) __attribute__((weak));
+#endif
+#endif
+
+CAMLprim value
+ocaml_libvirt_storage_pool_get_uuid_string (value poolv)
+{
+  CAMLparam1 (poolv);
+#ifndef HAVE_VIRSTORAGEPOOLGETUUIDSTRING
+  /* Symbol virStoragePoolGetUUIDString not found at compile time. */
+  not_supported ("virStoragePoolGetUUIDString");
+  /* Suppresses a compiler warning. */
+  (void) caml__frame;
+#else
+  /* Check that the symbol virStoragePoolGetUUIDString
+   * is in runtime version of libvirt.
+   */
+  WEAK_SYMBOL_CHECK (virStoragePoolGetUUIDString);
+
+  CAMLlocal1 (rv);
+  virStoragePoolPtr pool = Pool_val (poolv);
+  virConnectPtr conn = Connect_polv (poolv);
+  char uuid[VIR_UUID_STRING_BUFLEN];
+  int r;
+
+  NONBLOCKING (r = virStoragePoolGetUUIDString (pool, uuid));
+  CHECK_ERROR (r == -1, conn, "virStoragePoolGetUUIDString");
+
+  rv = caml_copy_string (uuid);
   CAMLreturn (rv);
 #endif
 }
@@ -1389,18 +1531,6 @@ CAMLprim value
 ocaml_libvirt_storage_pool_get_info ()
 {
   failwith ("ocaml_libvirt_storage_pool_get_info is unimplemented");
-}
-
-CAMLprim value
-ocaml_libvirt_storage_pool_get_uuid_string ()
-{
-  failwith ("ocaml_libvirt_storage_pool_get_uuid_string is unimplemented");
-}
-
-CAMLprim value
-ocaml_libvirt_storage_pool_get_uuid ()
-{
-  failwith ("ocaml_libvirt_storage_pool_get_uuid is unimplemented");
 }
 
 CAMLprim value
