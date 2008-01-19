@@ -47,6 +47,23 @@
 
 #include "libvirt_c_oneoffs.c"
 
+CAMLprim value
+ocaml_libvirt_connect_close (value connv)
+{
+  CAMLparam1 (connv);
+
+  virConnectPtr conn = Connect_val (connv);
+  int r;
+
+  NONBLOCKING (r = virConnectClose (conn));
+  CHECK_ERROR (r == -1, conn, "virConnectClose");
+
+  /* So that we don't double-free in the finalizer: */
+  Connect_val (connv) = NULL;
+
+  CAMLreturn (Val_unit);
+}
+
 #ifdef HAVE_WEAK_SYMBOLS
 #ifdef HAVE_VIRCONNECTGETHOSTNAME
 extern char *virConnectGetHostname (virConnectPtr conn) __attribute__((weak));
@@ -441,6 +458,42 @@ ocaml_libvirt_connect_get_capabilities (value connv)
 }
 
 CAMLprim value
+ocaml_libvirt_domain_free (value domv)
+{
+  CAMLparam1 (domv);
+
+  virDomainPtr dom = Domain_val (domv);
+  virConnectPtr conn = Connect_domv (domv);
+  int r;
+
+  NONBLOCKING (r = virDomainFree (dom));
+  CHECK_ERROR (r == -1, conn, "virDomainFree");
+
+  /* So that we don't double-free in the finalizer: */
+  Domain_val (domv) = NULL;
+
+  CAMLreturn (Val_unit);
+}
+
+CAMLprim value
+ocaml_libvirt_domain_destroy (value domv)
+{
+  CAMLparam1 (domv);
+
+  virDomainPtr dom = Domain_val (domv);
+  virConnectPtr conn = Connect_domv (domv);
+  int r;
+
+  NONBLOCKING (r = virDomainDestroy (dom));
+  CHECK_ERROR (r == -1, conn, "virDomainDestroy");
+
+  /* So that we don't double-free in the finalizer: */
+  Domain_val (domv) = NULL;
+
+  CAMLreturn (Val_unit);
+}
+
+CAMLprim value
 ocaml_libvirt_domain_lookup_by_name (value connv, value strv)
 {
   CAMLparam2 (connv, strv);
@@ -688,6 +741,42 @@ ocaml_libvirt_domain_set_autostart (value domv, value bv)
 }
 
 CAMLprim value
+ocaml_libvirt_network_free (value netv)
+{
+  CAMLparam1 (netv);
+
+  virNetworkPtr net = Network_val (netv);
+  virConnectPtr conn = Connect_netv (netv);
+  int r;
+
+  NONBLOCKING (r = virNetworkFree (net));
+  CHECK_ERROR (r == -1, conn, "virNetworkFree");
+
+  /* So that we don't double-free in the finalizer: */
+  Network_val (netv) = NULL;
+
+  CAMLreturn (Val_unit);
+}
+
+CAMLprim value
+ocaml_libvirt_network_destroy (value netv)
+{
+  CAMLparam1 (netv);
+
+  virNetworkPtr net = Network_val (netv);
+  virConnectPtr conn = Connect_netv (netv);
+  int r;
+
+  NONBLOCKING (r = virNetworkDestroy (net));
+  CHECK_ERROR (r == -1, conn, "virNetworkDestroy");
+
+  /* So that we don't double-free in the finalizer: */
+  Network_val (netv) = NULL;
+
+  CAMLreturn (Val_unit);
+}
+
+CAMLprim value
 ocaml_libvirt_network_lookup_by_name (value connv, value strv)
 {
   CAMLparam2 (connv, strv);
@@ -872,6 +961,76 @@ ocaml_libvirt_network_set_autostart (value netv, value bv)
   CHECK_ERROR (r == -1, conn, "virNetworkSetAutostart");
 
   CAMLreturn (Val_unit);
+}
+
+#ifdef HAVE_WEAK_SYMBOLS
+#ifdef HAVE_VIRSTORAGEPOOLFREE
+extern int virStoragePoolFree (virStoragePoolPtr pool) __attribute__((weak));
+#endif
+#endif
+
+CAMLprim value
+ocaml_libvirt_storage_pool_free (value poolv)
+{
+  CAMLparam1 (poolv);
+#ifndef HAVE_VIRSTORAGEPOOLFREE
+  /* Symbol virStoragePoolFree not found at compile time. */
+  not_supported ("virStoragePoolFree");
+  /* Suppresses a compiler warning. */
+  (void) caml__frame;
+#else
+  /* Check that the symbol virStoragePoolFree
+   * is in runtime version of libvirt.
+   */
+  WEAK_SYMBOL_CHECK (virStoragePoolFree);
+
+  virStoragePoolPtr pool = Pool_val (poolv);
+  virConnectPtr conn = Connect_polv (poolv);
+  int r;
+
+  NONBLOCKING (r = virStoragePoolFree (pool));
+  CHECK_ERROR (r == -1, conn, "virStoragePoolFree");
+
+  /* So that we don't double-free in the finalizer: */
+  Pool_val (poolv) = NULL;
+
+  CAMLreturn (Val_unit);
+#endif
+}
+
+#ifdef HAVE_WEAK_SYMBOLS
+#ifdef HAVE_VIRSTORAGEPOOLDESTROY
+extern int virStoragePoolDestroy (virStoragePoolPtr pool) __attribute__((weak));
+#endif
+#endif
+
+CAMLprim value
+ocaml_libvirt_storage_pool_destroy (value poolv)
+{
+  CAMLparam1 (poolv);
+#ifndef HAVE_VIRSTORAGEPOOLDESTROY
+  /* Symbol virStoragePoolDestroy not found at compile time. */
+  not_supported ("virStoragePoolDestroy");
+  /* Suppresses a compiler warning. */
+  (void) caml__frame;
+#else
+  /* Check that the symbol virStoragePoolDestroy
+   * is in runtime version of libvirt.
+   */
+  WEAK_SYMBOL_CHECK (virStoragePoolDestroy);
+
+  virStoragePoolPtr pool = Pool_val (poolv);
+  virConnectPtr conn = Connect_polv (poolv);
+  int r;
+
+  NONBLOCKING (r = virStoragePoolDestroy (pool));
+  CHECK_ERROR (r == -1, conn, "virStoragePoolDestroy");
+
+  /* So that we don't double-free in the finalizer: */
+  Pool_val (poolv) = NULL;
+
+  CAMLreturn (Val_unit);
+#endif
 }
 
 #ifdef HAVE_WEAK_SYMBOLS
@@ -1277,6 +1436,42 @@ ocaml_libvirt_storage_pool_set_autostart (value poolv, value bv)
 #endif
 }
 
+CAMLprim value
+ocaml_libvirt_storage_vol_free (value volv)
+{
+  CAMLparam1 (volv);
+
+  virStorageVolPtr vol = Volume_val (volv);
+  virConnectPtr conn = Connect_volv (volv);
+  int r;
+
+  NONBLOCKING (r = virStorageVolFree (vol));
+  CHECK_ERROR (r == -1, conn, "virStorageVolFree");
+
+  /* So that we don't double-free in the finalizer: */
+  Volume_val (volv) = NULL;
+
+  CAMLreturn (Val_unit);
+}
+
+CAMLprim value
+ocaml_libvirt_storage_vol_destroy (value volv)
+{
+  CAMLparam1 (volv);
+
+  virStorageVolPtr vol = Volume_val (volv);
+  virConnectPtr conn = Connect_volv (volv);
+  int r;
+
+  NONBLOCKING (r = virStorageVolDestroy (vol));
+  CHECK_ERROR (r == -1, conn, "virStorageVolDestroy");
+
+  /* So that we don't double-free in the finalizer: */
+  Volume_val (volv) = NULL;
+
+  CAMLreturn (Val_unit);
+}
+
 #ifdef HAVE_WEAK_SYMBOLS
 #ifdef HAVE_VIRSTORAGEVOLLOOKUPBYKEY
 extern virStorageVolPtr virStorageVolLookupByKey (virConnectPtr conn, const char *str) __attribute__((weak));
@@ -1538,18 +1733,6 @@ ocaml_libvirt_storage_pool_get_info ()
 }
 
 CAMLprim value
-ocaml_libvirt_storage_pool_free ()
-{
-  failwith ("ocaml_libvirt_storage_pool_free is unimplemented");
-}
-
-CAMLprim value
-ocaml_libvirt_storage_pool_destroy ()
-{
-  failwith ("ocaml_libvirt_storage_pool_destroy is unimplemented");
-}
-
-CAMLprim value
 ocaml_libvirt_storage_pool_define_xml ()
 {
   failwith ("ocaml_libvirt_storage_pool_define_xml is unimplemented");
@@ -1571,18 +1754,6 @@ CAMLprim value
 ocaml_libvirt_storage_vol_lookup_by_name ()
 {
   failwith ("ocaml_libvirt_storage_vol_lookup_by_name is unimplemented");
-}
-
-CAMLprim value
-ocaml_libvirt_storage_vol_free ()
-{
-  failwith ("ocaml_libvirt_storage_vol_free is unimplemented");
-}
-
-CAMLprim value
-ocaml_libvirt_storage_vol_destroy ()
-{
-  failwith ("ocaml_libvirt_storage_vol_destroy is unimplemented");
 }
 
 CAMLprim value

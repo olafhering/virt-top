@@ -29,6 +29,7 @@ use strict;
 # The functions in the libvirt API that we can generate.
 
 my @functions = (
+    { name => "virConnectClose", sig => "conn : free" },
     { name => "virConnectGetHostname", sig => "conn : string", weak => 1 },
     { name => "virConnectGetURI", sig => "conn : string", weak => 1 },
     { name => "virConnectGetType", sig => "conn : static string" },
@@ -51,6 +52,8 @@ my @functions = (
       sig => "conn, int : string array", weak => 1 },
     { name => "virConnectGetCapabilities", sig => "conn : string" },
 
+    { name => "virDomainFree", sig => "dom : free" },
+    { name => "virDomainDestroy", sig => "dom : free" },
     { name => "virDomainLookupByName", sig => "conn, string : dom" },
     { name => "virDomainLookupByUUIDString", sig => "conn, string : dom" },
     { name => "virDomainGetName", sig => "dom : static string" },
@@ -67,6 +70,8 @@ my @functions = (
     { name => "virDomainGetAutostart", sig => "dom : bool" },
     { name => "virDomainSetAutostart", sig => "dom, bool : unit" },
 
+    { name => "virNetworkFree", sig => "net : free" },
+    { name => "virNetworkDestroy", sig => "net : free" },
     { name => "virNetworkLookupByName", sig => "conn, string : net" },
     { name => "virNetworkLookupByUUIDString", sig => "conn, string : net" },
     { name => "virNetworkGetName", sig => "net : static string" },
@@ -79,6 +84,10 @@ my @functions = (
     { name => "virNetworkGetAutostart", sig => "net : bool" },
     { name => "virNetworkSetAutostart", sig => "net, bool : unit" },
 
+    { name => "virStoragePoolFree",
+      sig => "pool : free", weak => 1 },
+    { name => "virStoragePoolDestroy",
+      sig => "pool : free", weak => 1 },
     { name => "virStoragePoolLookupByName",
       sig => "conn, string : pool", weak => 1 },
     { name => "virStoragePoolLookupByUUIDString",
@@ -104,6 +113,8 @@ my @functions = (
     { name => "virStoragePoolSetAutostart",
       sig => "pool, bool : unit", weak => 1 },
 
+    { name => "virStorageVolFree", sig => "vol : free" },
+    { name => "virStorageVolDestroy", sig => "vol : free" },
 #    { name => "virStorageVolLookupByName", XXX see libvir-list posting
 #      sig => "pool, string : vol", weak => 1 },
     { name => "virStorageVolLookupByKey",
@@ -134,14 +145,10 @@ my @unimplemented = (
     "ocaml_libvirt_network_create_job",
     "ocaml_libvirt_network_create_xml_job",
     "ocaml_libvirt_storage_pool_get_info",
-    "ocaml_libvirt_storage_pool_free", #?
-    "ocaml_libvirt_storage_pool_destroy", #?
     "ocaml_libvirt_storage_pool_define_xml",
     "ocaml_libvirt_storage_pool_create_xml",
     "ocaml_libvirt_storage_pool_lookup_by_uuid",
     "ocaml_libvirt_storage_vol_lookup_by_name", # XXX
-    "ocaml_libvirt_storage_vol_free", #?
-    "ocaml_libvirt_storage_vol_destroy", #?
     "ocaml_libvirt_storage_vol_create_xml",
     "ocaml_libvirt_storage_vol_get_info",
     "ocaml_libvirt_pool_of_volume",
@@ -281,6 +288,9 @@ sub gen_c_signature
     } elsif ($sig =~ /^(\w+) : unit$/) {
 	my $c_type = short_name_to_c_type ($1);
 	"int $c_name ($c_type $1)"
+    } elsif ($sig =~ /^(\w+) : free$/) {
+	my $c_type = short_name_to_c_type ($1);
+	"int $c_name ($c_type $1)"
     } elsif ($sig =~ /^(\w+), string : (\w+)$/) {
 	my $c_type = short_name_to_c_type ($1);
 	my $c_ret_type = short_name_to_c_type ($2);
@@ -318,6 +328,8 @@ sub gen_arg_names
 	( "$1v" )
     } elsif ($sig =~ /^(\w+) : unit$/) {
 	( "$1v" )
+    } elsif ($sig =~ /^(\w+) : free$/) {
+	( "$1v" )
     } elsif ($sig =~ /^(\w+), string : (\w+)$/) {
 	( "$1v", "strv" )
     } else {
@@ -352,14 +364,26 @@ sub gen_pack_result
 {
     local $_ = shift;
 
-    if ($_ eq "dom") {
-	"rv = Val_domain (r, connv);"
-    } elsif ($_ eq "net") {
-	"rv = Val_network (r, connv);"
-    } elsif ($_ eq "pool") {
-	"rv = Val_pool (r, connv);"
-    } elsif ($_ eq "vol") {
-	"rv = Val_volume (r, connv);"
+    if ($_ eq "dom") {     "rv = Val_domain (r, connv);" }
+    elsif ($_ eq "net") {  "rv = Val_network (r, connv);" }
+    elsif ($_ eq "pool") { "rv = Val_pool (r, connv);" }
+    elsif ($_ eq "vol") {  "rv = Val_volume (r, connv);" }
+    else {
+	die "unknown short name $_"
+    }
+}
+
+sub gen_free_arg
+{
+    local $_ = shift;
+
+    if ($_ eq "conn") {     "Connect_val (connv) = NULL;" }
+    elsif ($_ eq "dom") {   "Domain_val (domv) = NULL;" }
+    elsif ($_ eq "net") {   "Network_val (netv) = NULL;" }
+    elsif ($_ eq "pool") {  "Pool_val (poolv) = NULL;" }
+    elsif ($_ eq "vol") {   "Volume_val (volv) = NULL;" }
+    else {
+	die "unknown short name $_"
     }
 }
 
@@ -500,6 +524,16 @@ sub gen_c_code
   free (r);
   CAMLreturn (rv);
 "
+    } elsif ($sig =~ /^(\w+), 0U? : unit$/) {
+	"\
+  " . gen_unpack_args ($1) . "
+  int r;
+
+  NONBLOCKING (r = $c_name ($1, 0));
+  CHECK_ERROR (r == -1, conn, \"$c_name\");
+
+  CAMLreturn (Val_unit);
+"
     } elsif ($sig =~ /^(\w+) : unit$/) {
 	"\
   " . gen_unpack_args ($1) . "
@@ -510,13 +544,16 @@ sub gen_c_code
 
   CAMLreturn (Val_unit);
 "
-    } elsif ($sig =~ /^(\w+), 0U? : unit$/) {
+    } elsif ($sig =~ /^(\w+) : free$/) {
 	"\
   " . gen_unpack_args ($1) . "
   int r;
 
-  NONBLOCKING (r = $c_name ($1, 0));
+  NONBLOCKING (r = $c_name ($1));
   CHECK_ERROR (r == -1, conn, \"$c_name\");
+
+  /* So that we don't double-free in the finalizer: */
+  " . gen_free_arg ($1) . "
 
   CAMLreturn (Val_unit);
 "

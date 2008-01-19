@@ -127,22 +127,6 @@ ocaml_libvirt_connect_open_readonly (value namev, value unit)
 }
 
 CAMLprim value
-ocaml_libvirt_connect_close (value connv)
-{
-  CAMLparam1 (connv);
-  virConnectPtr conn = Connect_val (connv);
-  int r;
-
-  NONBLOCKING (r = virConnectClose (conn));
-  CHECK_ERROR (r == -1, conn, "virConnectClose");
-
-  /* So that we don't double-free in the finalizer: */
-  Connect_val (connv) = NULL;
-
-  CAMLreturn (Val_unit);
-}
-
-CAMLprim value
 ocaml_libvirt_connect_get_version (value connv)
 {
   CAMLparam1 (connv);
@@ -290,40 +274,6 @@ ocaml_libvirt_domain_lookup_by_uuid (value connv, value uuidv)
 
   rv = Val_domain (r, connv);
   CAMLreturn (rv);
-}
-
-CAMLprim value
-ocaml_libvirt_domain_destroy (value domv)
-{
-  CAMLparam1 (domv);
-  virDomainPtr dom = Domain_val (domv);
-  virConnectPtr conn = Connect_domv (domv);
-  int r;
-
-  NONBLOCKING (r = virDomainDestroy (dom));
-  CHECK_ERROR (r == -1, conn, "virDomainDestroy");
-
-  /* So that we don't double-free in the finalizer: */
-  Domain_val (domv) = NULL;
-
-  CAMLreturn (Val_unit);
-}
-
-CAMLprim value
-ocaml_libvirt_domain_free (value domv)
-{
-  CAMLparam1 (domv);
-  virDomainPtr dom = Domain_val (domv);
-  virConnectPtr conn = Connect_domv (domv);
-  int r;
-
-  NONBLOCKING (r = virDomainFree (dom));
-  CHECK_ERROR (r == -1, conn, "virDomainFree");
-
-  /* So that we don't double-free in the finalizer: */
-  Domain_val (domv) = NULL;
-
-  CAMLreturn (Val_unit);
 }
 
 CAMLprim value
@@ -887,40 +837,6 @@ ocaml_libvirt_network_define_xml (value connv, value xmlv)
 
   rv = Val_network (r, connv);
   CAMLreturn (rv);
-}
-
-CAMLprim value
-ocaml_libvirt_network_destroy (value netv)
-{
-  CAMLparam1 (netv);
-  virNetworkPtr net = Network_val (netv);
-  virConnectPtr conn = Connect_netv (netv);
-  int r;
-
-  NONBLOCKING (r = virNetworkDestroy (net));
-  CHECK_ERROR (r == -1, conn, "virNetworkDestroy");
-
-  /* So that we don't double-free in the finalizer: */
-  Network_val (netv) = NULL;
-
-  CAMLreturn (Val_unit);
-}
-
-CAMLprim value
-ocaml_libvirt_network_free (value netv)
-{
-  CAMLparam1 (netv);
-  virNetworkPtr net = Network_val (netv);
-  virConnectPtr conn = Connect_netv (netv);
-  int r;
-
-  NONBLOCKING (r = virNetworkFree (net));
-  CHECK_ERROR (r == -1, conn, "virNetworkFree");
-
-  /* So that we don't double-free in the finalizer: */
-  Network_val (netv) = NULL;
-
-  CAMLreturn (Val_unit);
 }
 
 /*----------------------------------------------------------------------*/
