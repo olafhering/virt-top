@@ -229,98 +229,6 @@ ocaml_libvirt_connect_node_get_cells_free_memory (value connv,
 }
 
 CAMLprim value
-ocaml_libvirt_domain_create_linux (value connv, value xmlv)
-{
-  CAMLparam2 (connv, xmlv);
-  CAMLlocal1 (rv);
-  virConnectPtr conn = Connect_val (connv);
-  char *xml = String_val (xmlv);
-  virDomainPtr r;
-
-  NONBLOCKING (r = virDomainCreateLinux (conn, xml, 0));
-  CHECK_ERROR (!r, conn, "virDomainCreateLinux");
-
-  rv = Val_domain (r, connv);
-  CAMLreturn (rv);
-}
-
-CAMLprim value
-ocaml_libvirt_domain_lookup_by_id (value connv, value iv)
-{
-  CAMLparam2 (connv, iv);
-  CAMLlocal1 (rv);
-  virConnectPtr conn = Connect_val (connv);
-  int i = Int_val (iv);
-  virDomainPtr r;
-
-  NONBLOCKING (r = virDomainLookupByID (conn, i));
-  CHECK_ERROR (!r, conn, "virDomainLookupByID");
-
-  rv = Val_domain (r, connv);
-  CAMLreturn (rv);
-}
-
-CAMLprim value
-ocaml_libvirt_domain_lookup_by_uuid (value connv, value uuidv)
-{
-  CAMLparam2 (connv, uuidv);
-  CAMLlocal1 (rv);
-  virConnectPtr conn = Connect_val (connv);
-  char *uuid = String_val (uuidv);
-  virDomainPtr r;
-
-  NONBLOCKING (r = virDomainLookupByUUID (conn, (unsigned char *) uuid));
-  CHECK_ERROR (!r, conn, "virDomainLookupByUUID");
-
-  rv = Val_domain (r, connv);
-  CAMLreturn (rv);
-}
-
-CAMLprim value
-ocaml_libvirt_domain_save (value domv, value pathv)
-{
-  CAMLparam2 (domv, pathv);
-  virDomainPtr dom = Domain_val (domv);
-  virConnectPtr conn = Connect_domv (domv);
-  char *path = String_val (pathv);
-  int r;
-
-  NONBLOCKING (r = virDomainSave (dom, path));
-  CHECK_ERROR (r == -1, conn, "virDomainSave");
-
-  CAMLreturn (Val_unit);
-}
-
-CAMLprim value
-ocaml_libvirt_domain_restore (value connv, value pathv)
-{
-  CAMLparam2 (connv, pathv);
-  virConnectPtr conn = Connect_val (connv);
-  char *path = String_val (pathv);
-  int r;
-
-  NONBLOCKING (r = virDomainRestore (conn, path));
-  CHECK_ERROR (r == -1, conn, "virDomainRestore");
-
-  CAMLreturn (Val_unit);
-}
-
-CAMLprim value
-ocaml_libvirt_domain_core_dump (value domv, value pathv)
-{
-  CAMLparam2 (domv, pathv);
-  virDomainPtr dom = Domain_val (domv);
-  virConnectPtr conn = Connect_domv (domv);
-  char *path = String_val (pathv);
-  int r;
-
-  NONBLOCKING (r = virDomainCoreDump (dom, path, 0));
-  CHECK_ERROR (r == -1, conn, "virDomainCoreDump");
-
-  CAMLreturn (Val_unit);
-}
-
-CAMLprim value
 ocaml_libvirt_domain_get_id (value domv)
 {
   CAMLparam1 (domv);
@@ -548,22 +456,6 @@ ocaml_libvirt_domain_set_scheduler_parameters (value domv, value paramsv)
 }
 
 CAMLprim value
-ocaml_libvirt_domain_define_xml (value connv, value xmlv)
-{
-  CAMLparam2 (connv, xmlv);
-  CAMLlocal1 (rv);
-  virConnectPtr conn = Connect_val (connv);
-  char *xml = String_val (xmlv);
-  virDomainPtr r;
-
-  NONBLOCKING (r = virDomainDefineXML (conn, xml));
-  CHECK_ERROR (!r, conn, "virDomainDefineXML");
-
-  rv = Val_domain (r, connv);
-  CAMLreturn (rv);
-}
-
-CAMLprim value
 ocaml_libvirt_domain_set_vcpus (value domv, value nvcpusv)
 {
   CAMLparam2 (domv, nvcpusv);
@@ -634,50 +526,6 @@ ocaml_libvirt_domain_get_vcpus (value domv, value maxinfov, value maplenv)
   Store_field (rv, 2, strv);
 
   CAMLreturn (rv);
-}
-
-CAMLprim value
-ocaml_libvirt_domain_get_max_vcpus (value domv)
-{
-  CAMLparam1 (domv);
-  virDomainPtr dom = Domain_val (domv);
-  virConnectPtr conn = Connect_domv (domv);
-  int r;
-
-  NONBLOCKING (r = virDomainGetMaxVcpus (dom));
-  CHECK_ERROR (r == -1, conn, "virDomainGetMaxVcpus");
-
-  CAMLreturn (Val_int (r));
-}
-
-CAMLprim value
-ocaml_libvirt_domain_attach_device (value domv, value xmlv)
-{
-  CAMLparam2 (domv, xmlv);
-  virDomainPtr dom = Domain_val (domv);
-  virConnectPtr conn = Connect_domv (domv);
-  char *xml = String_val (xmlv);
-  int r;
-
-  NONBLOCKING (r = virDomainAttachDevice (dom, xml));
-  CHECK_ERROR (r == -1, conn, "virDomainAttachDevice");
-
-  CAMLreturn (Val_unit);
-}
-
-CAMLprim value
-ocaml_libvirt_domain_detach_device (value domv, value xmlv)
-{
-  CAMLparam2 (domv, xmlv);
-  virDomainPtr dom = Domain_val (domv);
-  virConnectPtr conn = Connect_domv (domv);
-  char *xml = String_val (xmlv);
-  int r;
-
-  NONBLOCKING (r = virDomainDetachDevice (dom, xml));
-  CHECK_ERROR (r == -1, conn, "virDomainDetachDevice");
-
-  CAMLreturn (Val_unit);
 }
 
 CAMLprim value
@@ -789,54 +637,6 @@ ocaml_libvirt_domain_interface_stats (value domv, value pathv)
 #else
   not_supported ("virDomainInterfaceStats");
 #endif
-}
-
-CAMLprim value
-ocaml_libvirt_network_lookup_by_uuid (value connv, value uuidv)
-{
-  CAMLparam2 (connv, uuidv);
-  CAMLlocal1 (rv);
-  virConnectPtr conn = Connect_val (connv);
-  char *uuid = String_val (uuidv);
-  virNetworkPtr r;
-
-  NONBLOCKING (r = virNetworkLookupByUUID (conn, (unsigned char *) uuid));
-  CHECK_ERROR (!r, conn, "virNetworkLookupByUUID");
-
-  rv = Val_network (r, connv);
-  CAMLreturn (rv);
-}
-
-CAMLprim value
-ocaml_libvirt_network_create_xml (value connv, value xmlv)
-{
-  CAMLparam2 (connv, xmlv);
-  CAMLlocal1 (rv);
-  virConnectPtr conn = Connect_val (connv);
-  char *xml = String_val (xmlv);
-  virNetworkPtr r;
-
-  NONBLOCKING (r = virNetworkCreateXML (conn, xml));
-  CHECK_ERROR (!r, conn, "virNetworkCreateXML");
-
-  rv = Val_network (r, connv);
-  CAMLreturn (rv);
-}
-
-CAMLprim value
-ocaml_libvirt_network_define_xml (value connv, value xmlv)
-{
-  CAMLparam2 (connv, xmlv);
-  CAMLlocal1 (rv);
-  virConnectPtr conn = Connect_val (connv);
-  char *xml = String_val (xmlv);
-  virNetworkPtr r;
-
-  NONBLOCKING (r = virNetworkDefineXML (conn, xml));
-  CHECK_ERROR (!r, conn, "virNetworkDefineXML");
-
-  rv = Val_network (r, connv);
-  CAMLreturn (rv);
 }
 
 /*----------------------------------------------------------------------*/

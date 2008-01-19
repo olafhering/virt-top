@@ -801,6 +801,14 @@ v}
   val cancel : ('a,'b) t -> unit
     (** Cancel a job. *)
 
+  val free : ('a, [>`R]) t -> unit
+    (** Free a job object in memory.
+
+	The job object is automatically freed if it is garbage
+	collected.  This function just forces it to be freed right
+	away.
+    *)
+
   external const : ('a, [>`R]) t -> ('a, ro) t = "%identity"
     (** [const conn] turns a read/write job into a read-only
 	job.  Note that the opposite operation is impossible.

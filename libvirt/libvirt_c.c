@@ -458,6 +458,42 @@ ocaml_libvirt_connect_get_capabilities (value connv)
 }
 
 CAMLprim value
+ocaml_libvirt_domain_create_linux (value connv, value strv)
+{
+  CAMLparam2 (connv, strv);
+
+  CAMLlocal1 (rv);
+  virConnectPtr conn = Connect_val (connv);
+  char *str = String_val (strv);
+  virDomainPtr r;
+
+  NONBLOCKING (r = virDomainCreateLinux (conn, str, 0));
+  CHECK_ERROR (!r, conn, "virDomainCreateLinux");
+
+  rv = Val_domain (r, connv);
+
+  CAMLreturn (rv);
+}
+
+CAMLprim value
+ocaml_libvirt_domain_create_linux_job (value connv, value strv)
+{
+  CAMLparam2 (connv, strv);
+
+  CAMLlocal1 (rv);
+  virConnectPtr conn = Connect_val (connv);
+  char *str = String_val (strv);
+  virJobPtr r;
+
+  NONBLOCKING (r = virDomainCreateLinuxJob (conn, str, 0));
+  CHECK_ERROR (!r, conn, "virDomainCreateLinuxJob");
+
+  rv = Val_job (r, connv);
+
+  CAMLreturn (rv);
+}
+
+CAMLprim value
 ocaml_libvirt_domain_free (value domv)
 {
   CAMLparam1 (domv);
@@ -505,6 +541,42 @@ ocaml_libvirt_domain_lookup_by_name (value connv, value strv)
 
   NONBLOCKING (r = virDomainLookupByName (conn, str));
   CHECK_ERROR (!r, conn, "virDomainLookupByName");
+
+  rv = Val_domain (r, connv);
+
+  CAMLreturn (rv);
+}
+
+CAMLprim value
+ocaml_libvirt_domain_lookup_by_id (value connv, value iv)
+{
+  CAMLparam2 (connv, iv);
+
+  CAMLlocal1 (rv);
+  virConnectPtr conn = Connect_val (connv);
+  int i = Int_val (iv);
+  virDomainPtr r;
+
+  NONBLOCKING (r = virDomainLookupByID (conn, i));
+  CHECK_ERROR (!r, conn, "virDomainLookupByID");
+
+  rv = Val_domain (r, connv);
+
+  CAMLreturn (rv);
+}
+
+CAMLprim value
+ocaml_libvirt_domain_lookup_by_uuid (value connv, value uuidv)
+{
+  CAMLparam2 (connv, uuidv);
+
+  CAMLlocal1 (rv);
+  virConnectPtr conn = Connect_val (connv);
+  unsigned char *uuid = (unsigned char *) String_val (uuidv);
+  virDomainPtr r;
+
+  NONBLOCKING (r = virDomainLookupByUUID (conn, uuid));
+  CHECK_ERROR (!r, conn, "virDomainLookupByUUID");
 
   rv = Val_domain (r, connv);
 
@@ -619,6 +691,129 @@ ocaml_libvirt_domain_get_uuid_string (value domv)
 }
 
 CAMLprim value
+ocaml_libvirt_domain_get_max_vcpus (value domv)
+{
+  CAMLparam1 (domv);
+
+  virDomainPtr dom = Domain_val (domv);
+  virConnectPtr conn = Connect_domv (domv);
+  int r;
+
+  NONBLOCKING (r = virDomainGetMaxVcpus (dom));
+  CHECK_ERROR (r == -1, conn, "virDomainGetMaxVcpus");
+
+  CAMLreturn (Val_int (r));
+}
+
+CAMLprim value
+ocaml_libvirt_domain_save (value domv, value strv)
+{
+  CAMLparam2 (domv, strv);
+
+  CAMLlocal1 (rv);
+  virDomainPtr dom = Domain_val (domv);
+  virConnectPtr conn = Connect_domv (domv);
+  char *str = String_val (strv);
+  int r;
+
+  NONBLOCKING (r = virDomainSave (dom, str));
+  CHECK_ERROR (r == -1, conn, "virDomainSave");
+
+  CAMLreturn (Val_unit);
+}
+
+CAMLprim value
+ocaml_libvirt_domain_save_job (value domv, value strv)
+{
+  CAMLparam2 (domv, strv);
+
+  CAMLlocal2 (rv, connv);
+  virDomainPtr dom = Domain_val (domv);
+  virConnectPtr conn = Connect_domv (domv);
+  char *str = String_val (strv);
+  virJobPtr r;
+
+  NONBLOCKING (r = virDomainSaveJob (dom, str));
+  CHECK_ERROR (!r, conn, "virDomainSaveJob");
+
+  connv = Field (domv, 1);
+  rv = Val_job (r, connv);
+
+  CAMLreturn (rv);
+}
+
+CAMLprim value
+ocaml_libvirt_domain_restore (value connv, value strv)
+{
+  CAMLparam2 (connv, strv);
+
+  CAMLlocal1 (rv);
+  virConnectPtr conn = Connect_val (connv);
+  char *str = String_val (strv);
+  int r;
+
+  NONBLOCKING (r = virDomainRestore (conn, str));
+  CHECK_ERROR (r == -1, conn, "virDomainRestore");
+
+  CAMLreturn (Val_unit);
+}
+
+CAMLprim value
+ocaml_libvirt_domain_restore_job (value connv, value strv)
+{
+  CAMLparam2 (connv, strv);
+
+  CAMLlocal1 (rv);
+  virConnectPtr conn = Connect_val (connv);
+  char *str = String_val (strv);
+  virJobPtr r;
+
+  NONBLOCKING (r = virDomainRestoreJob (conn, str));
+  CHECK_ERROR (!r, conn, "virDomainRestoreJob");
+
+  rv = Val_job (r, connv);
+
+  CAMLreturn (rv);
+}
+
+CAMLprim value
+ocaml_libvirt_domain_core_dump (value domv, value strv)
+{
+  CAMLparam2 (domv, strv);
+
+  CAMLlocal1 (rv);
+  virDomainPtr dom = Domain_val (domv);
+  virConnectPtr conn = Connect_domv (domv);
+  char *str = String_val (strv);
+  int r;
+
+  NONBLOCKING (r = virDomainCoreDump (dom, str, 0));
+  CHECK_ERROR (!r, conn, "virDomainCoreDump");
+
+  CAMLreturn (Val_unit);
+}
+
+CAMLprim value
+ocaml_libvirt_domain_core_dump_job (value domv, value strv)
+{
+  CAMLparam2 (domv, strv);
+
+  CAMLlocal2 (rv, connv);
+  virDomainPtr dom = Domain_val (domv);
+  virConnectPtr conn = Connect_domv (domv);
+  char *str = String_val (strv);
+  virJobPtr r;
+
+  NONBLOCKING (r = virDomainCoreDumpJob (dom, str, 0));
+  CHECK_ERROR (!r, conn, "virDomainCoreDumpJob");
+
+  connv = Field (domv, 1);
+  rv = Val_job (r, connv);
+
+  CAMLreturn (rv);
+}
+
+CAMLprim value
 ocaml_libvirt_domain_suspend (value domv)
 {
   CAMLparam1 (domv);
@@ -679,6 +874,24 @@ ocaml_libvirt_domain_reboot (value domv)
 }
 
 CAMLprim value
+ocaml_libvirt_domain_define_xml (value connv, value strv)
+{
+  CAMLparam2 (connv, strv);
+
+  CAMLlocal1 (rv);
+  virConnectPtr conn = Connect_val (connv);
+  char *str = String_val (strv);
+  virDomainPtr r;
+
+  NONBLOCKING (r = virDomainDefineXML (conn, str));
+  CHECK_ERROR (!r, conn, "virDomainDefineXML");
+
+  rv = Val_domain (r, connv);
+
+  CAMLreturn (rv);
+}
+
+CAMLprim value
 ocaml_libvirt_domain_undefine (value domv)
 {
   CAMLparam1 (domv);
@@ -704,6 +917,59 @@ ocaml_libvirt_domain_create (value domv)
 
   NONBLOCKING (r = virDomainCreate (dom));
   CHECK_ERROR (r == -1, conn, "virDomainCreate");
+
+  CAMLreturn (Val_unit);
+}
+
+CAMLprim value
+ocaml_libvirt_domain_create_job (value domv)
+{
+  CAMLparam1 (domv);
+
+  CAMLlocal2 (rv, connv);
+  virDomainPtr dom = Domain_val (domv);
+  virConnectPtr conn = Connect_domv (domv);
+  virJobPtr r;
+
+  NONBLOCKING (r = virDomainCreateJob (dom, 0));
+  CHECK_ERROR (!r, conn, "virDomainCreateJob");
+
+  connv = Field (domv, 1);
+  rv = Val_job (r, connv);
+
+  CAMLreturn (rv);
+}
+
+CAMLprim value
+ocaml_libvirt_domain_attach_device (value domv, value strv)
+{
+  CAMLparam2 (domv, strv);
+
+  CAMLlocal1 (rv);
+  virDomainPtr dom = Domain_val (domv);
+  virConnectPtr conn = Connect_domv (domv);
+  char *str = String_val (strv);
+  int r;
+
+  NONBLOCKING (r = virDomainAttachDevice (dom, str));
+  CHECK_ERROR (r == -1, conn, "virDomainAttachDevice");
+
+  CAMLreturn (Val_unit);
+}
+
+CAMLprim value
+ocaml_libvirt_domain_detach_device (value domv, value strv)
+{
+  CAMLparam2 (domv, strv);
+
+  CAMLlocal1 (rv);
+  virDomainPtr dom = Domain_val (domv);
+  virConnectPtr conn = Connect_domv (domv);
+  char *str = String_val (strv);
+  int r;
+
+  NONBLOCKING (r = virDomainDetachDevice (dom, str));
+  CHECK_ERROR (r == -1, conn, "virDomainDetachDevice");
 
   CAMLreturn (Val_unit);
 }
@@ -788,6 +1054,24 @@ ocaml_libvirt_network_lookup_by_name (value connv, value strv)
 
   NONBLOCKING (r = virNetworkLookupByName (conn, str));
   CHECK_ERROR (!r, conn, "virNetworkLookupByName");
+
+  rv = Val_network (r, connv);
+
+  CAMLreturn (rv);
+}
+
+CAMLprim value
+ocaml_libvirt_network_lookup_by_uuid (value connv, value uuidv)
+{
+  CAMLparam2 (connv, uuidv);
+
+  CAMLlocal1 (rv);
+  virConnectPtr conn = Connect_val (connv);
+  unsigned char *uuid = (unsigned char *) String_val (uuidv);
+  virNetworkPtr r;
+
+  NONBLOCKING (r = virNetworkLookupByUUID (conn, uuid));
+  CHECK_ERROR (!r, conn, "virNetworkLookupByUUID");
 
   rv = Val_network (r, connv);
 
@@ -917,6 +1201,60 @@ ocaml_libvirt_network_undefine (value netv)
 }
 
 CAMLprim value
+ocaml_libvirt_network_create_xml (value connv, value strv)
+{
+  CAMLparam2 (connv, strv);
+
+  CAMLlocal1 (rv);
+  virConnectPtr conn = Connect_val (connv);
+  char *str = String_val (strv);
+  virNetworkPtr r;
+
+  NONBLOCKING (r = virNetworkCreateXML (conn, str));
+  CHECK_ERROR (!r, conn, "virNetworkCreateXML");
+
+  rv = Val_network (r, connv);
+
+  CAMLreturn (rv);
+}
+
+CAMLprim value
+ocaml_libvirt_network_create_xml_job (value connv, value strv)
+{
+  CAMLparam2 (connv, strv);
+
+  CAMLlocal1 (rv);
+  virConnectPtr conn = Connect_val (connv);
+  char *str = String_val (strv);
+  virJobPtr r;
+
+  NONBLOCKING (r = virNetworkCreateXMLJob (conn, str));
+  CHECK_ERROR (!r, conn, "virNetworkCreateXMLJob");
+
+  rv = Val_job (r, connv);
+
+  CAMLreturn (rv);
+}
+
+CAMLprim value
+ocaml_libvirt_network_define_xml (value connv, value strv)
+{
+  CAMLparam2 (connv, strv);
+
+  CAMLlocal1 (rv);
+  virConnectPtr conn = Connect_val (connv);
+  char *str = String_val (strv);
+  virNetworkPtr r;
+
+  NONBLOCKING (r = virNetworkDefineXML (conn, str));
+  CHECK_ERROR (!r, conn, "virNetworkDefineXML");
+
+  rv = Val_network (r, connv);
+
+  CAMLreturn (rv);
+}
+
+CAMLprim value
 ocaml_libvirt_network_create (value netv)
 {
   CAMLparam1 (netv);
@@ -929,6 +1267,25 @@ ocaml_libvirt_network_create (value netv)
   CHECK_ERROR (r == -1, conn, "virNetworkCreate");
 
   CAMLreturn (Val_unit);
+}
+
+CAMLprim value
+ocaml_libvirt_network_create_job (value netv)
+{
+  CAMLparam1 (netv);
+
+  CAMLlocal2 (rv, connv);
+  virNetworkPtr net = Network_val (netv);
+  virConnectPtr conn = Connect_netv (netv);
+  virJobPtr r;
+
+  NONBLOCKING (r = virNetworkCreateJob (net));
+  CHECK_ERROR (!r, conn, "virNetworkCreateJob");
+
+  connv = Field (netv, 1);
+  rv = Val_job (r, connv);
+
+  CAMLreturn (rv);
 }
 
 CAMLprim value
@@ -1061,6 +1418,41 @@ ocaml_libvirt_storage_pool_lookup_by_name (value connv, value strv)
 
   NONBLOCKING (r = virStoragePoolLookupByName (conn, str));
   CHECK_ERROR (!r, conn, "virStoragePoolLookupByName");
+
+  rv = Val_pool (r, connv);
+
+  CAMLreturn (rv);
+#endif
+}
+
+#ifdef HAVE_WEAK_SYMBOLS
+#ifdef HAVE_VIRSTORAGEPOOLLOOKUPBYUUID
+extern virStoragePoolPtr virStoragePoolLookupByUUID (virConnectPtr conn, const unsigned char *str) __attribute__((weak));
+#endif
+#endif
+
+CAMLprim value
+ocaml_libvirt_storage_pool_lookup_by_uuid (value connv, value uuidv)
+{
+  CAMLparam2 (connv, uuidv);
+#ifndef HAVE_VIRSTORAGEPOOLLOOKUPBYUUID
+  /* Symbol virStoragePoolLookupByUUID not found at compile time. */
+  not_supported ("virStoragePoolLookupByUUID");
+  /* Suppresses a compiler warning. */
+  (void) caml__frame;
+#else
+  /* Check that the symbol virStoragePoolLookupByUUID
+   * is in runtime version of libvirt.
+   */
+  WEAK_SYMBOL_CHECK (virStoragePoolLookupByUUID);
+
+  CAMLlocal1 (rv);
+  virConnectPtr conn = Connect_val (connv);
+  unsigned char *uuid = (unsigned char *) String_val (uuidv);
+  virStoragePoolPtr r;
+
+  NONBLOCKING (r = virStoragePoolLookupByUUID (conn, uuid));
+  CHECK_ERROR (!r, conn, "virStoragePoolLookupByUUID");
 
   rv = Val_pool (r, connv);
 
@@ -1238,6 +1630,76 @@ ocaml_libvirt_storage_pool_get_uuid_string (value poolv)
   CHECK_ERROR (r == -1, conn, "virStoragePoolGetUUIDString");
 
   rv = caml_copy_string (uuid);
+  CAMLreturn (rv);
+#endif
+}
+
+#ifdef HAVE_WEAK_SYMBOLS
+#ifdef HAVE_VIRSTORAGEPOOLCREATEXML
+extern virStoragePoolPtr virStoragePoolCreateXML (virConnectPtr conn, const char *str) __attribute__((weak));
+#endif
+#endif
+
+CAMLprim value
+ocaml_libvirt_storage_pool_create_xml (value connv, value strv)
+{
+  CAMLparam2 (connv, strv);
+#ifndef HAVE_VIRSTORAGEPOOLCREATEXML
+  /* Symbol virStoragePoolCreateXML not found at compile time. */
+  not_supported ("virStoragePoolCreateXML");
+  /* Suppresses a compiler warning. */
+  (void) caml__frame;
+#else
+  /* Check that the symbol virStoragePoolCreateXML
+   * is in runtime version of libvirt.
+   */
+  WEAK_SYMBOL_CHECK (virStoragePoolCreateXML);
+
+  CAMLlocal1 (rv);
+  virConnectPtr conn = Connect_val (connv);
+  char *str = String_val (strv);
+  virStoragePoolPtr r;
+
+  NONBLOCKING (r = virStoragePoolCreateXML (conn, str));
+  CHECK_ERROR (!r, conn, "virStoragePoolCreateXML");
+
+  rv = Val_pool (r, connv);
+
+  CAMLreturn (rv);
+#endif
+}
+
+#ifdef HAVE_WEAK_SYMBOLS
+#ifdef HAVE_VIRSTORAGEPOOLDEFINEXML
+extern virStoragePoolPtr virStoragePoolDefineXML (virConnectPtr conn, const char *str) __attribute__((weak));
+#endif
+#endif
+
+CAMLprim value
+ocaml_libvirt_storage_pool_define_xml (value connv, value strv)
+{
+  CAMLparam2 (connv, strv);
+#ifndef HAVE_VIRSTORAGEPOOLDEFINEXML
+  /* Symbol virStoragePoolDefineXML not found at compile time. */
+  not_supported ("virStoragePoolDefineXML");
+  /* Suppresses a compiler warning. */
+  (void) caml__frame;
+#else
+  /* Check that the symbol virStoragePoolDefineXML
+   * is in runtime version of libvirt.
+   */
+  WEAK_SYMBOL_CHECK (virStoragePoolDefineXML);
+
+  CAMLlocal1 (rv);
+  virConnectPtr conn = Connect_val (connv);
+  char *str = String_val (strv);
+  virStoragePoolPtr r;
+
+  NONBLOCKING (r = virStoragePoolDefineXML (conn, str));
+  CHECK_ERROR (!r, conn, "virStoragePoolDefineXML");
+
+  rv = Val_pool (r, connv);
+
   CAMLreturn (rv);
 #endif
 }
@@ -1436,10 +1898,26 @@ ocaml_libvirt_storage_pool_set_autostart (value poolv, value bv)
 #endif
 }
 
+#ifdef HAVE_WEAK_SYMBOLS
+#ifdef HAVE_VIRSTORAGEVOLFREE
+extern int virStorageVolFree (virStorageVolPtr vol) __attribute__((weak));
+#endif
+#endif
+
 CAMLprim value
 ocaml_libvirt_storage_vol_free (value volv)
 {
   CAMLparam1 (volv);
+#ifndef HAVE_VIRSTORAGEVOLFREE
+  /* Symbol virStorageVolFree not found at compile time. */
+  not_supported ("virStorageVolFree");
+  /* Suppresses a compiler warning. */
+  (void) caml__frame;
+#else
+  /* Check that the symbol virStorageVolFree
+   * is in runtime version of libvirt.
+   */
+  WEAK_SYMBOL_CHECK (virStorageVolFree);
 
   virStorageVolPtr vol = Volume_val (volv);
   virConnectPtr conn = Connect_volv (volv);
@@ -1452,12 +1930,29 @@ ocaml_libvirt_storage_vol_free (value volv)
   Volume_val (volv) = NULL;
 
   CAMLreturn (Val_unit);
+#endif
 }
+
+#ifdef HAVE_WEAK_SYMBOLS
+#ifdef HAVE_VIRSTORAGEVOLDESTROY
+extern int virStorageVolDestroy (virStorageVolPtr vol) __attribute__((weak));
+#endif
+#endif
 
 CAMLprim value
 ocaml_libvirt_storage_vol_destroy (value volv)
 {
   CAMLparam1 (volv);
+#ifndef HAVE_VIRSTORAGEVOLDESTROY
+  /* Symbol virStorageVolDestroy not found at compile time. */
+  not_supported ("virStorageVolDestroy");
+  /* Suppresses a compiler warning. */
+  (void) caml__frame;
+#else
+  /* Check that the symbol virStorageVolDestroy
+   * is in runtime version of libvirt.
+   */
+  WEAK_SYMBOL_CHECK (virStorageVolDestroy);
 
   virStorageVolPtr vol = Volume_val (volv);
   virConnectPtr conn = Connect_volv (volv);
@@ -1470,6 +1965,7 @@ ocaml_libvirt_storage_vol_destroy (value volv)
   Volume_val (volv) = NULL;
 
   CAMLreturn (Val_unit);
+#endif
 }
 
 #ifdef HAVE_WEAK_SYMBOLS
@@ -1680,74 +2176,189 @@ ocaml_libvirt_storage_vol_get_name (value volv)
 #endif
 }
 
+#ifdef HAVE_WEAK_SYMBOLS
+#ifdef HAVE_VIRSTORAGEPOOLLOOKUPBYVOLUME
+extern virStoragePoolPtr virStoragePoolLookupByVolume (virStorageVolPtr vol) __attribute__((weak));
+#endif
+#endif
+
+CAMLprim value
+ocaml_libvirt_storage_pool_lookup_by_volume (value volv)
+{
+  CAMLparam1 (volv);
+#ifndef HAVE_VIRSTORAGEPOOLLOOKUPBYVOLUME
+  /* Symbol virStoragePoolLookupByVolume not found at compile time. */
+  not_supported ("virStoragePoolLookupByVolume");
+  /* Suppresses a compiler warning. */
+  (void) caml__frame;
+#else
+  /* Check that the symbol virStoragePoolLookupByVolume
+   * is in runtime version of libvirt.
+   */
+  WEAK_SYMBOL_CHECK (virStoragePoolLookupByVolume);
+
+  CAMLlocal2 (rv, connv);
+  virStorageVolPtr vol = Volume_val (volv);
+  virConnectPtr conn = Connect_volv (volv);
+  virStoragePoolPtr r;
+
+  NONBLOCKING (r = virStoragePoolLookupByVolume (vol));
+  CHECK_ERROR (!r, conn, "virStoragePoolLookupByVolume");
+
+  connv = Field (volv, 1);
+  rv = Val_pool (r, connv);
+
+  CAMLreturn (rv);
+#endif
+}
+
+#ifdef HAVE_WEAK_SYMBOLS
+#ifdef HAVE_VIRJOBFREE
+extern int virJobFree (virJobPtr job) __attribute__((weak));
+#endif
+#endif
+
+CAMLprim value
+ocaml_libvirt_job_free (value jobv)
+{
+  CAMLparam1 (jobv);
+#ifndef HAVE_VIRJOBFREE
+  /* Symbol virJobFree not found at compile time. */
+  not_supported ("virJobFree");
+  /* Suppresses a compiler warning. */
+  (void) caml__frame;
+#else
+  /* Check that the symbol virJobFree
+   * is in runtime version of libvirt.
+   */
+  WEAK_SYMBOL_CHECK (virJobFree);
+
+  virJobPtr job = Job_val (jobv);
+  virConnectPtr conn = Connect_jobv (jobv);
+  int r;
+
+  NONBLOCKING (r = virJobFree (job));
+  CHECK_ERROR (r == -1, conn, "virJobFree");
+
+  /* So that we don't double-free in the finalizer: */
+  Job_val (jobv) = NULL;
+
+  CAMLreturn (Val_unit);
+#endif
+}
+
+#ifdef HAVE_WEAK_SYMBOLS
+#ifdef HAVE_VIRJOBCANCEL
+extern int virJobCancel (virJobPtr job) __attribute__((weak));
+#endif
+#endif
+
+CAMLprim value
+ocaml_libvirt_job_cancel (value jobv)
+{
+  CAMLparam1 (jobv);
+#ifndef HAVE_VIRJOBCANCEL
+  /* Symbol virJobCancel not found at compile time. */
+  not_supported ("virJobCancel");
+  /* Suppresses a compiler warning. */
+  (void) caml__frame;
+#else
+  /* Check that the symbol virJobCancel
+   * is in runtime version of libvirt.
+   */
+  WEAK_SYMBOL_CHECK (virJobCancel);
+
+  virJobPtr job = Job_val (jobv);
+  virConnectPtr conn = Connect_jobv (jobv);
+  int r;
+
+  NONBLOCKING (r = virJobCancel (job));
+  CHECK_ERROR (r == -1, conn, "virJobCancel");
+
+  CAMLreturn (Val_unit);
+#endif
+}
+
+#ifdef HAVE_WEAK_SYMBOLS
+#ifdef HAVE_VIRJOBGETNETWORK
+extern virNetworkPtr virJobGetNetwork (virJobPtr job) __attribute__((weak));
+#endif
+#endif
+
+CAMLprim value
+ocaml_libvirt_job_get_network (value jobv)
+{
+  CAMLparam1 (jobv);
+#ifndef HAVE_VIRJOBGETNETWORK
+  /* Symbol virJobGetNetwork not found at compile time. */
+  not_supported ("virJobGetNetwork");
+  /* Suppresses a compiler warning. */
+  (void) caml__frame;
+#else
+  /* Check that the symbol virJobGetNetwork
+   * is in runtime version of libvirt.
+   */
+  WEAK_SYMBOL_CHECK (virJobGetNetwork);
+
+  CAMLlocal2 (rv, connv);
+  virJobPtr job = Job_val (jobv);
+  virConnectPtr conn = Connect_jobv (jobv);
+  virNetworkPtr r;
+
+  NONBLOCKING (r = virJobGetNetwork (job));
+  CHECK_ERROR (!r, conn, "virJobGetNetwork");
+
+  connv = Field (jobv, 1);
+  rv = Val_network (r, connv);
+
+  CAMLreturn (rv);
+#endif
+}
+
+#ifdef HAVE_WEAK_SYMBOLS
+#ifdef HAVE_VIRJOBGETDOMAIN
+extern virDomainPtr virJobGetDomain (virJobPtr job) __attribute__((weak));
+#endif
+#endif
+
+CAMLprim value
+ocaml_libvirt_job_get_domain (value jobv)
+{
+  CAMLparam1 (jobv);
+#ifndef HAVE_VIRJOBGETDOMAIN
+  /* Symbol virJobGetDomain not found at compile time. */
+  not_supported ("virJobGetDomain");
+  /* Suppresses a compiler warning. */
+  (void) caml__frame;
+#else
+  /* Check that the symbol virJobGetDomain
+   * is in runtime version of libvirt.
+   */
+  WEAK_SYMBOL_CHECK (virJobGetDomain);
+
+  CAMLlocal2 (rv, connv);
+  virJobPtr job = Job_val (jobv);
+  virConnectPtr conn = Connect_jobv (jobv);
+  virDomainPtr r;
+
+  NONBLOCKING (r = virJobGetDomain (job));
+  CHECK_ERROR (!r, conn, "virJobGetDomain");
+
+  connv = Field (jobv, 1);
+  rv = Val_domain (r, connv);
+
+  CAMLreturn (rv);
+#endif
+}
+
 /* The following functions are unimplemented and always fail.
  * See generator.pl '@unimplemented'
  */
 
 CAMLprim value
-ocaml_libvirt_domain_create_job ()
-{
-  failwith ("ocaml_libvirt_domain_create_job is unimplemented");
-}
-
-CAMLprim value
-ocaml_libvirt_domain_core_dump_job ()
-{
-  failwith ("ocaml_libvirt_domain_core_dump_job is unimplemented");
-}
-
-CAMLprim value
-ocaml_libvirt_domain_restore_job ()
-{
-  failwith ("ocaml_libvirt_domain_restore_job is unimplemented");
-}
-
-CAMLprim value
-ocaml_libvirt_domain_save_job ()
-{
-  failwith ("ocaml_libvirt_domain_save_job is unimplemented");
-}
-
-CAMLprim value
-ocaml_libvirt_connect_create_linux_job ()
-{
-  failwith ("ocaml_libvirt_connect_create_linux_job is unimplemented");
-}
-
-CAMLprim value
-ocaml_libvirt_network_create_job ()
-{
-  failwith ("ocaml_libvirt_network_create_job is unimplemented");
-}
-
-CAMLprim value
-ocaml_libvirt_network_create_xml_job ()
-{
-  failwith ("ocaml_libvirt_network_create_xml_job is unimplemented");
-}
-
-CAMLprim value
 ocaml_libvirt_storage_pool_get_info ()
 {
   failwith ("ocaml_libvirt_storage_pool_get_info is unimplemented");
-}
-
-CAMLprim value
-ocaml_libvirt_storage_pool_define_xml ()
-{
-  failwith ("ocaml_libvirt_storage_pool_define_xml is unimplemented");
-}
-
-CAMLprim value
-ocaml_libvirt_storage_pool_create_xml ()
-{
-  failwith ("ocaml_libvirt_storage_pool_create_xml is unimplemented");
-}
-
-CAMLprim value
-ocaml_libvirt_storage_pool_lookup_by_uuid ()
-{
-  failwith ("ocaml_libvirt_storage_pool_lookup_by_uuid is unimplemented");
 }
 
 CAMLprim value
@@ -1766,30 +2377,6 @@ CAMLprim value
 ocaml_libvirt_storage_vol_get_info ()
 {
   failwith ("ocaml_libvirt_storage_vol_get_info is unimplemented");
-}
-
-CAMLprim value
-ocaml_libvirt_pool_of_volume ()
-{
-  failwith ("ocaml_libvirt_pool_of_volume is unimplemented");
-}
-
-CAMLprim value
-ocaml_libvirt_job_cancel ()
-{
-  failwith ("ocaml_libvirt_job_cancel is unimplemented");
-}
-
-CAMLprim value
-ocaml_libvirt_job_get_network ()
-{
-  failwith ("ocaml_libvirt_job_get_network is unimplemented");
-}
-
-CAMLprim value
-ocaml_libvirt_job_get_domain ()
-{
-  failwith ("ocaml_libvirt_job_get_domain is unimplemented");
 }
 
 CAMLprim value

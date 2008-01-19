@@ -112,7 +112,7 @@ static value Val_virterror (virErrorPtr err);
  * "special" wrapper functions (Val_connect_no_finalize, etc.).
  *
  * Update 2008/01: Storage pools and volumes work the same way as
- * domains and networks.
+ * domains and networks.  And jobs.
  */
 
 /* Unwrap a custom block. */
@@ -125,6 +125,9 @@ static value Val_virterror (virErrorPtr err);
 #ifdef HAVE_VIRSTORAGEVOLPTR
 #define Vol_val(rv) (*((virStorageVolPtr *)Data_custom_val(rv)))
 #endif
+#ifdef HAVE_VIRJOBPTR
+#define Jb_val(rv) (*((virJobPtr *)Data_custom_val(rv)))
+#endif
 
 /* Wrap up a pointer to something in a custom block. */
 static value Val_connect (virConnectPtr conn);
@@ -135,6 +138,9 @@ static value Val_pol (virStoragePoolPtr pool);
 #endif
 #ifdef HAVE_VIRSTORAGEVOLPTR
 static value Val_vol (virStorageVolPtr vol);
+#endif
+#ifdef HAVE_VIRJOBPTR
+static value Val_jb (virJobPtr jb);
 #endif
 
 /* ONLY for use by virterror wrappers. */
@@ -153,6 +159,9 @@ static value Val_net_no_finalize (virNetworkPtr net);
 #ifdef HAVE_VIRSTORAGEVOLPTR
 #define Volume_val(rv) (Vol_val(Field((rv),0)))
 #endif
+#ifdef HAVE_VIRJOBPTR
+#define Job_val(rv) (Jb_val(Field((rv),0)))
+#endif
 #define Connect_domv(rv) (Connect_val(Field((rv),1)))
 #define Connect_netv(rv) (Connect_val(Field((rv),1)))
 #ifdef HAVE_VIRSTORAGEPOOLPTR
@@ -160,6 +169,9 @@ static value Val_net_no_finalize (virNetworkPtr net);
 #endif
 #ifdef HAVE_VIRSTORAGEVOLPTR
 #define Connect_volv(rv) (Connect_val(Field((rv),1)))
+#endif
+#ifdef HAVE_VIRJOBPTR
+#define Connect_jobv(rv) (Connect_val(Field((rv),1)))
 #endif
 
 static value Val_domain (virDomainPtr dom, value connv);
@@ -169,6 +181,9 @@ static value Val_pool (virStoragePoolPtr pol, value connv);
 #endif
 #ifdef HAVE_VIRSTORAGEVOLPTR
 static value Val_volume (virStorageVolPtr vol, value connv);
+#endif
+#ifdef HAVE_VIRJOBPTR
+static value Val_job (virJobPtr jb, value connv);
 #endif
 
 /* ONLY for use by virterror wrappers. */

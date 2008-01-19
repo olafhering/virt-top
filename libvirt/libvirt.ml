@@ -150,7 +150,7 @@ struct
   }
 
   external create_linux : [>`W] Connect.t -> xml -> rw t = "ocaml_libvirt_domain_create_linux"
-  external create_linux_job : [>`W] Connect.t -> xml -> ([`Domain], rw) job_t = "ocaml_libvirt_connect_create_linux_job"
+  external create_linux_job : [>`W] Connect.t -> xml -> ([`Domain], rw) job_t = "ocaml_libvirt_domain_create_linux_job"
   external lookup_by_id : 'a Connect.t -> int -> 'a t = "ocaml_libvirt_domain_lookup_by_id"
   external lookup_by_uuid : 'a Connect.t -> uuid -> 'a t = "ocaml_libvirt_domain_lookup_by_uuid"
   external lookup_by_uuid_string : 'a Connect.t -> string -> 'a t = "ocaml_libvirt_domain_lookup_by_uuid_string"
@@ -268,7 +268,7 @@ struct
   external lookup_by_name : 'a Pool.t -> string -> 'a t = "ocaml_libvirt_storage_vol_lookup_by_name"
   external lookup_by_key : 'a Pool.t -> string -> 'a t = "ocaml_libvirt_storage_vol_lookup_by_key"
   external lookup_by_path : 'a Pool.t -> string -> 'a t = "ocaml_libvirt_storage_vol_lookup_by_path"
-  external pool_of_volume : 'a t -> 'a Pool.t = "ocaml_libvirt_pool_of_volume"
+  external pool_of_volume : 'a t -> 'a Pool.t = "ocaml_libvirt_storage_pool_lookup_by_volume"
   external get_name : [`R] t -> string = "ocaml_libvirt_storage_vol_get_name"
   external get_key : [`R] t -> string = "ocaml_libvirt_storage_vol_get_key"
   external get_path : [`R] t -> string = "ocaml_libvirt_storage_vol_get_path"
@@ -296,6 +296,7 @@ struct
   external get_domain : ([`Domain], 'a) t -> 'a Domain.t = "ocaml_libvirt_job_get_domain"
   external get_network : ([`Network], 'a) t -> 'a Network.t = "ocaml_libvirt_job_get_network"
   external cancel : ('a,'b) t -> unit = "ocaml_libvirt_job_cancel"
+  external free : ('a, [>`R]) t -> unit = "ocaml_libvirt_job_free"
   external const : ('a, [>`R]) t -> ('a, ro) t = "%identity"
 end
 

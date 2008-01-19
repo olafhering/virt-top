@@ -224,6 +224,9 @@ static void pol_finalize (value);
 #ifdef HAVE_VIRSTORAGEVOLPTR
 static void vol_finalize (value);
 #endif
+#ifdef HAVE_VIRJOBPTR
+static void jb_finalize (value);
+#endif
 
 static struct custom_operations conn_custom_operations = {
   "conn_custom_operations",
@@ -268,6 +271,17 @@ static struct custom_operations pol_custom_operations = {
 static struct custom_operations vol_custom_operations = {
   "vol_custom_operations",
   vol_finalize,
+  custom_compare_default,
+  custom_hash_default,
+  custom_serialize_default,
+  custom_deserialize_default
+};
+#endif
+
+#ifdef HAVE_VIRJOBPTR
+static struct custom_operations jb_custom_operations = {
+  "jb_custom_operations",
+  jb_finalize,
   custom_compare_default,
   custom_hash_default,
   custom_serialize_default,
@@ -330,6 +344,19 @@ Val_vol (virStorageVolPtr vol)
   rv = caml_alloc_custom (&vol_custom_operations,
 			  sizeof (virStorageVolPtr), 0, 1);
   Vol_val (rv) = vol;
+  CAMLreturn (rv);
+}
+#endif
+
+#ifdef HAVE_VIRJOBPTR
+static value
+Val_jb (virJobPtr jb)
+{
+  CAMLparam0 ();
+  CAMLlocal1 (rv);
+  rv = caml_alloc_custom (&jb_custom_operations,
+			  sizeof (virJobPtr), 0, 1);
+  Jb_val (rv) = jb;
   CAMLreturn (rv);
 }
 #endif
@@ -427,6 +454,22 @@ Val_volume (virStorageVolPtr vol, value connv)
 }
 #endif
 
+#ifdef HAVE_VIRJOBPTR
+/* This wraps up the (jb, conn) pair (Job.t). */
+static value
+Val_job (virJobPtr jb, value connv)
+{
+  CAMLparam1 (connv);
+  CAMLlocal2 (rv, v);
+
+  rv = caml_alloc_tuple (2);
+  v = Val_jb (jb);
+  Store_field (rv, 0, v);
+  Store_field (rv, 1, connv);
+  CAMLreturn (rv);
+}
+#endif
+
 /* No-finalize versions of Val_domain, Val_network ONLY for use by
  * virterror wrappers.
  */
@@ -492,5 +535,14 @@ vol_finalize (value volv)
 {
   virStorageVolPtr vol = Vol_val (volv);
   if (vol) (void) virStorageVolFree (vol);
+}
+#endif
+
+#ifdef HAVE_VIRJOBPTR
+static void
+jb_finalize (value jbv)
+{
+  virJobPtr jb = Jb_val (jbv);
+  if (jb) (void) virJobFree (jb);
 }
 #endif
