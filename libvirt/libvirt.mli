@@ -385,8 +385,7 @@ sig
       *)
 end
   (** Module dealing with connections.  [Connect.t] is the
-      connection object.
-  *)
+      connection object. *)
 
 (** {3 Domains} *)
 
@@ -573,8 +572,7 @@ sig
       *)
 end
   (** Module dealing with domains.  [Domain.t] is the
-      domain object.
-  *)
+      domain object. *)
 
 (** {3 Networks} *)
 
@@ -634,8 +632,7 @@ sig
       *)
 end
   (** Module dealing with networks.  [Network.t] is the
-      network object.
-  *)
+      network object. *)
 
 (** {3 Storage pools} *)
 
@@ -766,9 +763,9 @@ sig
 	The possible types for a job are:
 
 {v
-(`Domain, `W) Job.t            Job creating a r/w domain
+(`Domain, `W) Job.t            Job creating a new domain
 (`Domain_nocreate, `W) Job.t   Job acting on an existing domain
-(`Network, `W) Job.t           Job creating a r/w network
+(`Network, `W) Job.t           Job creating a new network
 (`Network_nocreate, `W) Job.t  Job acting on an existing network
 v}
       *)
@@ -780,8 +777,8 @@ v}
     (** State of the job. *)
 
   type job_info = {
-    typ : job_type;			(** Job type *)
-    state : job_state;			(** Job state *)
+    typ : job_type;			(** Job type (Bounded, Unbounded) *)
+    state : job_state;			(** Job state (Running, etc.) *)
     running_time : int;			(** Actual running time (seconds) *)
     (** The following fields are only available in Bounded jobs: *)
     remaining_time : int;		(** Estimated time left (seconds) *)
@@ -809,6 +806,7 @@ v}
 	job.  Note that the opposite operation is impossible.
       *)
 end
+  (** Module dealing with asynchronous jobs. *)
 
 (** {3 Error handling and exceptions} *)
 
@@ -860,7 +858,14 @@ sig
     | VIR_ERR_NO_DOMAIN
     | VIR_ERR_NO_NETWORK
     | VIR_ERR_INVALID_MAC
-	(* ^^ NB: If you add a variant you MUST edit libvirt_c.c:MAX_VIR_* *)
+    | VIR_ERR_AUTH_FAILED
+    | VIR_ERR_INVALID_STORAGE_POOL
+    | VIR_ERR_INVALID_STORAGE_VOL
+    | VIR_WAR_NO_STORAGE
+    | VIR_ERR_NO_STORAGE_POOL
+    | VIR_ERR_NO_STORAGE_VOL
+	(* ^^ NB: If you add a variant you MUST edit
+	   libvirt_c_epilogue.c:MAX_VIR_* *)
     | VIR_ERR_UNKNOWN of int
 	(** See [<libvirt/virterror.h>] for meaning of these codes. *)
 
@@ -884,7 +889,9 @@ sig
     | VIR_FROM_OPENVZ
     | VIR_FROM_XENXM
     | VIR_FROM_STATS_LINUX
-	(* ^^ NB: If you add a variant you MUST edit libvirt_c.c: MAX_VIR_* *)
+    | VIR_FROM_STORAGE
+	(* ^^ NB: If you add a variant you MUST edit
+	   libvirt_c_epilogue.c: MAX_VIR_* *)
     | VIR_FROM_UNKNOWN of int
 	(** Subsystem / driver which produced the error. *)
 

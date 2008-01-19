@@ -100,14 +100,18 @@ endif
 
 # Automatically generate the C code from a Perl script 'generator.pl'.
 libvirt_c.c: generator.pl
-	perl -w $< > $@
+	perl -w $<
 
 # Status of automatically generated bindings.
-autostatus:
-	@echo -n "Functions which have manual bindings: "
+autostatus: libvirt_c.c
+	@echo -n "Functions which have manual bindings:    "
 	@grep ^ocaml_libvirt_ libvirt_c_oneoffs.c  | wc -l
-	@echo -n "LOC in manual bindings: "
+	@echo -n "Functions which have automatic bindings: "
+	@grep ^ocaml_libvirt_ libvirt_c.c  | wc -l
+	@echo -n "LOC in manual bindings:    "
 	@wc -l < libvirt_c_oneoffs.c
+	@echo -n "LOC in automatic bindings: "
+	@wc -l < libvirt_c.c
 
 libvirt.cmo: libvirt.cmi
 libvirt.cmi: libvirt.mli

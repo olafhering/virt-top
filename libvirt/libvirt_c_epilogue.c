@@ -111,8 +111,8 @@ not_supported (const char *fn)
  * to convert it into VIR_*_UNKNOWN (code).
  */
 
-#define MAX_VIR_CODE 44 /* VIR_ERR_INVALID_MAC */
-#define MAX_VIR_DOMAIN 16 /* VIR_FROM_STATS_LINUX */
+#define MAX_VIR_CODE VIR_ERR_NO_STORAGE_VOL
+#define MAX_VIR_DOMAIN VIR_FROM_STORAGE
 #define MAX_VIR_LEVEL VIR_ERR_ERROR
 
 static inline value
@@ -323,7 +323,7 @@ Val_pol (virStoragePoolPtr pol)
 
 #ifdef HAVE_VIRSTORAGEVOLPTR
 static value
-Val_vol (virStorageVolPtr net)
+Val_vol (virStorageVolPtr vol)
 {
   CAMLparam0 ();
   CAMLlocal1 (rv);

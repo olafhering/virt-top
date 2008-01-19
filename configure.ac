@@ -62,6 +62,11 @@ AC_CHECK_HEADER([libvirt/libvirt.h],
 	[],
 	AC_MSG_ERROR([You must install libvirt development package]))
 
+dnl We also use <libvirt/virterror.h>
+AC_CHECK_HEADER([libvirt/virterror.h],
+	[],
+	AC_MSG_ERROR([You must install libvirt development package]))
+
 dnl Check for libvirt >= 0.2.1 (our minimum supported version).
 dnl See: http://libvirt.org/hvsupport.html
 AC_CHECK_FUNC(virConnectGetCapabilities,
@@ -133,12 +138,8 @@ AC_CHECK_FUNCS([virConnectGetHostname \
 ])
 
 dnl Check for optional types added since 0.2.1.
-AC_CHECK_TYPES([virJobPtr, virStoragePoolPtr, virStorageVolPtr])
-
-dnl We also use <libvirt/virterror.h>
-AC_CHECK_HEADER([libvirt/virterror.h],
-	[],
-	AC_MSG_ERROR([You must install libvirt development package]))
+AC_CHECK_TYPES([virJobPtr, virStoragePoolPtr, virStorageVolPtr],,,
+	       [#include <libvirt/libvirt.h>])
 
 dnl Check for optional ncurses.
 AC_CHECK_LIB(ncurses,initscr)

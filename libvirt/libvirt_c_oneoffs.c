@@ -648,34 +648,6 @@ ocaml_libvirt_domain_define_xml (value connv, value xmlv)
 }
 
 CAMLprim value
-ocaml_libvirt_domain_get_autostart (value domv)
-{
-  CAMLparam1 (domv);
-  virDomainPtr dom = Domain_val (domv);
-  virConnectPtr conn = Connect_domv (domv);
-  int r, autostart;
-
-  NONBLOCKING (r = virDomainGetAutostart (dom, &autostart));
-  CHECK_ERROR (r == -1, conn, "virDomainGetAutostart");
-
-  CAMLreturn (autostart ? Val_true : Val_false);
-}
-
-CAMLprim value
-ocaml_libvirt_domain_set_autostart (value domv, value autostartv)
-{
-  CAMLparam2 (domv, autostartv);
-  virDomainPtr dom = Domain_val (domv);
-  virConnectPtr conn = Connect_domv (domv);
-  int r, autostart = autostartv == Val_true ? 1 : 0;
-
-  NONBLOCKING (r = virDomainSetAutostart (dom, autostart));
-  CHECK_ERROR (r == -1, conn, "virDomainSetAutostart");
-
-  CAMLreturn (Val_unit);
-}
-
-CAMLprim value
 ocaml_libvirt_domain_set_vcpus (value domv, value nvcpusv)
 {
   CAMLparam2 (domv, nvcpusv);
@@ -1017,34 +989,6 @@ ocaml_libvirt_network_get_uuid_string (value netv)
 
   rv = caml_copy_string (uuid);
   CAMLreturn (rv);
-}
-
-CAMLprim value
-ocaml_libvirt_network_get_autostart (value netv)
-{
-  CAMLparam1 (netv);
-  virNetworkPtr net = Network_val (netv);
-  virConnectPtr conn = Connect_netv (netv);
-  int r, autostart;
-
-  NONBLOCKING (r = virNetworkGetAutostart (net, &autostart));
-  CHECK_ERROR (r == -1, conn, "virNetworkGetAutostart");
-
-  CAMLreturn (autostart ? Val_true : Val_false);
-}
-
-CAMLprim value
-ocaml_libvirt_network_set_autostart (value netv, value autostartv)
-{
-  CAMLparam2 (netv, autostartv);
-  virNetworkPtr net = Network_val (netv);
-  virConnectPtr conn = Connect_netv (netv);
-  int r, autostart = autostartv == Val_true ? 1 : 0;
-
-  NONBLOCKING (r = virNetworkSetAutostart (net, autostart));
-  CHECK_ERROR (r == -1, conn, "virNetworkSetAutostart");
-
-  CAMLreturn (Val_unit);
 }
 
 /*----------------------------------------------------------------------*/
