@@ -884,6 +884,13 @@ foreach my $function (@functions) {
 	die "cannot convert c_name $c_name to c_external_name"
     }
 
+    print F <<END;
+/* Automatically generated binding for $c_name.
+ * Function signature in generator.pl is "$sig"
+ */
+
+END
+
     # Generate a full function prototype if the function is weak.
     my $have_name = "HAVE_" . uc ($c_name);
     if ($is_weak) {
