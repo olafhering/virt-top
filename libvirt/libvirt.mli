@@ -645,6 +645,7 @@ sig
     (** State of the storage pool. *)
 
   type pool_info = {
+    state : pool_state;			(** Inactive | Active *)
     capacity : int64;			(** Logical size in bytes. *)
     allocation : int64;			(** Currently allocated in bytes. *)
   }

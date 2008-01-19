@@ -2475,12 +2475,6 @@ ocaml_libvirt_job_get_domain (value jobv)
  */
 
 CAMLprim value
-ocaml_libvirt_storage_pool_get_info ()
-{
-  failwith ("ocaml_libvirt_storage_pool_get_info is unimplemented");
-}
-
-CAMLprim value
 ocaml_libvirt_storage_vol_lookup_by_name ()
 {
   failwith ("ocaml_libvirt_storage_vol_lookup_by_name is unimplemented");
@@ -2490,18 +2484,6 @@ CAMLprim value
 ocaml_libvirt_storage_vol_create_xml ()
 {
   failwith ("ocaml_libvirt_storage_vol_create_xml is unimplemented");
-}
-
-CAMLprim value
-ocaml_libvirt_storage_vol_get_info ()
-{
-  failwith ("ocaml_libvirt_storage_vol_get_info is unimplemented");
-}
-
-CAMLprim value
-ocaml_libvirt_job_get_info ()
-{
-  failwith ("ocaml_libvirt_job_get_info is unimplemented");
 }
 
 #include "libvirt_c_epilogue.c"

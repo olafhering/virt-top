@@ -19,56 +19,6 @@
 
 /* Please read libvirt/README file. */
 
-#ifdef HAVE_WEAK_SYMBOLS
-#ifdef HAVE_VIRDOMAINBLOCKSTATS
-extern int virDomainBlockStats (virDomainPtr dom,
-				const char *path,
-				virDomainBlockStatsPtr stats,
-				size_t size)
-  __attribute__((weak));
-#endif
-#ifdef HAVE_VIRDOMAINGETSCHEDULERPARAMETERS
-extern int virDomainGetSchedulerParameters (virDomainPtr domain,
-					    virSchedParameterPtr params,
-					    int *nparams)
-  __attribute__((weak));
-#endif
-#ifdef HAVE_VIRDOMAINGETSCHEDULERTYPE
-extern char *virDomainGetSchedulerType(virDomainPtr domain,
-				       int *nparams)
-  __attribute__((weak));
-#endif
-#ifdef HAVE_VIRDOMAININTERFACESTATS
-extern int virDomainInterfaceStats (virDomainPtr dom,
-				    const char *path,
-				    virDomainInterfaceStatsPtr stats,
-				    size_t size)
-  __attribute__((weak));
-#endif
-#ifdef HAVE_VIRDOMAINMIGRATE
-extern virDomainPtr virDomainMigrate (virDomainPtr domain, virConnectPtr dconn,
-				      unsigned long flags, const char *dname,
-				      const char *uri, unsigned long bandwidth)
-  __attribute__((weak));
-#endif
-#ifdef HAVE_VIRDOMAINSETSCHEDULERPARAMETERS
-extern int virDomainSetSchedulerParameters (virDomainPtr domain,
-					    virSchedParameterPtr params,
-					    int nparams)
-  __attribute__((weak));
-#endif
-#ifdef HAVE_VIRNODEGETFREEMEMORY
-extern unsigned long long virNodeGetFreeMemory (virConnectPtr conn)
-  __attribute__((weak));
-#endif
-#ifdef HAVE_VIRNODEGETCELLSFREEMEMORY
-extern int virNodeGetCellsFreeMemory (virConnectPtr conn,
-				      unsigned long long *freeMems,
-				      int startCell, int maxCells)
-  __attribute__((weak));
-#endif
-#endif /* HAVE_WEAK_SYMBOLS */
-
 /*----------------------------------------------------------------------*/
 
 CAMLprim value
@@ -179,6 +129,13 @@ ocaml_libvirt_connect_get_node_info (value connv)
   CAMLreturn (rv);
 }
 
+#ifdef HAVE_WEAK_SYMBOLS
+#ifdef HAVE_VIRNODEGETFREEMEMORY
+extern unsigned long long virNodeGetFreeMemory (virConnectPtr conn)
+  __attribute__((weak));
+#endif
+#endif
+
 CAMLprim value
 ocaml_libvirt_connect_node_get_free_memory (value connv)
 {
@@ -198,6 +155,15 @@ ocaml_libvirt_connect_node_get_free_memory (value connv)
   not_supported ("virNodeGetFreeMemory");
 #endif
 }
+
+#ifdef HAVE_WEAK_SYMBOLS
+#ifdef HAVE_VIRNODEGETCELLSFREEMEMORY
+extern int virNodeGetCellsFreeMemory (virConnectPtr conn,
+				      unsigned long long *freeMems,
+				      int startCell, int maxCells)
+  __attribute__((weak));
+#endif
+#endif
 
 CAMLprim value
 ocaml_libvirt_connect_node_get_cells_free_memory (value connv,
@@ -315,6 +281,14 @@ ocaml_libvirt_domain_get_info (value domv)
   CAMLreturn (rv);
 }
 
+#ifdef HAVE_WEAK_SYMBOLS
+#ifdef HAVE_VIRDOMAINGETSCHEDULERTYPE
+extern char *virDomainGetSchedulerType(virDomainPtr domain,
+				       int *nparams)
+  __attribute__((weak));
+#endif
+#endif
+
 CAMLprim value
 ocaml_libvirt_domain_get_scheduler_type (value domv)
 {
@@ -339,6 +313,15 @@ ocaml_libvirt_domain_get_scheduler_type (value domv)
   not_supported ("virDomainGetSchedulerType");
 #endif
 }
+
+#ifdef HAVE_WEAK_SYMBOLS
+#ifdef HAVE_VIRDOMAINGETSCHEDULERPARAMETERS
+extern int virDomainGetSchedulerParameters (virDomainPtr domain,
+					    virSchedParameterPtr params,
+					    int *nparams)
+  __attribute__((weak));
+#endif
+#endif
 
 CAMLprim value
 ocaml_libvirt_domain_get_scheduler_parameters (value domv, value nparamsv)
@@ -395,6 +378,15 @@ ocaml_libvirt_domain_get_scheduler_parameters (value domv, value nparamsv)
   not_supported ("virDomainGetSchedulerParameters");
 #endif
 }
+
+#ifdef HAVE_WEAK_SYMBOLS
+#ifdef HAVE_VIRDOMAINSETSCHEDULERPARAMETERS
+extern int virDomainSetSchedulerParameters (virDomainPtr domain,
+					    virSchedParameterPtr params,
+					    int nparams)
+  __attribute__((weak));
+#endif
+#endif
 
 CAMLprim value
 ocaml_libvirt_domain_set_scheduler_parameters (value domv, value paramsv)
@@ -528,6 +520,15 @@ ocaml_libvirt_domain_get_vcpus (value domv, value maxinfov, value maplenv)
   CAMLreturn (rv);
 }
 
+#ifdef HAVE_WEAK_SYMBOLS
+#ifdef HAVE_VIRDOMAINMIGRATE
+extern virDomainPtr virDomainMigrate (virDomainPtr domain, virConnectPtr dconn,
+				      unsigned long flags, const char *dname,
+				      const char *uri, unsigned long bandwidth)
+  __attribute__((weak));
+#endif
+#endif
+
 CAMLprim value
 ocaml_libvirt_domain_migrate_native (value domv, value dconnv, value flagsv, value optdnamev, value opturiv, value optbandwidthv, value unitv)
 {
@@ -578,6 +579,16 @@ ocaml_libvirt_domain_migrate_bytecode (value *argv, int argn)
 					      argv[6]);
 }
 
+#ifdef HAVE_WEAK_SYMBOLS
+#ifdef HAVE_VIRDOMAINBLOCKSTATS
+extern int virDomainBlockStats (virDomainPtr dom,
+				const char *path,
+				virDomainBlockStatsPtr stats,
+				size_t size)
+  __attribute__((weak));
+#endif
+#endif
+
 CAMLprim value
 ocaml_libvirt_domain_block_stats (value domv, value pathv)
 {
@@ -606,6 +617,16 @@ ocaml_libvirt_domain_block_stats (value domv, value pathv)
   not_supported ("virDomainBlockStats");
 #endif
 }
+
+#ifdef HAVE_WEAK_SYMBOLS
+#ifdef HAVE_VIRDOMAININTERFACESTATS
+extern int virDomainInterfaceStats (virDomainPtr dom,
+				    const char *path,
+				    virDomainInterfaceStatsPtr stats,
+				    size_t size)
+  __attribute__((weak));
+#endif
+#endif
 
 CAMLprim value
 ocaml_libvirt_domain_interface_stats (value domv, value pathv)
@@ -636,6 +657,107 @@ ocaml_libvirt_domain_interface_stats (value domv, value pathv)
   CAMLreturn (rv);
 #else
   not_supported ("virDomainInterfaceStats");
+#endif
+}
+
+#ifdef HAVE_WEAK_SYMBOLS
+#ifdef HAVE_VIRSTORAGEPOOLGETINFO
+extern int virStoragePoolGetInfo(virStoragePoolPtr pool, virStoragePoolInfoPtr info)
+  __attribute__((weak));
+#endif
+#endif
+
+CAMLprim value
+ocaml_libvirt_storage_pool_get_info (value poolv)
+{
+#if HAVE_VIRSTORAGEPOOLGETINFO
+  CAMLparam1 (poolv);
+  CAMLlocal2 (rv, v);
+  virStoragePoolPtr pool = Pool_val (poolv);
+  virConnectPtr conn = Connect_polv (poolv);
+  virStoragePoolInfo info;
+  int r;
+
+  WEAK_SYMBOL_CHECK (virStoragePoolGetInfo);
+  NONBLOCKING (r = virStoragePoolGetInfo (pool, &info));
+  CHECK_ERROR (r == -1, conn, "virStoragePoolGetInfo");
+
+  rv = caml_alloc (3, 0);
+  Store_field (rv, 0, Val_int (info.state));
+  v = caml_copy_int64 (info.capacity); Store_field (rv, 1, v);
+  v = caml_copy_int64 (info.allocation); Store_field (rv, 1, v);
+
+  CAMLreturn (rv);
+#else
+  not_supported ("virStoragePoolGetInfo");
+#endif
+}
+
+#ifdef HAVE_WEAK_SYMBOLS
+#ifdef HAVE_VIRSTORAGEVOLGETINFO
+extern int virStorageVolGetInfo(virStorageVolPtr vol, virStorageVolInfoPtr info)
+  __attribute__((weak));
+#endif
+#endif
+
+CAMLprim value
+ocaml_libvirt_storage_vol_get_info (value volv)
+{
+#if HAVE_VIRSTORAGEVOLGETINFO
+  CAMLparam1 (volv);
+  CAMLlocal2 (rv, v);
+  virStorageVolPtr vol = Volume_val (volv);
+  virConnectPtr conn = Connect_volv (volv);
+  virStorageVolInfo info;
+  int r;
+
+  WEAK_SYMBOL_CHECK (virStorageVolGetInfo);
+  NONBLOCKING (r = virStorageVolGetInfo (vol, &info));
+  CHECK_ERROR (r == -1, conn, "virStorageVolGetInfo");
+
+  rv = caml_alloc (3, 0);
+  Store_field (rv, 0, Val_int (info.type));
+  v = caml_copy_int64 (info.capacity); Store_field (rv, 1, v);
+  v = caml_copy_int64 (info.allocation); Store_field (rv, 1, v);
+
+  CAMLreturn (rv);
+#else
+  not_supported ("virStorageVolGetInfo");
+#endif
+}
+
+#ifdef HAVE_WEAK_SYMBOLS
+#ifdef HAVE_VIRJOBGETINFO
+extern int virJobGetInfo(virJobPtr job, virJobInfoPtr info)
+  __attribute__((weak));
+#endif
+#endif
+
+CAMLprim value
+ocaml_libvirt_job_get_info (value jobv)
+{
+#if HAVE_VIRJOBGETINFO
+  CAMLparam1 (jobv);
+  CAMLlocal1 (rv);
+  virJobPtr job = Job_val (jobv);
+  virConnectPtr conn = Connect_jobv (jobv);
+  virJobInfo info;
+  int r;
+
+  WEAK_SYMBOL_CHECK (virJobGetInfo);
+  NONBLOCKING (r = virJobGetInfo (job, &info));
+  CHECK_ERROR (r == -1, conn, "virJobGetInfo");
+
+  rv = caml_alloc (5, 0);
+  Store_field (rv, 0, Val_int (info.type));
+  Store_field (rv, 1, Val_int (info.state));
+  Store_field (rv, 2, Val_int (info.runningTime));
+  Store_field (rv, 3, Val_int (info.remainingTime));
+  Store_field (rv, 4, Val_int (info.percentComplete));
+
+  CAMLreturn (rv);
+#else
+  not_supported ("virJobGetInfo");
 #endif
 }
 

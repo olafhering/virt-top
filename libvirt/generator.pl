@@ -193,11 +193,8 @@ my @functions = (
 # written in 'libvirt_c_oneoffs.c'.
 
 my @unimplemented = (
-    "ocaml_libvirt_storage_pool_get_info",
     "ocaml_libvirt_storage_vol_lookup_by_name", # XXX see above
     "ocaml_libvirt_storage_vol_create_xml",     # XXX see above
-    "ocaml_libvirt_storage_vol_get_info",
-    "ocaml_libvirt_job_get_info",
     );
 
 #----------------------------------------------------------------------

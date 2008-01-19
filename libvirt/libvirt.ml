@@ -230,6 +230,7 @@ struct
   type 'rw t
   type pool_state = Inactive | Active
   type pool_info = {
+    state : pool_state;
     capacity : int64;
     allocation : int64;
   }
