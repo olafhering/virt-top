@@ -111,8 +111,8 @@ not_supported (const char *fn)
  * to convert it into VIR_*_UNKNOWN (code).
  */
 
-#define MAX_VIR_CODE VIR_ERR_NO_STORAGE_VOL
-#define MAX_VIR_DOMAIN VIR_FROM_STORAGE
+#define MAX_VIR_CODE 50 /* VIR_ERR_NO_STORAGE_VOL */
+#define MAX_VIR_DOMAIN 17 /* VIR_FROM_STORAGE */
 #define MAX_VIR_LEVEL VIR_ERR_ERROR
 
 static inline value
