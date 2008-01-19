@@ -475,10 +475,26 @@ ocaml_libvirt_domain_create_linux (value connv, value strv)
   CAMLreturn (rv);
 }
 
+#ifdef HAVE_WEAK_SYMBOLS
+#ifdef HAVE_VIRDOMAINCREATELINUXJOB
+extern virJobPtr virDomainCreateLinuxJob (virConnectPtr conn, const char *str, unsigned  int flags) __attribute__((weak));
+#endif
+#endif
+
 CAMLprim value
 ocaml_libvirt_domain_create_linux_job (value connv, value strv)
 {
   CAMLparam2 (connv, strv);
+#ifndef HAVE_VIRDOMAINCREATELINUXJOB
+  /* Symbol virDomainCreateLinuxJob not found at compile time. */
+  not_supported ("virDomainCreateLinuxJob");
+  /* Suppresses a compiler warning. */
+  (void) caml__frame;
+#else
+  /* Check that the symbol virDomainCreateLinuxJob
+   * is in runtime version of libvirt.
+   */
+  WEAK_SYMBOL_CHECK (virDomainCreateLinuxJob);
 
   CAMLlocal1 (rv);
   virConnectPtr conn = Connect_val (connv);
@@ -491,6 +507,7 @@ ocaml_libvirt_domain_create_linux_job (value connv, value strv)
   rv = Val_job (r, connv);
 
   CAMLreturn (rv);
+#endif
 }
 
 CAMLprim value
@@ -722,10 +739,26 @@ ocaml_libvirt_domain_save (value domv, value strv)
   CAMLreturn (Val_unit);
 }
 
+#ifdef HAVE_WEAK_SYMBOLS
+#ifdef HAVE_VIRDOMAINSAVEJOB
+extern virJobPtr virDomainSaveJob (virDomainPtr dom, const char *str) __attribute__((weak));
+#endif
+#endif
+
 CAMLprim value
 ocaml_libvirt_domain_save_job (value domv, value strv)
 {
   CAMLparam2 (domv, strv);
+#ifndef HAVE_VIRDOMAINSAVEJOB
+  /* Symbol virDomainSaveJob not found at compile time. */
+  not_supported ("virDomainSaveJob");
+  /* Suppresses a compiler warning. */
+  (void) caml__frame;
+#else
+  /* Check that the symbol virDomainSaveJob
+   * is in runtime version of libvirt.
+   */
+  WEAK_SYMBOL_CHECK (virDomainSaveJob);
 
   CAMLlocal2 (rv, connv);
   virDomainPtr dom = Domain_val (domv);
@@ -740,6 +773,7 @@ ocaml_libvirt_domain_save_job (value domv, value strv)
   rv = Val_job (r, connv);
 
   CAMLreturn (rv);
+#endif
 }
 
 CAMLprim value
@@ -758,10 +792,26 @@ ocaml_libvirt_domain_restore (value connv, value strv)
   CAMLreturn (Val_unit);
 }
 
+#ifdef HAVE_WEAK_SYMBOLS
+#ifdef HAVE_VIRDOMAINRESTOREJOB
+extern virJobPtr virDomainRestoreJob (virConnectPtr conn, const char *str) __attribute__((weak));
+#endif
+#endif
+
 CAMLprim value
 ocaml_libvirt_domain_restore_job (value connv, value strv)
 {
   CAMLparam2 (connv, strv);
+#ifndef HAVE_VIRDOMAINRESTOREJOB
+  /* Symbol virDomainRestoreJob not found at compile time. */
+  not_supported ("virDomainRestoreJob");
+  /* Suppresses a compiler warning. */
+  (void) caml__frame;
+#else
+  /* Check that the symbol virDomainRestoreJob
+   * is in runtime version of libvirt.
+   */
+  WEAK_SYMBOL_CHECK (virDomainRestoreJob);
 
   CAMLlocal1 (rv);
   virConnectPtr conn = Connect_val (connv);
@@ -774,6 +824,7 @@ ocaml_libvirt_domain_restore_job (value connv, value strv)
   rv = Val_job (r, connv);
 
   CAMLreturn (rv);
+#endif
 }
 
 CAMLprim value
@@ -793,10 +844,26 @@ ocaml_libvirt_domain_core_dump (value domv, value strv)
   CAMLreturn (Val_unit);
 }
 
+#ifdef HAVE_WEAK_SYMBOLS
+#ifdef HAVE_VIRDOMAINCOREDUMPJOB
+extern virJobPtr virDomainCoreDumpJob (virDomainPtr dom, const char *str,  int flags) __attribute__((weak));
+#endif
+#endif
+
 CAMLprim value
 ocaml_libvirt_domain_core_dump_job (value domv, value strv)
 {
   CAMLparam2 (domv, strv);
+#ifndef HAVE_VIRDOMAINCOREDUMPJOB
+  /* Symbol virDomainCoreDumpJob not found at compile time. */
+  not_supported ("virDomainCoreDumpJob");
+  /* Suppresses a compiler warning. */
+  (void) caml__frame;
+#else
+  /* Check that the symbol virDomainCoreDumpJob
+   * is in runtime version of libvirt.
+   */
+  WEAK_SYMBOL_CHECK (virDomainCoreDumpJob);
 
   CAMLlocal2 (rv, connv);
   virDomainPtr dom = Domain_val (domv);
@@ -811,6 +878,7 @@ ocaml_libvirt_domain_core_dump_job (value domv, value strv)
   rv = Val_job (r, connv);
 
   CAMLreturn (rv);
+#endif
 }
 
 CAMLprim value
@@ -921,10 +989,26 @@ ocaml_libvirt_domain_create (value domv)
   CAMLreturn (Val_unit);
 }
 
+#ifdef HAVE_WEAK_SYMBOLS
+#ifdef HAVE_VIRDOMAINCREATEJOB
+extern virJobPtr virDomainCreateJob (virDomainPtr dom, unsigned  int flags) __attribute__((weak));
+#endif
+#endif
+
 CAMLprim value
 ocaml_libvirt_domain_create_job (value domv)
 {
   CAMLparam1 (domv);
+#ifndef HAVE_VIRDOMAINCREATEJOB
+  /* Symbol virDomainCreateJob not found at compile time. */
+  not_supported ("virDomainCreateJob");
+  /* Suppresses a compiler warning. */
+  (void) caml__frame;
+#else
+  /* Check that the symbol virDomainCreateJob
+   * is in runtime version of libvirt.
+   */
+  WEAK_SYMBOL_CHECK (virDomainCreateJob);
 
   CAMLlocal2 (rv, connv);
   virDomainPtr dom = Domain_val (domv);
@@ -938,6 +1022,7 @@ ocaml_libvirt_domain_create_job (value domv)
   rv = Val_job (r, connv);
 
   CAMLreturn (rv);
+#endif
 }
 
 CAMLprim value
@@ -1218,10 +1303,26 @@ ocaml_libvirt_network_create_xml (value connv, value strv)
   CAMLreturn (rv);
 }
 
+#ifdef HAVE_WEAK_SYMBOLS
+#ifdef HAVE_VIRNETWORKCREATEXMLJOB
+extern virJobPtr virNetworkCreateXMLJob (virConnectPtr conn, const char *str) __attribute__((weak));
+#endif
+#endif
+
 CAMLprim value
 ocaml_libvirt_network_create_xml_job (value connv, value strv)
 {
   CAMLparam2 (connv, strv);
+#ifndef HAVE_VIRNETWORKCREATEXMLJOB
+  /* Symbol virNetworkCreateXMLJob not found at compile time. */
+  not_supported ("virNetworkCreateXMLJob");
+  /* Suppresses a compiler warning. */
+  (void) caml__frame;
+#else
+  /* Check that the symbol virNetworkCreateXMLJob
+   * is in runtime version of libvirt.
+   */
+  WEAK_SYMBOL_CHECK (virNetworkCreateXMLJob);
 
   CAMLlocal1 (rv);
   virConnectPtr conn = Connect_val (connv);
@@ -1234,6 +1335,7 @@ ocaml_libvirt_network_create_xml_job (value connv, value strv)
   rv = Val_job (r, connv);
 
   CAMLreturn (rv);
+#endif
 }
 
 CAMLprim value
@@ -1269,10 +1371,26 @@ ocaml_libvirt_network_create (value netv)
   CAMLreturn (Val_unit);
 }
 
+#ifdef HAVE_WEAK_SYMBOLS
+#ifdef HAVE_VIRNETWORKCREATEJOB
+extern virJobPtr virNetworkCreateJob (virNetworkPtr net) __attribute__((weak));
+#endif
+#endif
+
 CAMLprim value
 ocaml_libvirt_network_create_job (value netv)
 {
   CAMLparam1 (netv);
+#ifndef HAVE_VIRNETWORKCREATEJOB
+  /* Symbol virNetworkCreateJob not found at compile time. */
+  not_supported ("virNetworkCreateJob");
+  /* Suppresses a compiler warning. */
+  (void) caml__frame;
+#else
+  /* Check that the symbol virNetworkCreateJob
+   * is in runtime version of libvirt.
+   */
+  WEAK_SYMBOL_CHECK (virNetworkCreateJob);
 
   CAMLlocal2 (rv, connv);
   virNetworkPtr net = Network_val (netv);
@@ -1286,6 +1404,7 @@ ocaml_libvirt_network_create_job (value netv)
   rv = Val_job (r, connv);
 
   CAMLreturn (rv);
+#endif
 }
 
 CAMLprim value
