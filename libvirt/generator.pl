@@ -629,6 +629,13 @@ END
 
 printf "$0: warning: %d unimplemented functions\n", scalar (@unimplemented);
 
+print F <<'END';
+/* The following functions are unimplemented and always fail.
+ * See generator.pl '@unimplemented'
+ */
+
+END
+
 foreach my $c_external_name (@unimplemented) {
     print F <<END
 CAMLprim value

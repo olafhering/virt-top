@@ -1485,6 +1485,10 @@ ocaml_libvirt_storage_vol_get_name (value volv)
 #endif
 }
 
+/* The following functions are unimplemented and always fail.
+ * See generator.pl '@unimplemented'
+ */
+
 CAMLprim value
 ocaml_libvirt_domain_create_job ()
 {
