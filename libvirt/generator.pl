@@ -155,14 +155,14 @@ my @functions = (
 
     { name => "virStorageVolFree", sig => "vol : free", weak => 1 },
     { name => "virStorageVolDestroy", sig => "vol : free", weak => 1 },
-#    { name => "virStorageVolLookupByName", XXX see libvir-list posting
-#      sig => "pool, string : vol", weak => 1 },
+    { name => "virStorageVolLookupByName",
+      sig => "pool, string : vol from pool", weak => 1 },
     { name => "virStorageVolLookupByKey",
       sig => "conn, string : vol", weak => 1 },
     { name => "virStorageVolLookupByPath",
       sig => "conn, string : vol", weak => 1 },
-#    { name => "virStorageVolCreateXML",
-#      sig => "pool, string : vol", weak => 1 }, XXX
+    { name => "virStorageVolCreateXML",
+      sig => "pool, string, 0 : vol from pool", weak => 1 },
     { name => "virStorageVolGetXMLDesc",
       sig => "vol, 0 : string", weak => 1 },
     { name => "virStorageVolGetPath",
@@ -193,8 +193,6 @@ my @functions = (
 # written in 'libvirt_c_oneoffs.c'.
 
 my @unimplemented = (
-    "ocaml_libvirt_storage_vol_lookup_by_name", # XXX see above
-    "ocaml_libvirt_storage_vol_create_xml",     # XXX see above
     );
 
 #----------------------------------------------------------------------
@@ -957,9 +955,9 @@ END
 
 # Unimplemented functions.
 
-printf "$0: warning: %d unimplemented functions\n", scalar (@unimplemented);
-
 if (@unimplemented) {
+    printf "$0: warning: %d unimplemented functions\n", scalar (@unimplemented);
+
     print F <<'END';
 /* The following functions are unimplemented and always fail.
  * See generator.pl '@unimplemented'

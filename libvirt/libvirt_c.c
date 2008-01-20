@@ -2437,6 +2437,47 @@ ocaml_libvirt_storage_vol_destroy (value volv)
 #endif
 }
 
+/* Automatically generated binding for virStorageVolLookupByName.
+ * In generator.pl this function has signature "pool, string : vol from pool".
+ */
+
+#ifdef HAVE_WEAK_SYMBOLS
+#ifdef HAVE_VIRSTORAGEVOLLOOKUPBYNAME
+extern virStorageVolPtr virStorageVolLookupByName (virStoragePoolPtr pool, const char *str) __attribute__((weak));
+#endif
+#endif
+
+CAMLprim value
+ocaml_libvirt_storage_vol_lookup_by_name (value poolv, value strv)
+{
+  CAMLparam2 (poolv, strv);
+#ifndef HAVE_VIRSTORAGEVOLLOOKUPBYNAME
+  /* Symbol virStorageVolLookupByName not found at compile time. */
+  not_supported ("virStorageVolLookupByName");
+  /* Suppresses a compiler warning. */
+  (void) caml__frame;
+#else
+  /* Check that the symbol virStorageVolLookupByName
+   * is in runtime version of libvirt.
+   */
+  WEAK_SYMBOL_CHECK (virStorageVolLookupByName);
+
+  CAMLlocal2 (rv, connv);
+  virStoragePoolPtr pool = Pool_val (poolv);
+  virConnectPtr conn = Connect_polv (poolv);
+  char *str = String_val (strv);
+  virStorageVolPtr r;
+
+  NONBLOCKING (r = virStorageVolLookupByName (pool, str));
+  CHECK_ERROR (!r, conn, "virStorageVolLookupByName");
+
+  connv = Field (poolv, 1);
+  rv = Val_volume (r, connv);
+
+  CAMLreturn (rv);
+#endif
+}
+
 /* Automatically generated binding for virStorageVolLookupByKey.
  * In generator.pl this function has signature "conn, string : vol".
  */
@@ -2509,6 +2550,47 @@ ocaml_libvirt_storage_vol_lookup_by_path (value connv, value strv)
   NONBLOCKING (r = virStorageVolLookupByPath (conn, str));
   CHECK_ERROR (!r, conn, "virStorageVolLookupByPath");
 
+  rv = Val_volume (r, connv);
+
+  CAMLreturn (rv);
+#endif
+}
+
+/* Automatically generated binding for virStorageVolCreateXML.
+ * In generator.pl this function has signature "pool, string, 0 : vol from pool".
+ */
+
+#ifdef HAVE_WEAK_SYMBOLS
+#ifdef HAVE_VIRSTORAGEVOLCREATEXML
+extern virStorageVolPtr virStorageVolCreateXML (virStoragePoolPtr pool, const char *str,  int flags) __attribute__((weak));
+#endif
+#endif
+
+CAMLprim value
+ocaml_libvirt_storage_vol_create_xml (value poolv, value strv)
+{
+  CAMLparam2 (poolv, strv);
+#ifndef HAVE_VIRSTORAGEVOLCREATEXML
+  /* Symbol virStorageVolCreateXML not found at compile time. */
+  not_supported ("virStorageVolCreateXML");
+  /* Suppresses a compiler warning. */
+  (void) caml__frame;
+#else
+  /* Check that the symbol virStorageVolCreateXML
+   * is in runtime version of libvirt.
+   */
+  WEAK_SYMBOL_CHECK (virStorageVolCreateXML);
+
+  CAMLlocal2 (rv, connv);
+  virStoragePoolPtr pool = Pool_val (poolv);
+  virConnectPtr conn = Connect_polv (poolv);
+  char *str = String_val (strv);
+  virStorageVolPtr r;
+
+  NONBLOCKING (r = virStorageVolCreateXML (pool, str, 0));
+  CHECK_ERROR (!r, conn, "virStorageVolCreateXML");
+
+  connv = Field (poolv, 1);
   rv = Val_volume (r, connv);
 
   CAMLreturn (rv);
@@ -2862,22 +2944,6 @@ ocaml_libvirt_job_get_domain (value jobv)
 
   CAMLreturn (rv);
 #endif
-}
-
-/* The following functions are unimplemented and always fail.
- * See generator.pl '@unimplemented'
- */
-
-CAMLprim value
-ocaml_libvirt_storage_vol_lookup_by_name ()
-{
-  failwith ("ocaml_libvirt_storage_vol_lookup_by_name is unimplemented");
-}
-
-CAMLprim value
-ocaml_libvirt_storage_vol_create_xml ()
-{
-  failwith ("ocaml_libvirt_storage_vol_create_xml is unimplemented");
 }
 
 #include "libvirt_c_epilogue.c"
