@@ -1,3 +1,7 @@
+2008-01-20  Richard Jones  <rjones@redhat.com>
+
+	Version 0.4.0.2 released.
+
 2008-01-18  Richard Jones  <rjones@redhat.com>
 
 	Move to autogeneration of many C bindings.
