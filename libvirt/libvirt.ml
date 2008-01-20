@@ -267,8 +267,8 @@ struct
   }
 
   external lookup_by_name : 'a Pool.t -> string -> 'a t = "ocaml_libvirt_storage_vol_lookup_by_name"
-  external lookup_by_key : 'a Pool.t -> string -> 'a t = "ocaml_libvirt_storage_vol_lookup_by_key"
-  external lookup_by_path : 'a Pool.t -> string -> 'a t = "ocaml_libvirt_storage_vol_lookup_by_path"
+  external lookup_by_key : 'a Connect.t -> string -> 'a t = "ocaml_libvirt_storage_vol_lookup_by_key"
+  external lookup_by_path : 'a Connect.t -> string -> 'a t = "ocaml_libvirt_storage_vol_lookup_by_path"
   external pool_of_volume : 'a t -> 'a Pool.t = "ocaml_libvirt_storage_pool_lookup_by_volume"
   external get_name : [`R] t -> string = "ocaml_libvirt_storage_vol_get_name"
   external get_key : [`R] t -> string = "ocaml_libvirt_storage_vol_get_key"

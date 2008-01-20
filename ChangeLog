@@ -1,5 +1,9 @@
 2008-01-20  Richard Jones  <rjones@redhat.com>
 
+	Fix Volume.lookup_by_key and Volume.lookup_by_path
+	* libvirt/libvirt.mli, libvirt/libvirt.ml: These functions take
+	  a connection object, not a pool, as first parameter.
+
 	Version 0.4.0.2 released.
 
 2008-01-18  Richard Jones  <rjones@redhat.com>

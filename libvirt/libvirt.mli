@@ -716,8 +716,8 @@ sig
   }
 
   val lookup_by_name : 'a Pool.t -> string -> 'a t
-  val lookup_by_key : 'a Pool.t -> string -> 'a t
-  val lookup_by_path : 'a Pool.t -> string -> 'a t
+  val lookup_by_key : 'a Connect.t -> string -> 'a t
+  val lookup_by_path : 'a Connect.t -> string -> 'a t
     (** Look up a storage volume by name, key or path volume. *)
 
   val pool_of_volume : 'a t -> 'a Pool.t
