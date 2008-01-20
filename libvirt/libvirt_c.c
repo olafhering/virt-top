@@ -48,7 +48,7 @@
 #include "libvirt_c_oneoffs.c"
 
 /* Automatically generated binding for virConnectClose.
- * Function signature in generator.pl is "conn : free"
+ * In generator.pl this function has signature "conn : free".
  */
 
 CAMLprim value
@@ -69,7 +69,7 @@ ocaml_libvirt_connect_close (value connv)
 }
 
 /* Automatically generated binding for virConnectGetHostname.
- * Function signature in generator.pl is "conn : string"
+ * In generator.pl this function has signature "conn : string".
  */
 
 #ifdef HAVE_WEAK_SYMBOLS
@@ -107,7 +107,7 @@ ocaml_libvirt_connect_get_hostname (value connv)
 }
 
 /* Automatically generated binding for virConnectGetURI.
- * Function signature in generator.pl is "conn : string"
+ * In generator.pl this function has signature "conn : string".
  */
 
 #ifdef HAVE_WEAK_SYMBOLS
@@ -145,7 +145,7 @@ ocaml_libvirt_connect_get_uri (value connv)
 }
 
 /* Automatically generated binding for virConnectGetType.
- * Function signature in generator.pl is "conn : static string"
+ * In generator.pl this function has signature "conn : static string".
  */
 
 CAMLprim value
@@ -165,7 +165,7 @@ ocaml_libvirt_connect_get_type (value connv)
 }
 
 /* Automatically generated binding for virConnectNumOfDomains.
- * Function signature in generator.pl is "conn : int"
+ * In generator.pl this function has signature "conn : int".
  */
 
 CAMLprim value
@@ -183,7 +183,7 @@ ocaml_libvirt_connect_num_of_domains (value connv)
 }
 
 /* Automatically generated binding for virConnectListDomains.
- * Function signature in generator.pl is "conn, int : int array"
+ * In generator.pl this function has signature "conn, int : int array".
  */
 
 CAMLprim value
@@ -207,7 +207,7 @@ ocaml_libvirt_connect_list_domains (value connv, value iv)
 }
 
 /* Automatically generated binding for virConnectNumOfDefinedDomains.
- * Function signature in generator.pl is "conn : int"
+ * In generator.pl this function has signature "conn : int".
  */
 
 CAMLprim value
@@ -225,7 +225,7 @@ ocaml_libvirt_connect_num_of_defined_domains (value connv)
 }
 
 /* Automatically generated binding for virConnectListDefinedDomains.
- * Function signature in generator.pl is "conn, int : string array"
+ * In generator.pl this function has signature "conn, int : string array".
  */
 
 CAMLprim value
@@ -253,7 +253,7 @@ ocaml_libvirt_connect_list_defined_domains (value connv, value iv)
 }
 
 /* Automatically generated binding for virConnectNumOfNetworks.
- * Function signature in generator.pl is "conn : int"
+ * In generator.pl this function has signature "conn : int".
  */
 
 CAMLprim value
@@ -271,7 +271,7 @@ ocaml_libvirt_connect_num_of_networks (value connv)
 }
 
 /* Automatically generated binding for virConnectListNetworks.
- * Function signature in generator.pl is "conn, int : string array"
+ * In generator.pl this function has signature "conn, int : string array".
  */
 
 CAMLprim value
@@ -299,7 +299,7 @@ ocaml_libvirt_connect_list_networks (value connv, value iv)
 }
 
 /* Automatically generated binding for virConnectNumOfDefinedNetworks.
- * Function signature in generator.pl is "conn : int"
+ * In generator.pl this function has signature "conn : int".
  */
 
 CAMLprim value
@@ -317,7 +317,7 @@ ocaml_libvirt_connect_num_of_defined_networks (value connv)
 }
 
 /* Automatically generated binding for virConnectListDefinedNetworks.
- * Function signature in generator.pl is "conn, int : string array"
+ * In generator.pl this function has signature "conn, int : string array".
  */
 
 CAMLprim value
@@ -345,7 +345,7 @@ ocaml_libvirt_connect_list_defined_networks (value connv, value iv)
 }
 
 /* Automatically generated binding for virConnectNumOfStoragePools.
- * Function signature in generator.pl is "conn : int"
+ * In generator.pl this function has signature "conn : int".
  */
 
 #ifdef HAVE_WEAK_SYMBOLS
@@ -380,7 +380,7 @@ ocaml_libvirt_connect_num_of_storage_pools (value connv)
 }
 
 /* Automatically generated binding for virConnectListStoragePools.
- * Function signature in generator.pl is "conn, int : string array"
+ * In generator.pl this function has signature "conn, int : string array".
  */
 
 #ifdef HAVE_WEAK_SYMBOLS
@@ -425,7 +425,7 @@ ocaml_libvirt_connect_list_storage_pools (value connv, value iv)
 }
 
 /* Automatically generated binding for virConnectNumOfDefinedStoragePools.
- * Function signature in generator.pl is "conn : int"
+ * In generator.pl this function has signature "conn : int".
  */
 
 #ifdef HAVE_WEAK_SYMBOLS
@@ -460,7 +460,7 @@ ocaml_libvirt_connect_num_of_defined_storage_pools (value connv)
 }
 
 /* Automatically generated binding for virConnectListDefinedStoragePools.
- * Function signature in generator.pl is "conn, int : string array"
+ * In generator.pl this function has signature "conn, int : string array".
  */
 
 #ifdef HAVE_WEAK_SYMBOLS
@@ -505,7 +505,7 @@ ocaml_libvirt_connect_list_defined_storage_pools (value connv, value iv)
 }
 
 /* Automatically generated binding for virConnectGetCapabilities.
- * Function signature in generator.pl is "conn : string"
+ * In generator.pl this function has signature "conn : string".
  */
 
 CAMLprim value
@@ -526,7 +526,7 @@ ocaml_libvirt_connect_get_capabilities (value connv)
 }
 
 /* Automatically generated binding for virDomainCreateLinux.
- * Function signature in generator.pl is "conn, string, 0U : dom"
+ * In generator.pl this function has signature "conn, string, 0U : dom".
  */
 
 CAMLprim value
@@ -548,7 +548,7 @@ ocaml_libvirt_domain_create_linux (value connv, value strv)
 }
 
 /* Automatically generated binding for virDomainCreateLinuxJob.
- * Function signature in generator.pl is "conn, string, 0U : job"
+ * In generator.pl this function has signature "conn, string, 0U : job".
  */
 
 #ifdef HAVE_WEAK_SYMBOLS
@@ -587,7 +587,7 @@ ocaml_libvirt_domain_create_linux_job (value connv, value strv)
 }
 
 /* Automatically generated binding for virDomainFree.
- * Function signature in generator.pl is "dom : free"
+ * In generator.pl this function has signature "dom : free".
  */
 
 CAMLprim value
@@ -609,7 +609,7 @@ ocaml_libvirt_domain_free (value domv)
 }
 
 /* Automatically generated binding for virDomainDestroy.
- * Function signature in generator.pl is "dom : free"
+ * In generator.pl this function has signature "dom : free".
  */
 
 CAMLprim value
@@ -631,7 +631,7 @@ ocaml_libvirt_domain_destroy (value domv)
 }
 
 /* Automatically generated binding for virDomainLookupByName.
- * Function signature in generator.pl is "conn, string : dom"
+ * In generator.pl this function has signature "conn, string : dom".
  */
 
 CAMLprim value
@@ -653,7 +653,7 @@ ocaml_libvirt_domain_lookup_by_name (value connv, value strv)
 }
 
 /* Automatically generated binding for virDomainLookupByID.
- * Function signature in generator.pl is "conn, int : dom"
+ * In generator.pl this function has signature "conn, int : dom".
  */
 
 CAMLprim value
@@ -675,7 +675,7 @@ ocaml_libvirt_domain_lookup_by_id (value connv, value iv)
 }
 
 /* Automatically generated binding for virDomainLookupByUUID.
- * Function signature in generator.pl is "conn, uuid : dom"
+ * In generator.pl this function has signature "conn, uuid : dom".
  */
 
 CAMLprim value
@@ -697,7 +697,7 @@ ocaml_libvirt_domain_lookup_by_uuid (value connv, value uuidv)
 }
 
 /* Automatically generated binding for virDomainLookupByUUIDString.
- * Function signature in generator.pl is "conn, string : dom"
+ * In generator.pl this function has signature "conn, string : dom".
  */
 
 CAMLprim value
@@ -719,7 +719,7 @@ ocaml_libvirt_domain_lookup_by_uuid_string (value connv, value strv)
 }
 
 /* Automatically generated binding for virDomainGetName.
- * Function signature in generator.pl is "dom : static string"
+ * In generator.pl this function has signature "dom : static string".
  */
 
 CAMLprim value
@@ -740,7 +740,7 @@ ocaml_libvirt_domain_get_name (value domv)
 }
 
 /* Automatically generated binding for virDomainGetOSType.
- * Function signature in generator.pl is "dom : string"
+ * In generator.pl this function has signature "dom : string".
  */
 
 CAMLprim value
@@ -762,7 +762,7 @@ ocaml_libvirt_domain_get_os_type (value domv)
 }
 
 /* Automatically generated binding for virDomainGetXMLDesc.
- * Function signature in generator.pl is "dom, 0 : string"
+ * In generator.pl this function has signature "dom, 0 : string".
  */
 
 CAMLprim value
@@ -784,7 +784,7 @@ ocaml_libvirt_domain_get_xml_desc (value domv)
 }
 
 /* Automatically generated binding for virDomainGetUUID.
- * Function signature in generator.pl is "dom : uuid"
+ * In generator.pl this function has signature "dom : uuid".
  */
 
 CAMLprim value
@@ -801,12 +801,14 @@ ocaml_libvirt_domain_get_uuid (value domv)
   NONBLOCKING (r = virDomainGetUUID (dom, uuid));
   CHECK_ERROR (r == -1, conn, "virDomainGetUUID");
 
-  rv = caml_copy_string ((char *) uuid);
+  /* UUIDs are byte arrays with a fixed length. */
+  rv = caml_alloc_string (VIR_UUID_BUFLEN);
+  memcpy (String_val (rv), uuid, VIR_UUID_BUFLEN);
   CAMLreturn (rv);
 }
 
 /* Automatically generated binding for virDomainGetUUIDString.
- * Function signature in generator.pl is "dom : uuid string"
+ * In generator.pl this function has signature "dom : uuid string".
  */
 
 CAMLprim value
@@ -828,7 +830,7 @@ ocaml_libvirt_domain_get_uuid_string (value domv)
 }
 
 /* Automatically generated binding for virDomainGetMaxVcpus.
- * Function signature in generator.pl is "dom : int"
+ * In generator.pl this function has signature "dom : int".
  */
 
 CAMLprim value
@@ -847,7 +849,7 @@ ocaml_libvirt_domain_get_max_vcpus (value domv)
 }
 
 /* Automatically generated binding for virDomainSave.
- * Function signature in generator.pl is "dom, string : unit"
+ * In generator.pl this function has signature "dom, string : unit".
  */
 
 CAMLprim value
@@ -868,7 +870,7 @@ ocaml_libvirt_domain_save (value domv, value strv)
 }
 
 /* Automatically generated binding for virDomainSaveJob.
- * Function signature in generator.pl is "dom, string : job from dom"
+ * In generator.pl this function has signature "dom, string : job from dom".
  */
 
 #ifdef HAVE_WEAK_SYMBOLS
@@ -909,7 +911,7 @@ ocaml_libvirt_domain_save_job (value domv, value strv)
 }
 
 /* Automatically generated binding for virDomainRestore.
- * Function signature in generator.pl is "conn, string : unit"
+ * In generator.pl this function has signature "conn, string : unit".
  */
 
 CAMLprim value
@@ -929,7 +931,7 @@ ocaml_libvirt_domain_restore (value connv, value strv)
 }
 
 /* Automatically generated binding for virDomainRestoreJob.
- * Function signature in generator.pl is "conn, string : job"
+ * In generator.pl this function has signature "conn, string : job".
  */
 
 #ifdef HAVE_WEAK_SYMBOLS
@@ -968,7 +970,7 @@ ocaml_libvirt_domain_restore_job (value connv, value strv)
 }
 
 /* Automatically generated binding for virDomainCoreDump.
- * Function signature in generator.pl is "dom, string, 0 : unit"
+ * In generator.pl this function has signature "dom, string, 0 : unit".
  */
 
 CAMLprim value
@@ -989,7 +991,7 @@ ocaml_libvirt_domain_core_dump (value domv, value strv)
 }
 
 /* Automatically generated binding for virDomainCoreDumpJob.
- * Function signature in generator.pl is "dom, string, 0 : job from dom"
+ * In generator.pl this function has signature "dom, string, 0 : job from dom".
  */
 
 #ifdef HAVE_WEAK_SYMBOLS
@@ -1030,7 +1032,7 @@ ocaml_libvirt_domain_core_dump_job (value domv, value strv)
 }
 
 /* Automatically generated binding for virDomainSuspend.
- * Function signature in generator.pl is "dom : unit"
+ * In generator.pl this function has signature "dom : unit".
  */
 
 CAMLprim value
@@ -1049,7 +1051,7 @@ ocaml_libvirt_domain_suspend (value domv)
 }
 
 /* Automatically generated binding for virDomainResume.
- * Function signature in generator.pl is "dom : unit"
+ * In generator.pl this function has signature "dom : unit".
  */
 
 CAMLprim value
@@ -1068,7 +1070,7 @@ ocaml_libvirt_domain_resume (value domv)
 }
 
 /* Automatically generated binding for virDomainShutdown.
- * Function signature in generator.pl is "dom : unit"
+ * In generator.pl this function has signature "dom : unit".
  */
 
 CAMLprim value
@@ -1087,7 +1089,7 @@ ocaml_libvirt_domain_shutdown (value domv)
 }
 
 /* Automatically generated binding for virDomainReboot.
- * Function signature in generator.pl is "dom, 0 : unit"
+ * In generator.pl this function has signature "dom, 0 : unit".
  */
 
 CAMLprim value
@@ -1106,7 +1108,7 @@ ocaml_libvirt_domain_reboot (value domv)
 }
 
 /* Automatically generated binding for virDomainDefineXML.
- * Function signature in generator.pl is "conn, string : dom"
+ * In generator.pl this function has signature "conn, string : dom".
  */
 
 CAMLprim value
@@ -1128,7 +1130,7 @@ ocaml_libvirt_domain_define_xml (value connv, value strv)
 }
 
 /* Automatically generated binding for virDomainUndefine.
- * Function signature in generator.pl is "dom : unit"
+ * In generator.pl this function has signature "dom : unit".
  */
 
 CAMLprim value
@@ -1147,7 +1149,7 @@ ocaml_libvirt_domain_undefine (value domv)
 }
 
 /* Automatically generated binding for virDomainCreate.
- * Function signature in generator.pl is "dom : unit"
+ * In generator.pl this function has signature "dom : unit".
  */
 
 CAMLprim value
@@ -1166,7 +1168,7 @@ ocaml_libvirt_domain_create (value domv)
 }
 
 /* Automatically generated binding for virDomainCreateJob.
- * Function signature in generator.pl is "dom, 0U : job from dom"
+ * In generator.pl this function has signature "dom, 0U : job from dom".
  */
 
 #ifdef HAVE_WEAK_SYMBOLS
@@ -1206,7 +1208,7 @@ ocaml_libvirt_domain_create_job (value domv)
 }
 
 /* Automatically generated binding for virDomainAttachDevice.
- * Function signature in generator.pl is "dom, string : unit"
+ * In generator.pl this function has signature "dom, string : unit".
  */
 
 CAMLprim value
@@ -1227,7 +1229,7 @@ ocaml_libvirt_domain_attach_device (value domv, value strv)
 }
 
 /* Automatically generated binding for virDomainDetachDevice.
- * Function signature in generator.pl is "dom, string : unit"
+ * In generator.pl this function has signature "dom, string : unit".
  */
 
 CAMLprim value
@@ -1248,7 +1250,7 @@ ocaml_libvirt_domain_detach_device (value domv, value strv)
 }
 
 /* Automatically generated binding for virDomainGetAutostart.
- * Function signature in generator.pl is "dom : bool"
+ * In generator.pl this function has signature "dom : bool".
  */
 
 CAMLprim value
@@ -1267,7 +1269,7 @@ ocaml_libvirt_domain_get_autostart (value domv)
 }
 
 /* Automatically generated binding for virDomainSetAutostart.
- * Function signature in generator.pl is "dom, bool : unit"
+ * In generator.pl this function has signature "dom, bool : unit".
  */
 
 CAMLprim value
@@ -1288,7 +1290,7 @@ ocaml_libvirt_domain_set_autostart (value domv, value bv)
 }
 
 /* Automatically generated binding for virNetworkFree.
- * Function signature in generator.pl is "net : free"
+ * In generator.pl this function has signature "net : free".
  */
 
 CAMLprim value
@@ -1310,7 +1312,7 @@ ocaml_libvirt_network_free (value netv)
 }
 
 /* Automatically generated binding for virNetworkDestroy.
- * Function signature in generator.pl is "net : free"
+ * In generator.pl this function has signature "net : free".
  */
 
 CAMLprim value
@@ -1332,7 +1334,7 @@ ocaml_libvirt_network_destroy (value netv)
 }
 
 /* Automatically generated binding for virNetworkLookupByName.
- * Function signature in generator.pl is "conn, string : net"
+ * In generator.pl this function has signature "conn, string : net".
  */
 
 CAMLprim value
@@ -1354,7 +1356,7 @@ ocaml_libvirt_network_lookup_by_name (value connv, value strv)
 }
 
 /* Automatically generated binding for virNetworkLookupByUUID.
- * Function signature in generator.pl is "conn, uuid : net"
+ * In generator.pl this function has signature "conn, uuid : net".
  */
 
 CAMLprim value
@@ -1376,7 +1378,7 @@ ocaml_libvirt_network_lookup_by_uuid (value connv, value uuidv)
 }
 
 /* Automatically generated binding for virNetworkLookupByUUIDString.
- * Function signature in generator.pl is "conn, string : net"
+ * In generator.pl this function has signature "conn, string : net".
  */
 
 CAMLprim value
@@ -1398,7 +1400,7 @@ ocaml_libvirt_network_lookup_by_uuid_string (value connv, value strv)
 }
 
 /* Automatically generated binding for virNetworkGetName.
- * Function signature in generator.pl is "net : static string"
+ * In generator.pl this function has signature "net : static string".
  */
 
 CAMLprim value
@@ -1419,7 +1421,7 @@ ocaml_libvirt_network_get_name (value netv)
 }
 
 /* Automatically generated binding for virNetworkGetXMLDesc.
- * Function signature in generator.pl is "net, 0 : string"
+ * In generator.pl this function has signature "net, 0 : string".
  */
 
 CAMLprim value
@@ -1441,7 +1443,7 @@ ocaml_libvirt_network_get_xml_desc (value netv)
 }
 
 /* Automatically generated binding for virNetworkGetBridgeName.
- * Function signature in generator.pl is "net : string"
+ * In generator.pl this function has signature "net : string".
  */
 
 CAMLprim value
@@ -1463,7 +1465,7 @@ ocaml_libvirt_network_get_bridge_name (value netv)
 }
 
 /* Automatically generated binding for virNetworkGetUUID.
- * Function signature in generator.pl is "net : uuid"
+ * In generator.pl this function has signature "net : uuid".
  */
 
 CAMLprim value
@@ -1480,12 +1482,14 @@ ocaml_libvirt_network_get_uuid (value netv)
   NONBLOCKING (r = virNetworkGetUUID (net, uuid));
   CHECK_ERROR (r == -1, conn, "virNetworkGetUUID");
 
-  rv = caml_copy_string ((char *) uuid);
+  /* UUIDs are byte arrays with a fixed length. */
+  rv = caml_alloc_string (VIR_UUID_BUFLEN);
+  memcpy (String_val (rv), uuid, VIR_UUID_BUFLEN);
   CAMLreturn (rv);
 }
 
 /* Automatically generated binding for virNetworkGetUUIDString.
- * Function signature in generator.pl is "net : uuid string"
+ * In generator.pl this function has signature "net : uuid string".
  */
 
 CAMLprim value
@@ -1507,7 +1511,7 @@ ocaml_libvirt_network_get_uuid_string (value netv)
 }
 
 /* Automatically generated binding for virNetworkUndefine.
- * Function signature in generator.pl is "net : unit"
+ * In generator.pl this function has signature "net : unit".
  */
 
 CAMLprim value
@@ -1526,7 +1530,7 @@ ocaml_libvirt_network_undefine (value netv)
 }
 
 /* Automatically generated binding for virNetworkCreateXML.
- * Function signature in generator.pl is "conn, string : net"
+ * In generator.pl this function has signature "conn, string : net".
  */
 
 CAMLprim value
@@ -1548,7 +1552,7 @@ ocaml_libvirt_network_create_xml (value connv, value strv)
 }
 
 /* Automatically generated binding for virNetworkCreateXMLJob.
- * Function signature in generator.pl is "conn, string : job"
+ * In generator.pl this function has signature "conn, string : job".
  */
 
 #ifdef HAVE_WEAK_SYMBOLS
@@ -1587,7 +1591,7 @@ ocaml_libvirt_network_create_xml_job (value connv, value strv)
 }
 
 /* Automatically generated binding for virNetworkDefineXML.
- * Function signature in generator.pl is "conn, string : net"
+ * In generator.pl this function has signature "conn, string : net".
  */
 
 CAMLprim value
@@ -1609,7 +1613,7 @@ ocaml_libvirt_network_define_xml (value connv, value strv)
 }
 
 /* Automatically generated binding for virNetworkCreate.
- * Function signature in generator.pl is "net : unit"
+ * In generator.pl this function has signature "net : unit".
  */
 
 CAMLprim value
@@ -1628,7 +1632,7 @@ ocaml_libvirt_network_create (value netv)
 }
 
 /* Automatically generated binding for virNetworkCreateJob.
- * Function signature in generator.pl is "net : job from net"
+ * In generator.pl this function has signature "net : job from net".
  */
 
 #ifdef HAVE_WEAK_SYMBOLS
@@ -1668,7 +1672,7 @@ ocaml_libvirt_network_create_job (value netv)
 }
 
 /* Automatically generated binding for virNetworkGetAutostart.
- * Function signature in generator.pl is "net : bool"
+ * In generator.pl this function has signature "net : bool".
  */
 
 CAMLprim value
@@ -1687,7 +1691,7 @@ ocaml_libvirt_network_get_autostart (value netv)
 }
 
 /* Automatically generated binding for virNetworkSetAutostart.
- * Function signature in generator.pl is "net, bool : unit"
+ * In generator.pl this function has signature "net, bool : unit".
  */
 
 CAMLprim value
@@ -1708,7 +1712,7 @@ ocaml_libvirt_network_set_autostart (value netv, value bv)
 }
 
 /* Automatically generated binding for virStoragePoolFree.
- * Function signature in generator.pl is "pool : free"
+ * In generator.pl this function has signature "pool : free".
  */
 
 #ifdef HAVE_WEAK_SYMBOLS
@@ -1747,7 +1751,7 @@ ocaml_libvirt_storage_pool_free (value poolv)
 }
 
 /* Automatically generated binding for virStoragePoolDestroy.
- * Function signature in generator.pl is "pool : free"
+ * In generator.pl this function has signature "pool : free".
  */
 
 #ifdef HAVE_WEAK_SYMBOLS
@@ -1786,7 +1790,7 @@ ocaml_libvirt_storage_pool_destroy (value poolv)
 }
 
 /* Automatically generated binding for virStoragePoolLookupByName.
- * Function signature in generator.pl is "conn, string : pool"
+ * In generator.pl this function has signature "conn, string : pool".
  */
 
 #ifdef HAVE_WEAK_SYMBOLS
@@ -1825,7 +1829,7 @@ ocaml_libvirt_storage_pool_lookup_by_name (value connv, value strv)
 }
 
 /* Automatically generated binding for virStoragePoolLookupByUUID.
- * Function signature in generator.pl is "conn, uuid : pool"
+ * In generator.pl this function has signature "conn, uuid : pool".
  */
 
 #ifdef HAVE_WEAK_SYMBOLS
@@ -1864,7 +1868,7 @@ ocaml_libvirt_storage_pool_lookup_by_uuid (value connv, value uuidv)
 }
 
 /* Automatically generated binding for virStoragePoolLookupByUUIDString.
- * Function signature in generator.pl is "conn, string : pool"
+ * In generator.pl this function has signature "conn, string : pool".
  */
 
 #ifdef HAVE_WEAK_SYMBOLS
@@ -1903,7 +1907,7 @@ ocaml_libvirt_storage_pool_lookup_by_uuid_string (value connv, value strv)
 }
 
 /* Automatically generated binding for virStoragePoolGetName.
- * Function signature in generator.pl is "pool : static string"
+ * In generator.pl this function has signature "pool : static string".
  */
 
 #ifdef HAVE_WEAK_SYMBOLS
@@ -1941,7 +1945,7 @@ ocaml_libvirt_storage_pool_get_name (value poolv)
 }
 
 /* Automatically generated binding for virStoragePoolGetXMLDesc.
- * Function signature in generator.pl is "pool, 0 : string"
+ * In generator.pl this function has signature "pool, 0 : string".
  */
 
 #ifdef HAVE_WEAK_SYMBOLS
@@ -1980,7 +1984,7 @@ ocaml_libvirt_storage_pool_get_xml_desc (value poolv)
 }
 
 /* Automatically generated binding for virStoragePoolGetUUID.
- * Function signature in generator.pl is "pool : uuid"
+ * In generator.pl this function has signature "pool : uuid".
  */
 
 #ifdef HAVE_WEAK_SYMBOLS
@@ -2013,13 +2017,15 @@ ocaml_libvirt_storage_pool_get_uuid (value poolv)
   NONBLOCKING (r = virStoragePoolGetUUID (pool, uuid));
   CHECK_ERROR (r == -1, conn, "virStoragePoolGetUUID");
 
-  rv = caml_copy_string ((char *) uuid);
+  /* UUIDs are byte arrays with a fixed length. */
+  rv = caml_alloc_string (VIR_UUID_BUFLEN);
+  memcpy (String_val (rv), uuid, VIR_UUID_BUFLEN);
   CAMLreturn (rv);
 #endif
 }
 
 /* Automatically generated binding for virStoragePoolGetUUIDString.
- * Function signature in generator.pl is "pool : uuid string"
+ * In generator.pl this function has signature "pool : uuid string".
  */
 
 #ifdef HAVE_WEAK_SYMBOLS
@@ -2058,7 +2064,7 @@ ocaml_libvirt_storage_pool_get_uuid_string (value poolv)
 }
 
 /* Automatically generated binding for virStoragePoolCreateXML.
- * Function signature in generator.pl is "conn, string : pool"
+ * In generator.pl this function has signature "conn, string : pool".
  */
 
 #ifdef HAVE_WEAK_SYMBOLS
@@ -2097,7 +2103,7 @@ ocaml_libvirt_storage_pool_create_xml (value connv, value strv)
 }
 
 /* Automatically generated binding for virStoragePoolDefineXML.
- * Function signature in generator.pl is "conn, string : pool"
+ * In generator.pl this function has signature "conn, string : pool".
  */
 
 #ifdef HAVE_WEAK_SYMBOLS
@@ -2136,7 +2142,7 @@ ocaml_libvirt_storage_pool_define_xml (value connv, value strv)
 }
 
 /* Automatically generated binding for virStoragePoolUndefine.
- * Function signature in generator.pl is "pool : unit"
+ * In generator.pl this function has signature "pool : unit".
  */
 
 #ifdef HAVE_WEAK_SYMBOLS
@@ -2172,7 +2178,7 @@ ocaml_libvirt_storage_pool_undefine (value poolv)
 }
 
 /* Automatically generated binding for virStoragePoolCreate.
- * Function signature in generator.pl is "pool : unit"
+ * In generator.pl this function has signature "pool : unit".
  */
 
 #ifdef HAVE_WEAK_SYMBOLS
@@ -2208,7 +2214,7 @@ ocaml_libvirt_storage_pool_create (value poolv)
 }
 
 /* Automatically generated binding for virStoragePoolShutdown.
- * Function signature in generator.pl is "pool : unit"
+ * In generator.pl this function has signature "pool : unit".
  */
 
 #ifdef HAVE_WEAK_SYMBOLS
@@ -2244,7 +2250,7 @@ ocaml_libvirt_storage_pool_shutdown (value poolv)
 }
 
 /* Automatically generated binding for virStoragePoolRefresh.
- * Function signature in generator.pl is "pool, 0U : unit"
+ * In generator.pl this function has signature "pool, 0U : unit".
  */
 
 #ifdef HAVE_WEAK_SYMBOLS
@@ -2280,7 +2286,7 @@ ocaml_libvirt_storage_pool_refresh (value poolv)
 }
 
 /* Automatically generated binding for virStoragePoolGetAutostart.
- * Function signature in generator.pl is "pool : bool"
+ * In generator.pl this function has signature "pool : bool".
  */
 
 #ifdef HAVE_WEAK_SYMBOLS
@@ -2316,7 +2322,7 @@ ocaml_libvirt_storage_pool_get_autostart (value poolv)
 }
 
 /* Automatically generated binding for virStoragePoolSetAutostart.
- * Function signature in generator.pl is "pool, bool : unit"
+ * In generator.pl this function has signature "pool, bool : unit".
  */
 
 #ifdef HAVE_WEAK_SYMBOLS
@@ -2354,7 +2360,7 @@ ocaml_libvirt_storage_pool_set_autostart (value poolv, value bv)
 }
 
 /* Automatically generated binding for virStorageVolFree.
- * Function signature in generator.pl is "vol : free"
+ * In generator.pl this function has signature "vol : free".
  */
 
 #ifdef HAVE_WEAK_SYMBOLS
@@ -2393,7 +2399,7 @@ ocaml_libvirt_storage_vol_free (value volv)
 }
 
 /* Automatically generated binding for virStorageVolDestroy.
- * Function signature in generator.pl is "vol : free"
+ * In generator.pl this function has signature "vol : free".
  */
 
 #ifdef HAVE_WEAK_SYMBOLS
@@ -2432,7 +2438,7 @@ ocaml_libvirt_storage_vol_destroy (value volv)
 }
 
 /* Automatically generated binding for virStorageVolLookupByKey.
- * Function signature in generator.pl is "conn, string : vol"
+ * In generator.pl this function has signature "conn, string : vol".
  */
 
 #ifdef HAVE_WEAK_SYMBOLS
@@ -2471,7 +2477,7 @@ ocaml_libvirt_storage_vol_lookup_by_key (value connv, value strv)
 }
 
 /* Automatically generated binding for virStorageVolLookupByPath.
- * Function signature in generator.pl is "conn, string : vol"
+ * In generator.pl this function has signature "conn, string : vol".
  */
 
 #ifdef HAVE_WEAK_SYMBOLS
@@ -2510,7 +2516,7 @@ ocaml_libvirt_storage_vol_lookup_by_path (value connv, value strv)
 }
 
 /* Automatically generated binding for virStorageVolGetXMLDesc.
- * Function signature in generator.pl is "vol, 0 : string"
+ * In generator.pl this function has signature "vol, 0 : string".
  */
 
 #ifdef HAVE_WEAK_SYMBOLS
@@ -2549,7 +2555,7 @@ ocaml_libvirt_storage_vol_get_xml_desc (value volv)
 }
 
 /* Automatically generated binding for virStorageVolGetPath.
- * Function signature in generator.pl is "vol : string"
+ * In generator.pl this function has signature "vol : string".
  */
 
 #ifdef HAVE_WEAK_SYMBOLS
@@ -2588,7 +2594,7 @@ ocaml_libvirt_storage_vol_get_path (value volv)
 }
 
 /* Automatically generated binding for virStorageVolGetKey.
- * Function signature in generator.pl is "vol : static string"
+ * In generator.pl this function has signature "vol : static string".
  */
 
 #ifdef HAVE_WEAK_SYMBOLS
@@ -2626,7 +2632,7 @@ ocaml_libvirt_storage_vol_get_key (value volv)
 }
 
 /* Automatically generated binding for virStorageVolGetName.
- * Function signature in generator.pl is "vol : static string"
+ * In generator.pl this function has signature "vol : static string".
  */
 
 #ifdef HAVE_WEAK_SYMBOLS
@@ -2664,7 +2670,7 @@ ocaml_libvirt_storage_vol_get_name (value volv)
 }
 
 /* Automatically generated binding for virStoragePoolLookupByVolume.
- * Function signature in generator.pl is "vol : pool from vol"
+ * In generator.pl this function has signature "vol : pool from vol".
  */
 
 #ifdef HAVE_WEAK_SYMBOLS
@@ -2704,7 +2710,7 @@ ocaml_libvirt_storage_pool_lookup_by_volume (value volv)
 }
 
 /* Automatically generated binding for virJobFree.
- * Function signature in generator.pl is "job : free"
+ * In generator.pl this function has signature "job : free".
  */
 
 #ifdef HAVE_WEAK_SYMBOLS
@@ -2743,7 +2749,7 @@ ocaml_libvirt_job_free (value jobv)
 }
 
 /* Automatically generated binding for virJobCancel.
- * Function signature in generator.pl is "job : unit"
+ * In generator.pl this function has signature "job : unit".
  */
 
 #ifdef HAVE_WEAK_SYMBOLS
@@ -2779,7 +2785,7 @@ ocaml_libvirt_job_cancel (value jobv)
 }
 
 /* Automatically generated binding for virJobGetNetwork.
- * Function signature in generator.pl is "job : net from job"
+ * In generator.pl this function has signature "job : net from job".
  */
 
 #ifdef HAVE_WEAK_SYMBOLS
@@ -2819,7 +2825,7 @@ ocaml_libvirt_job_get_network (value jobv)
 }
 
 /* Automatically generated binding for virJobGetDomain.
- * Function signature in generator.pl is "job : dom from job"
+ * In generator.pl this function has signature "job : dom from job".
  */
 
 #ifdef HAVE_WEAK_SYMBOLS

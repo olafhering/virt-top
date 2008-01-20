@@ -562,7 +562,9 @@ sub gen_c_code
   NONBLOCKING (r = $c_name ($1, uuid));
   CHECK_ERROR (r == -1, conn, \"$c_name\");
 
-  rv = caml_copy_string ((char *) uuid);
+  /* UUIDs are byte arrays with a fixed length. */
+  rv = caml_alloc_string (VIR_UUID_BUFLEN);
+  memcpy (String_val (rv), uuid, VIR_UUID_BUFLEN);
   CAMLreturn (rv);
 "
     } elsif ($sig =~ /^(\w+) : uuid string$/) {
@@ -886,7 +888,7 @@ foreach my $function (@functions) {
 
     print F <<END;
 /* Automatically generated binding for $c_name.
- * Function signature in generator.pl is "$sig"
+ * In generator.pl this function has signature "$sig".
  */
 
 END
