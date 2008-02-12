@@ -42,11 +42,11 @@ ifeq ($(pkg_csv),yes)
 OBJS		+= virt_top_csv.cmo
 OCAMLCPACKAGES	:= $(OCAMLCPACKAGES),csv
 endif
-ifneq ($(pkg_calendar),)
+ifeq ($(pkg_calendar),yes)
 OBJS		+= virt_top_calendar1.cmo
 OCAMLCPACKAGES	:= $(OCAMLCPACKAGES),calendar
 endif
-ifneq ($(pkg_calendar2),)
+ifneq ($(pkg_calendar2),no)
 OBJS		+= virt_top_calendar2.cmo
 OCAMLCPACKAGES	:= $(OCAMLCPACKAGES),calendar
 endif
