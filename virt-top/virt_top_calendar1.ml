@@ -16,7 +16,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   This file contains all code which requires ocaml-calendar.
+   This file contains all code which requires ocaml-calendar < 2.0
 *)
 
 open Printf
