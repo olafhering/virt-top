@@ -27,4 +27,5 @@ val make : open_connection:(unit -> unit) ->
   pause_domain:Vc_domain_ops.dops_callback_fn ->
   resume_domain:Vc_domain_ops.dops_callback_fn ->
   shutdown_domain:Vc_domain_ops.dops_callback_fn ->
+  open_domain_details:Vc_domain_ops.dops_callback_fn ->
   unit

@@ -70,18 +70,22 @@ type domhistory = {
   mutable last_time : float;		(* exact time we measured the above *)
 
   (* historical data for graphs etc: *)
-  mutable hist_cpu : int array;		(* historical %CPU *)
-  mutable hist_cpu_posn : int;		(* position within array *)
-  mutable hist_mem : int64 array;       (* historical memory (kilobytes) *)
-  mutable hist_mem_posn : int;		(* position within array *)
+  mutable hist : dhentry array;		(* historical data *)
+  mutable hist_posn : int;		(* position within array *)
+}
+and dhentry = {
+  hist_cpu : int;			(* historical %CPU entry *)
+  hist_mem : int64;		        (* historical memory entry (KB) *)
 }
 
 let domhistory = Hashtbl.create 13
 
+let empty_dhentry = {
+  hist_cpu = 0; hist_mem = 0L;
+}
 let new_domhistory () = {
   last_cpu_time = 0L; last_time = 0.;
-  hist_cpu = Array.make 0 0; hist_cpu_posn = 0;
-  hist_mem = Array.make 0 0L; hist_mem_posn = 0;
+  hist = Array.make 0 empty_dhentry; hist_posn = 0;
 }
 
 (* These set limits on the amount of history we collect. *)
@@ -94,7 +98,7 @@ let hist_rot = 3600			(* rotation of array when we hit max *)
  *)
 type columns = string GTree.column * string GTree.column * string GTree.column * string GTree.column * string GTree.column * int GTree.column
 
-let debug_repopulate = true
+let debug_repopulate = false
 
 (* Populate the tree with the current list of connections, domains.
  * This function is called once per second.
@@ -283,40 +287,39 @@ let repopulate (tree : GTree.view) (model : GTree.tree_store)
 		      let cpu_percent =
 			100. *. (cpu_used /. cpu_available) /. time_passed in
 
+		      let cpu_percent =
+			if cpu_percent < 0. then 0.
+			else if cpu_percent > 100. then 100.
+			else cpu_percent in
+
 		      let cpu_percent_str = sprintf "%.1f %%" cpu_percent in
 		      model#set ~row ~column:col_cpu cpu_percent_str;
 		      int_of_float cpu_percent
 		    ) else -1 in
 
 		  (* Store history. *)
-		  let store arr posn datum =
-		    if posn >= hist_max then (
-		      (* rotate the array *)
-		      Array.blit arr hist_rot arr 0 (hist_max - hist_rot);
-		      let posn = posn - hist_rot in
-		      arr.(posn) <- datum;
-		      (arr, posn+1)
-		    ) else (
-		      let len = Array.length arr in
-		      if posn < len then (
-			(* normal update *)
-			arr.(posn) <- datum;
-			(arr, posn+1)
-		      ) else (
-			(* extend the array *)
-			let len' = min (max (2*len) 1) hist_max in
-			let arr' = Array.make len' datum in
-			Array.blit arr 0 arr' 0 len;
-			(arr', posn+1)
-		      )
+		  let datum = { hist_cpu = cpu_percent;
+				hist_mem = info.D.memory } in
+
+		  if dh.hist_posn >= hist_max then (
+		    (* rotate the array *)
+		    Array.blit dh.hist hist_rot dh.hist 0 (hist_max-hist_rot);
+		    dh.hist_posn <- dh.hist_posn - hist_rot;
+		    dh.hist.(dh.hist_posn) <- datum;
+		  ) else (
+		    let len = Array.length dh.hist in
+		    if dh.hist_posn < len then
+		      (* normal update *)
+		      dh.hist.(dh.hist_posn) <- datum
+		    else (
+		      (* extend the array *)
+		      let len' = min (max (2*len) 1) hist_max in
+		      let arr' = Array.make len' datum in
+		      Array.blit dh.hist 0 arr' 0 len;
+		      dh.hist <- arr';
 		    )
-		  in
-		  let hist_cpu, hist_cpu_posn =
-		    store dh.hist_cpu dh.hist_cpu_posn cpu_percent in
-		  dh.hist_cpu <- hist_cpu; dh.hist_cpu_posn <- hist_cpu_posn;
-		  let hist_mem, hist_mem_posn =
-		    store dh.hist_mem dh.hist_mem_posn info.D.memory in
-		  dh.hist_mem <- hist_mem; dh.hist_mem_posn <- hist_mem_posn
+		  );
+		  dh.hist_posn <- dh.hist_posn+1
 
 		with
 		  Libvirt.Virterror _ -> () (* Ignore any transient error *)
@@ -418,3 +421,65 @@ let open_connection () =
       (* Add it to our list of connections. *)
       let conn_id = add_conn conn in
       Hashtbl.add static_conn_info conn_id (node_info, hostname, uri)
+
+(* Get historical data size. *)
+let get_hist_size connid domid =
+  try
+    let dh = Hashtbl.find domhistory (connid, domid) in
+    dh.hist_posn
+  with
+    Not_found -> 0
+
+(* Get historical data entries. *)
+let _get_hist ?(latest=0) ?earliest ?(granularity=1)
+    extract fold zero connid domid =
+  try
+    let dh = Hashtbl.find domhistory (connid, domid) in
+    let earliest =
+      match earliest with
+      | None -> dh.hist_posn
+      | Some e -> min e dh.hist_posn in
+
+    let src = dh.hist in
+    let src_start = dh.hist_posn - earliest in assert (src_start >= 0);
+    let src_end = dh.hist_posn - latest in     assert (src_end <= dh.hist_posn);
+
+    (* Create a sufficiently large array to store the result. *)
+    let len = (earliest-latest) / granularity in
+    let r = Array.make len zero in
+
+    if granularity = 1 then (
+      for j = 0 to len-1 do
+	r.(j) <- extract src.(src_start+j)
+      done
+    ) else (
+      let i = ref src_start in
+      for j = 0 to len-1 do
+	let sub = Array.sub src !i (min (!i+granularity) src_end - !i) in
+	let sub = Array.map extract sub in
+	r.(j) <- fold sub;
+	i := !i + granularity
+      done
+    );
+    r
+  with
+    Not_found -> [| |]
+
+let get_hist_cpu ?latest ?earliest ?granularity connid domid =
+  let zero = 0 in
+  let extract { hist_cpu = c } = c in
+  let fold a =
+    let len = Array.length a in
+    if len > 0 then Array.fold_left (+) zero a / len else -1 in
+  _get_hist ?latest ?earliest ?granularity extract fold zero connid domid
+
+let get_hist_mem ?latest ?earliest ?granularity connid domid =
+  let zero = 0L in
+  let extract { hist_mem = m } = m in
+  let fold a =
+    let len = Array.length a in
+    if len > 0 then
+      Int64.div (Array.fold_left (Int64.add) zero a) (Int64.of_int len)
+    else
+      -1L in
+  _get_hist ?latest ?earliest ?granularity extract fold zero connid domid

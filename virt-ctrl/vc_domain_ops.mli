@@ -32,3 +32,4 @@ val start_domain : dops_callback_fn
 val pause_domain : dops_callback_fn
 val resume_domain : dops_callback_fn
 val shutdown_domain : dops_callback_fn
+val open_domain_details : dops_callback_fn

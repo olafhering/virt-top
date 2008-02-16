@@ -61,7 +61,8 @@ let () =
       GToolbox.message_box ~title ~icon label
 
 let make ~open_connection
-    ~start_domain ~pause_domain ~resume_domain ~shutdown_domain =
+    ~start_domain ~pause_domain ~resume_domain ~shutdown_domain
+    ~open_domain_details =
   (* Create the main window. *)
   let window = GWindow.window ~width:800 ~height:600 ~title () in
   let vbox = GPack.vbox ~packing:window#add () in
@@ -94,6 +95,11 @@ let make ~open_connection
   let connect_button =
     GButton.tool_button ~label:"Connect ..." ~stock:`CONNECT
       ~packing:toolbar#insert () in
+  ignore (GButton.separator_tool_item ~packing:toolbar#insert ());
+  let open_button =
+    GButton.tool_button ~label:"Details" ~stock:`OPEN
+      ~packing:toolbar#insert () in
+  ignore (GButton.separator_tool_item ~packing:toolbar#insert ());
   let start_button =
     GButton.tool_button ~label:"Start" ~stock:`ADD
       ~packing:toolbar#insert () in
@@ -106,13 +112,16 @@ let make ~open_connection
   let shutdown_button =
     GButton.tool_button ~label:"Shutdown" ~stock:`STOP
       ~packing:toolbar#insert () in
-  ignore (connect_button#connect#clicked ~callback:open_connection);
 
   (* The treeview. *)
   let (tree, model, columns, initial_state) =
     Vc_connections.make_treeview
       ~packing:(vbox#pack ~expand:true ~fill:true) () in
 
+  (* Set callbacks for the buttons. *)
+  ignore (connect_button#connect#clicked ~callback:open_connection);
+  ignore (open_button#connect#clicked
+	    ~callback:(open_domain_details tree model columns));
   ignore (start_button#connect#clicked
 	    ~callback:(start_domain tree model columns));
   ignore (pause_button#connect#clicked

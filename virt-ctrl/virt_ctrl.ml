@@ -26,7 +26,8 @@ let () =
     ~start_domain:Vc_domain_ops.start_domain
     ~pause_domain:Vc_domain_ops.pause_domain
     ~resume_domain:Vc_domain_ops.resume_domain
-    ~shutdown_domain:Vc_domain_ops.shutdown_domain;
+    ~shutdown_domain:Vc_domain_ops.shutdown_domain
+    ~open_domain_details:Vc_domain_ops.open_domain_details;
 
   (* Enter the Gtk main loop. *)
   GMain.main ();
