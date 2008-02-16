@@ -166,6 +166,7 @@ if test "x$OCAMLFIND" != "x"; then
     AC_CHECK_OCAML_PKG(gettext)
     AC_CHECK_OCAML_PKG(xml-light)
     AC_CHECK_OCAML_PKG(csv)
+    AC_CHECK_OCAML_PKG(dbus)
 
     dnl Need to check which version of calendar is installed.
     AC_CHECK_OCAML_MODULE(calendar,pkg_calendar2,CalendarLib.Date,[+calendar])
@@ -180,6 +181,7 @@ if test "x$OCAMLFIND" != "x"; then
     AC_SUBST(pkg_gettext)
     AC_SUBST(pkg_xml_light)
     AC_SUBST(pkg_csv)
+    AC_SUBST(pkg_dbus)
     AC_SUBST(pkg_calendar)
     AC_SUBST(pkg_calendar2)
 else
@@ -198,6 +200,7 @@ else
     AC_CHECK_OCAML_MODULE(gettext,pkg_gettext,Gettext,[+gettext]) dnl XXX
     AC_CHECK_OCAML_MODULE(xml-light,pkg_xml_light,Xml,[+xml-light])
     AC_CHECK_OCAML_MODULE(csv,pkg_csv,Csv,[+csv])
+    AC_CHECK_OCAML_MODULE(dbus,pkg_dbus,DBus,[+dbus])
     dnl XXX Version check - see above.
     AC_CHECK_OCAML_MODULE(calendar,pkg_calendar,Calendar,[+calendar])
 fi

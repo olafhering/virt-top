@@ -21,17 +21,29 @@ prefix		= @prefix@
 exec_prefix	= @exec_prefix@
 bindir		= @bindir@
 
+pkg_dbus        = @pkg_dbus@
+
 OCAMLFIND	= @OCAMLFIND@
 
+OBJS := \
+	vc_helpers.cmo \
+	vc_connections.cmo \
+	vc_domain_ops.cmo \
+	vc_mainwindow.cmo
+
 ifneq ($(OCAMLFIND),)
-OCAMLCPACKAGES	:= -package unix,lablgtk2 -I ../libvirt
+OCAMLCPACKAGES	:= -I ../libvirt -package unix,lablgtk2
+ifeq ($(pkg_dbus),yes)
+OCAMLCPACKAGES  := $(OCAMLCPACKAGES),dbus
+OBJS            += vc_dbus.cmo
+endif
 OCAMLCFLAGS	:= -g
 OCAMLCLIBS	:= -linkpkg
 OCAMLOPTPACKAGES := $(OCAMLCPACKAGES)
 OCAMLOPTFLAGS	:=
 OCAMLOPTLIBS	:= $(OCAMLCLIBS)
 else
-OCAMLCINCS	:= -I @pkg_lablgtk2@ -I ../libvirt
+OCAMLCINCS	:= -I ../libvirt -I @pkg_lablgtk2@
 OCAMLCFLAGS	:= -g
 OCAMLCLIBS	:= unix.cma lablgtk.cma
 OCAMLOPTINCS	:= $(OCAMLCINCS)
@@ -45,12 +57,7 @@ export LD_LIBRARY_PATH=../libvirt
 BYTE_TARGETS	:= virt-ctrl
 OPT_TARGETS	:= virt-ctrl.opt
 
-OBJS := \
-	vc_helpers.cmo \
-	vc_connections.cmo \
-	vc_domain_ops.cmo \
-	vc_mainwindow.cmo \
-	virt_ctrl.cmo
+OBJS += virt_ctrl.cmo
 
 XOBJS := $(OBJS:.cmo=.cmx)
 
