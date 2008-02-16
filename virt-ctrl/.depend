@@ -14,5 +14,5 @@ vc_mainwindow.cmo: vc_connections.cmi ../libvirt/libvirt.cmi \
     vc_mainwindow.cmi 
 vc_mainwindow.cmx: vc_connections.cmx ../libvirt/libvirt.cmx \
     vc_mainwindow.cmi 
-virt_ctrl.cmo: vc_mainwindow.cmi vc_domain_ops.cmi vc_connections.cmi 
-virt_ctrl.cmx: vc_mainwindow.cmx vc_domain_ops.cmx vc_connections.cmx 
+virt_ctrl.cmo: vc_mainwindow.cmi vc_domain_ops.cmi 
+virt_ctrl.cmx: vc_mainwindow.cmx vc_domain_ops.cmx 

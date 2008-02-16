@@ -45,8 +45,8 @@ val make_treeview :
   ?packing:(GObj.widget -> unit) -> unit ->
     GTree.view * GTree.tree_store * columns * state
 
-(** This callback creates the Connect to hypervisor dialog. *)
-val open_connection : unit -> unit
+(** Open a new connection to the hypervisor URI given. *)
+val open_connection : string -> unit
 
 (** Return the amount of historical data that we hold about a
     domain (in seconds).

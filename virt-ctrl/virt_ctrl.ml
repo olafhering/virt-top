@@ -22,7 +22,6 @@ open Printf
 let () =
   (* Build the main window and wire up the buttons to the callback functions *)
   Vc_mainwindow.make
-    ~open_connection:Vc_connections.open_connection
     ~start_domain:Vc_domain_ops.start_domain
     ~pause_domain:Vc_domain_ops.pause_domain
     ~resume_domain:Vc_domain_ops.resume_domain

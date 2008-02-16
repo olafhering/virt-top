@@ -60,7 +60,18 @@ let () =
       icon#set_icon_size `DIALOG;
       GToolbox.message_box ~title ~icon label
 
-let make ~open_connection
+(* Open connection dialog.
+ * This should be a lot more sophisticated. XXX
+ *)
+let open_connection () =
+  let title = "Open connection to hypervisor" in
+  let uri =
+    GToolbox.input_string ~title ~text:"xen:///" ~ok:"Open" "Connection:" in
+  match uri with
+  | None -> ()
+  | Some uri -> Vc_connections.open_connection uri
+
+let make
     ~start_domain ~pause_domain ~resume_domain ~shutdown_domain
     ~open_domain_details =
   (* Create the main window. *)

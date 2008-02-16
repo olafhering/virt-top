@@ -43,21 +43,28 @@ let get_conns, add_conn, del_conn =
   in
   get_conns, add_conn, del_conn
 
-(* The current state.  This is used so that we can see changes that
- * have happened and add or remove parts of the model.  (Previously
- * we used to recreate the whole model each time, but the problem
- * with that is we "forget" things like the selection).
- *)
-type state = connection list
-and connection = int (* connection ID *) * (active list * inactive list)
-and active = int (* domain's ID *)
-and inactive = string (* domain's name *)
-
 (* Store the node_info and hostname for each connection, fetched
  * once just after we connect since these don't normally change.
  * Hash of connid -> (C.node_info, hostname option, uri)
  *)
 let static_conn_info = Hashtbl.create 13
+
+let open_connection uri =
+  (* If this fails, let the exception escape and be printed
+   * in the global exception handler.
+   *)
+  let conn = C.connect ~name:uri () in
+
+  let node_info = C.get_node_info conn in
+  let hostname =
+    try Some (C.get_hostname conn)
+    with
+    | Libvirt.Not_supported "virConnectGetHostname"
+    | Libvirt.Virterror _ -> None in
+
+  (* Add it to our list of connections. *)
+  let conn_id = add_conn conn in
+  Hashtbl.add static_conn_info conn_id (node_info, hostname, uri)
 
 (* Stores the state and history for each domain.
  * Hash of (connid, domid) -> mutable domhistory structure.
@@ -91,6 +98,16 @@ let new_domhistory () = {
 (* These set limits on the amount of history we collect. *)
 let hist_max = 86400		        (* max history stored, seconds *)
 let hist_rot = 3600			(* rotation of array when we hit max *)
+
+(* The current state.  This is used so that we can see changes that
+ * have happened and add or remove parts of the model.  (Previously
+ * we used to recreate the whole model each time, but the problem
+ * with that is we "forget" things like the selection).
+ *)
+type state = connection list
+and connection = int (* connection ID *) * (active list * inactive list)
+and active = int (* domain's ID *)
+and inactive = string (* domain's name *)
 
 (* The types of the display columns in the main window.  The interesting
  * one of the final (int) field which stores the ID of the row, either
@@ -395,32 +412,6 @@ let make_treeview ?packing () =
   let state = repopulate tree model columns [] in
 
   (tree, model, columns, state)
-
-(* Callback function to open a connection.
- * This should be a lot more sophisticated. XXX
- *)
-let open_connection () =
-  let title = "Open connection to hypervisor" in
-  let uri =
-    GToolbox.input_string ~title ~text:"xen:///" ~ok:"Open" "Connection:" in
-  match uri with
-  | None -> ()
-  | Some uri ->
-      (* If this fails, let the exception escape and be printed
-       * in the global exception handler.
-       *)
-      let conn = C.connect ~name:uri () in
-
-      let node_info = C.get_node_info conn in
-      let hostname =
-	try Some (C.get_hostname conn)
-	with
-	| Libvirt.Not_supported "virConnectGetHostname"
-	| Libvirt.Virterror _ -> None in
-
-      (* Add it to our list of connections. *)
-      let conn_id = add_conn conn in
-      Hashtbl.add static_conn_info conn_id (node_info, hostname, uri)
 
 (* Get historical data size. *)
 let get_hist_size connid domid =

@@ -22,7 +22,7 @@
 (** This function creates the main window.  You have to pass in
     callback functions to wire everything up.
 *)
-val make : open_connection:(unit -> unit) ->
+val make :
   start_domain:Vc_domain_ops.dops_callback_fn ->
   pause_domain:Vc_domain_ops.dops_callback_fn ->
   resume_domain:Vc_domain_ops.dops_callback_fn ->
