@@ -53,18 +53,45 @@ and connection = int (* connection ID *) * (active list * inactive list)
 and active = int (* domain's ID *)
 and inactive = string (* domain's name *)
 
-(* The last "CPU time" seen for a domain, so we can calculate CPU % usage.
- * Hash of (connid, domid) -> cpu_time [int64].
- *)
-let last_cpu_time = Hashtbl.create 13
-let last_time = ref (Unix.gettimeofday ())
-
 (* Store the node_info and hostname for each connection, fetched
  * once just after we connect since these don't normally change.
  * Hash of connid -> (C.node_info, hostname option, uri)
  *)
 let static_conn_info = Hashtbl.create 13
 
+(* Stores the state and history for each domain.
+ * Hash of (connid, domid) -> mutable domhistory structure.
+ * We never delete entries in this hash table, which may be a problem
+ * for very very long-lived instances of virt-ctrl.
+ *)
+type domhistory = {
+  (* for %CPU calculation: *)
+  mutable last_cpu_time : int64;	(* last virDomainInfo->cpuTime *)
+  mutable last_time : float;		(* exact time we measured the above *)
+
+  (* historical data for graphs etc: *)
+  mutable hist_cpu : int array;		(* historical %CPU *)
+  mutable hist_cpu_posn : int;		(* position within array *)
+  mutable hist_mem : int64 array;       (* historical memory (kilobytes) *)
+  mutable hist_mem_posn : int;		(* position within array *)
+}
+
+let domhistory = Hashtbl.create 13
+
+let new_domhistory () = {
+  last_cpu_time = 0L; last_time = 0.;
+  hist_cpu = Array.make 0 0; hist_cpu_posn = 0;
+  hist_mem = Array.make 0 0L; hist_mem_posn = 0;
+}
+
+(* These set limits on the amount of history we collect. *)
+let hist_max = 86400		        (* max history stored, seconds *)
+let hist_rot = 3600			(* rotation of array when we hit max *)
+
+(* The types of the display columns in the main window.  The interesting
+ * one of the final (int) field which stores the ID of the row, either
+ * connid or domid.
+ *)
 type columns = string GTree.column * string GTree.column * string GTree.column * string GTree.column * string GTree.column * int GTree.column
 
 let debug_repopulate = true
@@ -75,12 +102,6 @@ let debug_repopulate = true
 let repopulate (tree : GTree.view) (model : GTree.tree_store)
     (col_name_id, col_domname, col_status, col_cpu, col_mem, col_id)
     state =
-  let time_passed =
-    let time_now = Unix.gettimeofday () in
-    let time_passed = time_now -. !last_time in
-    last_time := time_now;
-    time_passed in
-
   (* Which connections have been added or removed? *)
   let conns = get_conns () in
   let added, _, removed =
@@ -226,23 +247,79 @@ let repopulate (tree : GTree.view) (model : GTree.tree_store)
 		  let memory = sprintf "%Ld K" info.D.memory in
 		  model#set ~row ~column:col_mem memory;
 
-		  let ns_now = info.D.cpu_time in (* ns = nanoseconds *)
-		  let ns_prev =
-		    try
-		      let ns = Hashtbl.find last_cpu_time (conn_id, domid) in
-		      if ns > ns_now then 0L else ns (* Rebooted? *)
-		    with Not_found -> 0L in
-		  Hashtbl.replace last_cpu_time (conn_id, domid) ns_now;
-		  let ns_now = Int64.to_float ns_now in
-		  let ns_prev = Int64.to_float ns_prev in
-		  let ns_used = ns_now -. ns_prev in
-		  let ns_available = 1_000_000_000. *. float nr_cpus in
-		  let cpu_percent =
-		    100. *. (ns_used /. ns_available) /. time_passed in
-		  let cpu_percent = sprintf "%.1f %%" cpu_percent in
-		  model#set ~row ~column:col_cpu cpu_percent;
+		  (* Get domhistory.  For a new domain it won't exist, so
+		   * create an empty one.
+		   *)
+		  let dh =
+		    let key = conn_id, domid in
+		    try Hashtbl.find domhistory key
+		    with Not_found ->
+		      let dh = new_domhistory () in
+		      Hashtbl.add domhistory key dh;
+		      dh in
 
-		with Libvirt.Virterror _ -> () (* Ignore any transient error *)
+		  (* Measure current time and domain cpuTime as close
+		   * together as possible.
+		   *)
+		  let time_now = Unix.gettimeofday () in
+		  let cpu_now = info.D.cpu_time in
+
+		  let time_prev = dh.last_time in
+		  let cpu_prev =
+		    if dh.last_cpu_time > cpu_now then 0L (* Rebooted? *)
+		    else dh.last_cpu_time in
+
+		  dh.last_time <- time_now;
+		  dh.last_cpu_time <- cpu_now;
+
+		  let cpu_percent =
+		    if time_prev > 0. then (
+		      let cpu_now = Int64.to_float cpu_now in
+		      let cpu_prev = Int64.to_float cpu_prev in
+		      let cpu_used = cpu_now -. cpu_prev in
+		      let cpu_available = 1_000_000_000. *. float nr_cpus in
+		      let time_passed = time_now -. time_prev in
+
+		      let cpu_percent =
+			100. *. (cpu_used /. cpu_available) /. time_passed in
+
+		      let cpu_percent_str = sprintf "%.1f %%" cpu_percent in
+		      model#set ~row ~column:col_cpu cpu_percent_str;
+		      int_of_float cpu_percent
+		    ) else -1 in
+
+		  (* Store history. *)
+		  let store arr posn datum =
+		    if posn >= hist_max then (
+		      (* rotate the array *)
+		      Array.blit arr hist_rot arr 0 (hist_max - hist_rot);
+		      let posn = posn - hist_rot in
+		      arr.(posn) <- datum;
+		      (arr, posn+1)
+		    ) else (
+		      let len = Array.length arr in
+		      if posn < len then (
+			(* normal update *)
+			arr.(posn) <- datum;
+			(arr, posn+1)
+		      ) else (
+			(* extend the array *)
+			let len' = min (max (2*len) 1) hist_max in
+			let arr' = Array.make len' datum in
+			Array.blit arr 0 arr' 0 len;
+			(arr', posn+1)
+		      )
+		    )
+		  in
+		  let hist_cpu, hist_cpu_posn =
+		    store dh.hist_cpu dh.hist_cpu_posn cpu_percent in
+		  dh.hist_cpu <- hist_cpu; dh.hist_cpu_posn <- hist_cpu_posn;
+		  let hist_mem, hist_mem_posn =
+		    store dh.hist_mem dh.hist_mem_posn info.D.memory in
+		  dh.hist_mem <- hist_mem; dh.hist_mem_posn <- hist_mem_posn
+
+		with
+		  Libvirt.Virterror _ -> () (* Ignore any transient error *)
 	      )
 	  ) (model#iter_children (Some parent));
 
