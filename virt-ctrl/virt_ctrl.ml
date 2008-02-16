@@ -29,4 +29,7 @@ let () =
     ~shutdown_domain:Vc_domain_ops.shutdown_domain;
 
   (* Enter the Gtk main loop. *)
-  GMain.main ()
+  GMain.main ();
+
+  (* Useful to catch memory bugs in the ocaml libvirt bindings. *)
+  Gc.compact ()

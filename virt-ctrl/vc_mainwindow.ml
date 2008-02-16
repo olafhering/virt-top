@@ -35,9 +35,9 @@ let help_about () =
   GToolbox.message_box
     ~title
     ~icon
-    ("Virtual control (virt-ctrl) by\n" ^
+    ("Virtualization control tool (virt-ctrl) by\n" ^
      "Richard W.M. Jones (rjones@redhat.com).\n\n" ^
-     "Copyright " ^ utf8_copyright ^ " 2007 Red Hat Inc.\n\n" ^
+     "Copyright " ^ utf8_copyright ^ " 2007-2008 Red Hat Inc.\n\n" ^
      "Libvirt version: " ^ virt_version ^ "\n" ^
      "Gtk toolkit version: " ^ gtk_version)
 
@@ -53,6 +53,7 @@ let () =
   GtkSignal.user_handler :=
     fun exn ->
       let label = string_of_exn exn in
+      prerr_endline label;
       let title = "Error" in
       let icon = GMisc.image () in
       icon#set_stock `DIALOG_ERROR;
@@ -124,7 +125,19 @@ let make ~open_connection
   (* Make a timeout function which is called once per second. *)
   let state = ref initial_state in
   let callback () =
-    state := Vc_connections.repopulate tree model columns !state;
+    (* Gc.compact is generally not safe in lablgtk programs, but
+     * is explicitly allowed in timeouts (see lablgtk README).
+     * This ensures memory is compacted regularly, but is also an
+     * excellent way to catch memory bugs in the ocaml libvirt bindings.
+     *)
+    Gc.compact ();
+
+    (* Ugh: Bug in lablgtk causes a segfault if a timeout raises an
+     * exception.  Catch and print exceptions instead.
+     *)
+    (try state := Vc_connections.repopulate tree model columns !state
+     with exn -> prerr_endline (Printexc.to_string exn));
+
     true
   in
   let timeout_id = GMain.Timeout.add ~ms:1000 ~callback in
