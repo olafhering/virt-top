@@ -12,55 +12,113 @@ known functionality to OCaml programs.
 Requirements
 ----------------------------------------------------------------------
 
-To build the bindings, examples, and mlvirsh (required):
+PLEASE NOTE: The list of requirements looks long but you DO NOT NEED
+all of these packages, so pay careful attention to what is required
+('R') and what is optional ('O').
 
-  GNU make, gcc
-  libvirt >= 0.2.1 (from http://libvirt.org/,
-  	     	    get the latest version if you can)
-  ocaml >= 3.08 (from http://caml.inria.fr/)
+ALSO NOTE: Binaries are available for many platforms.  You only need
+the packages below if you want to build from source.
 
-Optional, but highly recommended:
+                    W h a t   y o u   w a n t   t o   b u i l d
 
-  findlib (from http://www.ocaml-programming.de/packages/)
+                |Bindings, |Docs,    |virt-top |virt-ctrl |Windows
+                |examples, |manpages |         |          |version
+                |mlvirsh   |         |         |          |
+  --------------+----------+---------+---------+----------+---------
+  GNU make      | R        | R       | R       | R        | R
+                |          |         |         |          |
+  gcc           | R        |         | R       | R        | R
+                |          |         |         |          |
+  libvirt       | R        |         | R       | R        | R
+                | >= 0.2.1 |         |         |          |
+                |          |         |         |          |
+  ocaml         | R        |         | R       | R        | R
+                | >= 3.08  |         |         |          |
+                |          |         |         |          |
+  findlib       | HR       | R       | HR      | HR       | n/a
+                |          |         |         |          |
+  MinGW + MSYS  |          |         |         |          | R
+  --------------+----------+---------+---------+----------+---------
+  ocamldoc      |          | R       |         |          | O
+                |          |         |         |          |
+  perldoc       |          | O       |         |          |
+  --------------+----------+---------+---------+----------+---------
+  ocaml-curses  |          |         | R       |          |
+                |          |         |         |          |
+  Extlib        |          |         | R       |          |
+                |          |         |         |          |
+  xml-light     |          |         | O       |          |
+                |          |         |         |          |
+  ocaml-calendar|          |         | O       |          |
+                |          |         |         |          |
+  ocaml CSV     |          |         | O       |          |
+  --------------+----------+---------+---------+----------+---------
+  GTK2          |          |         |         | R        | O
+                |          |         |         |          |
+  lablgtk2      |          |         |         | R        | O
+                |          |         |         |          |
+  ocaml-dbus    |          |         |         | O        |
+  --------------+----------+---------+---------+----------+---------
+  NSIS          |          |         |         |          | O
+  --------------+----------+---------+---------+----------+---------
 
-To build the OCaml interface documentation (optional):
+   R = required
+   HR = highly recommended (use if possible)
+   O = optional (just improves functionality, but not required)
+   n/a = not available
 
-  ocamldoc (part of OCaml itself)
+Where to get the packages:
 
-To build virt-top (optional):
+  libvirt >= 0.2.1 from http://libvirt.org/ (get the latest version available)
+                     or packaged in Debian, Ubuntu and Fedora
 
-  ocaml-curses (from http://www.nongnu.org/ocaml-tmk/)
-  Extlib (from http://ocaml-lib.sourceforge.net/)
-  xml-light (from http://tech.motion-twin.com/doc/xml-light/)
-  ocaml CSV library (from http://merjis.com/developers/csv)
-  ocaml-calendar (http://www.lri.fr/~signoles/prog.en.html)
+  ocaml >= 3.08    from http://caml.inria.fr/
+                     or packaged in Debian, Ubuntu and Fedora
 
-  [Only ocaml-curses and Extlib are required for building virt-top.
-  The other packages are not required, but you will get reduced
-  functionality].
+  findlib          from http://www.ocaml-programming.de/packages/
+                     or packaged in Debian, Ubuntu and Fedora as 'ocaml-findlib'
 
-To build virt-ctrl (optional):
+  MinGW + MSYS     from http://www.mingw.org/ (only needed for Windows)
 
-  GTK2 (from http://gtk.org/)
-  lablgtk2 (from http://wwwfun.kurims.kyoto-u.ac.jp/soft/lsl/lablgtk.html)
+  ocamldoc           part of OCaml itself
+                     or part of the ocaml package in Debian, Ubuntu
+                     or packaged in Fedora as 'ocaml-ocamldoc'
 
-To build the manpages (optional):
+  perldoc            part of Perl
+                     or packaged in Debian, Ubuntu and Fedora
 
-  perldoc (part of Perl)
+  ocaml-curses     from http://www.nongnu.org/ocaml-tmk/
+                     or packaged in Debian, Ubuntu as 'libcurses-ocaml-dev'
+                     or packaged in Fedora as 'ocaml-curses-devel'
 
-To build a Windows installer (optional):
+  Extlib           from http://ocaml-lib.sourceforge.net/
+                     or packaged in Debian, Unbuntu as 'libextlib-ocaml-dev'
+                     or packaged in Fedora as 'ocaml-extlib-devel'
 
-  NSIS (http://nsis.sf.net)
+  xml-light        from http://tech.motion-twin.com/doc/xml-light/
+                     or packaged in Debian, Ubuntu as 'libxml-light-ocaml-dev'
+                     or packaged in Fedora as 'ocaml-xml-light-devel'
 
-OCaml packages are available for Fedora 7 and above (ocaml,
-ocaml-findlib, ocaml-findlib-devel, ocaml-ocamldoc, ocaml-extlib,
-ocaml-extlib-devel, ocaml-lablgtk, ocaml-lablgtk-devel, ocaml-curses,
-ocaml-xml-light, ocaml-csv).
+  ocaml CSV        from http://merjis.com/developers/csv
+                     or packaged in Debian, Ubuntu as 'libcsv-ocaml-dev'
+                     or packaged in Fedora as 'ocaml-csv-devel'
 
-  http://www.annexia.org/tmp/ocaml/
-  http://fedoraproject.org/wiki/SIGs/OCaml
+  ocaml-calendar   from http://www.lri.fr/~signoles/prog.en.html
+                     or packaged in Debian, Ubuntu as 'libcalendar-ocaml-dev'
+                     or packaged in Fedora as 'ocaml-calendar-devel'
 
-Debian/Ubuntu have all the packages you require.
+  GTK2             from http://gtk.org/
+                     or packaged in Debian, Ubuntu and Fedora
+
+  lablgtk2         from http://wwwfun.kurims.kyoto-u.ac.jp/soft/lsl/lablgtk.html
+                     or packaged in Debian, Ubuntu as 'liblablgtk2-ocaml-dev'
+                     or packaged in Fedora as 'ocaml-lablgtk-devel'
+
+  ocaml-dbus       from http://tab.snarc.org/projects/ocaml_dbus/
+                     or packaged in Fedora 9 as 'ocaml-dbus-devel'
+                     (not yet available for Debian or Ubuntu AFAIK)
+
+  NSIS             from http://nsis.sf.net
 
 
 Building
@@ -76,7 +134,8 @@ Building
 
   make doc              # Build HTML documentation in html/ subdirectory.
 
-Then have a look at the programs 'mlvirsh.opt' and 'virt-ctrl.opt'.
+Then have a look at the programs 'mlvirsh.opt', 'virt-top.opt'
+and 'virt-ctrl.opt'.
 
 Note: If you want to run the programs without first installing, you
 may need to set your $LD_LIBRARY_PATH environment variable so it
