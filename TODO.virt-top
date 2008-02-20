@@ -87,3 +87,7 @@ periodically (eg. every so often, specific time of day, etc.)
 Can we look inside the guest to find out how much memory the guest
 is actually using?  Scenario is: One guest is maxed out and swapping
 while other guests aren't using much of their allocated memory.
+
+*** 13 [jmh] Display reason why disk & network stats cannot be displayed.
+
+*** 14 [jmh] Show version of libvirt compiled against, running against.
