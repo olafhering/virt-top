@@ -682,10 +682,11 @@ ocaml_libvirt_storage_pool_get_info (value poolv)
   NONBLOCKING (r = virStoragePoolGetInfo (pool, &info));
   CHECK_ERROR (r == -1, conn, "virStoragePoolGetInfo");
 
-  rv = caml_alloc (3, 0);
+  rv = caml_alloc (4, 0);
   Store_field (rv, 0, Val_int (info.state));
   v = caml_copy_int64 (info.capacity); Store_field (rv, 1, v);
-  v = caml_copy_int64 (info.allocation); Store_field (rv, 1, v);
+  v = caml_copy_int64 (info.allocation); Store_field (rv, 2, v);
+  v = caml_copy_int64 (info.available); Store_field (rv, 3, v);
 
   CAMLreturn (rv);
 #else

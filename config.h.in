@@ -33,9 +33,6 @@
 /* Define to 1 if you have the <unistd.h> header file. */
 #undef HAVE_UNISTD_H
 
-/* Define to 1 if you have the `virConnectDiscoverStoragePools' function. */
-#undef HAVE_VIRCONNECTDISCOVERSTORAGEPOOLS
-
 /* Define to 1 if you have the `virConnectGetHostname' function. */
 #undef HAVE_VIRCONNECTGETHOSTNAME
 
@@ -59,15 +56,6 @@
 /* Define to 1 if you have the `virDomainBlockStats' function. */
 #undef HAVE_VIRDOMAINBLOCKSTATS
 
-/* Define to 1 if you have the `virDomainCoreDumpJob' function. */
-#undef HAVE_VIRDOMAINCOREDUMPJOB
-
-/* Define to 1 if you have the `virDomainCreateJob' function. */
-#undef HAVE_VIRDOMAINCREATEJOB
-
-/* Define to 1 if you have the `virDomainCreateLinuxJob' function. */
-#undef HAVE_VIRDOMAINCREATELINUXJOB
-
 /* Define to 1 if you have the `virDomainGetSchedulerParameters' function. */
 #undef HAVE_VIRDOMAINGETSCHEDULERPARAMETERS
 
@@ -80,44 +68,20 @@
 /* Define to 1 if you have the `virDomainMigrate' function. */
 #undef HAVE_VIRDOMAINMIGRATE
 
-/* Define to 1 if you have the `virDomainRestoreJob' function. */
-#undef HAVE_VIRDOMAINRESTOREJOB
-
-/* Define to 1 if you have the `virDomainSaveJob' function. */
-#undef HAVE_VIRDOMAINSAVEJOB
-
 /* Define to 1 if you have the `virDomainSetSchedulerParameters' function. */
 #undef HAVE_VIRDOMAINSETSCHEDULERPARAMETERS
 
-/* Define to 1 if you have the `virJobCancel' function. */
-#undef HAVE_VIRJOBCANCEL
-
-/* Define to 1 if you have the `virJobFree' function. */
-#undef HAVE_VIRJOBFREE
-
-/* Define to 1 if you have the `virJobGetDomain' function. */
-#undef HAVE_VIRJOBGETDOMAIN
-
-/* Define to 1 if you have the `virJobGetInfo' function. */
-#undef HAVE_VIRJOBGETINFO
-
-/* Define to 1 if you have the `virJobGetNetwork' function. */
-#undef HAVE_VIRJOBGETNETWORK
-
 /* Define to 1 if the system has the type `virJobPtr'. */
 #undef HAVE_VIRJOBPTR
-
-/* Define to 1 if you have the `virNetworkCreateJob' function. */
-#undef HAVE_VIRNETWORKCREATEJOB
-
-/* Define to 1 if you have the `virNetworkCreateXMLJob' function. */
-#undef HAVE_VIRNETWORKCREATEXMLJOB
 
 /* Define to 1 if you have the `virNodeGetCellsFreeMemory' function. */
 #undef HAVE_VIRNODEGETCELLSFREEMEMORY
 
 /* Define to 1 if you have the `virNodeGetFreeMemory' function. */
 #undef HAVE_VIRNODEGETFREEMEMORY
+
+/* Define to 1 if you have the `virStoragePoolBuild' function. */
+#undef HAVE_VIRSTORAGEPOOLBUILD
 
 /* Define to 1 if you have the `virStoragePoolCreate' function. */
 #undef HAVE_VIRSTORAGEPOOLCREATE
@@ -127,6 +91,9 @@
 
 /* Define to 1 if you have the `virStoragePoolDefineXML' function. */
 #undef HAVE_VIRSTORAGEPOOLDEFINEXML
+
+/* Define to 1 if you have the `virStoragePoolDelete' function. */
+#undef HAVE_VIRSTORAGEPOOLDELETE
 
 /* Define to 1 if you have the `virStoragePoolDestroy' function. */
 #undef HAVE_VIRSTORAGEPOOLDESTROY
@@ -182,17 +149,14 @@
 /* Define to 1 if you have the `virStoragePoolSetAutostart' function. */
 #undef HAVE_VIRSTORAGEPOOLSETAUTOSTART
 
-/* Define to 1 if you have the `virStoragePoolShutdown' function. */
-#undef HAVE_VIRSTORAGEPOOLSHUTDOWN
-
 /* Define to 1 if you have the `virStoragePoolUndefine' function. */
 #undef HAVE_VIRSTORAGEPOOLUNDEFINE
 
 /* Define to 1 if you have the `virStorageVolCreateXML' function. */
 #undef HAVE_VIRSTORAGEVOLCREATEXML
 
-/* Define to 1 if you have the `virStorageVolDestroy' function. */
-#undef HAVE_VIRSTORAGEVOLDESTROY
+/* Define to 1 if you have the `virStorageVolDelete' function. */
+#undef HAVE_VIRSTORAGEVOLDELETE
 
 /* Define to 1 if you have the `virStorageVolFree' function. */
 #undef HAVE_VIRSTORAGEVOLFREE

@@ -641,13 +641,20 @@ sig
   type 'rw t
     (** Storage pool handle. *)
 
-  type pool_state = Inactive | Active
+  type pool_state = Inactive | Building | Running | Degraded
     (** State of the storage pool. *)
 
+  type pool_build_flags = New | Repair | Resize
+    (** Flags for creating a storage pool. *)
+
+  type pool_delete_flags = Normal | Zeroed
+    (** Flags for deleting a storage pool. *)
+
   type pool_info = {
-    state : pool_state;			(** Inactive | Active *)
+    state : pool_state;			(** Pool state. *)
     capacity : int64;			(** Logical size in bytes. *)
     allocation : int64;			(** Currently allocated in bytes. *)
+    available : int64;			(** Remaining free space bytes. *)
   }
 
   val lookup_by_name : 'a Connect.t -> string -> 'a t
@@ -659,14 +666,16 @@ sig
     (** Create a storage pool. *)
   val define_xml : [>`W] Connect.t -> xml -> rw t
     (** Define but don't activate a storage pool. *)
+  val build : [>`W] t -> pool_build_flags -> unit
+    (** Build a storage pool. *)
   val undefine : [>`W] t -> unit
     (** Undefine configuration of a storage pool. *)
   val create : [>`W] t -> unit
     (** Start up a defined (inactive) storage pool. *)
   val destroy : [>`W] t -> unit
     (** Destroy a storage pool. *)
-  val shutdown : [>`W] t -> unit
-    (** Shutdown a storage pool. *)
+  val delete : [>`W] t -> unit
+    (** Delete a storage pool. *)
   val free : [>`R] t -> unit
     (** Free a storage pool object in memory.
 
@@ -692,6 +701,11 @@ sig
   val set_autostart : [`W] t -> bool -> unit
     (** Set the autostart flag for the storage pool. *)
 
+  val num_of_volumes : [`R] t -> int
+    (** Returns the number of storage volumes within the storage pool. *)
+  val list_volumes : [`R] t -> int -> string array
+    (** Return list of storage volumes. *)
+
   external const : [>`R] t -> ro t = "%identity"
     (** [const conn] turns a read/write storage pool into a read-only
 	pool.  Note that the opposite operation is impossible.
@@ -706,8 +720,11 @@ sig
   type 'rw t
     (** Storage volume handle. *)
 
-  type vol_type = File | Block | Virtual
+  type vol_type = File | Block
     (** Type of a storage volume. *)
+
+  type vol_delete_flags = Normal | Zeroed
+    (** Flags for deleting a storage volume. *)
 
   type vol_info = {
     typ : vol_type;			(** Type of storage volume. *)
@@ -736,8 +753,8 @@ sig
 
   val create_xml : [`W] Pool.t -> xml -> unit
     (** Create a storage volume. *)
-  val destroy : [`W] t -> unit
-    (** Destroy a storage volume. *)
+  val delete : [`W] t -> unit
+    (** Delete a storage volume. *)
   val free : [>`R] t -> unit
     (** Free a storage volume object in memory.
 

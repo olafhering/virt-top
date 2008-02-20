@@ -131,30 +131,37 @@ my @functions = (
     { name => "virStoragePoolGetName",
       sig => "pool : static string", weak => 1 },
     { name => "virStoragePoolGetXMLDesc",
-      sig => "pool, 0 : string", weak => 1 },
+      sig => "pool, 0U : string", weak => 1 },
     { name => "virStoragePoolGetUUID",
       sig => "pool : uuid", weak => 1 },
     { name => "virStoragePoolGetUUIDString",
       sig => "pool : uuid string", weak => 1 },
     { name => "virStoragePoolCreateXML",
-      sig => "conn, string : pool", weak => 1 },
+      sig => "conn, string, 0U : pool", weak => 1 },
     { name => "virStoragePoolDefineXML",
-      sig => "conn, string : pool", weak => 1 },
+      sig => "conn, string, 0U : pool", weak => 1 },
+    { name => "virStoragePoolBuild",
+      sig => "pool, uint : unit", weak => 1 },
     { name => "virStoragePoolUndefine",
       sig => "pool : unit", weak => 1 },
     { name => "virStoragePoolCreate",
-      sig => "pool : unit", weak => 1 },
-    { name => "virStoragePoolShutdown",
-      sig => "pool : unit", weak => 1 },
+      sig => "pool, 0U : unit", weak => 1 },
+    { name => "virStoragePoolDelete",
+      sig => "pool, uint : unit", weak => 1 },
     { name => "virStoragePoolRefresh",
       sig => "pool, 0U : unit", weak => 1 },
     { name => "virStoragePoolGetAutostart",
       sig => "pool : bool", weak => 1 },
     { name => "virStoragePoolSetAutostart",
       sig => "pool, bool : unit", weak => 1 },
+    { name => "virStoragePoolNumOfVolumes",
+      sig => "pool : int", weak => 1 },
+    { name => "virStoragePoolListVolumes",
+      sig => "pool, int : string array", weak => 1 },
 
     { name => "virStorageVolFree", sig => "vol : free", weak => 1 },
-    { name => "virStorageVolDestroy", sig => "vol : free", weak => 1 },
+    { name => "virStorageVolDelete",
+      sig => "vol, uint : unit", weak => 1 },
     { name => "virStorageVolLookupByName",
       sig => "pool, string : vol from pool", weak => 1 },
     { name => "virStorageVolLookupByKey",
@@ -162,9 +169,9 @@ my @functions = (
     { name => "virStorageVolLookupByPath",
       sig => "conn, string : vol", weak => 1 },
     { name => "virStorageVolCreateXML",
-      sig => "pool, string, 0 : vol from pool", weak => 1 },
+      sig => "pool, string, 0U : vol from pool", weak => 1 },
     { name => "virStorageVolGetXMLDesc",
-      sig => "vol, 0 : string", weak => 1 },
+      sig => "vol, 0U : string", weak => 1 },
     { name => "virStorageVolGetPath",
       sig => "vol : string", weak => 1 },
     { name => "virStorageVolGetKey",
@@ -316,8 +323,9 @@ sub gen_c_signature
 	"int $c_name ($c_type $1, int b)"
     } elsif ($sig eq "conn, int : int array") {
 	"int $c_name (virConnectPtr conn, int *ids, int maxids)"
-    } elsif ($sig eq "conn, int : string array") {
-	"int $c_name (virConnectPtr conn, char **const names, int maxnames)"
+    } elsif ($sig =~ /^(\w+), int : string array$/) {
+	my $c_type = short_name_to_c_type ($1);
+	"int $c_name ($c_type $1, char **const names, int maxnames)"
     } elsif ($sig =~ /^(\w+), 0(U?) : string$/) {
 	my $c_type = short_name_to_c_type ($1);
 	my $unsigned = $2 eq "U" ? "unsigned " : "";
@@ -338,7 +346,7 @@ sub gen_c_signature
     } elsif ($sig =~ /^(\w+), string, 0(U?) : unit$/) {
 	my $c_type = short_name_to_c_type ($1);
 	my $unsigned = $2 eq "U" ? "unsigned " : "";
-	"int $c_name ($c_type $1, const char *str, $unsigned int flags)"
+	"int $c_name ($c_type $1, const char *str, ${unsigned}int flags)"
     } elsif ($sig =~ /^(\w+), string : (\w+)$/) {
 	my $c_type = short_name_to_c_type ($1);
 	my $c_ret_type = short_name_to_c_type ($2);
@@ -347,11 +355,16 @@ sub gen_c_signature
 	my $c_type = short_name_to_c_type ($1);
 	my $unsigned = $2 eq "U" ? "unsigned " : "";
 	my $c_ret_type = short_name_to_c_type ($3);
-	"$c_ret_type $c_name ($c_type $1, const char *str, $unsigned int flags)"
-    } elsif ($sig =~ /^(\w+), int : (\w+)$/) {
+	"$c_ret_type $c_name ($c_type $1, const char *str, ${unsigned}int flags)"
+    } elsif ($sig =~ /^(\w+), (u?)int : unit$/) {
 	my $c_type = short_name_to_c_type ($1);
-	my $c_ret_type = short_name_to_c_type ($2);
-	"$c_ret_type $c_name ($c_type $1, int i)"
+	my $unsigned = $2 eq "u" ? "unsigned " : "";
+	"int $c_name ($c_type $1, ${unsigned}int i)"
+    } elsif ($sig =~ /^(\w+), (u?)int : (\w+)$/) {
+	my $c_type = short_name_to_c_type ($1);
+	my $unsigned = $2 eq "u" ? "unsigned " : "";
+	my $c_ret_type = short_name_to_c_type ($3);
+	"$c_ret_type $c_name ($c_type $1, ${unsigned}int i)"
     } elsif ($sig =~ /^(\w+), uuid : (\w+)$/) {
 	my $c_type = short_name_to_c_type ($1);
 	my $c_ret_type = short_name_to_c_type ($2);
@@ -410,8 +423,8 @@ sub gen_arg_names
 	( "$1v", "bv" )
     } elsif ($sig eq "conn, int : int array") {
 	( "connv", "iv" )
-    } elsif ($sig eq "conn, int : string array") {
-	( "connv", "iv" )
+    } elsif ($sig =~ /^(\w+), int : string array$/) {
+	( "$1v", "iv" )
     } elsif ($sig =~ /^(\w+), 0U? : string$/) {
 	( "$1v" )
     } elsif ($sig =~ /^(\w+), 0U? : unit$/) {
@@ -428,7 +441,7 @@ sub gen_arg_names
 	( "$1v", "strv" )
     } elsif ($sig =~ /^(\w+), string, 0U? : (\w+)$/) {
 	( "$1v", "strv" )
-    } elsif ($sig =~ /^(\w+), int : (\w+)$/) {
+    } elsif ($sig =~ /^(\w+), u?int : (\w+)$/) {
 	( "$1v", "iv" )
     } elsif ($sig =~ /^(\w+), uuid : (\w+)$/) {
 	( "$1v", "uuidv" )
@@ -616,15 +629,15 @@ sub gen_c_code
 
   CAMLreturn (rv);
 "
-    } elsif ($sig eq "conn, int : string array") {
+    } elsif ($sig =~ /^(\w+), int : string array$/) {
 	"\
   CAMLlocal2 (rv, strv);
-  virConnectPtr conn = Connect_val (connv);
+  " . gen_unpack_args ($1) . "
   int i = Int_val (iv);
   char *names[i];
   int r;
 
-  NONBLOCKING (r = $c_name (conn, names, i));
+  NONBLOCKING (r = $c_name ($1, names, i));
   CHECK_ERROR (r == -1, conn, \"$c_name\");
 
   rv = caml_alloc (r, 0);
@@ -684,7 +697,6 @@ sub gen_c_code
 "
     } elsif ($sig =~ /^(\w+), string : unit$/) {
 	"\
-  CAMLlocal1 (rv);
   " . gen_unpack_args ($1) . "
   char *str = String_val (strv);
   int r;
@@ -736,18 +748,31 @@ sub gen_c_code
 
   CAMLreturn (rv);
 "
-    } elsif ($sig =~ /^(\w+), int : (\w+)$/) {
-	my $c_ret_type = short_name_to_c_type ($2);
+    } elsif ($sig =~ /^(\w+), (u?)int : unit$/) {
+	my $unsigned = $2 eq "u" ? "unsigned " : "";
+	"\
+  " . gen_unpack_args ($1) . "
+  ${unsigned}int i = Int_val (iv);
+  int r;
+
+  NONBLOCKING (r = $c_name ($1, i));
+  CHECK_ERROR (!r, conn, \"$c_name\");
+
+  CAMLreturn (Val_unit);
+"
+    } elsif ($sig =~ /^(\w+), (u?)int : (\w+)$/) {
+	my $c_ret_type = short_name_to_c_type ($3);
+	my $unsigned = $2 eq "u" ? "unsigned " : "";
 	"\
   CAMLlocal1 (rv);
   " . gen_unpack_args ($1) . "
-  int i = Int_val (iv);
+  ${unsigned}int i = Int_val (iv);
   $c_ret_type r;
 
   NONBLOCKING (r = $c_name ($1, i));
   CHECK_ERROR (!r, conn, \"$c_name\");
 
-  " . gen_pack_result ($2) . "
+  " . gen_pack_result ($3) . "
 
   CAMLreturn (rv);
 "
@@ -868,8 +893,10 @@ foreach my $function (@functions) {
     my $is_weak = $function->{weak};
     my $sig = $function->{sig};
 
-    my $is_pool_func = $c_name =~ /^virStoragePool/;
-    my $is_vol_func = $c_name =~ /^virStorageVol/;
+    #print "generating $c_name with sig \"$sig\" ...\n";
+
+    #my $is_pool_func = $c_name =~ /^virStoragePool/;
+    #my $is_vol_func = $c_name =~ /^virStorageVol/;
 
     # Generate an equivalent C-external name for the function, unless
     # one is defined already.

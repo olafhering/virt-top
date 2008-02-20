@@ -85,34 +85,22 @@ AC_CHECK_FUNCS([virConnectGetHostname \
 		virDomainSetSchedulerParameters \
 		virNodeGetFreeMemory \
 		virNodeGetCellsFreeMemory \
-		virJobGetInfo \
-		virJobGetDomain \
-		virJobGetNetwork \
-		virJobCancel \
-		virJobFree \
-		virDomainCreateLinuxJob \
-		virDomainSaveJob \
-		virDomainRestoreJob \
-		virDomainCoreDumpJob \
-		virDomainCreateJob \
-		virNetworkCreateXMLJob \
-		virNetworkCreateJob \
 		virStoragePoolGetConnect \
 		virConnectNumOfStoragePools \
 		virConnectListStoragePools \
 		virConnectNumOfDefinedStoragePools \
 		virConnectListDefinedStoragePools \
-		virConnectDiscoverStoragePools \
 		virStoragePoolLookupByName \
 		virStoragePoolLookupByUUID \
 		virStoragePoolLookupByUUIDString \
 		virStoragePoolLookupByVolume \
 		virStoragePoolCreateXML \
 		virStoragePoolDefineXML \
+		virStoragePoolBuild \
 		virStoragePoolUndefine \
 		virStoragePoolCreate \
 		virStoragePoolDestroy \
-		virStoragePoolShutdown \
+		virStoragePoolDelete \
 		virStoragePoolFree \
 		virStoragePoolRefresh \
 		virStoragePoolGetName \
@@ -130,12 +118,27 @@ AC_CHECK_FUNCS([virConnectGetHostname \
 		virStorageVolGetName \
 		virStorageVolGetKey \
 		virStorageVolCreateXML \
-		virStorageVolDestroy \
+		virStorageVolDelete \
 		virStorageVolFree \
 		virStorageVolGetInfo \
 		virStorageVolGetXMLDesc \
 		virStorageVolGetPath \
 ])
+
+# This jobs API was never published and is due to get overhauled
+# in the near future:
+#		virJobGetInfo
+#		virJobGetDomain
+#		virJobGetNetwork
+#		virJobCancel
+#		virJobFree
+#		virDomainCreateLinuxJob
+#		virDomainSaveJob
+#		virDomainRestoreJob
+#		virDomainCoreDumpJob
+#		virDomainCreateJob
+#		virNetworkCreateXMLJob
+#		virNetworkCreateJob
 
 dnl Check for optional types added since 0.2.1.
 AC_CHECK_TYPES([virJobPtr, virStoragePoolPtr, virStorageVolPtr],,,

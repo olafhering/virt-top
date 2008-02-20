@@ -228,11 +228,14 @@ end
 module Pool =
 struct
   type 'rw t
-  type pool_state = Inactive | Active
+  type pool_state = Inactive | Building | Running | Degraded
+  type pool_build_flags = New | Repair | Resize
+  type pool_delete_flags = Normal | Zeroed
   type pool_info = {
     state : pool_state;
     capacity : int64;
     allocation : int64;
+    available : int64;
   }
 
   external lookup_by_name : 'a Connect.t -> string -> 'a t = "ocaml_libvirt_storage_pool_lookup_by_name"
@@ -240,10 +243,11 @@ struct
   external lookup_by_uuid_string : 'a Connect.t -> string -> 'a t = "ocaml_libvirt_storage_pool_lookup_by_uuid_string"
   external create_xml : [>`W] Connect.t -> xml -> rw t = "ocaml_libvirt_storage_pool_create_xml"
   external define_xml : [>`W] Connect.t -> xml -> rw t = "ocaml_libvirt_storage_pool_define_xml"
+  external build : [>`W] t -> pool_build_flags -> unit = "ocaml_libvirt_storage_pool_build"
   external undefine : [>`W] t -> unit = "ocaml_libvirt_storage_pool_undefine"
   external create : [>`W] t -> unit = "ocaml_libvirt_storage_pool_create"
   external destroy : [>`W] t -> unit = "ocaml_libvirt_storage_pool_destroy"
-  external shutdown : [>`W] t -> unit = "ocaml_libvirt_storage_pool_shutdown"
+  external delete : [>`W] t -> unit = "ocaml_libvirt_storage_pool_delete"
   external free : [>`R] t -> unit = "ocaml_libvirt_storage_pool_free"
   external refresh : [`R] t -> unit = "ocaml_libvirt_storage_pool_refresh"
   external get_name : [`R] t -> string = "ocaml_libvirt_storage_pool_get_name"
@@ -253,13 +257,16 @@ struct
   external get_xml_desc : [`R] t -> xml = "ocaml_libvirt_storage_pool_get_xml_desc"
   external get_autostart : [`R] t -> bool = "ocaml_libvirt_storage_pool_get_autostart"
   external set_autostart : [`W] t -> bool -> unit = "ocaml_libvirt_storage_pool_set_autostart"
+  external num_of_volumes : [`R] t -> int = "ocaml_libvirt_storage_pool_num_of_volumes"
+  external list_volumes : [`R] t -> int -> string array = "ocaml_libvirt_storage_pool_list_volumes"
   external const : [>`R] t -> ro t = "%identity"
 end
 
 module Volume =
 struct
   type 'rw t
-  type vol_type = File | Block | Virtual
+  type vol_type = File | Block
+  type vol_delete_flags = Normal | Zeroed
   type vol_info = {
     typ : vol_type;
     capacity : int64;
@@ -276,7 +283,7 @@ struct
   external get_info : [`R] t -> vol_info = "ocaml_libvirt_storage_vol_get_info"
   external get_xml_desc : [`R] t -> xml = "ocaml_libvirt_storage_vol_get_xml_desc"
   external create_xml : [`W] Pool.t -> xml -> unit = "ocaml_libvirt_storage_vol_create_xml"
-  external destroy : [`W] t -> unit = "ocaml_libvirt_storage_vol_destroy"
+  external delete : [`W] t -> unit = "ocaml_libvirt_storage_vol_delete"
   external free : [>`R] t -> unit = "ocaml_libvirt_storage_vol_free"
   external const : [>`R] t -> ro t = "%identity"
 end
