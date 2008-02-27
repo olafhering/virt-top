@@ -29,6 +29,7 @@ OBJS := \
 	vc_helpers.cmo \
 	vc_connections.cmo \
 	vc_domain_ops.cmo \
+	vc_connection_dlg.cmo \
 	vc_mainwindow.cmo
 
 ifneq ($(OCAMLFIND),)

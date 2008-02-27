@@ -60,17 +60,6 @@ let () =
       icon#set_icon_size `DIALOG;
       GToolbox.message_box ~title ~icon label
 
-(* Open connection dialog.
- * This should be a lot more sophisticated. XXX
- *)
-let open_connection () =
-  let title = "Open connection to hypervisor" in
-  let uri =
-    GToolbox.input_string ~title ~text:"xen:///" ~ok:"Open" "Connection:" in
-  match uri with
-  | None -> ()
-  | Some uri -> Vc_connections.open_connection uri
-
 let make
     ~start_domain ~pause_domain ~resume_domain ~shutdown_domain
     ~open_domain_details =
@@ -92,7 +81,8 @@ let make
   ignore (factory#add_separator ());
   let quit_item = factory#add_item "Quit" ~key:GdkKeysyms._Q in
 
-  ignore (open_item#connect#activate ~callback:open_connection);
+  ignore (open_item#connect#activate
+	    ~callback:Vc_connection_dlg.open_connection);
 
   (* Help menu. *)
   let factory = new GMenu.factory help_menu ~accel_group in
@@ -130,7 +120,8 @@ let make
       ~packing:(vbox#pack ~expand:true ~fill:true) () in
 
   (* Set callbacks for the buttons. *)
-  ignore (connect_button#connect#clicked ~callback:open_connection);
+  ignore (connect_button#connect#clicked
+	    ~callback:Vc_connection_dlg.open_connection);
   ignore (open_button#connect#clicked
 	    ~callback:(open_domain_details tree model columns));
   ignore (start_button#connect#clicked
