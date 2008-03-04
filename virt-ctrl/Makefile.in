@@ -21,11 +21,16 @@ prefix		= @prefix@
 exec_prefix	= @exec_prefix@
 bindir		= @bindir@
 
+with_icons	= @with_icons@
+icons		= @icons@
+
+HAVE_GDK_PIXBUF_MLSOURCE = @HAVE_GDK_PIXBUF_MLSOURCE@
+
 pkg_dbus        = @pkg_dbus@
 
 OCAMLFIND	= @OCAMLFIND@
 
-OBJS := \
+OBJS += \
 	vc_helpers.cmo \
 	vc_connections.cmo \
 	vc_domain_ops.cmo \
@@ -33,6 +38,7 @@ OBJS := \
 	vc_mainwindow.cmo
 
 ifneq ($(OCAMLFIND),)
+# Good, we have ocamlfind.
 OCAMLCPACKAGES	:= -I ../libvirt -package unix,lablgtk2
 ifeq ($(pkg_dbus),yes)
 OCAMLCPACKAGES  := $(OCAMLCPACKAGES),dbus
@@ -44,12 +50,17 @@ OCAMLOPTPACKAGES := $(OCAMLCPACKAGES)
 OCAMLOPTFLAGS	:=
 OCAMLOPTLIBS	:= $(OCAMLCLIBS)
 else
+# Bad boy, please install ocamlfind.
 OCAMLCINCS	:= -I ../libvirt -I @pkg_lablgtk2@
 OCAMLCFLAGS	:= -g
 OCAMLCLIBS	:= unix.cma lablgtk.cma
 OCAMLOPTINCS	:= $(OCAMLCINCS)
 OCAMLOPTFLAGS	:=
 OCAMLOPTLIBS	:= unix.cmxa lablgtk.cmxa
+endif
+
+ifneq ($(with_icons),no)
+OBJS		+= vc_icons.cmo
 endif
 
 export LIBRARY_PATH=../libvirt
@@ -98,6 +109,16 @@ virt-ctrl.opt: $(XOBJS) gcc.exe
 	$(OCAMLOPT) $(OCAMLOPTINCS) $(OCAMLOPTFLAGS) $(OCAMLOPTLIBS) \
 	  $(patsubst %,-cclib %,$(LDFLAGS)) \
 	  ../libvirt/mllibvirt.cmxa gtkInit.cmx -o $@ $(XOBJS)
+endif
+endif
+
+# Rebuild the icons if newer ones available.
+ifneq ($(with_icons),no)
+ifneq ($(icons),)
+ifeq ($(HAVE_GDK_PIXBUF_MLSOURCE),gdk-pixbuf-mlsource)
+vc_icons.ml: rebuild-icons.sh
+	./rebuild-icons.sh $(icons) > $@
+endif
 endif
 endif
 

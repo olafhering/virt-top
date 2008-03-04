@@ -147,6 +147,29 @@ AC_CHECK_TYPES([virJobPtr, virStoragePoolPtr, virStorageVolPtr],,,
 dnl Check for optional ncurses.
 AC_CHECK_LIB(ncurses,initscr)
 
+dnl Check for optional GNOME icons (from gnome-icon-theme package).
+AC_ARG_WITH(icons,
+	AC_HELP_STRING([--with-icons=PATH],
+		[Set path to installed icons @<:@default=/usr/share/icons@:>@]),
+	[],[with_icons=/usr/share/icons])
+icons=""
+if test "x$with_icons" != "xno"; then
+    for size in 16 24 32 48; do
+	for f in devices/computer.png; do
+	    fname="${with_icons}/gnome/${size}x${size}/${f}"
+	    AC_MSG_CHECKING([checking for icon $fname])
+	    if test -f "$fname"; then
+	    	AC_MSG_RESULT([yes])
+	        icons="$size $f $fname $icons"
+	    else
+	    	AC_MSG_RESULT([no])
+	    fi
+	done
+    done
+fi
+AC_SUBST(with_icons)
+AC_SUBST(icons)
+
 dnl Check for basic OCaml environment & findlib.
 dnl Note that findlib is not necessary, but things will work better
 dnl if it is present.
@@ -223,6 +246,9 @@ AC_SUBST(subdirs)
 
 dnl Check for optional perldoc (for building manual pages).
 AC_CHECK_PROG(HAVE_PERLDOC,perldoc,perldoc)
+
+dnl Check for optional gdk-pixbuf-mlsource (for icons).
+AC_CHECK_PROG(HAVE_GDK_PIXBUF_MLSOURCE,gdk-pixbuf-mlsource,gdk-pixbuf-mlsource)
 
 dnl Check for optional NSIS (for building a Windows installer).
 AC_ARG_WITH([nsis],
