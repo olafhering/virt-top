@@ -16,28 +16,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   Make the main window.
+   This file contains any code which needs optional package OCaml-DBUS.
 *)
 
-(** The connection dialog. *)
-val open_connection : GWindow.window -> unit -> unit
-
-(** Quick connect to local Xen. *)
-val open_local_xen : unit -> unit
-
-(** Quick connect to local QEMU or KVM. *)
-val open_local_qemu : unit -> unit
-
-type name = string
-type uri = string
-type service = name * uri
-
-(** Hook to find libvirtd network services with zeroconf using some
-    external method, eg. D-Bus or Avahi. *)
-val find_libvirtd_with_zeroconf : (unit -> service list) ref
-
-(** Hooks for icons. *)
-val icon_16x16_devices_computer_png : GdkPixbuf.pixbuf option ref
-val icon_24x24_devices_computer_png : GdkPixbuf.pixbuf option ref
-val icon_32x32_devices_computer_png : GdkPixbuf.pixbuf option ref
-val icon_48x48_devices_computer_png : GdkPixbuf.pixbuf option ref
+(* No public API.  If loaded this module hooks into Vc_connection_dlg. *)
