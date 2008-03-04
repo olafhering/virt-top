@@ -1,5 +1,5 @@
 # ocaml-libvirt
-# Copyright (C) 2007 Red Hat Inc., Richard W.M. Jones
+# Copyright (C) 2007-2008 Red Hat Inc., Richard W.M. Jones
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -17,7 +17,7 @@
 
 dnl Process this file with autoconf to produce a configure script.
 
-AC_INIT(ocaml-libvirt,0.4.0.3)
+AC_INIT(ocaml-libvirt,0.4.1.0)
 
 dnl Check for basic C environment.
 AC_PROG_CC
