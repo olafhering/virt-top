@@ -68,70 +68,99 @@ let make
   let vbox = GPack.vbox ~packing:window#add () in
 
   (* Menu bar. *)
-  let menubar = GMenu.menu_bar ~packing:vbox#pack () in
-  let factory = new GMenu.factory menubar in
-  let accel_group = factory#accel_group in
-  let file_menu = factory#add_submenu "File" in
-  let help_menu = factory#add_submenu "Help" in
+  let quit_item =
+    let menubar = GMenu.menu_bar ~packing:vbox#pack () in
+    let factory = new GMenu.factory menubar in
+    let accel_group = factory#accel_group in
+    let file_menu = factory#add_submenu "File" in
+    let help_menu = factory#add_submenu "Help" in
 
-  (* File menu. *)
-  let factory = new GMenu.factory file_menu ~accel_group in
-  let open_item = factory#add_item "Open connection ..."
-    ~key:GdkKeysyms._O in
-  ignore (factory#add_separator ());
-  let quit_item = factory#add_item "Quit" ~key:GdkKeysyms._Q in
+    window#add_accel_group accel_group;
 
-  ignore (open_item#connect#activate
-	    ~callback:Vc_connection_dlg.open_connection);
+    (* File menu. *)
+    let factory = new GMenu.factory file_menu ~accel_group in
+    let open_item = factory#add_item "Open connection ..."
+      ~key:GdkKeysyms._O in
+    ignore (factory#add_separator ());
+    let quit_item = factory#add_item "Quit" ~key:GdkKeysyms._Q in
 
-  (* Help menu. *)
-  let factory = new GMenu.factory help_menu ~accel_group in
-  let help_item = factory#add_item "Help" in
-  let help_about_item = factory#add_item "About ..." in
+    ignore (open_item#connect#activate
+	      ~callback:(Vc_connection_dlg.open_connection window));
 
-  ignore (help_about_item#connect#activate ~callback:help_about);
+    (* Help menu. *)
+    let factory = new GMenu.factory help_menu ~accel_group in
+    let help_item = factory#add_item "Help" in
+    let help_about_item = factory#add_item "About ..." in
+
+    ignore (help_about_item#connect#activate ~callback:help_about);
+
+    quit_item in
 
   (* The toolbar. *)
   let toolbar = GButton.toolbar ~packing:vbox#pack () in
-  let connect_button =
-    GButton.tool_button ~label:"Connect ..." ~stock:`CONNECT
-      ~packing:toolbar#insert () in
-  ignore (GButton.separator_tool_item ~packing:toolbar#insert ());
-  let open_button =
-    GButton.tool_button ~label:"Details" ~stock:`OPEN
-      ~packing:toolbar#insert () in
-  ignore (GButton.separator_tool_item ~packing:toolbar#insert ());
-  let start_button =
-    GButton.tool_button ~label:"Start" ~stock:`ADD
-      ~packing:toolbar#insert () in
-  let pause_button =
-    GButton.tool_button ~label:"Pause" ~stock:`MEDIA_PAUSE
-      ~packing:toolbar#insert () in
-  let resume_button =
-    GButton.tool_button ~label:"Resume" ~stock:`MEDIA_PLAY
-      ~packing:toolbar#insert () in
-  let shutdown_button =
-    GButton.tool_button ~label:"Shutdown" ~stock:`STOP
-      ~packing:toolbar#insert () in
 
   (* The treeview. *)
   let (tree, model, columns, initial_state) =
     Vc_connections.make_treeview
       ~packing:(vbox#pack ~expand:true ~fill:true) () in
 
-  (* Set callbacks for the buttons. *)
-  ignore (connect_button#connect#clicked
-	    ~callback:Vc_connection_dlg.open_connection);
-  ignore (open_button#connect#clicked
-	    ~callback:(open_domain_details tree model columns));
-  ignore (start_button#connect#clicked
-	    ~callback:(start_domain tree model columns));
-  ignore (pause_button#connect#clicked
-	    ~callback:(pause_domain tree model columns));
-  ignore (resume_button#connect#clicked
-	    ~callback:(resume_domain tree model columns));
-  ignore (shutdown_button#connect#clicked
-	    ~callback:(shutdown_domain tree model columns));
+  (* Add buttons to the toolbar (requires the treeview to
+   * have been made above).
+   *)
+  let () =
+    let connect_button_menu = GMenu.menu () in
+    let connect_button =
+      GButton.menu_tool_button
+	~label:"Connect ..." ~stock:`CONNECT
+	~menu:connect_button_menu
+	~packing:toolbar#insert () in
+    ignore (GButton.separator_tool_item ~packing:toolbar#insert ());
+    let open_button =
+      GButton.tool_button ~label:"Details" ~stock:`OPEN
+	~packing:toolbar#insert () in
+    ignore (GButton.separator_tool_item ~packing:toolbar#insert ());
+    let start_button =
+      GButton.tool_button ~label:"Start" ~stock:`ADD
+	~packing:toolbar#insert () in
+    let pause_button =
+      GButton.tool_button ~label:"Pause" ~stock:`MEDIA_PAUSE
+	~packing:toolbar#insert () in
+    let resume_button =
+      GButton.tool_button ~label:"Resume" ~stock:`MEDIA_PLAY
+	~packing:toolbar#insert () in
+    ignore (GButton.separator_tool_item ~packing:toolbar#insert ());
+    let shutdown_button =
+      GButton.tool_button ~label:"Shutdown" ~stock:`STOP
+	~packing:toolbar#insert () in
+
+    (* Set callbacks for the toolbar buttons. *)
+    ignore (connect_button#connect#clicked
+	      ~callback:(Vc_connection_dlg.open_connection window));
+    ignore (open_button#connect#clicked
+	      ~callback:(open_domain_details tree model columns));
+    ignore (start_button#connect#clicked
+	      ~callback:(start_domain tree model columns));
+    ignore (pause_button#connect#clicked
+	      ~callback:(pause_domain tree model columns));
+    ignore (resume_button#connect#clicked
+	      ~callback:(resume_domain tree model columns));
+    ignore (shutdown_button#connect#clicked
+	      ~callback:(shutdown_domain tree model columns));
+
+    (* Set a menu on the connect menu-button. *)
+    let () =
+      let factory = new GMenu.factory connect_button_menu (*~accel_group*) in
+      let local_xen = factory#add_item "Local Xen" in
+      let local_qemu = factory#add_item "Local QEMU/KVM" in
+      ignore (factory#add_separator ());
+      let open_dialog = factory#add_item "Connect to ..." in
+      ignore (local_xen#connect#activate
+		~callback:Vc_connection_dlg.open_local_xen);
+      ignore (local_qemu#connect#activate
+		~callback:Vc_connection_dlg.open_local_qemu);
+      ignore (open_dialog#connect#activate
+		~callback:(Vc_connection_dlg.open_connection window)) in
+    () in
 
   (* Make a timeout function which is called once per second. *)
   let state = ref initial_state in
@@ -156,7 +185,7 @@ let make
   (* Quit. *)
   let quit _ =
     GMain.Timeout.remove timeout_id;
-    GMain.Main.quit ();
+    GMain.quit ();
     false
   in
 
@@ -164,8 +193,6 @@ let make
   ignore (window#event#connect#delete ~callback:quit);
   ignore (quit_item#connect#activate
 	    ~callback:(fun () -> ignore (quit ()); ()));
-
-  window#add_accel_group accel_group;
 
   (* Display the window. *)
   window#show ()
