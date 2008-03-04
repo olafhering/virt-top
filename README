@@ -56,9 +56,10 @@ the packages below if you want to build from source.
   GTK2          |          |         |         | R        | O
                 |          |         |         |          |
   lablgtk2      |          |         |         | R        | O
-                |          |         |         |          |
+                |          |         |         | >= 2.10.0|
   ocaml-dbus    |          |         |         | O        |
-                |          |         |         | >= 0.04  |
+                |          |         |         | >= 0.06  |
+  gnome-icon-theme         |         |         | O        |
   --------------+----------+---------+---------+----------+---------
   NSIS          |          |         |         |          | O
   --------------+----------+---------+---------+----------+---------
@@ -81,11 +82,11 @@ Where to get the packages:
 
   MinGW + MSYS     from http://www.mingw.org/ (only needed for Windows)
 
-  ocamldoc           part of OCaml itself
+  ocamldoc         part of OCaml itself
                      or part of the ocaml package in Debian, Ubuntu
                      or packaged in Fedora as 'ocaml-ocamldoc'
 
-  perldoc            part of Perl
+  perldoc          part of Perl
                      or packaged in Debian, Ubuntu and Fedora
 
   ocaml-curses     from http://www.nongnu.org/ocaml-tmk/
@@ -111,11 +112,15 @@ Where to get the packages:
   GTK2             from http://gtk.org/
                      or packaged in Debian, Ubuntu and Fedora
 
-  lablgtk2         from http://wwwfun.kurims.kyoto-u.ac.jp/soft/lsl/lablgtk.html
+  lablgtk2 >= 2.10.0
+                   from http://wwwfun.kurims.kyoto-u.ac.jp/soft/lsl/lablgtk.html
                      or packaged in Debian, Ubuntu as 'liblablgtk2-ocaml-dev'
-                     or packaged in Fedora as 'ocaml-lablgtk-devel'
+                     or packaged in Fedora 9 as 'ocaml-lablgtk-devel'
 
-  ocaml-dbus       from http://tab.snarc.org/projects/ocaml_dbus/
+  gnome-icon-theme part of GNOME
+
+  ocaml-dbus >= 0.06
+                   from http://tab.snarc.org/projects/ocaml_dbus/
                      or packaged in Fedora 9 as 'ocaml-dbus-devel'
                      (not yet available for Debian or Ubuntu AFAIK)
 
