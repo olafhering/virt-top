@@ -50,9 +50,9 @@ export LD_LIBRARY_PATH=../libvirt
 BYTE_TARGETS	:= virt-df
 OPT_TARGETS	:= virt-df.opt
 
-#ifeq ($(HAVE_PERLDOC),perldoc)
-#BYTE_TARGETS	+= virt-df.1 virt-df.txt
-#endif
+ifeq ($(HAVE_PERLDOC),perldoc)
+BYTE_TARGETS	+= virt-df.1 virt-df.txt
+endif
 
 all: $(BYTE_TARGETS)
 
@@ -68,14 +68,14 @@ virt-df.opt: $(XOBJS)
 	  ../libvirt/mllibvirt.cmxa -cclib -lncurses -o $@ $^
 
 # Manual page.
-#ifeq ($(HAVE_PERLDOC),perldoc)
-#virt-df.1: virt-df.pod
-#	pod2man -c "Virtualization Support" --release "$(PACKAGE)-$(VERSION)" \
-#		$< > $@
-#
-#virt-df.txt: virt-df.pod
-#	pod2text $< > $@
-#endif
+ifeq ($(HAVE_PERLDOC),perldoc)
+virt-df.1: virt-df.pod
+	pod2man -c "Virtualization Support" --release "$(PACKAGE)-$(VERSION)" \
+		$< > $@
+
+virt-df.txt: virt-df.pod
+	pod2text $< > $@
+endif
 
 install:
 	if [ -x virt-df.opt ]; then \

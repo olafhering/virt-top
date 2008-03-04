@@ -1,5 +1,5 @@
 (* 'df' command for virtual domains.
-   (C) Copyright 2007 Richard W.M. Jones, Red Hat Inc.
+   (C) Copyright 2007-2008 Richard W.M. Jones, Red Hat Inc.
    http://libvirt.org/
 
    This program is free software; you can redistribute it and/or modify
@@ -37,6 +37,7 @@ let (/^) = Int64.div
 let uri = ref None
 let inodes = ref false
 let human = ref false
+let all = ref false
 
 (* Maximum number of extended partitions possible. *)
 let max_extended_partitions = 100
@@ -104,7 +105,7 @@ let rec probe_device dom_name target source =
   let size = (LargeFile.fstat fd).LargeFile.st_size in
   let size = size /^ sector_size in	(* Size in sectors. *)
 
-  print_device dom_name target source size;
+  (*print_device dom_name target source size;*)
 
   let partitions = probe_mbr fd in
 
@@ -124,9 +125,9 @@ let rec probe_device dom_name target source =
 	    None
       ) partitions in
     let stats = List.filter_map (fun x -> x) stats in
-    print_stats stats
+    print_stats dom_name stats
   ) else	     (* Not an MBR, assume it's a single partition. *)
-    print_stats [target, probe_partition target None fd 0L size];
+    print_stats dom_name [target, probe_partition target None fd 0L size];
 
   close fd
 
@@ -243,57 +244,59 @@ and probe_partition target part_type fd start size =
 	  ProbeFailed
 	    (sprintf "unsupported partition type %02x" part_type)
 
-and print_stats statss =
+and print_stats dom_name statss =
   List.iter (
-    function
-    (* Swap partition. *)
-    | (target, Swap { swap_name = swap_name;
-		      swap_block_size = block_size;
-		      swap_blocks_total = blocks_total }) ->
-	if not !human then
-	  printf "\t%s %Ld %s\n"
-	    target (block_size *^ blocks_total /^ 1024L) swap_name
-	else
-	  printf "\t%s %s %s\n"
-	    target (printable_size (block_size *^ blocks_total)) swap_name
+    fun (target, fs_probe_t) ->
+      let dom_target = dom_name ^ ":" ^ target in
+      printf "%-20s " dom_target;
 
-    (* Ordinary filesystem. *)
-    | (target, Filesystem stats) ->
-	printf "\t%s " target;
+      match fs_probe_t with
+      (* Swap partition. *)
+      | Swap { swap_name = swap_name;
+	       swap_block_size = block_size;
+	       swap_blocks_total = blocks_total } ->
+	  if not !human then
+	    printf "%10Ld                       %s\n"
+	      (block_size *^ blocks_total /^ 1024L) swap_name
+	  else
+	    printf "%10s                       %s\n"
+	      (printable_size (block_size *^ blocks_total)) swap_name
 
-	if not !inodes then (		(* Block display. *)
-	  (* 'df' doesn't count the restricted blocks. *)
-	  let blocks_total =
-	    stats.fs_blocks_total -^ stats.fs_blocks_reserved in
-	  let blocks_avail =
-	    stats.fs_blocks_avail -^ stats.fs_blocks_reserved in
-	  let blocks_avail =
-	    if blocks_avail < 0L then 0L else blocks_avail in
+      (* Ordinary filesystem. *)
+      | Filesystem stats ->
+	  if not !inodes then (		(* Block display. *)
+	    (* 'df' doesn't count the restricted blocks. *)
+	    let blocks_total =
+	      stats.fs_blocks_total -^ stats.fs_blocks_reserved in
+	    let blocks_avail =
+	      stats.fs_blocks_avail -^ stats.fs_blocks_reserved in
+	    let blocks_avail =
+	      if blocks_avail < 0L then 0L else blocks_avail in
 
-	  if not !human then (		(* Display 1K blocks. *)
-	    printf "%Ld %Ld %Ld %s\n"
-	      (blocks_total *^ stats.fs_block_size /^ 1024L)
-	      (stats.fs_blocks_used *^ stats.fs_block_size /^ 1024L)
-	      (blocks_avail *^ stats.fs_block_size /^ 1024L)
-	      stats.fs_name
-	  ) else (			(* Human-readable blocks. *)
-	    printf "%s %s %s %s\n"
-	      (printable_size (blocks_total *^ stats.fs_block_size))
-	      (printable_size (stats.fs_blocks_used *^ stats.fs_block_size))
-	      (printable_size (blocks_avail *^ stats.fs_block_size))
+	    if not !human then (	(* Display 1K blocks. *)
+	      printf "%10Ld %10Ld %10Ld %s\n"
+		(blocks_total *^ stats.fs_block_size /^ 1024L)
+		(stats.fs_blocks_used *^ stats.fs_block_size /^ 1024L)
+		(blocks_avail *^ stats.fs_block_size /^ 1024L)
+		stats.fs_name
+	    ) else (			(* Human-readable blocks. *)
+	      printf "%10s %10s %10s %s\n"
+		(printable_size (blocks_total *^ stats.fs_block_size))
+		(printable_size (stats.fs_blocks_used *^ stats.fs_block_size))
+		(printable_size (blocks_avail *^ stats.fs_block_size))
+		stats.fs_name
+	    )
+	  ) else (			(* Inodes display. *)
+	    printf "%10Ld %10Ld %10Ld %s\n"
+	      stats.fs_inodes_total stats.fs_inodes_used stats.fs_inodes_avail
 	      stats.fs_name
 	  )
-	) else (			(* Inodes display. *)
-	  printf "%Ld %Ld %Ld %s\n"
-	    stats.fs_inodes_total stats.fs_inodes_used stats.fs_inodes_avail
-	    stats.fs_name
-	)
 
-    (* Unsupported filesystem or other failure. *)
-    | (target, ProbeFailed reason) ->
-	printf "\t%s %s\n" target reason
+      (* Unsupported filesystem or other failure. *)
+      | ProbeFailed reason ->
+	  printf "                                 %s\n" reason
 
-    | (_, ProbeIgnore) -> ()
+      | ProbeIgnore -> ()
   ) statss
 
 (* Target is something like "hda" and size is the size in sectors. *)
@@ -323,13 +326,26 @@ let main () =
   (* Command line argument parsing. *)
   let set_uri = function "" -> uri := None | u -> uri := Some u in
 
+  let version () =
+    printf "virt-df %s\n" (Libvirt_version.version);
+
+    let major, minor, release =
+      let v, _ = Libvirt.get_version () in
+      v / 1_000_000, (v / 1_000) mod 1_000, v mod 1_000 in
+    printf "libvirt %d.%d.%d\n" major minor release;
+    exit 0
+  in
+
   let argspec = Arg.align [
+    "-a", Arg.Set all, " Show all domains (default: only active domains)";
+    "--all", Arg.Set all, " Show all domains (default: only active domains)";
     "-c", Arg.String set_uri, "uri Connect to URI (default: Xen)";
     "--connect", Arg.String set_uri, "uri Connect to URI (default: Xen)";
     "-h", Arg.Set human, " Print sizes in human-readable format";
     "--human-readable", Arg.Set human, " Print sizes in human-readable format";
     "-i", Arg.Set inodes, " Show inodes instead of blocks";
     "--inodes", Arg.Set inodes, " Show inodes instead of blocks";
+    "--version", Arg.Unit version, " Display version and exit";
   ] in
 
   let anon_fun str = raise (Arg.Bad (str ^ ": unknown parameter")) in
@@ -361,11 +377,15 @@ OPTIONS" in
       let nr_active_doms = C.num_of_domains conn in
       let active_doms = Array.to_list (C.list_domains conn nr_active_doms) in
       let active_doms = List.map (D.lookup_by_id conn) active_doms in
-      let nr_inactive_doms = C.num_of_defined_domains conn in
-      let inactive_doms =
-	Array.to_list (C.list_defined_domains conn nr_inactive_doms) in
-      let inactive_doms = List.map (D.lookup_by_name conn) inactive_doms in
-      active_doms @ inactive_doms in
+      if not !all then
+	active_doms
+      else (
+	let nr_inactive_doms = C.num_of_defined_domains conn in
+	let inactive_doms =
+	  Array.to_list (C.list_defined_domains conn nr_inactive_doms) in
+	let inactive_doms = List.map (D.lookup_by_name conn) inactive_doms in
+	active_doms @ inactive_doms
+      ) in
 
     (* Get their XML. *)
     let xmls = List.map D.get_xml_desc doms in
@@ -459,6 +479,16 @@ OPTIONS" in
 
 	{ dom_name = name; dom_id = domid; dom_disks = disks }
     ) xmls in
+
+  (* Print the title. *)
+  let () =
+    let total, used, avail =
+      match !inodes, !human with
+      | false, false -> "1K-blocks", "Used", "Available"
+      | false, true -> "Size", "Used", "Available"
+      | true, _ -> "Inodes", "IUse", "IFree" in
+    printf "%-20s %10s %10s %10s %s\n%!"
+      "Filesystem" total used avail "Type" in
 
   (* Probe the devices. *)
   List.iter (
