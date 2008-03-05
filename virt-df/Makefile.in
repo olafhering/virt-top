@@ -65,7 +65,7 @@ virt-df: $(OBJS)
 virt-df.opt: $(XOBJS)
 	ocamlfind ocamlopt \
 	  $(OCAMLOPTPACKAGES) $(OCAMLOPTFLAGS) $(OCAMLOPTLIBS) \
-	  ../libvirt/mllibvirt.cmxa -cclib -lncurses -o $@ $^
+	  ../libvirt/mllibvirt.cmxa -o $@ $^
 
 # Manual page.
 ifeq ($(HAVE_PERLDOC),perldoc)
