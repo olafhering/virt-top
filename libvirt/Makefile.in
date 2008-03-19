@@ -120,6 +120,7 @@ libvirt_version.cmo: libvirt_version.cmi
 libvirt_version.cmi: libvirt_version.mli
 
 install:
-	ocamlfind install libvirt ../META *.so *.a *.cmx *.cma *.cmxa *.mli
+	ocamlfind install libvirt \
+	  ../META *.so *.a *.cmx *.cma *.cmxa *.cmi *.mli
 
 include ../Make.rules
