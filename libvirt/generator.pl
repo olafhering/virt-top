@@ -951,8 +951,7 @@ END
 #ifndef $have_name
   /* Symbol $c_name not found at compile time. */
   not_supported ("$c_name");
-  /* Suppresses a compiler warning. */
-  (void) caml__frame;
+  CAMLnoreturn;
 #else
   /* Check that the symbol $c_name
    * is in runtime version of libvirt.
