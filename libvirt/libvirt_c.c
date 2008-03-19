@@ -85,8 +85,7 @@ ocaml_libvirt_connect_get_hostname (value connv)
 #ifndef HAVE_VIRCONNECTGETHOSTNAME
   /* Symbol virConnectGetHostname not found at compile time. */
   not_supported ("virConnectGetHostname");
-  /* Suppresses a compiler warning. */
-  (void) caml__frame;
+  CAMLnoreturn;
 #else
   /* Check that the symbol virConnectGetHostname
    * is in runtime version of libvirt.
@@ -123,8 +122,7 @@ ocaml_libvirt_connect_get_uri (value connv)
 #ifndef HAVE_VIRCONNECTGETURI
   /* Symbol virConnectGetURI not found at compile time. */
   not_supported ("virConnectGetURI");
-  /* Suppresses a compiler warning. */
-  (void) caml__frame;
+  CAMLnoreturn;
 #else
   /* Check that the symbol virConnectGetURI
    * is in runtime version of libvirt.
@@ -361,8 +359,7 @@ ocaml_libvirt_connect_num_of_storage_pools (value connv)
 #ifndef HAVE_VIRCONNECTNUMOFSTORAGEPOOLS
   /* Symbol virConnectNumOfStoragePools not found at compile time. */
   not_supported ("virConnectNumOfStoragePools");
-  /* Suppresses a compiler warning. */
-  (void) caml__frame;
+  CAMLnoreturn;
 #else
   /* Check that the symbol virConnectNumOfStoragePools
    * is in runtime version of libvirt.
@@ -396,8 +393,7 @@ ocaml_libvirt_connect_list_storage_pools (value connv, value iv)
 #ifndef HAVE_VIRCONNECTLISTSTORAGEPOOLS
   /* Symbol virConnectListStoragePools not found at compile time. */
   not_supported ("virConnectListStoragePools");
-  /* Suppresses a compiler warning. */
-  (void) caml__frame;
+  CAMLnoreturn;
 #else
   /* Check that the symbol virConnectListStoragePools
    * is in runtime version of libvirt.
@@ -441,8 +437,7 @@ ocaml_libvirt_connect_num_of_defined_storage_pools (value connv)
 #ifndef HAVE_VIRCONNECTNUMOFDEFINEDSTORAGEPOOLS
   /* Symbol virConnectNumOfDefinedStoragePools not found at compile time. */
   not_supported ("virConnectNumOfDefinedStoragePools");
-  /* Suppresses a compiler warning. */
-  (void) caml__frame;
+  CAMLnoreturn;
 #else
   /* Check that the symbol virConnectNumOfDefinedStoragePools
    * is in runtime version of libvirt.
@@ -476,8 +471,7 @@ ocaml_libvirt_connect_list_defined_storage_pools (value connv, value iv)
 #ifndef HAVE_VIRCONNECTLISTDEFINEDSTORAGEPOOLS
   /* Symbol virConnectListDefinedStoragePools not found at compile time. */
   not_supported ("virConnectListDefinedStoragePools");
-  /* Suppresses a compiler warning. */
-  (void) caml__frame;
+  CAMLnoreturn;
 #else
   /* Check that the symbol virConnectListDefinedStoragePools
    * is in runtime version of libvirt.
@@ -564,8 +558,7 @@ ocaml_libvirt_domain_create_linux_job (value connv, value strv)
 #ifndef HAVE_VIRDOMAINCREATELINUXJOB
   /* Symbol virDomainCreateLinuxJob not found at compile time. */
   not_supported ("virDomainCreateLinuxJob");
-  /* Suppresses a compiler warning. */
-  (void) caml__frame;
+  CAMLnoreturn;
 #else
   /* Check that the symbol virDomainCreateLinuxJob
    * is in runtime version of libvirt.
@@ -885,8 +878,7 @@ ocaml_libvirt_domain_save_job (value domv, value strv)
 #ifndef HAVE_VIRDOMAINSAVEJOB
   /* Symbol virDomainSaveJob not found at compile time. */
   not_supported ("virDomainSaveJob");
-  /* Suppresses a compiler warning. */
-  (void) caml__frame;
+  CAMLnoreturn;
 #else
   /* Check that the symbol virDomainSaveJob
    * is in runtime version of libvirt.
@@ -945,8 +937,7 @@ ocaml_libvirt_domain_restore_job (value connv, value strv)
 #ifndef HAVE_VIRDOMAINRESTOREJOB
   /* Symbol virDomainRestoreJob not found at compile time. */
   not_supported ("virDomainRestoreJob");
-  /* Suppresses a compiler warning. */
-  (void) caml__frame;
+  CAMLnoreturn;
 #else
   /* Check that the symbol virDomainRestoreJob
    * is in runtime version of libvirt.
@@ -1005,8 +996,7 @@ ocaml_libvirt_domain_core_dump_job (value domv, value strv)
 #ifndef HAVE_VIRDOMAINCOREDUMPJOB
   /* Symbol virDomainCoreDumpJob not found at compile time. */
   not_supported ("virDomainCoreDumpJob");
-  /* Suppresses a compiler warning. */
-  (void) caml__frame;
+  CAMLnoreturn;
 #else
   /* Check that the symbol virDomainCoreDumpJob
    * is in runtime version of libvirt.
@@ -1182,8 +1172,7 @@ ocaml_libvirt_domain_create_job (value domv)
 #ifndef HAVE_VIRDOMAINCREATEJOB
   /* Symbol virDomainCreateJob not found at compile time. */
   not_supported ("virDomainCreateJob");
-  /* Suppresses a compiler warning. */
-  (void) caml__frame;
+  CAMLnoreturn;
 #else
   /* Check that the symbol virDomainCreateJob
    * is in runtime version of libvirt.
@@ -1564,8 +1553,7 @@ ocaml_libvirt_network_create_xml_job (value connv, value strv)
 #ifndef HAVE_VIRNETWORKCREATEXMLJOB
   /* Symbol virNetworkCreateXMLJob not found at compile time. */
   not_supported ("virNetworkCreateXMLJob");
-  /* Suppresses a compiler warning. */
-  (void) caml__frame;
+  CAMLnoreturn;
 #else
   /* Check that the symbol virNetworkCreateXMLJob
    * is in runtime version of libvirt.
@@ -1644,8 +1632,7 @@ ocaml_libvirt_network_create_job (value netv)
 #ifndef HAVE_VIRNETWORKCREATEJOB
   /* Symbol virNetworkCreateJob not found at compile time. */
   not_supported ("virNetworkCreateJob");
-  /* Suppresses a compiler warning. */
-  (void) caml__frame;
+  CAMLnoreturn;
 #else
   /* Check that the symbol virNetworkCreateJob
    * is in runtime version of libvirt.
@@ -1724,8 +1711,7 @@ ocaml_libvirt_storage_pool_free (value poolv)
 #ifndef HAVE_VIRSTORAGEPOOLFREE
   /* Symbol virStoragePoolFree not found at compile time. */
   not_supported ("virStoragePoolFree");
-  /* Suppresses a compiler warning. */
-  (void) caml__frame;
+  CAMLnoreturn;
 #else
   /* Check that the symbol virStoragePoolFree
    * is in runtime version of libvirt.
@@ -1763,8 +1749,7 @@ ocaml_libvirt_storage_pool_destroy (value poolv)
 #ifndef HAVE_VIRSTORAGEPOOLDESTROY
   /* Symbol virStoragePoolDestroy not found at compile time. */
   not_supported ("virStoragePoolDestroy");
-  /* Suppresses a compiler warning. */
-  (void) caml__frame;
+  CAMLnoreturn;
 #else
   /* Check that the symbol virStoragePoolDestroy
    * is in runtime version of libvirt.
@@ -1802,8 +1787,7 @@ ocaml_libvirt_storage_pool_lookup_by_name (value connv, value strv)
 #ifndef HAVE_VIRSTORAGEPOOLLOOKUPBYNAME
   /* Symbol virStoragePoolLookupByName not found at compile time. */
   not_supported ("virStoragePoolLookupByName");
-  /* Suppresses a compiler warning. */
-  (void) caml__frame;
+  CAMLnoreturn;
 #else
   /* Check that the symbol virStoragePoolLookupByName
    * is in runtime version of libvirt.
@@ -1841,8 +1825,7 @@ ocaml_libvirt_storage_pool_lookup_by_uuid (value connv, value uuidv)
 #ifndef HAVE_VIRSTORAGEPOOLLOOKUPBYUUID
   /* Symbol virStoragePoolLookupByUUID not found at compile time. */
   not_supported ("virStoragePoolLookupByUUID");
-  /* Suppresses a compiler warning. */
-  (void) caml__frame;
+  CAMLnoreturn;
 #else
   /* Check that the symbol virStoragePoolLookupByUUID
    * is in runtime version of libvirt.
@@ -1880,8 +1863,7 @@ ocaml_libvirt_storage_pool_lookup_by_uuid_string (value connv, value strv)
 #ifndef HAVE_VIRSTORAGEPOOLLOOKUPBYUUIDSTRING
   /* Symbol virStoragePoolLookupByUUIDString not found at compile time. */
   not_supported ("virStoragePoolLookupByUUIDString");
-  /* Suppresses a compiler warning. */
-  (void) caml__frame;
+  CAMLnoreturn;
 #else
   /* Check that the symbol virStoragePoolLookupByUUIDString
    * is in runtime version of libvirt.
@@ -1919,8 +1901,7 @@ ocaml_libvirt_storage_pool_get_name (value poolv)
 #ifndef HAVE_VIRSTORAGEPOOLGETNAME
   /* Symbol virStoragePoolGetName not found at compile time. */
   not_supported ("virStoragePoolGetName");
-  /* Suppresses a compiler warning. */
-  (void) caml__frame;
+  CAMLnoreturn;
 #else
   /* Check that the symbol virStoragePoolGetName
    * is in runtime version of libvirt.
@@ -1957,8 +1938,7 @@ ocaml_libvirt_storage_pool_get_xml_desc (value poolv)
 #ifndef HAVE_VIRSTORAGEPOOLGETXMLDESC
   /* Symbol virStoragePoolGetXMLDesc not found at compile time. */
   not_supported ("virStoragePoolGetXMLDesc");
-  /* Suppresses a compiler warning. */
-  (void) caml__frame;
+  CAMLnoreturn;
 #else
   /* Check that the symbol virStoragePoolGetXMLDesc
    * is in runtime version of libvirt.
@@ -1996,8 +1976,7 @@ ocaml_libvirt_storage_pool_get_uuid (value poolv)
 #ifndef HAVE_VIRSTORAGEPOOLGETUUID
   /* Symbol virStoragePoolGetUUID not found at compile time. */
   not_supported ("virStoragePoolGetUUID");
-  /* Suppresses a compiler warning. */
-  (void) caml__frame;
+  CAMLnoreturn;
 #else
   /* Check that the symbol virStoragePoolGetUUID
    * is in runtime version of libvirt.
@@ -2037,8 +2016,7 @@ ocaml_libvirt_storage_pool_get_uuid_string (value poolv)
 #ifndef HAVE_VIRSTORAGEPOOLGETUUIDSTRING
   /* Symbol virStoragePoolGetUUIDString not found at compile time. */
   not_supported ("virStoragePoolGetUUIDString");
-  /* Suppresses a compiler warning. */
-  (void) caml__frame;
+  CAMLnoreturn;
 #else
   /* Check that the symbol virStoragePoolGetUUIDString
    * is in runtime version of libvirt.
@@ -2076,8 +2054,7 @@ ocaml_libvirt_storage_pool_create_xml (value connv, value strv)
 #ifndef HAVE_VIRSTORAGEPOOLCREATEXML
   /* Symbol virStoragePoolCreateXML not found at compile time. */
   not_supported ("virStoragePoolCreateXML");
-  /* Suppresses a compiler warning. */
-  (void) caml__frame;
+  CAMLnoreturn;
 #else
   /* Check that the symbol virStoragePoolCreateXML
    * is in runtime version of libvirt.
@@ -2115,8 +2092,7 @@ ocaml_libvirt_storage_pool_define_xml (value connv, value strv)
 #ifndef HAVE_VIRSTORAGEPOOLDEFINEXML
   /* Symbol virStoragePoolDefineXML not found at compile time. */
   not_supported ("virStoragePoolDefineXML");
-  /* Suppresses a compiler warning. */
-  (void) caml__frame;
+  CAMLnoreturn;
 #else
   /* Check that the symbol virStoragePoolDefineXML
    * is in runtime version of libvirt.
@@ -2154,8 +2130,7 @@ ocaml_libvirt_storage_pool_build (value poolv, value iv)
 #ifndef HAVE_VIRSTORAGEPOOLBUILD
   /* Symbol virStoragePoolBuild not found at compile time. */
   not_supported ("virStoragePoolBuild");
-  /* Suppresses a compiler warning. */
-  (void) caml__frame;
+  CAMLnoreturn;
 #else
   /* Check that the symbol virStoragePoolBuild
    * is in runtime version of libvirt.
@@ -2191,8 +2166,7 @@ ocaml_libvirt_storage_pool_undefine (value poolv)
 #ifndef HAVE_VIRSTORAGEPOOLUNDEFINE
   /* Symbol virStoragePoolUndefine not found at compile time. */
   not_supported ("virStoragePoolUndefine");
-  /* Suppresses a compiler warning. */
-  (void) caml__frame;
+  CAMLnoreturn;
 #else
   /* Check that the symbol virStoragePoolUndefine
    * is in runtime version of libvirt.
@@ -2227,8 +2201,7 @@ ocaml_libvirt_storage_pool_create (value poolv)
 #ifndef HAVE_VIRSTORAGEPOOLCREATE
   /* Symbol virStoragePoolCreate not found at compile time. */
   not_supported ("virStoragePoolCreate");
-  /* Suppresses a compiler warning. */
-  (void) caml__frame;
+  CAMLnoreturn;
 #else
   /* Check that the symbol virStoragePoolCreate
    * is in runtime version of libvirt.
@@ -2263,8 +2236,7 @@ ocaml_libvirt_storage_pool_delete (value poolv, value iv)
 #ifndef HAVE_VIRSTORAGEPOOLDELETE
   /* Symbol virStoragePoolDelete not found at compile time. */
   not_supported ("virStoragePoolDelete");
-  /* Suppresses a compiler warning. */
-  (void) caml__frame;
+  CAMLnoreturn;
 #else
   /* Check that the symbol virStoragePoolDelete
    * is in runtime version of libvirt.
@@ -2300,8 +2272,7 @@ ocaml_libvirt_storage_pool_refresh (value poolv)
 #ifndef HAVE_VIRSTORAGEPOOLREFRESH
   /* Symbol virStoragePoolRefresh not found at compile time. */
   not_supported ("virStoragePoolRefresh");
-  /* Suppresses a compiler warning. */
-  (void) caml__frame;
+  CAMLnoreturn;
 #else
   /* Check that the symbol virStoragePoolRefresh
    * is in runtime version of libvirt.
@@ -2336,8 +2307,7 @@ ocaml_libvirt_storage_pool_get_autostart (value poolv)
 #ifndef HAVE_VIRSTORAGEPOOLGETAUTOSTART
   /* Symbol virStoragePoolGetAutostart not found at compile time. */
   not_supported ("virStoragePoolGetAutostart");
-  /* Suppresses a compiler warning. */
-  (void) caml__frame;
+  CAMLnoreturn;
 #else
   /* Check that the symbol virStoragePoolGetAutostart
    * is in runtime version of libvirt.
@@ -2372,8 +2342,7 @@ ocaml_libvirt_storage_pool_set_autostart (value poolv, value bv)
 #ifndef HAVE_VIRSTORAGEPOOLSETAUTOSTART
   /* Symbol virStoragePoolSetAutostart not found at compile time. */
   not_supported ("virStoragePoolSetAutostart");
-  /* Suppresses a compiler warning. */
-  (void) caml__frame;
+  CAMLnoreturn;
 #else
   /* Check that the symbol virStoragePoolSetAutostart
    * is in runtime version of libvirt.
@@ -2410,8 +2379,7 @@ ocaml_libvirt_storage_pool_num_of_volumes (value poolv)
 #ifndef HAVE_VIRSTORAGEPOOLNUMOFVOLUMES
   /* Symbol virStoragePoolNumOfVolumes not found at compile time. */
   not_supported ("virStoragePoolNumOfVolumes");
-  /* Suppresses a compiler warning. */
-  (void) caml__frame;
+  CAMLnoreturn;
 #else
   /* Check that the symbol virStoragePoolNumOfVolumes
    * is in runtime version of libvirt.
@@ -2446,8 +2414,7 @@ ocaml_libvirt_storage_pool_list_volumes (value poolv, value iv)
 #ifndef HAVE_VIRSTORAGEPOOLLISTVOLUMES
   /* Symbol virStoragePoolListVolumes not found at compile time. */
   not_supported ("virStoragePoolListVolumes");
-  /* Suppresses a compiler warning. */
-  (void) caml__frame;
+  CAMLnoreturn;
 #else
   /* Check that the symbol virStoragePoolListVolumes
    * is in runtime version of libvirt.
@@ -2492,8 +2459,7 @@ ocaml_libvirt_storage_vol_free (value volv)
 #ifndef HAVE_VIRSTORAGEVOLFREE
   /* Symbol virStorageVolFree not found at compile time. */
   not_supported ("virStorageVolFree");
-  /* Suppresses a compiler warning. */
-  (void) caml__frame;
+  CAMLnoreturn;
 #else
   /* Check that the symbol virStorageVolFree
    * is in runtime version of libvirt.
@@ -2531,8 +2497,7 @@ ocaml_libvirt_storage_vol_delete (value volv, value iv)
 #ifndef HAVE_VIRSTORAGEVOLDELETE
   /* Symbol virStorageVolDelete not found at compile time. */
   not_supported ("virStorageVolDelete");
-  /* Suppresses a compiler warning. */
-  (void) caml__frame;
+  CAMLnoreturn;
 #else
   /* Check that the symbol virStorageVolDelete
    * is in runtime version of libvirt.
@@ -2568,8 +2533,7 @@ ocaml_libvirt_storage_vol_lookup_by_name (value poolv, value strv)
 #ifndef HAVE_VIRSTORAGEVOLLOOKUPBYNAME
   /* Symbol virStorageVolLookupByName not found at compile time. */
   not_supported ("virStorageVolLookupByName");
-  /* Suppresses a compiler warning. */
-  (void) caml__frame;
+  CAMLnoreturn;
 #else
   /* Check that the symbol virStorageVolLookupByName
    * is in runtime version of libvirt.
@@ -2609,8 +2573,7 @@ ocaml_libvirt_storage_vol_lookup_by_key (value connv, value strv)
 #ifndef HAVE_VIRSTORAGEVOLLOOKUPBYKEY
   /* Symbol virStorageVolLookupByKey not found at compile time. */
   not_supported ("virStorageVolLookupByKey");
-  /* Suppresses a compiler warning. */
-  (void) caml__frame;
+  CAMLnoreturn;
 #else
   /* Check that the symbol virStorageVolLookupByKey
    * is in runtime version of libvirt.
@@ -2648,8 +2611,7 @@ ocaml_libvirt_storage_vol_lookup_by_path (value connv, value strv)
 #ifndef HAVE_VIRSTORAGEVOLLOOKUPBYPATH
   /* Symbol virStorageVolLookupByPath not found at compile time. */
   not_supported ("virStorageVolLookupByPath");
-  /* Suppresses a compiler warning. */
-  (void) caml__frame;
+  CAMLnoreturn;
 #else
   /* Check that the symbol virStorageVolLookupByPath
    * is in runtime version of libvirt.
@@ -2687,8 +2649,7 @@ ocaml_libvirt_storage_vol_create_xml (value poolv, value strv)
 #ifndef HAVE_VIRSTORAGEVOLCREATEXML
   /* Symbol virStorageVolCreateXML not found at compile time. */
   not_supported ("virStorageVolCreateXML");
-  /* Suppresses a compiler warning. */
-  (void) caml__frame;
+  CAMLnoreturn;
 #else
   /* Check that the symbol virStorageVolCreateXML
    * is in runtime version of libvirt.
@@ -2728,8 +2689,7 @@ ocaml_libvirt_storage_vol_get_xml_desc (value volv)
 #ifndef HAVE_VIRSTORAGEVOLGETXMLDESC
   /* Symbol virStorageVolGetXMLDesc not found at compile time. */
   not_supported ("virStorageVolGetXMLDesc");
-  /* Suppresses a compiler warning. */
-  (void) caml__frame;
+  CAMLnoreturn;
 #else
   /* Check that the symbol virStorageVolGetXMLDesc
    * is in runtime version of libvirt.
@@ -2767,8 +2727,7 @@ ocaml_libvirt_storage_vol_get_path (value volv)
 #ifndef HAVE_VIRSTORAGEVOLGETPATH
   /* Symbol virStorageVolGetPath not found at compile time. */
   not_supported ("virStorageVolGetPath");
-  /* Suppresses a compiler warning. */
-  (void) caml__frame;
+  CAMLnoreturn;
 #else
   /* Check that the symbol virStorageVolGetPath
    * is in runtime version of libvirt.
@@ -2806,8 +2765,7 @@ ocaml_libvirt_storage_vol_get_key (value volv)
 #ifndef HAVE_VIRSTORAGEVOLGETKEY
   /* Symbol virStorageVolGetKey not found at compile time. */
   not_supported ("virStorageVolGetKey");
-  /* Suppresses a compiler warning. */
-  (void) caml__frame;
+  CAMLnoreturn;
 #else
   /* Check that the symbol virStorageVolGetKey
    * is in runtime version of libvirt.
@@ -2844,8 +2802,7 @@ ocaml_libvirt_storage_vol_get_name (value volv)
 #ifndef HAVE_VIRSTORAGEVOLGETNAME
   /* Symbol virStorageVolGetName not found at compile time. */
   not_supported ("virStorageVolGetName");
-  /* Suppresses a compiler warning. */
-  (void) caml__frame;
+  CAMLnoreturn;
 #else
   /* Check that the symbol virStorageVolGetName
    * is in runtime version of libvirt.
@@ -2882,8 +2839,7 @@ ocaml_libvirt_storage_pool_lookup_by_volume (value volv)
 #ifndef HAVE_VIRSTORAGEPOOLLOOKUPBYVOLUME
   /* Symbol virStoragePoolLookupByVolume not found at compile time. */
   not_supported ("virStoragePoolLookupByVolume");
-  /* Suppresses a compiler warning. */
-  (void) caml__frame;
+  CAMLnoreturn;
 #else
   /* Check that the symbol virStoragePoolLookupByVolume
    * is in runtime version of libvirt.
@@ -2922,8 +2878,7 @@ ocaml_libvirt_job_free (value jobv)
 #ifndef HAVE_VIRJOBFREE
   /* Symbol virJobFree not found at compile time. */
   not_supported ("virJobFree");
-  /* Suppresses a compiler warning. */
-  (void) caml__frame;
+  CAMLnoreturn;
 #else
   /* Check that the symbol virJobFree
    * is in runtime version of libvirt.
@@ -2961,8 +2916,7 @@ ocaml_libvirt_job_cancel (value jobv)
 #ifndef HAVE_VIRJOBCANCEL
   /* Symbol virJobCancel not found at compile time. */
   not_supported ("virJobCancel");
-  /* Suppresses a compiler warning. */
-  (void) caml__frame;
+  CAMLnoreturn;
 #else
   /* Check that the symbol virJobCancel
    * is in runtime version of libvirt.
@@ -2997,8 +2951,7 @@ ocaml_libvirt_job_get_network (value jobv)
 #ifndef HAVE_VIRJOBGETNETWORK
   /* Symbol virJobGetNetwork not found at compile time. */
   not_supported ("virJobGetNetwork");
-  /* Suppresses a compiler warning. */
-  (void) caml__frame;
+  CAMLnoreturn;
 #else
   /* Check that the symbol virJobGetNetwork
    * is in runtime version of libvirt.
@@ -3037,8 +2990,7 @@ ocaml_libvirt_job_get_domain (value jobv)
 #ifndef HAVE_VIRJOBGETDOMAIN
   /* Symbol virJobGetDomain not found at compile time. */
   not_supported ("virJobGetDomain");
-  /* Suppresses a compiler warning. */
-  (void) caml__frame;
+  CAMLnoreturn;
 #else
   /* Check that the symbol virJobGetDomain
    * is in runtime version of libvirt.
