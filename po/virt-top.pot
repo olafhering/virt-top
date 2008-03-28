@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-28 17:12+0000\n"
+"POT-Creation-Date: 2008-03-28 17:30+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,16 +17,64 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
+#: ../virt-top/virt_top.ml:1490
+msgid "# .virt-toprc virt-top configuration file\\n"
+msgstr ""
+
+#: ../virt-top/virt_top.ml:1508
+msgid "# Enable CSV output to the named file\\n"
+msgstr ""
+
+#: ../virt-top/virt_top.ml:1511
+msgid "# To protect this file from being overwritten, uncomment next line\\n"
+msgstr ""
+
+#: ../virt-top/virt_top.ml:1505
+msgid "# To send debug and error messages to a file, uncomment next line\\n"
+msgstr ""
+
+#: ../virt-top/virt_top.ml:1491
+msgid "# generated on %s by %s\\n"
+msgstr ""
+
+#: ../virt-top/virt_top.ml:63
+msgid "%CPU"
+msgstr ""
+
+#: ../virt-top/virt_top.ml:64
+msgid "%MEM"
+msgstr ""
+
+#: ../virt-top/virt_top.ml:1144
+msgid "%d domains, %d active, %d running, %d sleeping, %d paused, %d inactive D:%d O:%d X:%d"
+msgstr ""
+
 #: ../mlvirsh/mlvirsh.ml:716
 msgid "%s: command not found"
 msgstr ""
 
-#: ../virt-df/virt_df.ml:362
+#: ../virt-top/virt_top.ml:105
+msgid "%s: display should be %s"
+msgstr ""
+
+#: ../virt-top/virt_top.ml:82
+msgid "%s: sort order should be: %s"
+msgstr ""
+
+#: ../virt-df/virt_df.ml:362 ../virt-top/virt_top.ml:202
 msgid "%s: unknown parameter"
+msgstr ""
+
+#: ../virt-top/virt_top.ml:233
+msgid "%s:%d: configuration item ``%s'' ignored\\n%!"
 msgstr ""
 
 #: ../virt-df/virt_df.ml:514
 msgid "(device omitted)"
+msgstr ""
+
+#: ../virt-top/virt_top.ml:145
+msgid "-d: cannot set a negative delay"
 msgstr ""
 
 #: ../virt-df/virt_df.ml:498
@@ -45,6 +93,18 @@ msgstr ""
 msgid "Available"
 msgstr ""
 
+#: ../virt-top/virt_top.ml:167
+msgid "Batch mode"
+msgstr ""
+
+#: ../virt-top/virt_top.ml:70
+msgid "Block read reqs"
+msgstr ""
+
+#: ../virt-top/virt_top.ml:71
+msgid "Block write reqs"
+msgstr ""
+
 #: ../virt-ctrl/vc_connections.ml:408
 msgid "CPU"
 msgstr ""
@@ -53,8 +113,16 @@ msgstr ""
 msgid "CPU affinity"
 msgstr ""
 
+#: ../virt-top/virt_top.ml:1151
+msgid "CPU: %2.1f%%  Mem: %Ld MB (%Ld MB by guests)"
+msgstr ""
+
 #: ../virt-ctrl/vc_connection_dlg.ml:182
 msgid "Cancel"
+msgstr ""
+
+#: ../virt-top/virt_top.ml:1319
+msgid "Change delay from %.1f to: "
 msgstr ""
 
 #: ../mlvirsh/mlvirsh.ml:409
@@ -69,8 +137,12 @@ msgstr ""
 msgid "Connect to ..."
 msgstr ""
 
-#: ../virt-df/virt_df.ml:348 ../virt-df/virt_df.ml:346
+#: ../virt-df/virt_df.ml:348 ../virt-df/virt_df.ml:346 ../virt-top/virt_top.ml:171 ../virt-top/virt_top.ml:169
 msgid "Connect to URI (default: Xen)"
+msgstr ""
+
+#: ../virt-top/virt_top.ml:1558
+msgid "Connect: %s; Hostname: %s"
 msgstr ""
 
 #: ../mlvirsh/mlvirsh.ml:476
@@ -85,12 +157,28 @@ msgstr ""
 msgid "Create a network from an XML file."
 msgstr ""
 
+#: ../virt-top/virt_top.ml:1596
+msgid "DISPLAY MODES"
+msgstr ""
+
 #: ../mlvirsh/mlvirsh.ml:426
 msgid "Define (but don't start) a domain from an XML file."
 msgstr ""
 
 #: ../mlvirsh/mlvirsh.ml:538
 msgid "Define (but don't start) a network from an XML file."
+msgstr ""
+
+#: ../virt-top/virt_top.ml:1326
+msgid "Delay must be > 0"
+msgstr ""
+
+#: ../virt-top/virt_top.ml:181
+msgid "Delay time interval (seconds)"
+msgstr ""
+
+#: ../virt-top/virt_top.ml:1552
+msgid "Delay: %.1f secs; Batch: %s; Secure: %s; Sort: %s"
 msgstr ""
 
 #: ../mlvirsh/mlvirsh.ml:433
@@ -109,6 +197,18 @@ msgstr ""
 msgid "Details"
 msgstr ""
 
+#: ../virt-top/virt_top.ml:175
+msgid "Disable CPU stats in CSV"
+msgstr ""
+
+#: ../virt-top/virt_top.ml:177
+msgid "Disable block device stats in CSV"
+msgstr ""
+
+#: ../virt-top/virt_top.ml:179
+msgid "Disable net stats in CSV"
+msgstr ""
+
 #: ../mlvirsh/mlvirsh.ml:493
 msgid "Display free memory for machine, NUMA cell or range of cells"
 msgstr ""
@@ -125,8 +225,28 @@ msgstr ""
 msgid "Display version and exit"
 msgstr ""
 
-#: ../virt-ctrl/vc_mainwindow.ml:61
+#: ../virt-top/virt_top.ml:191
+msgid "Do not read init file"
+msgstr ""
+
+#: ../virt-top/virt_top.ml:66
+msgid "Domain ID"
+msgstr ""
+
+#: ../virt-top/virt_top.ml:67
+msgid "Domain name"
+msgstr ""
+
+#: ../virt-top/virt_top.ml:1610
+msgid "Domains display"
+msgstr ""
+
+#: ../virt-ctrl/vc_mainwindow.ml:61 ../virt-top/virt_top_main.ml:47 ../virt-top/virt_top.ml:1528
 msgid "Error"
+msgstr ""
+
+#: ../virt-top/virt_top.ml:185
+msgid "Exit at given time"
 msgstr ""
 
 #: ../virt-ctrl/vc_mainwindow.ml:79
@@ -149,8 +269,12 @@ msgstr ""
 msgid "Gracefully shutdown a domain."
 msgstr ""
 
-#: ../virt-ctrl/vc_mainwindow.ml:96 ../virt-ctrl/vc_mainwindow.ml:80
+#: ../virt-ctrl/vc_mainwindow.ml:96 ../virt-ctrl/vc_mainwindow.ml:80 ../virt-top/virt_top.ml:1580
 msgid "Help"
+msgstr ""
+
+#: ../virt-top/virt_top.ml:187
+msgid "Historical CPU delay"
 msgstr ""
 
 #: ../mlvirsh/mlvirsh.ml:35
@@ -213,16 +337,44 @@ msgstr ""
 msgid "Local network"
 msgstr ""
 
+#: ../virt-top/virt_top.ml:173
+msgid "Log statistics to CSV file"
+msgstr ""
+
+#: ../virt-top/virt_top.ml:1563
+msgid "MAIN KEYS"
+msgstr ""
+
 #: ../virt-ctrl/vc_connections.ml:409
 msgid "Memory"
 msgstr ""
 
-#: ../virt-df/virt_df.ml:382
+#: ../virt-top/virt_top.ml:1617
+msgid "More help in virt-top(1) man page. Press any key to return."
+msgstr ""
+
+#: ../virt-df/virt_df.ml:382 ../virt-top/virt_top.ml:258
 msgid "NB: If you want to monitor a local Xen hypervisor, you usually need to be root"
 msgstr ""
 
 #: ../virt-ctrl/vc_connections.ml:406
 msgid "Name"
+msgstr ""
+
+#: ../virt-top/virt_top.ml:68
+msgid "Net RX bytes"
+msgstr ""
+
+#: ../virt-top/virt_top.ml:69
+msgid "Net TX bytes"
+msgstr ""
+
+#: ../virt-top/virt_top.ml:1332
+msgid "Not a valid number"
+msgstr ""
+
+#: ../virt-top/virt_top.ml:193
+msgid "Number of iterations to run"
 msgstr ""
 
 #: ../virt-ctrl/vc_connection_dlg.ml:170 ../virt-ctrl/vc_connection_dlg.ml:137
@@ -345,7 +497,7 @@ msgstr ""
 msgid "QEMU or KVM"
 msgstr ""
 
-#: ../virt-ctrl/vc_mainwindow.ml:89
+#: ../virt-ctrl/vc_mainwindow.ml:89 ../virt-top/virt_top.ml:1578
 msgid "Quit"
 msgstr ""
 
@@ -381,8 +533,40 @@ msgstr ""
 msgid "Returns capabilities of hypervisor/driver."
 msgstr ""
 
+#: ../virt-top/virt_top.ml:199
+msgid "Run from a script (no user interface)"
+msgstr ""
+
+#: ../virt-top/virt_top.ml:1584
+msgid "SORTING"
+msgstr ""
+
 #: ../mlvirsh/mlvirsh.ml:599
 msgid "Save a domain to a file."
+msgstr ""
+
+#: ../virt-top/virt_top.ml:197
+msgid "Secure (\\\"kiosk\\\") mode"
+msgstr ""
+
+#: ../virt-top/virt_top.ml:1593
+msgid "Select sort field"
+msgstr ""
+
+#: ../virt-top/virt_top.ml:183
+msgid "Send debug messages to file"
+msgstr ""
+
+#: ../virt-top/virt_top.ml:189
+msgid "Set name of init file"
+msgstr ""
+
+#: ../virt-top/virt_top.ml:195
+msgid "Set sort order (%s)"
+msgstr ""
+
+#: ../virt-top/virt_top.ml:1340
+msgid "Set sort order for main display"
 msgstr ""
 
 #: ../mlvirsh/mlvirsh.ml:631
@@ -399,6 +583,10 @@ msgstr ""
 
 #: ../mlvirsh/mlvirsh.ml:618
 msgid "Set the scheduler parameters for a domain."
+msgstr ""
+
+#: ../virt-top/virt_top.ml:1579
+msgid "Set update interval"
 msgstr ""
 
 #: ../mlvirsh/mlvirsh.ml:403
@@ -425,6 +613,22 @@ msgstr ""
 msgid "Size"
 msgstr ""
 
+#: ../virt-top/virt_top.ml:1589
+msgid "Sort by %CPU"
+msgstr ""
+
+#: ../virt-top/virt_top.ml:1590
+msgid "Sort by %MEM"
+msgstr ""
+
+#: ../virt-top/virt_top.ml:1592
+msgid "Sort by ID"
+msgstr ""
+
+#: ../virt-top/virt_top.ml:1591
+msgid "Sort by TIME"
+msgstr ""
+
 #: ../virt-ctrl/vc_mainwindow.ml:127
 msgid "Start"
 msgstr ""
@@ -435,6 +639,18 @@ msgstr ""
 
 #: ../mlvirsh/mlvirsh.ml:573
 msgid "Start a previously defined inactive network."
+msgstr ""
+
+#: ../virt-top/virt_top.ml:165
+msgid "Start by displaying block devices"
+msgstr ""
+
+#: ../virt-top/virt_top.ml:163
+msgid "Start by displaying network interfaces"
+msgstr ""
+
+#: ../virt-top/virt_top.ml:161
+msgid "Start by displaying pCPUs (default: tasks)"
 msgstr ""
 
 #: ../virt-ctrl/vc_connections.ml:407
@@ -449,12 +665,32 @@ msgstr ""
 msgid "Synopsis:\n  %s [options] [command]\n\nList of all commands:\n  %s help\n\nFull description of a single command:\n  %s help command\n\nOptions:"
 msgstr ""
 
+#: ../virt-top/virt_top.ml:65
+msgid "TIME (CPU time)"
+msgstr ""
+
 #: ../virt-ctrl/vc_connection_dlg.ml:62
 msgid "This machine"
 msgstr ""
 
+#: ../virt-top/virt_top.ml:1613
+msgid "Toggle block devices"
+msgstr ""
+
+#: ../virt-top/virt_top.ml:1612
+msgid "Toggle network interfaces"
+msgstr ""
+
+#: ../virt-top/virt_top.ml:1611
+msgid "Toggle physical CPUs"
+msgstr ""
+
 #: ../virt-df/virt_df.ml:502
 msgid "Type"
+msgstr ""
+
+#: ../virt-top/virt_top.ml:1341
+msgid "Type key or use up and down cursor keys."
 msgstr ""
 
 #: ../virt-ctrl/vc_connection_dlg.ml:160
@@ -467,6 +703,14 @@ msgstr ""
 
 #: ../mlvirsh/mlvirsh.ml:577
 msgid "Undefine an inactive network."
+msgstr ""
+
+#: ../virt-top/virt_top.ml:1622
+msgid "Unknown command - try 'h' for help"
+msgstr ""
+
+#: ../virt-top/virt_top.ml:1577
+msgid "Update display"
 msgstr ""
 
 #: ../mlvirsh/mlvirsh.ml:690
@@ -487,6 +731,10 @@ msgstr ""
 
 #: ../virt-ctrl/vc_mainwindow.ml:39
 msgid "Virtualization control tool (virt-ctrl) by\nRichard W.M. Jones (rjones@redhat.com).\n\nCopyright %s 2007-2008 Red Hat Inc.\n\nLibvirt version: %s\n\nGtk toolkit version: %s"
+msgstr ""
+
+#: ../virt-top/virt_top.ml:1523
+msgid "Wrote settings to %s"
 msgstr ""
 
 #: ../virt-ctrl/vc_connection_dlg.ml:76
@@ -565,7 +813,7 @@ msgstr ""
 msgid "flag should be '%s'"
 msgstr ""
 
-#: ../virt-df/virt_df.ml:419
+#: ../virt-df/virt_df.ml:419 ../virt-top/virt_top_xml.ml:46
 msgid "get_xml_desc didn't return <domain/>"
 msgstr ""
 
@@ -727,6 +975,22 @@ msgstr ""
 
 #: ../virt-df/virt_df.ml:363
 msgid "virt-df : like 'df', shows disk space used in guests\n\nSUMMARY\n  virt-df [-options]\n\nOPTIONS"
+msgstr ""
+
+#: ../virt-top/virt_top.ml:1543
+msgid "virt-top %s (libvirt %d.%d.%d) by Red Hat"
+msgstr ""
+
+#: ../virt-top/virt_top.ml:203
+msgid "virt-top : a 'top'-like utility for virtualization\n\nSUMMARY\n  virt-top [-options]\n\nOPTIONS"
+msgstr ""
+
+#: ../virt-top/virt_top.ml:40
+msgid "virt-top was compiled without support for CSV files"
+msgstr ""
+
+#: ../virt-top/virt_top.ml:51
+msgid "virt-top was compiled without support for dates and times"
 msgstr ""
 
 #: ../mlvirsh/mlvirsh.ml:360
