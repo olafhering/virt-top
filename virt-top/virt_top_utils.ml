@@ -21,6 +21,8 @@
 
 open Printf
 
+open Virt_top_gettext.Gettext
+
 module C = Libvirt.Connect
 module D = Libvirt.Domain
 module N = Libvirt.Network

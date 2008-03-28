@@ -30,25 +30,30 @@ pkg_xml_light	= @pkg_xml_light@
 pkg_csv		= @pkg_csv@
 pkg_calendar    = @pkg_calendar@
 pkg_calendar2   = @pkg_calendar2@
+pkg_gettext	= @pkg_gettext@
 
 OCAMLCPACKAGES	:= -package unix,extlib,curses,str
 
-OBJS		:= virt_top_utils.cmo virt_top.cmo
+ifeq ($(pkg_gettext),yes)
+OCAMLCPACKAGES  += -package gettext-stub
+endif
+
+OBJS		:= virt_top_gettext.cmo virt_top_utils.cmo virt_top.cmo
 ifeq ($(pkg_xml_light),yes)
 OBJS		+= virt_top_xml.cmo
-OCAMLCPACKAGES	:= $(OCAMLCPACKAGES),xml-light
+OCAMLCPACKAGES	+= -package xml-light
 endif
 ifeq ($(pkg_csv),yes)
 OBJS		+= virt_top_csv.cmo
-OCAMLCPACKAGES	:= $(OCAMLCPACKAGES),csv
+OCAMLCPACKAGES	+= -package csv
 endif
 ifeq ($(pkg_calendar),yes)
 OBJS		+= virt_top_calendar1.cmo
-OCAMLCPACKAGES	:= $(OCAMLCPACKAGES),calendar
+OCAMLCPACKAGES	+= -package calendar
 endif
 ifneq ($(pkg_calendar2),no)
 OBJS		+= virt_top_calendar2.cmo
-OCAMLCPACKAGES	:= $(OCAMLCPACKAGES),calendar
+OCAMLCPACKAGES	+= -package calendar
 endif
 OBJS		+= virt_top_main.cmo
 

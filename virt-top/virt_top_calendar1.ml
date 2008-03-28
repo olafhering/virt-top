@@ -20,7 +20,9 @@
 *)
 
 open Printf
-open ExtString ;;
+open ExtString
+
+open Virt_top_gettext.Gettext ;;
 
 Virt_top.parse_date_time :=
 fun time ->
