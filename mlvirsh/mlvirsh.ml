@@ -18,6 +18,7 @@
 *)
 
 open Printf
+open Mlvirsh_gettext.Gettext
 
 module C = Libvirt.Connect
 module D = Libvirt.Domain
@@ -31,21 +32,22 @@ let name = ref ""
 let readonly = ref false
 
 let argspec = Arg.align [
-  "-c", Arg.Set_string name, "URI Hypervisor connection URI";
-  "-r", Arg.Set readonly, " Read-only connection";
+  "-c", Arg.Set_string name, "URI " ^ s_ "Hypervisor connection URI";
+  "-r", Arg.Set readonly,    " " ^    s_ "Read-only connection";
 ]
 
-let usage_msg = "\
-Synopsis:
-  " ^ program_name ^ " [options] [command]
+let usage_msg =
+  sprintf (f_ "Synopsis:
+  %s [options] [command]
 
 List of all commands:
-  " ^ program_name ^ " help
+  %s help
 
 Full description of a single command:
-  " ^ program_name ^ " help command
+  %s help command
 
-Options:"
+Options:")
+    program_name program_name program_name
 
 let add_extra_arg, get_extra_args =
   let extra_args = ref [] in
@@ -155,35 +157,35 @@ let do_command =
    *)
   let cmd0 print fn = function		(* Command with no args. *)
     | [] -> print (fn ())
-    | _ -> failwith "incorrect number of arguments for function"
+    | _ -> failwith (s_ "incorrect number of arguments for function")
   in
   let cmd1 print fn arg1 = function	(* Command with one arg. *)
     | [str1] -> print (fn (arg1 str1))
-    | _ -> failwith "incorrect number of arguments for function"
+    | _ -> failwith (s_ "incorrect number of arguments for function")
   in
   let cmd2 print fn arg1 arg2 = function (* Command with 2 args. *)
     | [str1; str2] -> print (fn (arg1 str1) (arg2 str2))
-    | _ -> failwith "incorrect number of arguments for function"
+    | _ -> failwith (s_ "incorrect number of arguments for function")
   in
   let cmd3 print fn arg1 arg2 arg3 = function (* Command with 3 args. *)
     | [str1; str2; str3] -> print (fn (arg1 str1) (arg2 str2) (arg3 str3))
-    | _ -> failwith "incorrect number of arguments for function"
+    | _ -> failwith (s_ "incorrect number of arguments for function")
   in
   let cmd01 print fn arg1 = function	(* Command with 0 or 1 arg. *)
     | [] -> print (fn None)
     | [str1] -> print (fn (Some (arg1 str1)))
-    | _ -> failwith "incorrect number of arguments for function"
+    | _ -> failwith (s_ "incorrect number of arguments for function")
   in
   let cmd12 print fn arg1 arg2 = function (* Command with 1 or 2 args. *)
     | [str1] -> print (fn (arg1 str1) None)
     | [str1; str2] -> print (fn (arg1 str1) (Some (arg2 str2)))
-    | _ -> failwith "incorrect number of arguments for function"
+    | _ -> failwith (s_ "incorrect number of arguments for function")
   in
   let cmd012 print fn arg1 arg2 = function (* Command with 0, 1 or 2 args. *)
     | [] -> print (fn None None)
     | [str1] -> print (fn (Some (arg1 str1)) None)
     | [str1; str2] -> print (fn (Some (arg1 str1)) (Some (arg2 str2)))
-    | _ -> failwith "incorrect number of arguments for function"
+    | _ -> failwith (s_ "incorrect number of arguments for function")
   in
   let cmdN print fn =		(* Command with any number of args. *)
     fun args -> print (fn args)
@@ -192,12 +194,12 @@ let do_command =
   (* Get the connection or fail if we don't have one. *)
   let rec get_full_connection () =
     match !conn with
-    | No_connection -> failwith "not connected to the hypervisor"
-    | RO _ -> failwith "tried to do read-write operation on read-only hypervisor connection"
+    | No_connection -> failwith (s_ "not connected to the hypervisor")
+    | RO _ -> failwith (s_ "tried to do read-write operation on read-only hypervisor connection")
     | RW conn -> conn
   and get_readonly_connection () =
     match !conn with
-    | No_connection -> failwith "not connected to the hypervisor"
+    | No_connection -> failwith (s_ "not connected to the hypervisor")
     | RO conn -> conn
     | RW conn -> C.const conn
 (*
@@ -215,13 +217,13 @@ let do_command =
   (* Parsing of command arguments. *)
   let string_of_readonly = function
     | "readonly" | "read-only" | "ro" -> true
-    | _ -> failwith "flag should be 'readonly'"
+    | _ -> failwith (sprintf (f_ "flag should be '%s'") "readonly")
   in
   let string_of_string (str : string) = str in
   let boolean_of_string = function
     | "enable" | "enabled" | "on" | "1" | "true" -> true
     | "disable" | "disabled" | "off" | "0" | "false" -> false
-    | _ -> failwith "setting should be 'on' or 'off'"
+    | _ -> failwith (sprintf (f_ "setting should be '%s' or '%s'") "on" "off")
   in
   let domain_of_string conn str =
     try
@@ -237,8 +239,8 @@ let do_command =
       )
     with
       Libvirt.Virterror err ->
-	failwith ("domain " ^ str ^ ": not found.  Additional info: " ^
-		    Libvirt.Virterror.to_string err);
+	failwith (sprintf (f_ "domain %s: not found.  Additional info: %s")
+		    str (Libvirt.Virterror.to_string err));
   in
   let network_of_string conn str =
     try
@@ -248,12 +250,12 @@ let do_command =
 	N.lookup_by_name conn str
     with
       Libvirt.Virterror err ->
-	failwith ("network " ^ str ^ ": not found.  Additional info: " ^
-		    Libvirt.Virterror.to_string err);
+	failwith (sprintf (f_ "network %s: not found.  Additional info: %s")
+		    str (Libvirt.Virterror.to_string err));
   in
   let rec parse_sched_params = function
     | [] -> []
-    | [_] -> failwith "expected field value pairs, but got an odd number of arguments"
+    | [_] -> failwith (s_ "expected field value pairs, but got an odd number of arguments")
     | field :: value :: rest ->
 	(* XXX We only support the UINT type at the moment. *)
 	(field, D.SchedFieldUInt32 (Int32.of_string value))
@@ -282,18 +284,18 @@ let do_command =
     printf "%d.%d.%d\n" major minor release
   in
   let string_of_domain_state = function
-    | D.InfoNoState -> "unknown"
-    | D.InfoRunning -> "running"
-    | D.InfoBlocked -> "blocked"
-    | D.InfoPaused -> "paused"
-    | D.InfoShutdown -> "shutdown"
-    | D.InfoShutoff -> "shutoff"
-    | D.InfoCrashed -> "crashed"
+    | D.InfoNoState -> s_ "unknown"
+    | D.InfoRunning -> s_ "running"
+    | D.InfoBlocked -> s_ "blocked"
+    | D.InfoPaused -> s_ "paused"
+    | D.InfoShutdown -> s_ "shutdown"
+    | D.InfoShutoff -> s_ "shutoff"
+    | D.InfoCrashed -> s_ "crashed"
   in
   let string_of_vcpu_state = function
-    | D.VcpuOffline -> "offline"
-    | D.VcpuRunning -> "running"
-    | D.VcpuBlocked -> "blocked"
+    | D.VcpuOffline -> s_ "offline"
+    | D.VcpuRunning -> s_ "running"
+    | D.VcpuBlocked -> s_ "blocked"
   in
   let print_domain_array doms =
     Array.iter (
@@ -319,24 +321,26 @@ let do_command =
     ) nets
   in
   let print_node_info info =
-    printf "model:   %s\n" info.C.model;
-    printf "memory:  %Ld K\n" info.C.memory;
-    printf "cpus:    %d\n" info.C.cpus;
-    printf "mhz:     %d\n" info.C.mhz;
-    printf "nodes:   %d\n" info.C.nodes;
-    printf "sockets: %d\n" info.C.sockets;
-    printf "cores:   %d\n" info.C.cores;
-    printf "threads: %d\n" info.C.threads;
+    let () = printf (f_ "model: %s\n") info.C.model in
+    let () = printf (f_ "memory: %Ld K\n") info.C.memory in
+    let () = printf (f_ "cpus: %d\n") info.C.cpus in
+    let () = printf (f_ "mhz: %d\n") info.C.mhz in
+    let () = printf (f_ "nodes: %d\n") info.C.nodes in
+    let () = printf (f_ "sockets: %d\n") info.C.sockets in
+    let () = printf (f_ "cores: %d\n") info.C.cores in
+    let () = printf (f_ "threads: %d\n") info.C.threads in
+    ()
   in
   let print_domain_state { D.state = state } =
     print_endline (string_of_domain_state state)
   in
   let print_domain_info info =
-    printf "state:       %s\n" (string_of_domain_state info.D.state);
-    printf "max_mem:     %Ld K\n" info.D.max_mem;
-    printf "memory:      %Ld K\n" info.D.memory;
-    printf "nr_virt_cpu: %d\n" info.D.nr_virt_cpu;
-    printf "cpu_time:    %Ld ns\n" info.D.cpu_time;
+    let () = printf (f_ "state: %s\n") (string_of_domain_state info.D.state) in
+    let () = printf (f_ "max_mem: %Ld K\n") info.D.max_mem in
+    let () = printf (f_ "memory: %Ld K\n") info.D.memory in
+    let () = printf (f_ "nr_virt_cpu: %d\n") info.D.nr_virt_cpu in
+    let () = printf (f_ "cpu_time: %Ld ns\n") info.D.cpu_time in
+    ()
   in
   let print_sched_param_array params =
     Array.iter (
@@ -353,12 +357,12 @@ let do_command =
   in
   let print_vcpu_info (ncpus, vcpu_infos, cpumaps, maplen, maxcpus) =
     for n = 0 to ncpus-1 do
-      printf "virtual CPU: %d\n" n;
-      printf "  on physical CPU: %d\n" vcpu_infos.(n).D.cpu;
-      printf "  current state:   %s\n"
-	(string_of_vcpu_state vcpu_infos.(n).D.vcpu_state);
-      printf "  CPU time:        %Ld ns\n" vcpu_infos.(n).D.vcpu_time;
-      printf "  CPU affinity:    ";
+      let () = printf (f_ "virtual CPU: %d\n") n in
+      let () = printf (f_ "\ton physical CPU: %d\n") vcpu_infos.(n).D.cpu in
+      let () = printf (f_ "\tcurrent state: %s\n")
+	(string_of_vcpu_state vcpu_infos.(n).D.vcpu_state) in
+      let () = printf (f_ "\tCPU time: %Ld ns\n") vcpu_infos.(n).D.vcpu_time in
+      print_string ("\t" ^ s_ "CPU affinity" ^ ": ");
       for m = 0 to maxcpus-1 do
 	print_char (if C.cpu_usable cpumaps maplen n m then 'y' else '-')
       done;
@@ -368,23 +372,23 @@ let do_command =
   let print_block_stats { D.rd_req = rd_req; rd_bytes = rd_bytes;
 			  wr_req = wr_req; wr_bytes = wr_bytes;
 			  errs = errs } =
-    if rd_req >= 0L then   printf "read requests:  %Ld\n" rd_req;
-    if rd_bytes >= 0L then printf "read bytes:     %Ld\n" rd_bytes;
-    if wr_req >= 0L then   printf "write requests: %Ld\n" wr_req;
-    if wr_bytes >= 0L then printf "write bytes:    %Ld\n" wr_bytes;
-    if errs >= 0L then     printf "errors:         %Ld\n" errs;
+    if rd_req >= 0L then   printf (f_ "read requests: %Ld\n") rd_req;
+    if rd_bytes >= 0L then printf (f_ "read bytes: %Ld\n") rd_bytes;
+    if wr_req >= 0L then   printf (f_ "write requests: %Ld\n") wr_req;
+    if wr_bytes >= 0L then printf (f_ "write bytes: %Ld\n") wr_bytes;
+    if errs >= 0L then     printf (f_ "errors: %Ld\n") errs;
   and print_interface_stats { D.rx_bytes = rx_bytes; rx_packets = rx_packets;
 			      rx_errs = rx_errs; rx_drop = rx_drop;
 			      tx_bytes = tx_bytes; tx_packets = tx_packets;
 			      tx_errs = tx_errs; tx_drop = tx_drop } =
-    if rx_bytes >= 0L then   printf "rx bytes:   %Ld\n" rx_bytes;
-    if rx_packets >= 0L then printf "rx packets: %Ld\n" rx_packets;
-    if rx_errs >= 0L then    printf "rx errs:    %Ld\n" rx_errs;
-    if rx_drop >= 0L then    printf "rx dropped: %Ld\n" rx_drop;
-    if tx_bytes >= 0L then   printf "tx bytes:   %Ld\n" tx_bytes;
-    if tx_packets >= 0L then printf "tx packets: %Ld\n" tx_packets;
-    if tx_errs >= 0L then    printf "tx errs:    %Ld\n" tx_errs;
-    if tx_drop >= 0L then    printf "tx dropped: %Ld\n" tx_drop;
+    if rx_bytes >= 0L then   printf (f_ "rx bytes: %Ld\n") rx_bytes;
+    if rx_packets >= 0L then printf (f_ "rx packets: %Ld\n") rx_packets;
+    if rx_errs >= 0L then    printf (f_ "rx errs: %Ld\n") rx_errs;
+    if rx_drop >= 0L then    printf (f_ "rx dropped: %Ld\n") rx_drop;
+    if tx_bytes >= 0L then   printf (f_ "tx bytes: %Ld\n") tx_bytes;
+    if tx_packets >= 0L then printf (f_ "tx packets: %Ld\n") tx_packets;
+    if tx_errs >= 0L then    printf (f_ "tx errs: %Ld\n") tx_errs;
+    if tx_drop >= 0L then    printf (f_ "tx dropped: %Ld\n") tx_drop;
   in
 
   (* List of commands. *)
@@ -392,17 +396,17 @@ let do_command =
     "attach-device",
       cmd2 no_return D.attach_device
 	(arg_full_connection domain_of_string) input_file,
-      "Attach device to domain.";
+      s_ "Attach device to domain.";
     "autostart",
       cmd2 no_return D.set_autostart
 	(arg_full_connection domain_of_string) boolean_of_string,
-      "Set whether a domain autostarts at boot.";
+      s_ "Set whether a domain autostarts at boot.";
     "capabilities",
       cmd0 print_endline (with_readonly_connection C.get_capabilities),
-      "Returns capabilities of hypervisor/driver.";
+      s_ "Returns capabilities of hypervisor/driver.";
     "close",
       cmd0 no_return close_connection,
-      "Close an existing hypervisor connection.";
+      s_ "Close an existing hypervisor connection.";
     "connect",
       cmd12 no_return
 	(fun name readonly ->
@@ -411,69 +415,69 @@ let do_command =
 	   | None | Some false -> conn := RW (C.connect ~name ())
 	   | Some true -> conn := RO (C.connect_readonly ~name ())
 	) string_of_string string_of_readonly,
-      "Open a new hypervisor connection.";
+      s_ "Open a new hypervisor connection.";
     "create",
       cmd1 no_return
 	(fun xml -> D.create_linux (get_full_connection ()) xml) input_file,
-      "Create a domain from an XML file.";
+      s_ "Create a domain from an XML file.";
     "define",
       cmd1 no_return
 	(fun xml -> D.define_xml (get_full_connection ()) xml) input_file,
-      "Define (but don't start) a domain from an XML file.";
+      s_ "Define (but don't start) a domain from an XML file.";
     "detach-device",
       cmd2 no_return D.detach_device
 	(arg_full_connection domain_of_string) input_file,
-      "Detach device from domain.";
+      s_ "Detach device from domain.";
     "destroy",
       cmd1 no_return D.destroy (arg_full_connection domain_of_string),
-      "Destroy a domain.";
+      s_ "Destroy a domain.";
     "domblkstat",
       cmd2 print_block_stats D.block_stats
 	(arg_readonly_connection domain_of_string) string_of_string,
-      "Display the block device statistics for a domain.";
+      s_ "Display the block device statistics for a domain.";
     "domid",
       cmd1 print_int D.get_id (arg_readonly_connection domain_of_string),
-      "Print the ID of a domain.";
+      s_ "Print the ID of a domain.";
     "domifstat",
       cmd2 print_interface_stats D.interface_stats
 	(arg_readonly_connection domain_of_string) string_of_string,
-      "Display the network interface statistics for a domain.";
+      s_ "Display the network interface statistics for a domain.";
     "dominfo",
       cmd1 print_domain_info D.get_info
 	(arg_readonly_connection domain_of_string),
-      "Print the domain info.";
+      s_ "Print the domain info.";
     "dommaxmem",
       cmd1 print_int64 D.get_max_memory
 	(arg_readonly_connection domain_of_string),
-      "Print the max memory (in kilobytes) of a domain.";
+      s_ "Print the max memory (in kilobytes) of a domain.";
     "dommaxvcpus",
       cmd1 print_int D.get_max_vcpus
 	(arg_readonly_connection domain_of_string),
-      "Print the max VCPUs of a domain.";
+      s_ "Print the max VCPUs of a domain.";
     "domname",
       cmd1 print_endline D.get_name
 	(arg_readonly_connection domain_of_string),
-      "Print the name of a domain.";
+      s_ "Print the name of a domain.";
     "domostype",
       cmd1 print_endline D.get_os_type
 	(arg_readonly_connection domain_of_string),
-      "Print the OS type of a domain.";
+      s_ "Print the OS type of a domain.";
     "domstate",
       cmd1 print_domain_state D.get_info
 	(arg_readonly_connection domain_of_string),
-      "Print the domain state.";
+      s_ "Print the domain state.";
     "domuuid",
       cmd1 print_endline D.get_uuid_string
 	(arg_readonly_connection domain_of_string),
-      "Print the UUID of a domain.";
+      s_ "Print the UUID of a domain.";
     "dump",
       cmd2 no_return D.core_dump
 	(arg_full_connection domain_of_string) string_of_string,
-      "Core dump a domain to a file for analysis.";
+      s_ "Core dump a domain to a file for analysis.";
     "dumpxml",
       cmd1 print_endline D.get_xml_desc
 	(arg_full_connection domain_of_string),
-      "Print the XML description of a domain.";
+      s_ "Print the XML description of a domain.";
     "freecell",
       cmd012 print_int64_array (
 	fun start max ->
@@ -486,14 +490,14 @@ let do_command =
 	  | Some start, Some max ->
 	      C.node_get_cells_free_memory conn start max
           ) int_of_string int_of_string,
-      "Display free memory for machine, NUMA cell or range of cells";
+      s_ "Display free memory for machine, NUMA cell or range of cells";
     "get-autostart",
       cmd1 print_bool D.get_autostart
 	(arg_readonly_connection domain_of_string),
-      "Print whether a domain autostarts at boot.";
+      s_ "Print whether a domain autostarts at boot.";
     "hostname",
       cmd0 print_endline (with_readonly_connection C.get_hostname),
-      "Print the hostname.";
+      s_ "Print the hostname.";
     "list",
       cmd0 print_domain_array
 	(fun () ->
@@ -501,7 +505,7 @@ let do_command =
 	   let n = C.num_of_domains c in
 	   let domids = C.list_domains c n in
 	   Array.map (D.lookup_by_id c) domids),
-      "List the running domains.";
+      s_ "List the running domains.";
     "list-defined",
       cmd0 print_domain_array
 	(fun () ->
@@ -509,40 +513,40 @@ let do_command =
 	   let n = C.num_of_defined_domains c in
 	   let domnames = C.list_defined_domains c n in
 	   Array.map (D.lookup_by_name c) domnames),
-      "List the defined but not running domains.";
+      s_ "List the defined but not running domains.";
     "quit",
       cmd0 no_return (fun () -> exit 0),
-      "Quit the interactive terminal.";
+      s_ "Quit the interactive terminal.";
     "maxvcpus",
       cmd0 print_int (fun () -> C.get_max_vcpus (get_readonly_connection ()) ()),
-      "Print the max VCPUs available.";
+      s_ "Print the max VCPUs available.";
     "net-autostart",
       cmd2 no_return N.set_autostart
 	(arg_full_connection network_of_string) boolean_of_string,
-      "Set whether a network autostarts at boot.";
+      s_ "Set whether a network autostarts at boot.";
     "net-bridgename",
       cmd1 print_endline N.get_bridge_name
 	(arg_readonly_connection network_of_string),
-      "Print the bridge name of a network.";
+      s_ "Print the bridge name of a network.";
     "net-create",
       cmd1 no_return
 	(fun xml -> N.create_xml (get_full_connection ()) xml) input_file,
-      "Create a network from an XML file.";
+      s_ "Create a network from an XML file.";
     "net-define",
       cmd1 no_return
 	(fun xml -> N.define_xml (get_full_connection ()) xml) input_file,
-      "Define (but don't start) a network from an XML file.";
+      s_ "Define (but don't start) a network from an XML file.";
     "net-destroy",
       cmd1 no_return N.destroy (arg_full_connection network_of_string),
-      "Destroy a network.";
+      s_ "Destroy a network.";
     "net-dumpxml",
       cmd1 print_endline N.get_xml_desc
 	(arg_full_connection network_of_string),
-      "Print the XML description of a network.";
+      s_ "Print the XML description of a network.";
     "net-get-autostart",
       cmd1 print_bool N.get_autostart
 	(arg_full_connection network_of_string),
-      "Print whether a network autostarts at boot.";
+      s_ "Print whether a network autostarts at boot.";
     "net-list",
       cmd0 print_network_array
 	(fun () ->
@@ -550,7 +554,7 @@ let do_command =
 	   let n = C.num_of_networks c in
 	   let nets = C.list_networks c n in
 	   Array.map (N.lookup_by_name c) nets),
-      "List the active networks.";
+      s_ "List the active networks.";
     "net-list-defined",
       cmd0 print_network_array
 	(fun () ->
@@ -558,52 +562,52 @@ let do_command =
 	   let n = C.num_of_defined_networks c in
 	   let nets = C.list_defined_networks c n in
 	   Array.map (N.lookup_by_name c) nets),
-      "List the defined but inactive networks.";
+      s_ "List the defined but inactive networks.";
     "net-name",
       cmd1 print_endline N.get_name
 	(arg_readonly_connection network_of_string),
-      "Print the name of a network.";
+      s_ "Print the name of a network.";
     "net-start",
       cmd1 no_return N.create
 	(arg_full_connection network_of_string),
-      "Start a previously defined inactive network.";
+      s_ "Start a previously defined inactive network.";
     "net-undefine",
       cmd1 no_return N.undefine
 	(arg_full_connection network_of_string),
-      "Undefine an inactive network.";
+      s_ "Undefine an inactive network.";
     "net-uuid",
       cmd1 print_endline N.get_uuid_string
 	(arg_readonly_connection network_of_string),
-      "Print the UUID of a network.";
+      s_ "Print the UUID of a network.";
     "nodeinfo",
       cmd0 print_node_info (with_readonly_connection C.get_node_info),
-      "Print node information.";
+      s_ "Print node information.";
     "reboot",
       cmd1 no_return D.reboot (arg_full_connection domain_of_string),
-      "Reboot a domain.";
+      s_ "Reboot a domain.";
     "restore",
       cmd1 no_return (
 	fun path -> D.restore (get_full_connection ()) path
         ) string_of_string,
-      "Restore a domain from the named file.";
+      s_ "Restore a domain from the named file.";
     "resume",
       cmd1 no_return D.resume (arg_full_connection domain_of_string),
-      "Resume a domain.";
+      s_ "Resume a domain.";
     "save",
       cmd2 no_return D.save
 	(arg_full_connection domain_of_string) string_of_string,
-      "Save a domain to a file.";
+      s_ "Save a domain to a file.";
     "schedparams",
       cmd1 print_sched_param_array (
 	fun dom ->
 	  let n = snd (D.get_scheduler_type dom) in
 	  D.get_scheduler_parameters dom n
         ) (arg_readonly_connection domain_of_string),
-      "Get the current scheduler parameters for a domain.";
+      s_ "Get the current scheduler parameters for a domain.";
     "schedparamset",
       cmdN no_return (
 	function
-	| [] -> failwith "expecting domain followed by field value pairs"
+	| [] -> failwith (s_ "expecting domain followed by field value pairs")
 	| dom :: pairs ->
 	    let conn = get_full_connection () in
 	    let dom = domain_of_string conn dom in
@@ -611,42 +615,42 @@ let do_command =
 	    let params = Array.of_list params in
 	    D.set_scheduler_parameters dom params
         ),
-      "Set the scheduler parameters for a domain.";
+      s_ "Set the scheduler parameters for a domain.";
     "schedtype",
       cmd1 print_endline
 	(fun dom -> fst (D.get_scheduler_type dom))
 	(arg_readonly_connection domain_of_string),
-      "Get the scheduler type.";
+      s_ "Get the scheduler type.";
     "setmem",
       cmd2 no_return D.set_memory
 	(arg_full_connection domain_of_string) Int64.of_string,
-      "Set the memory used by the domain (in kilobytes).";
+      s_ "Set the memory used by the domain (in kilobytes).";
     "setmaxmem",
       cmd2 no_return D.set_max_memory
 	(arg_full_connection domain_of_string) Int64.of_string,
-      "Set the maximum memory used by the domain (in kilobytes).";
+      s_ "Set the maximum memory used by the domain (in kilobytes).";
     "shutdown",
       cmd1 no_return D.shutdown
 	(arg_full_connection domain_of_string),
-      "Gracefully shutdown a domain.";
+      s_ "Gracefully shutdown a domain.";
     "start",
       cmd1 no_return D.create
 	(arg_full_connection domain_of_string),
-      "Start a previously defined inactive domain.";
+      s_ "Start a previously defined inactive domain.";
     "suspend",
       cmd1 no_return D.suspend
 	(arg_full_connection domain_of_string),
-      "Suspend a domain.";
+      s_ "Suspend a domain.";
     "type",
       cmd0 print_endline (with_readonly_connection C.get_type),
-      "Print the driver name";
+      s_ "Print the driver name";
     "undefine",
       cmd1 no_return D.undefine
 	(arg_full_connection domain_of_string),
-      "Undefine an inactive domain.";
+      s_ "Undefine an inactive domain.";
     "uri",
       cmd0 print_endline (with_readonly_connection C.get_uri),
-      "Print the canonical URI.";
+      s_ "Print the canonical URI.";
     "vcpuinfo",
       cmd1 print_vcpu_info (
 	fun dom ->
@@ -659,18 +663,18 @@ let do_command =
 	  let ncpus, vcpu_infos, cpumaps = D.get_vcpus dom maxinfo maplen in
 	  ncpus, vcpu_infos, cpumaps, maplen, maxcpus
         ) (arg_readonly_connection domain_of_string),
-      "Pin domain VCPU to a list of physical CPUs.";
+      s_ "Pin domain VCPU to a list of physical CPUs.";
     "vcpupin",
       cmd3 no_return D.pin_vcpu
 	(arg_full_connection domain_of_string) int_of_string cpumap_of_string,
-      "Pin domain VCPU to a list of physical CPUs.";
+      s_ "Pin domain VCPU to a list of physical CPUs.";
     "vcpus",
       cmd2 no_return D.set_vcpus
 	(arg_full_connection domain_of_string) int_of_string,
-      "Set the number of virtual CPUs assigned to a domain.";
+      s_ "Set the number of virtual CPUs assigned to a domain.";
     "version",
       cmd0 print_version (with_readonly_connection C.get_version),
-      "Print the driver version";
+      s_ "Print the driver version";
   ] in
 
   (* Command help. *)
@@ -682,7 +686,9 @@ let do_command =
 	      sprintf "%-12s %s" cmd description
 	  ) commands
 	) ^
-	"\n\nUse '" ^ program_name ^ " help command' for help on a command."
+	"\n\n" ^
+	  (sprintf (f_ "Use '%s help command' for help on a command.")
+	     program_name)
 
     | Some command ->			(* Full description of one command. *)
 	try
@@ -691,13 +697,13 @@ let do_command =
 	  sprintf "%s %s\n\n%s" program_name command description
 	with
 	  Not_found ->
-	    failwith ("help: " ^ command ^ ": command not found");
+	    failwith (sprintf (f_ "help: %s: command not found") command);
   in
 
   let commands =
     ("help",
      cmd01 print_endline help string_of_string,
-     "Print list of commands or full description of one command.";
+     s_ "Print list of commands or full description of one command.";
     ) :: commands in
 
   (* Execute a command. *)
@@ -707,7 +713,7 @@ let do_command =
       cmd args
     with
       Not_found ->
-	failwith (command ^ ": command not found");
+	failwith (sprintf (f_ "%s: command not found") command);
   in
 
   do_command
@@ -716,9 +722,9 @@ let do_command =
 let rec interactive_mode () =
   let prompt =
     match !conn with
-    | No_connection -> "mlvirsh(no connection)$ "
-    | RO _ -> "mlvirsh(ro)$ "
-    | RW _ -> "mlvirsh# " in
+    | No_connection -> s_ "mlvirsh(no connection)" ^ "$ "
+    | RO _ -> s_ "mlvirsh(ro)" ^ "$ "
+    | RW _ -> s_ "mlvirsh" ^ "# " in
   print_string prompt;
   let command = read_line () in
   (match str_nsplit command " " with

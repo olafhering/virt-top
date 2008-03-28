@@ -21,6 +21,8 @@ prefix		= @prefix@
 exec_prefix	= @exec_prefix@
 bindir		= @bindir@
 
+pkg_gettext     = @pkg_gettext@
+
 OCAMLFIND	= @OCAMLFIND@
 
 ifneq ($(OCAMLFIND),)
@@ -39,6 +41,19 @@ OCAMLOPTFLAGS	:=
 OCAMLOPTLIBS	:= unix.cmxa
 endif
 
+ifneq ($(pkg_gettext),no)
+ifneq ($(OCAMLFIND),)
+OCAMLCPACKAGES  += -package gettext-stub
+OCAMLOPTPACKAGES  += -package gettext-stub
+else
+OCAMLCINCS	+= -I gettext -I gettext-stub
+OCAMLOPTINCS	+= -I gettext -I gettext-stub
+endif
+endif
+
+OBJS		:= mlvirsh_gettext.cmo mlvirsh.cmo
+XOBJS		:= $(OBJS:.cmo=.cmx)
+
 export LIBRARY_PATH=../libvirt
 export LD_LIBRARY_PATH=../libvirt
 
@@ -50,23 +65,23 @@ all: $(BYTE_TARGETS)
 opt: $(OPT_TARGETS)
 
 ifneq ($(OCAMLFIND),)
-mlvirsh: mlvirsh.cmo
+mlvirsh: $(OBJS)
 	$(OCAMLFIND) ocamlc $(OCAMLCPACKAGES) $(OCAMLCFLAGS) $(OCAMLCLIBS) \
-	  ../libvirt/mllibvirt.cma -o $@ $<
+	  ../libvirt/mllibvirt.cma -o $@ $^
 
-mlvirsh.opt: mlvirsh.cmx
+mlvirsh.opt: $(XOBJS)
 	$(OCAMLFIND) ocamlopt \
 	  $(OCAMLOPTPACKAGES) $(OCAMLOPTFLAGS) $(OCAMLOPTLIBS) \
-	  ../libvirt/mllibvirt.cmxa -o $@ $<
+	  ../libvirt/mllibvirt.cmxa -o $@ $^
 else
-mlvirsh: mlvirsh.cmo
+mlvirsh: $(OBJS)
 	$(OCAMLC) $(OCAMLCINCS) $(OCAMLCFLAGS) $(OCAMLCLIBS) \
-	  ../libvirt/mllibvirt.cma -o $@ $<
+	  ../libvirt/mllibvirt.cma -o $@ $^
 
-mlvirsh.opt: mlvirsh.cmx
+mlvirsh.opt: $(XOBJS)
 	$(OCAMLOPT) \
 	  $(OCAMLOPTINCS) $(OCAMLOPTFLAGS) $(OCAMLOPTLIBS) \
-	  ../libvirt/mllibvirt.cmxa -o $@ $<
+	  ../libvirt/mllibvirt.cmxa -o $@ $^
 endif
 
 install:
