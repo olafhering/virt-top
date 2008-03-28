@@ -2,23 +2,27 @@ vc_connections.cmi: ../libvirt/libvirt.cmi
 vc_domain_ops.cmi: vc_connections.cmi 
 vc_helpers.cmi: ../libvirt/libvirt.cmi 
 vc_mainwindow.cmi: vc_domain_ops.cmi 
-vc_connection_dlg.cmo: vc_connections.cmi vc_connection_dlg.cmi 
-vc_connection_dlg.cmx: vc_connections.cmx vc_connection_dlg.cmi 
-vc_connections.cmo: vc_helpers.cmi ../libvirt/libvirt.cmi vc_connections.cmi 
-vc_connections.cmx: vc_helpers.cmx ../libvirt/libvirt.cmx vc_connections.cmi 
-vc_dbus.cmo: vc_connection_dlg.cmi vc_dbus.cmi 
-vc_dbus.cmx: vc_connection_dlg.cmx vc_dbus.cmi 
-vc_domain_ops.cmo: vc_connections.cmi ../libvirt/libvirt.cmi \
-    vc_domain_ops.cmi 
-vc_domain_ops.cmx: vc_connections.cmx ../libvirt/libvirt.cmx \
-    vc_domain_ops.cmi 
-vc_helpers.cmo: ../libvirt/libvirt.cmi vc_helpers.cmi 
-vc_helpers.cmx: ../libvirt/libvirt.cmx vc_helpers.cmi 
+vc_connection_dlg.cmo: virt_ctrl_gettext.cmo vc_connections.cmi \
+    vc_connection_dlg.cmi 
+vc_connection_dlg.cmx: virt_ctrl_gettext.cmx vc_connections.cmx \
+    vc_connection_dlg.cmi 
+vc_connections.cmo: virt_ctrl_gettext.cmo vc_helpers.cmi \
+    ../libvirt/libvirt.cmi vc_connections.cmi 
+vc_connections.cmx: virt_ctrl_gettext.cmx vc_helpers.cmx \
+    ../libvirt/libvirt.cmx vc_connections.cmi 
+vc_dbus.cmo: virt_ctrl_gettext.cmo vc_connection_dlg.cmi vc_dbus.cmi 
+vc_dbus.cmx: virt_ctrl_gettext.cmx vc_connection_dlg.cmx vc_dbus.cmi 
+vc_domain_ops.cmo: virt_ctrl_gettext.cmo vc_connections.cmi \
+    ../libvirt/libvirt.cmi vc_domain_ops.cmi 
+vc_domain_ops.cmx: virt_ctrl_gettext.cmx vc_connections.cmx \
+    ../libvirt/libvirt.cmx vc_domain_ops.cmi 
+vc_helpers.cmo: virt_ctrl_gettext.cmo ../libvirt/libvirt.cmi vc_helpers.cmi 
+vc_helpers.cmx: virt_ctrl_gettext.cmx ../libvirt/libvirt.cmx vc_helpers.cmi 
 vc_icons.cmo: vc_connection_dlg.cmi 
 vc_icons.cmx: vc_connection_dlg.cmx 
-vc_mainwindow.cmo: vc_connections.cmi vc_connection_dlg.cmi \
-    ../libvirt/libvirt.cmi vc_mainwindow.cmi 
-vc_mainwindow.cmx: vc_connections.cmx vc_connection_dlg.cmx \
-    ../libvirt/libvirt.cmx vc_mainwindow.cmi 
-virt_ctrl.cmo: vc_mainwindow.cmi vc_domain_ops.cmi 
-virt_ctrl.cmx: vc_mainwindow.cmx vc_domain_ops.cmx 
+vc_mainwindow.cmo: virt_ctrl_gettext.cmo vc_connections.cmi \
+    vc_connection_dlg.cmi ../libvirt/libvirt.cmi vc_mainwindow.cmi 
+vc_mainwindow.cmx: virt_ctrl_gettext.cmx vc_connections.cmx \
+    vc_connection_dlg.cmx ../libvirt/libvirt.cmx vc_mainwindow.cmi 
+virt_ctrl.cmo: virt_ctrl_gettext.cmo vc_mainwindow.cmi vc_domain_ops.cmi 
+virt_ctrl.cmx: virt_ctrl_gettext.cmx vc_mainwindow.cmx vc_domain_ops.cmx 

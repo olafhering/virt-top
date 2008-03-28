@@ -18,8 +18,9 @@
 *)
 
 open Printf
+open Virt_ctrl_gettext.Gettext
 
-let title = "Virtual Control"
+let title = s_ "Virtual Control"
 
 let utf8_copyright = "\194\169"
 
@@ -35,18 +36,21 @@ let help_about () =
   GToolbox.message_box
     ~title
     ~icon
-    ("Virtualization control tool (virt-ctrl) by\n" ^
-     "Richard W.M. Jones (rjones@redhat.com).\n\n" ^
-     "Copyright " ^ utf8_copyright ^ " 2007-2008 Red Hat Inc.\n\n" ^
-     "Libvirt version: " ^ virt_version ^ "\n" ^
-     "Gtk toolkit version: " ^ gtk_version)
+    (sprintf (f_ "Virtualization control tool (virt-ctrl) by
+Richard W.M. Jones (rjones@redhat.com).
+
+Copyright %s 2007-2008 Red Hat Inc.
+
+Libvirt version: %s
+
+Gtk toolkit version: %s") utf8_copyright virt_version gtk_version)
 
 (* Catch any exception and throw up a dialog. *)
 let () =
   (* A nicer exception printing function. *)
   let string_of_exn = function
     | Libvirt.Virterror err ->
-	"Virtualisation error: " ^ (Libvirt.Virterror.to_string err)
+	s_ "Virtualisation error" ^ ": " ^ (Libvirt.Virterror.to_string err)
     | Failure msg -> msg
     | exn -> Printexc.to_string exn
   in
@@ -54,7 +58,7 @@ let () =
     fun exn ->
       let label = string_of_exn exn in
       prerr_endline label;
-      let title = "Error" in
+      let title = s_ "Error" in
       let icon = GMisc.image () in
       icon#set_stock `DIALOG_ERROR;
       icon#set_icon_size `DIALOG;
@@ -72,25 +76,25 @@ let make
     let menubar = GMenu.menu_bar ~packing:vbox#pack () in
     let factory = new GMenu.factory menubar in
     let accel_group = factory#accel_group in
-    let file_menu = factory#add_submenu "File" in
-    let help_menu = factory#add_submenu "Help" in
+    let file_menu = factory#add_submenu (s_ "File") in
+    let help_menu = factory#add_submenu (s_ "Help") in
 
     window#add_accel_group accel_group;
 
     (* File menu. *)
     let factory = new GMenu.factory file_menu ~accel_group in
-    let open_item = factory#add_item "Open connection ..."
+    let open_item = factory#add_item (s_ "Open connection ...")
       ~key:GdkKeysyms._O in
     ignore (factory#add_separator ());
-    let quit_item = factory#add_item "Quit" ~key:GdkKeysyms._Q in
+    let quit_item = factory#add_item (s_ "Quit") ~key:GdkKeysyms._Q in
 
     ignore (open_item#connect#activate
 	      ~callback:(Vc_connection_dlg.open_connection window));
 
     (* Help menu. *)
     let factory = new GMenu.factory help_menu ~accel_group in
-    let help_item = factory#add_item "Help" in
-    let help_about_item = factory#add_item "About ..." in
+    let help_item = factory#add_item (s_ "Help") in
+    let help_about_item = factory#add_item (s_ "About ...") in
 
     ignore (help_about_item#connect#activate ~callback:help_about);
 
@@ -111,26 +115,26 @@ let make
     let connect_button_menu = GMenu.menu () in
     let connect_button =
       GButton.menu_tool_button
-	~label:"Connect ..." ~stock:`CONNECT
+	~label:(s_ "Connect ...") ~stock:`CONNECT
 	~menu:connect_button_menu
 	~packing:toolbar#insert () in
     ignore (GButton.separator_tool_item ~packing:toolbar#insert ());
     let open_button =
-      GButton.tool_button ~label:"Details" ~stock:`OPEN
+      GButton.tool_button ~label:(s_ "Details") ~stock:`OPEN
 	~packing:toolbar#insert () in
     ignore (GButton.separator_tool_item ~packing:toolbar#insert ());
     let start_button =
-      GButton.tool_button ~label:"Start" ~stock:`ADD
+      GButton.tool_button ~label:(s_ "Start") ~stock:`ADD
 	~packing:toolbar#insert () in
     let pause_button =
-      GButton.tool_button ~label:"Pause" ~stock:`MEDIA_PAUSE
+      GButton.tool_button ~label:(s_ "Pause") ~stock:`MEDIA_PAUSE
 	~packing:toolbar#insert () in
     let resume_button =
-      GButton.tool_button ~label:"Resume" ~stock:`MEDIA_PLAY
+      GButton.tool_button ~label:(s_ "Resume") ~stock:`MEDIA_PLAY
 	~packing:toolbar#insert () in
     ignore (GButton.separator_tool_item ~packing:toolbar#insert ());
     let shutdown_button =
-      GButton.tool_button ~label:"Shutdown" ~stock:`STOP
+      GButton.tool_button ~label:(s_ "Shutdown") ~stock:`STOP
 	~packing:toolbar#insert () in
 
     (* Set callbacks for the toolbar buttons. *)
@@ -150,10 +154,10 @@ let make
     (* Set a menu on the connect menu-button. *)
     let () =
       let factory = new GMenu.factory connect_button_menu (*~accel_group*) in
-      let local_xen = factory#add_item "Local Xen" in
-      let local_qemu = factory#add_item "Local QEMU/KVM" in
+      let local_xen = factory#add_item (s_ "Local Xen") in
+      let local_qemu = factory#add_item (s_ "Local QEMU/KVM") in
       ignore (factory#add_separator ());
-      let open_dialog = factory#add_item "Connect to ..." in
+      let open_dialog = factory#add_item (s_ "Connect to ...") in
       ignore (local_xen#connect#activate
 		~callback:Vc_connection_dlg.open_local_xen);
       ignore (local_qemu#connect#activate

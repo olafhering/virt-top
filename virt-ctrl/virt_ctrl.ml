@@ -18,6 +18,7 @@
 *)
 
 open Printf
+open Virt_ctrl_gettext.Gettext
 
 let () =
   (* Build the main window and wire up the buttons to the callback functions *)

@@ -39,6 +39,7 @@
  *)
 
 open Printf
+open Virt_ctrl_gettext.Gettext
 open DBus
 
 let debug = true
@@ -120,7 +121,7 @@ let add_service bus err msg =
       Hashtbl.replace services name uri
 
   | _ ->
-      prerr_endline "warning: unexpected message contents of Found signal"
+      prerr_endline (s_ "warning: unexpected message contents of Found signal")
 
 (* Process an ItemRemove message, indicating that a service has
  * gone away.
@@ -135,7 +136,8 @@ let remove_service bus err msg =
       Hashtbl.remove services name
 
   | _ ->
-      prerr_endline "warning: unexpected message contents of ItemRemove signal"
+      prerr_endline
+	(s_ "warning: unexpected message contents of ItemRemove signal")
 
 (* A service has appeared on the network.  Resolve its IP address, etc. *)
 let start_resolve_service bus err sb_path msg =
@@ -182,7 +184,8 @@ let start_resolve_service bus err sb_path msg =
       ()
 
   | _ ->
-      prerr_endline "warning: unexpected message contents of ItemNew signal"
+      prerr_endline
+	(s_ "warning: unexpected message contents of ItemNew signal")
 
 (* This is called when we get a message/signal.  Could be from the
  * (global) ServiceBrowser or any of the ServiceResolver objects.
@@ -212,8 +215,10 @@ let got_message bus err sb_path msg =
 	remove_service bus err msg
     | "org.freedesktop.DBus", _ -> ()
     | interface, member ->
-	eprintf "warning: ignored unknown message %s from %s\n%!"
-	  member interface
+	let () =
+	  eprintf (f_ "warning: ignored unknown message %s from %s\n%!")
+	    member interface in
+	()
   );
   true
 
@@ -230,7 +235,8 @@ let connect () =
   | None ->
       let err = Error.init () in
       let bus = Bus.get Bus.System err in
-      if Error.is_set err then failwith "error set after getting System bus";
+      if Error.is_set err then
+	failwith (s_ "error set after getting System bus");
 
       (* Create a new ServiceBrowser object which emits a signal whenever
        * a new network service of the type specified is found on the network.

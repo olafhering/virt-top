@@ -20,6 +20,7 @@
 *)
 
 open Printf
+open Virt_ctrl_gettext.Gettext
 
 module C = Libvirt.Connect
 module D = Libvirt.Domain

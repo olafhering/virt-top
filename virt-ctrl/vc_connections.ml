@@ -18,6 +18,7 @@
 *)
 
 open Printf
+open Virt_ctrl_gettext.Gettext
 
 module C = Libvirt.Connect
 module D = Libvirt.Domain
@@ -401,11 +402,11 @@ let make_treeview ?packing () =
 	view_col#set_sort_order sort_order;
 	view_col#set_sort_column_id sort_column_id
   in
-  append_visible_column "ID" col_name_id (Some (false, `ASCENDING, 0));
-  append_visible_column "Name" col_domname (Some (true, `ASCENDING, 1));
-  append_visible_column "Status" col_status None;
-  append_visible_column "CPU" col_cpu None;
-  append_visible_column "Memory" col_mem None;
+  append_visible_column (s_ "ID") col_name_id (Some (false, `ASCENDING, 0));
+  append_visible_column (s_ "Name") col_domname (Some (true, `ASCENDING, 1));
+  append_visible_column (s_ "Status") col_status None;
+  append_visible_column (s_ "CPU") col_cpu None;
+  append_visible_column (s_ "Memory") col_mem None;
 
   let columns =
     col_name_id, col_domname, col_status, col_cpu, col_mem, col_id in

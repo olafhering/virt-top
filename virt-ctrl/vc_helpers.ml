@@ -17,6 +17,8 @@
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 *)
 
+open Virt_ctrl_gettext.Gettext
+
 module C = Libvirt.Connect
 module D = Libvirt.Domain
 module N = Libvirt.Network
@@ -47,13 +49,13 @@ let differences xs ys =
   d (List.sort compare xs, List.sort compare ys)
 
 let string_of_domain_state = function
-  | D.InfoNoState -> "unknown"
-  | D.InfoRunning -> "running"
-  | D.InfoBlocked -> "blocked"
-  | D.InfoPaused -> "paused"
-  | D.InfoShutdown -> "shutdown"
-  | D.InfoShutoff -> "shutoff"
-  | D.InfoCrashed -> "crashed"
+  | D.InfoNoState -> s_ "unknown"
+  | D.InfoRunning -> s_ "running"
+  | D.InfoBlocked -> s_ "blocked"
+  | D.InfoPaused -> s_ "paused"
+  | D.InfoShutdown -> s_ "shutdown"
+  | D.InfoShutoff -> s_ "shutoff"
+  | D.InfoCrashed -> s_ "crashed"
 
 (* Filter top level rows (only) in a tree_store.  If function f returns
  * true then the row remains, but if it returns false then the row is

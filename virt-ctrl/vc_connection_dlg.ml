@@ -17,6 +17,8 @@
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 *)
 
+open Virt_ctrl_gettext.Gettext
+
 type name = string
 type uri = string
 type service = name * uri
@@ -35,7 +37,7 @@ let icon_48x48_devices_computer_png = ref None
 
 (* Open connection dialog. *)
 let open_connection parent () =
-  let title = "Open connection to hypervisor" in
+  let title = s_ "Open connection to hypervisor" in
   let position = `CENTER_ON_PARENT in
 
   let dlg = GWindow.dialog ~title ~position ~parent
@@ -57,7 +59,7 @@ let open_connection parent () =
   (* Local connections. *)
   let () =
     let frame =
-      GBin.frame ~label:"This machine" ~packing:vbox#pack () in
+      GBin.frame ~label:(s_ "This machine") ~packing:vbox#pack () in
     let hbox = GPack.hbox ~packing:frame#add () in
     hbox#set_spacing 20;
     ignore (
@@ -71,14 +73,14 @@ let open_connection parent () =
     vbox#set_spacing 5;
 
     let xen_button =
-      GButton.button ~label:"Xen hypervisor"
+      GButton.button ~label:(s_ "Xen hypervisor")
 	~packing:vbox#pack () in
     ignore (xen_button#connect#clicked
 	      ~callback:(fun () ->
 			   uri := Some local_xen_uri;
 			   dlg#destroy ()));
     let qemu_button =
-      GButton.button ~label:"QEMU or KVM"
+      GButton.button ~label:(s_ "QEMU or KVM")
 	~packing:vbox#pack () in
     ignore (qemu_button#connect#clicked
 	      ~callback:(fun () ->
@@ -88,7 +90,7 @@ let open_connection parent () =
   (* Network connections. *)
   let () =
     let frame =
-      GBin.frame ~label:"Local network"
+      GBin.frame ~label:(s_ "Local network")
 	~packing:(vbox#pack ~expand:true) () in
     let hbox = GPack.hbox ~packing:frame#add () in
     hbox#set_spacing 20;
@@ -129,9 +131,10 @@ let open_connection parent () =
 
     let hbox = GPack.hbox ~packing:vbox#pack () in
     let refresh_button =
-      GButton.button ~label:"Refresh" ~stock:`REFRESH ~packing:hbox#pack () in
+      GButton.button ~label:(s_ "Refresh")
+	~stock:`REFRESH ~packing:hbox#pack () in
     let open_button =
-      GButton.button ~label:"Open" ~packing:hbox#pack () in
+      GButton.button ~label:(s_ "Open") ~packing:hbox#pack () in
 
     ignore (refresh_button#connect#clicked ~callback:refresh);
 
@@ -154,7 +157,7 @@ let open_connection parent () =
   (* Custom connections. *)
   let () =
     let frame =
-      GBin.frame ~label:"URI connection" ~packing:vbox#pack () in
+      GBin.frame ~label:(s_ "URI connection") ~packing:vbox#pack () in
     let hbox = GPack.hbox ~packing:frame#add () in
     hbox#set_spacing 20;
     ignore (GMisc.image ~stock:`CONNECT ~packing:hbox#pack ());
@@ -164,7 +167,7 @@ let open_connection parent () =
       GEdit.entry ~text:"xen://localhost/"
 	~packing:(hbox#pack ~expand:true ~fill:true) () in
     let button =
-      GButton.button ~label:"Open" ~packing:hbox#pack () in
+      GButton.button ~label:(s_ "Open") ~packing:hbox#pack () in
 
     ignore (button#connect#clicked
 	      ~callback:(fun () ->
@@ -176,7 +179,7 @@ let open_connection parent () =
 
   (* Just a cancel button in the action area. *)
   let cancel_button =
-    GButton.button ~label:"Cancel"
+    GButton.button ~label:(s_ "Cancel")
       ~packing:dlg#action_area#pack () in
   ignore (cancel_button#connect#clicked
 	    ~callback:(fun () ->

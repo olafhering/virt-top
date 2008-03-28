@@ -27,10 +27,15 @@ icons		= @icons@
 HAVE_GDK_PIXBUF_MLSOURCE = @HAVE_GDK_PIXBUF_MLSOURCE@
 
 pkg_dbus        = @pkg_dbus@
+pkg_gettext     = @pkg_gettext@
 
 OCAMLFIND	= @OCAMLFIND@
 
-OBJS += \
+ifneq ($(pkg_gettext),no)
+OBJS 		:= virt_ctrl_gettext.cmo
+endif
+
+OBJS		+= \
 	vc_helpers.cmo \
 	vc_connections.cmo \
 	vc_domain_ops.cmo \
@@ -41,8 +46,11 @@ ifneq ($(OCAMLFIND),)
 # Good, we have ocamlfind.
 OCAMLCPACKAGES	:= -I ../libvirt -package unix,lablgtk2
 ifeq ($(pkg_dbus),yes)
-OCAMLCPACKAGES  := $(OCAMLCPACKAGES),dbus
+OCAMLCPACKAGES  += -package dbus
 OBJS            += vc_dbus.cmo
+endif
+ifeq ($(pkg_gettext),yes)
+OCAMLCPACKAGES  += -package gettext-stub
 endif
 OCAMLCFLAGS	:= -g
 OCAMLCLIBS	:= -linkpkg
