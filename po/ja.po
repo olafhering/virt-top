@@ -15,12 +15,28 @@ msgstr ""
 msgid "%s: command not found"
 msgstr ""
 
+#: ../virt-df/virt_df.ml:362
+msgid "%s: unknown parameter"
+msgstr ""
+
+#: ../virt-df/virt_df.ml:514
+msgid "(device omitted)"
+msgstr ""
+
+#: ../virt-df/virt_df.ml:498
+msgid "1K-blocks"
+msgstr ""
+
 #: ../virt-ctrl/vc_mainwindow.ml:97
 msgid "About ..."
 msgstr ""
 
 #: ../mlvirsh/mlvirsh.ml:399
 msgid "Attach device to domain."
+msgstr ""
+
+#: ../virt-df/virt_df.ml:498 ../virt-df/virt_df.ml:499
+msgid "Available"
 msgstr ""
 
 #: ../virt-ctrl/vc_connections.ml:408
@@ -45,6 +61,10 @@ msgstr ""
 
 #: ../virt-ctrl/vc_mainwindow.ml:160
 msgid "Connect to ..."
+msgstr ""
+
+#: ../virt-df/virt_df.ml:346 ../virt-df/virt_df.ml:348
+msgid "Connect to URI (default: Xen)"
 msgstr ""
 
 #: ../mlvirsh/mlvirsh.ml:476
@@ -95,6 +115,10 @@ msgstr ""
 msgid "Display the network interface statistics for a domain."
 msgstr ""
 
+#: ../virt-df/virt_df.ml:358
+msgid "Display version and exit"
+msgstr ""
+
 #: ../virt-ctrl/vc_mainwindow.ml:61
 msgid "Error"
 msgstr "エラー"
@@ -102,6 +126,10 @@ msgstr "エラー"
 #: ../virt-ctrl/vc_mainwindow.ml:79
 msgid "File"
 msgstr "ファイル"
+
+#: ../virt-df/virt_df.ml:502
+msgid "Filesystem"
+msgstr ""
 
 #: ../mlvirsh/mlvirsh.ml:606
 msgid "Get the current scheduler parameters for a domain."
@@ -125,6 +153,30 @@ msgstr ""
 
 #: ../virt-ctrl/vc_connections.ml:405
 msgid "ID"
+msgstr ""
+
+#: ../virt-df/virt_df.ml:500
+msgid "IFree"
+msgstr ""
+
+#: ../virt-df/virt_df.ml:500
+msgid "IUse"
+msgstr ""
+
+#: ../virt-df/virt_df.ml:500
+msgid "Inodes"
+msgstr ""
+
+#: ../virt-df/virt_df_lvm2.ml:33
+msgid "LVM2 not supported yet"
+msgstr ""
+
+#: ../virt-df/virt_df_ext2.ml:82
+msgid "Linux ext2/3"
+msgstr ""
+
+#: ../virt-df/virt_df_linux_swap.ml:33
+msgid "Linux swap"
 msgstr ""
 
 #: ../mlvirsh/mlvirsh.ml:557
@@ -157,6 +209,10 @@ msgstr ""
 
 #: ../virt-ctrl/vc_connections.ml:409
 msgid "Memory"
+msgstr ""
+
+#: ../virt-df/virt_df.ml:382
+msgid "NB: If you want to monitor a local Xen hypervisor, you usually need to be root"
 msgstr ""
 
 #: ../virt-ctrl/vc_connections.ml:406
@@ -193,6 +249,10 @@ msgstr ""
 
 #: ../mlvirsh/mlvirsh.ml:584
 msgid "Print node information."
+msgstr ""
+
+#: ../virt-df/virt_df.ml:350 ../virt-df/virt_df.ml:352
+msgid "Print sizes in human-readable format"
 msgstr ""
 
 #: ../mlvirsh/mlvirsh.ml:440
@@ -343,8 +403,20 @@ msgstr ""
 msgid "Set whether a network autostarts at boot."
 msgstr ""
 
+#: ../virt-df/virt_df.ml:342 ../virt-df/virt_df.ml:344
+msgid "Show all domains (default: only active domains)"
+msgstr ""
+
+#: ../virt-df/virt_df.ml:354 ../virt-df/virt_df.ml:356
+msgid "Show inodes instead of blocks"
+msgstr ""
+
 #: ../virt-ctrl/vc_mainwindow.ml:137
 msgid "Shutdown"
+msgstr ""
+
+#: ../virt-df/virt_df.ml:499
+msgid "Size"
 msgstr ""
 
 #: ../virt-ctrl/vc_mainwindow.ml:127
@@ -375,6 +447,10 @@ msgstr ""
 msgid "This machine"
 msgstr ""
 
+#: ../virt-df/virt_df.ml:502
+msgid "Type"
+msgstr ""
+
 #: ../virt-ctrl/vc_connection_dlg.ml:160
 msgid "URI connection"
 msgstr ""
@@ -389,6 +465,10 @@ msgstr ""
 
 #: ../mlvirsh/mlvirsh.ml:690
 msgid "Use '%s help command' for help on a command."
+msgstr ""
+
+#: ../virt-df/virt_df.ml:498 ../virt-df/virt_df.ml:499
+msgid "Used"
 msgstr ""
 
 #: ../virt-ctrl/vc_mainwindow.ml:23
@@ -439,8 +519,24 @@ msgstr ""
 msgid "crashed"
 msgstr ""
 
+#: ../virt-df/virt_df.ml:236
+msgid "detection of unpartitioned devices not yet supported"
+msgstr ""
+
 #: ../mlvirsh/mlvirsh.ml:242
 msgid "domain %s: not found.  Additional info: %s"
+msgstr ""
+
+#: ../virt-df/virt_df_ext2.ml:39
+msgid "error reading ext2/ext3 magic"
+msgstr ""
+
+#: ../virt-df/virt_df.ml:182
+msgid "error reading extended partition"
+msgstr ""
+
+#: ../virt-df/virt_df.ml:149
+msgid "error reading partition table"
 msgstr ""
 
 #: ../virt-ctrl/vc_dbus.ml:239
@@ -461,6 +557,18 @@ msgstr ""
 
 #: ../mlvirsh/mlvirsh.ml:220
 msgid "flag should be '%s'"
+msgstr ""
+
+#: ../virt-df/virt_df.ml:419
+msgid "get_xml_desc didn't return <domain/>"
+msgstr ""
+
+#: ../virt-df/virt_df.ml:427
+msgid "get_xml_desc returned no <name> node in XML"
+msgstr ""
+
+#: ../virt-df/virt_df.ml:430
+msgid "get_xml_desc returned strange <name> node"
 msgstr ""
 
 #: ../mlvirsh/mlvirsh.ml:700
@@ -519,8 +627,16 @@ msgstr ""
 msgid "offline"
 msgstr ""
 
+#: ../virt-df/virt_df_ext2.ml:42
+msgid "partition marked EXT2/3 but no valid filesystem"
+msgstr ""
+
 #: ../virt-ctrl/vc_helpers.ml:55 ../mlvirsh/mlvirsh.ml:290
 msgid "paused"
+msgstr ""
+
+#: ../virt-df/virt_df.ml:188
+msgid "probe_extended_partition: internal error"
 msgstr ""
 
 #: ../mlvirsh/mlvirsh.ml:376
@@ -597,6 +713,14 @@ msgstr ""
 
 #: ../virt-ctrl/vc_helpers.ml:52 ../mlvirsh/mlvirsh.ml:287
 msgid "unknown"
+msgstr ""
+
+#: ../virt-df/virt_df.ml:246
+msgid "unsupported partition type %02x"
+msgstr ""
+
+#: ../virt-df/virt_df.ml:363
+msgid "virt-df : like 'df', shows disk space used in guests\n\nSUMMARY\n  virt-df [-options]\n\nOPTIONS"
 msgstr ""
 
 #: ../mlvirsh/mlvirsh.ml:360
