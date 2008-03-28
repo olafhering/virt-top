@@ -1,0 +1,25 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: virt-p2v--devel\n"
+"Report-Msgid-Bugs-To: rjones@redhat.com\n"
+"POT-Creation-Date: 2008-03-22 15:53+0000\n"
+"PO-Revision-Date: 2008-03-23 20:29+0000\n"
+"Last-Translator: Naoko - <email@withheld.example.com>\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: ../mlvirsh/mlvirsh.ml:35
+msgid "Hypervisor connection URI"
+msgstr ""
+
+#: ../mlvirsh/mlvirsh.ml:36
+msgid "Read-only connection"
+msgstr ""
+
+#: ../mlvirsh/mlvirsh.ml:40
+msgid "Synopsis:\n  %s [options] [command]\n\nList of all commands:\n  %s help\n\nFull description of a single command:\n  %s help command\n\nOptions:"
+msgstr ""
+

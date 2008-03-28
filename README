@@ -35,7 +35,9 @@ the packages below if you want to build from source.
   ocaml         | R        |         | R       | R        | R
                 | >= 3.08  |         |         |          |
                 |          |         |         |          |
-  findlib       | HR       | R       | HR      | HR       | n/a
+  findlib       | HR       | R       | HR      | HR       | Note [1]
+                |          |         |         |          |
+  ocaml-gettext | R        | R       | R       | R        | Note [2]
                 |          |         |         |          |
   MinGW + MSYS  |          |         |         |          | R
   --------------+----------+---------+---------+----------+---------
@@ -69,6 +71,12 @@ the packages below if you want to build from source.
    O = optional (just improves functionality, but not required)
    n/a = not available
 
+Note [1]: Findlib was recently ported to Windows and in future we may
+require it because it will let us remove a lot of hacks from the
+Makefiles.
+
+Note [2]: It's not clear if ocaml-gettext works on Windows.
+
 Where to get the packages:
 
   libvirt >= 0.2.1 from http://libvirt.org/ (get the latest version available)
@@ -79,6 +87,11 @@ Where to get the packages:
 
   findlib          from http://www.ocaml-programming.de/packages/
                      or packaged in Debian, Ubuntu and Fedora as 'ocaml-findlib'
+
+  ocaml-gettext    from http://www.le-gall.net/sylvain+violaine/ocaml-gettext.html
+                + patch for OCaml 3.10:
+                http://www.annexia.org/tmp/ocaml-gettext-0.2.0-20080321.patch
+		(This should appear in ocaml-gettext 0.3.0 shortly).
 
   MinGW + MSYS     from http://www.mingw.org/ (only needed for Windows)
 

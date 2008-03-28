@@ -193,6 +193,7 @@ if test "x$OCAMLFIND" != "x"; then
     AC_CHECK_OCAML_PKG(xml-light)
     AC_CHECK_OCAML_PKG(csv)
     AC_CHECK_OCAML_PKG(dbus)
+    AC_CHECK_OCAML_PKG(gettext)
 
     dnl Need to check which version of calendar is installed.
     AC_CHECK_OCAML_MODULE(calendar,pkg_calendar2,CalendarLib.Date,[+calendar])
@@ -208,6 +209,7 @@ if test "x$OCAMLFIND" != "x"; then
     AC_SUBST(pkg_xml_light)
     AC_SUBST(pkg_csv)
     AC_SUBST(pkg_dbus)
+    AC_SUBST(pkg_gettext)
     AC_SUBST(pkg_calendar)
     AC_SUBST(pkg_calendar2)
 else
@@ -227,6 +229,7 @@ else
     AC_CHECK_OCAML_MODULE(xml-light,pkg_xml_light,Xml,[+xml-light])
     AC_CHECK_OCAML_MODULE(csv,pkg_csv,Csv,[+csv])
     AC_CHECK_OCAML_MODULE(dbus,pkg_dbus,DBus,[+dbus])
+    AC_CHECK_OCAML_MODULE(gettext,pkg_gettext,Gettext,[+gettext])
     dnl XXX Version check - see above.
     AC_CHECK_OCAML_MODULE(calendar,pkg_calendar,Calendar,[+calendar])
 fi
@@ -249,6 +252,9 @@ AC_CHECK_PROG(HAVE_PERLDOC,perldoc,perldoc)
 
 dnl Check for optional gdk-pixbuf-mlsource (for icons).
 AC_CHECK_PROG(HAVE_GDK_PIXBUF_MLSOURCE,gdk-pixbuf-mlsource,gdk-pixbuf-mlsource)
+
+dnl Check for recommended ocaml-gettext tool.
+AC_CHECK_PROG(OCAML_GETTEXT,ocaml-gettext,ocaml-gettext)
 
 dnl Check for optional NSIS (for building a Windows installer).
 AC_ARG_WITH([nsis],
@@ -339,6 +345,42 @@ AC_SUBST(GNUTLS_DLL_PATH)
 AC_SUBST(GTK_DLL_PATH)
 AC_SUBST(GTK_PATH)
 
+dnl Write gettext modules for the programs.
+dnl http://www.le-gall.net/sylvain+violaine/documentation/ocaml-gettext/html/reference-manual/ch03s04.html
+for d in mlvirsh virt-ctrl virt-df virt-top; do
+    f=`echo $d | tr - _`_gettext.ml
+    AC_MSG_NOTICE([creating $d/$f])
+    rm -f $d/$f
+    echo "(* This file is generated automatically by ./configure. *)" > $d/$f
+    if test "x$pkg_gettext" != "xno"; then
+        # Gettext module is available, so use it.
+        cat <<EOT >>$d/$f
+module Gettext = Gettext.Program (
+  struct
+    let textdomain = "$d"
+    let codeset = None
+    let dir = None
+    let dependencies = [[]]
+  end
+) (GettextStub.Native)
+EOT
+    else
+        # No gettext module is available, so fake the translation functions.
+        cat <<EOT >>$d/$f
+module Gettext = struct
+  external s_ : string -> string = "%identity"
+  external f_ : ('a -> 'b, 'c, 'd) format -> ('a -> 'b, 'c, 'd) format
+    = "%identity"
+  let sn_ : string -> string -> int -> string
+    = fun s p n -> if n = 1 then s else p
+  let fn_ : ('a -> 'b, 'c, 'd) format -> ('a -> 'b, 'c, 'd) format -> int
+      -> ('a -> 'b, 'c, 'd) format
+    = fun s p n -> if n = 1 then s else p
+end
+EOT
+    fi
+done
+
 dnl Summary.
 echo "------------------------------------------------------------"
 echo "Thanks for downloading" $PACKAGE_STRING
@@ -351,6 +393,7 @@ AC_CONFIG_FILES([META
 	libvirt/libvirt_version.ml
 	Makefile
 	Make.rules
+	po/Makefile
 	libvirt/Makefile
 	examples/Makefile
 	mlvirsh/Makefile

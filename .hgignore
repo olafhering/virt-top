@@ -35,3 +35,9 @@ virt-top/virt-top
 virt-df/virt-df
 wininstaller.nsis
 *.orig
+mlvirsh/mlvirsh_gettext.ml
+virt-ctrl/virt_ctrl_gettext.ml
+virt-df/virt_df_gettext.ml
+virt-top/virt_top_gettext.ml
+po/*.mo
+po/*.po.bak
