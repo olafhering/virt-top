@@ -21,6 +21,7 @@
 *)
 
 open Printf
+open Virt_df_gettext.Gettext
 
 (* Int64 operators for convenience. *)
 let (+^) = Int64.add
@@ -29,7 +30,7 @@ let ( *^ ) = Int64.mul
 let (/^) = Int64.div
 
 let probe_lvm2 target part_type fd start size =
-  Virt_df.ProbeFailed "LVM2 not supported yet"
+  Virt_df.ProbeFailed (s_ "LVM2 not supported yet")
 
 (* Register with main code. *)
 let () =

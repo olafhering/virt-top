@@ -26,14 +26,22 @@ exec_prefix	= @exec_prefix@
 bindir		= @bindir@
 
 pkg_xml_light	= @pkg_xml_light@
+pkg_gettext     = @pkg_gettext@
 
 OCAMLCPACKAGES	:= -package unix,extlib,xml-light
 
-OBJS		:= virt_df.cmo \
-		   virt_df_ext2.cmo \
-		   virt_df_linux_swap.cmo \
-		   virt_df_lvm2.cmo \
-		   virt_df_main.cmo
+ifneq ($(pkg_gettext),no)
+OCAMLCPACKAGES  += -package gettext-stub
+endif
+
+OBJS		:= \
+	virt_df_gettext.cmo \
+	virt_df.cmo \
+	virt_df_ext2.cmo \
+	virt_df_linux_swap.cmo \
+	virt_df_lvm2.cmo \
+	virt_df_main.cmo
+
 XOBJS		:= $(OBJS:.cmo=.cmx)
 
 OCAMLCPACKAGES  += -I ../libvirt

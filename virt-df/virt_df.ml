@@ -19,8 +19,9 @@
 
 open Printf
 open ExtList
-
 open Unix
+
+open Virt_df_gettext.Gettext
 
 module C = Libvirt.Connect
 module D = Libvirt.Domain
@@ -145,7 +146,7 @@ and probe_mbr fd =
     lseek fd 446 SEEK_SET;
     let str = String.create 64 in
     if read fd str 0 64 <> 64 then
-      failwith "error reading partition table"
+      failwith (s_ "error reading partition table")
     else (
       (* Extract partitions from the data. *)
       let primaries = List.map (get_partition str) [ 0; 16; 32; 48 ] in
@@ -178,13 +179,13 @@ and probe_extended_partition max fd epart sect =
       LargeFile.lseek fd (ebr_offs +^ 446L) SEEK_SET;
       let str = String.create 32 in
       if read fd str 0 32 <> 32 then
-	failwith "error reading extended partition"
+	failwith (s_ "error reading extended partition")
       else (
 	(* Extract partitions from the data. *)
 	let part1, part2 =
 	  match List.map (get_partition str) [ 0; 16 ] with
 	  | [p1;p2] -> p1,p2
-	  | _ -> failwith "probe_extended_partition: internal error" in
+	  | _ -> failwith (s_ "probe_extended_partition: internal error") in
 	(* First partition entry has offset to the start of this partition. *)
 	let part1 = { part1 with
 			part_lba_start = sect +^ part1.part_lba_start } in
@@ -232,7 +233,7 @@ and get_partition str offs =
 and probe_partition target part_type fd start size =
   match part_type with
   | None ->
-      ProbeFailed "detection of unpartitioned devices not yet supported"
+      ProbeFailed (s_ "detection of unpartitioned devices not yet supported")
   | Some 0x05 ->
       ProbeIgnore (* Extended partition - ignore it. *)
   | Some part_type ->
@@ -242,7 +243,7 @@ and probe_partition target part_type fd start size =
       with
 	Not_found ->
 	  ProbeFailed
-	    (sprintf "unsupported partition type %02x" part_type)
+	    (sprintf (f_ "unsupported partition type %02x") part_type)
 
 and print_stats dom_name statss =
   List.iter (
@@ -337,19 +338,29 @@ let main () =
   in
 
   let argspec = Arg.align [
-    "-a", Arg.Set all, " Show all domains (default: only active domains)";
-    "--all", Arg.Set all, " Show all domains (default: only active domains)";
-    "-c", Arg.String set_uri, "uri Connect to URI (default: Xen)";
-    "--connect", Arg.String set_uri, "uri Connect to URI (default: Xen)";
-    "-h", Arg.Set human, " Print sizes in human-readable format";
-    "--human-readable", Arg.Set human, " Print sizes in human-readable format";
-    "-i", Arg.Set inodes, " Show inodes instead of blocks";
-    "--inodes", Arg.Set inodes, " Show inodes instead of blocks";
-    "--version", Arg.Unit version, " Display version and exit";
+    "-a", Arg.Set all,
+      " " ^ s_ "Show all domains (default: only active domains)";
+    "--all", Arg.Set all,
+      " " ^ s_ "Show all domains (default: only active domains)";
+    "-c", Arg.String set_uri,
+      "uri " ^ s_ "Connect to URI (default: Xen)";
+    "--connect", Arg.String set_uri,
+      "uri " ^ s_ "Connect to URI (default: Xen)";
+    "-h", Arg.Set human,
+      " " ^ s_ "Print sizes in human-readable format";
+    "--human-readable", Arg.Set human,
+      " " ^ s_ "Print sizes in human-readable format";
+    "-i", Arg.Set inodes,
+      " " ^ s_ "Show inodes instead of blocks";
+    "--inodes", Arg.Set inodes,
+      " " ^ s_ "Show inodes instead of blocks";
+    "--version", Arg.Unit version,
+      " " ^ s_ "Display version and exit";
   ] in
 
-  let anon_fun str = raise (Arg.Bad (str ^ ": unknown parameter")) in
-  let usage_msg = "virt-df : like 'df', shows disk space used in guests
+  let anon_fun str =
+    raise (Arg.Bad (sprintf (f_ "%s: unknown parameter") str)) in
+  let usage_msg = s_ "virt-df : like 'df', shows disk space used in guests
 
 SUMMARY
   virt-df [-options]
@@ -368,7 +379,7 @@ OPTIONS" in
 	  prerr_endline (Libvirt.Virterror.to_string err);
 	  (* If non-root and no explicit connection URI, print a warning. *)
 	  if geteuid () <> 0 && name = None then (
-	    print_endline "NB: If you want to monitor a local Xen hypervisor, you usually need to be root";
+	    print_endline (s_ "NB: If you want to monitor a local Xen hypervisor, you usually need to be root");
 	  );
 	  exit 1 in
 
@@ -405,7 +416,7 @@ OPTIONS" in
 	let nodes, domain_attrs =
 	  match xml with
 	  | Xml.Element ("domain", attrs, children) -> children, attrs
-	  | _ -> failwith "get_xml_desc didn't return <domain/>" in
+	  | _ -> failwith (s_ "get_xml_desc didn't return <domain/>") in
 
 	let domid =
 	  try Some (int_of_string (List.assoc "id" domain_attrs))
@@ -413,10 +424,10 @@ OPTIONS" in
 
 	let rec loop = function
 	  | [] ->
-	      failwith "get_xml_desc returned no <name> node in XML"
+	      failwith (s_ "get_xml_desc returned no <name> node in XML")
 	  | Xml.Element ("name", _, [Xml.PCData name]) :: _ -> name
 	  | Xml.Element ("name", _, _) :: _ ->
-	      failwith "get_xml_desc returned strange <name> node"
+	      failwith (s_ "get_xml_desc returned strange <name> node")
 	  | _ :: rest -> loop rest
 	in
 	let name = loop nodes in
@@ -484,11 +495,11 @@ OPTIONS" in
   let () =
     let total, used, avail =
       match !inodes, !human with
-      | false, false -> "1K-blocks", "Used", "Available"
-      | false, true -> "Size", "Used", "Available"
-      | true, _ -> "Inodes", "IUse", "IFree" in
+      | false, false -> s_ "1K-blocks", s_ "Used", s_ "Available"
+      | false, true -> s_ "Size", s_ "Used", s_ "Available"
+      | true, _ -> s_ "Inodes", s_ "IUse", s_ "IFree" in
     printf "%-20s %10s %10s %10s %s\n%!"
-      "Filesystem" total used avail "Type" in
+      (s_ "Filesystem") total used avail (s_ "Type") in
 
   (* Probe the devices. *)
   List.iter (
@@ -500,6 +511,6 @@ OPTIONS" in
 	| { d_device = Some "cdrom" } ->
 	    () (* Ignore physical CD-ROM devices. *)
 	| _ ->
-	    printf "(device omitted)\n";
+	    print_endline (s_ "(device omitted)");
       ) dom_disks
   ) doms

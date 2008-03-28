@@ -21,6 +21,7 @@
 
 open Unix
 open Printf
+open Virt_df_gettext.Gettext
 
 (* Int64 operators for convenience. *)
 let (+^) = Int64.add
@@ -35,10 +36,10 @@ let probe_ext2 target part_type fd start size =
   LargeFile.lseek fd ((start+^2L) *^ sector_size) SEEK_SET;
   let str = String.create 128 in
   if read fd str 0 128 <> 128 then
-    failwith "error reading ext2/ext3 magic"
+    failwith (s_ "error reading ext2/ext3 magic")
   else (
     if str.[56] != '\x53' || str.[57] != '\xEF' then (
-      Virt_df.ProbeFailed "partition marked EXT2/3 but no valid filesystem"
+      Virt_df.ProbeFailed (s_ "partition marked EXT2/3 but no valid filesystem")
     ) else (
       (* Refer to <linux/ext2_fs.h> *)
       let s_inodes_count = read_int32_le str 0 in
@@ -78,7 +79,7 @@ let probe_ext2 target part_type fd start size =
 
 
       Virt_df.Filesystem {
-	Virt_df.fs_name = "Linux ext2/3";
+	Virt_df.fs_name = s_ "Linux ext2/3";
 	fs_block_size = block_size;
 	fs_blocks_total = s_blocks_count -^ overhead;
 	fs_blocks_reserved = s_r_blocks_count;

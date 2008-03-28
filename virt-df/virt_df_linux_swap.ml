@@ -20,6 +20,8 @@
    Support for Linux swap partitions.
 *)
 
+open Virt_df_gettext.Gettext
+
 (* Int64 operators for convenience. *)
 let (+^) = Int64.add
 let (-^) = Int64.sub
@@ -28,7 +30,7 @@ let (/^) = Int64.div
 
 let probe_swap target part_type fd start size =
   Virt_df.Swap {
-    Virt_df.swap_name = "Linux swap";
+    Virt_df.swap_name = s_ "Linux swap";
     swap_block_size = 4096L;		(* XXX *)
     swap_blocks_total = size *^ 512L /^ 4096L;
   }
