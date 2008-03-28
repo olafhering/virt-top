@@ -31,11 +31,8 @@ pkg_gettext     = @pkg_gettext@
 
 OCAMLFIND	= @OCAMLFIND@
 
-ifneq ($(pkg_gettext),no)
-OBJS 		:= virt_ctrl_gettext.cmo
-endif
-
-OBJS		+= \
+OBJS 		:= \
+	virt_ctrl_gettext.cmo \
 	vc_helpers.cmo \
 	vc_connections.cmo \
 	vc_domain_ops.cmo \
