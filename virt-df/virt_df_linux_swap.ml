@@ -21,22 +21,34 @@
 *)
 
 open Virt_df_gettext.Gettext
+open Virt_df
 
-(* Int64 operators for convenience. *)
-let (+^) = Int64.add
-let (-^) = Int64.sub
-let ( *^ ) = Int64.mul
-let (/^) = Int64.div
+let probe_swap (dev : device) =
+  (* Load the "superblock" (ie. first 0x1000 bytes). *)
+  let bits = dev#read_bitstring 0L 0x1000 in
 
-let probe_swap target part_type fd start size =
-  Virt_df.Swap {
-    Virt_df.swap_name = s_ "Linux swap";
-    swap_block_size = 4096L;		(* XXX *)
-    swap_blocks_total = size *^ 512L /^ 4096L;
-  }
+  bitmatch bits with
+    (* Actually this isn't just padding. *)
+  | padding : 8*0x1000 - 10*8 : bitstring;
+    magic : 10*8 : bitstring
+      when Bitmatch.string_of_bitstring magic = "SWAPSPACE2" ->
+    {
+      fs_name = s_ "Linux swap";
+      fs_block_size = 4096L;		(* XXX *)
+      fs_blocks_total = dev#size /^ 4096L;
+
+      (* The remaining fields are ignored when fs_is_swap is true. *)
+      fs_is_swap = true;
+      fs_blocks_reserved = 0L;
+      fs_blocks_avail = 0L;
+      fs_blocks_used = 0L;
+      fs_inodes_total = 0L;
+      fs_inodes_reserved = 0L;
+      fs_inodes_avail = 0L;
+      fs_inodes_used = 0L;
+    }
+  | _ ->
+      raise Not_found			(* Not Linux swapspace. *)
 
 (* Register with main code. *)
-let () =
-  Virt_df.fs_register
-    [ 0x82 ]				(* Partition type. *)
-    probe_swap
+let () = filesystem_type_register "linux_swap" probe_swap

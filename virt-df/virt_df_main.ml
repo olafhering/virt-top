@@ -17,4 +17,7 @@
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *)
 
+(* We just need this so that the filesystem modules get a chance to
+ * register themselves before we run the main program.
+ *)
 let () = Virt_df.main ()
