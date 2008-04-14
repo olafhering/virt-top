@@ -1,0 +1,1018 @@
+# translation of pl.po to Polish
+# Piotr Drąg <piotrdrag@gmail.com>, 2008.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: pl\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2008-03-28 17:30+0000\n"
+"PO-Revision-Date: 2008-04-12 21:09+0200\n"
+"Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
+"Language-Team: Polish <pl@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../virt-top/virt_top.ml:1490
+msgid "# .virt-toprc virt-top configuration file\\n"
+msgstr "# plik konfiguracji virt-top .virt-toprc\\n"
+
+#: ../virt-top/virt_top.ml:1508
+msgid "# Enable CSV output to the named file\\n"
+msgstr "# Włącz wyjście CSV do pliku named\\n"
+
+#: ../virt-top/virt_top.ml:1511
+msgid "# To protect this file from being overwritten, uncomment next line\\n"
+msgstr "# Aby ochronić ten plik przed zastąpieniem, usuń komentarz z następnego wiersza\\n"
+
+#: ../virt-top/virt_top.ml:1505
+msgid "# To send debug and error messages to a file, uncomment next line\\n"
+msgstr "# Aby wysłać komunikaty debugowania i błędów do pliku, usuń komentarz z następnego wiersza\\n"
+
+#: ../virt-top/virt_top.ml:1491
+msgid "# generated on %s by %s\\n"
+msgstr "# utworzone %s przez %s\\n"
+
+#: ../virt-top/virt_top.ml:63
+msgid "%CPU"
+msgstr "%CPU"
+
+#: ../virt-top/virt_top.ml:64
+msgid "%MEM"
+msgstr "%MEM"
+
+#: ../virt-top/virt_top.ml:1144
+msgid "%d domains, %d active, %d running, %d sleeping, %d paused, %d inactive D:%d O:%d X:%d"
+msgstr "%d domeny, %d aktywne, %d uruchomionych, %d uśpionych, %d wstrzymanych, %d nieaktywnych D:%d O:%d X:%d"
+
+#: ../mlvirsh/mlvirsh.ml:716
+msgid "%s: command not found"
+msgstr "%s: nie znaleziono polecenia"
+
+#: ../virt-top/virt_top.ml:105
+msgid "%s: display should be %s"
+msgstr "%s: ekran powinien być %s"
+
+#: ../virt-top/virt_top.ml:82
+msgid "%s: sort order should be: %s"
+msgstr "%s: porządek sortowania powinien być: %s"
+
+#: ../virt-df/virt_df.ml:362 ../virt-top/virt_top.ml:202
+msgid "%s: unknown parameter"
+msgstr "%s: nieznany parametr"
+
+#: ../virt-top/virt_top.ml:233
+msgid "%s:%d: configuration item ``%s'' ignored\\n%!"
+msgstr "%s:%d: zignorowano element konfiguracji ``%s''\\n%!"
+
+#: ../virt-df/virt_df.ml:514
+msgid "(device omitted)"
+msgstr "(pominięto urządzenie)"
+
+#: ../virt-top/virt_top.ml:145
+msgid "-d: cannot set a negative delay"
+msgstr "-d: nie można ustawić negatywnego opóźnienia"
+
+#: ../virt-df/virt_df.ml:498
+msgid "1K-blocks"
+msgstr "Bloki 1K"
+
+#: ../virt-ctrl/vc_mainwindow.ml:97
+msgid "About ..."
+msgstr "Informacje o..."
+
+#: ../mlvirsh/mlvirsh.ml:399
+msgid "Attach device to domain."
+msgstr "Podłącz urządzenie do domeny."
+
+#: ../virt-df/virt_df.ml:499 ../virt-df/virt_df.ml:498
+msgid "Available"
+msgstr "Dostępne"
+
+#: ../virt-top/virt_top.ml:167
+msgid "Batch mode"
+msgstr "Tryb wsadowy"
+
+#: ../virt-top/virt_top.ml:70
+msgid "Block read reqs"
+msgstr "Wymagania odczytania blokowego"
+
+#: ../virt-top/virt_top.ml:71
+msgid "Block write reqs"
+msgstr "Wymagania zapisania blokowego"
+
+#: ../virt-ctrl/vc_connections.ml:408
+msgid "CPU"
+msgstr "Procesor"
+
+#: ../mlvirsh/mlvirsh.ml:365
+msgid "CPU affinity"
+msgstr "Dopasowanie procesora"
+
+#: ../virt-top/virt_top.ml:1151
+msgid "CPU: %2.1f%%  Mem: %Ld MB (%Ld MB by guests)"
+msgstr "Procesor: %2.1f%%  Pamięć: %Ld MB (%Ld MB przez gości)"
+
+#: ../virt-ctrl/vc_connection_dlg.ml:182
+msgid "Cancel"
+msgstr "Anuluj"
+
+#: ../virt-top/virt_top.ml:1319
+msgid "Change delay from %.1f to: "
+msgstr "Zmień opóźnienie z %.1f na: "
+
+#: ../mlvirsh/mlvirsh.ml:409
+msgid "Close an existing hypervisor connection."
+msgstr "Zamknij istniejące połączenie nadzorcy."
+
+#: ../virt-ctrl/vc_mainwindow.ml:118
+msgid "Connect ..."
+msgstr "Połącz się..."
+
+#: ../virt-ctrl/vc_mainwindow.ml:160
+msgid "Connect to ..."
+msgstr "Połącz się z..."
+
+#: ../virt-df/virt_df.ml:348 ../virt-df/virt_df.ml:346 ../virt-top/virt_top.ml:171 ../virt-top/virt_top.ml:169
+msgid "Connect to URI (default: Xen)"
+msgstr "Połącz się z URI (domyślnie: Xen)"
+
+#: ../virt-top/virt_top.ml:1558
+msgid "Connect: %s; Hostname: %s"
+msgstr "Połącz się: %s; nazwa hosta: %s"
+
+#: ../mlvirsh/mlvirsh.ml:476
+msgid "Core dump a domain to a file for analysis."
+msgstr "Zrzut core domeny do pliku do analizy."
+
+#: ../mlvirsh/mlvirsh.ml:422
+msgid "Create a domain from an XML file."
+msgstr "Utwórz domenę z pliku XML."
+
+#: ../mlvirsh/mlvirsh.ml:534
+msgid "Create a network from an XML file."
+msgstr "Utwórz sieć z pliku XML."
+
+#: ../virt-top/virt_top.ml:1596
+msgid "DISPLAY MODES"
+msgstr "TRYBY WYŚWIETLANIA"
+
+#: ../mlvirsh/mlvirsh.ml:426
+msgid "Define (but don't start) a domain from an XML file."
+msgstr "Określ (ale nie uruchamiaj) domenę z pliku XML."
+
+#: ../mlvirsh/mlvirsh.ml:538
+msgid "Define (but don't start) a network from an XML file."
+msgstr "Określ (ale nie uruchamiaj) sieć z pliku XML."
+
+#: ../virt-top/virt_top.ml:1326
+msgid "Delay must be > 0"
+msgstr "Opóźnienie musi być > 0"
+
+#: ../virt-top/virt_top.ml:181
+msgid "Delay time interval (seconds)"
+msgstr "Czas między opóźnieniami (sekundy)"
+
+#: ../virt-top/virt_top.ml:1552
+msgid "Delay: %.1f secs; Batch: %s; Secure: %s; Sort: %s"
+msgstr "Opóźnienie: %.1f sekundy; wsadowo: %s; bezpieczeństwo: %s; sortowanie: %s"
+
+#: ../mlvirsh/mlvirsh.ml:433
+msgid "Destroy a domain."
+msgstr "Zniszcz domenę."
+
+#: ../mlvirsh/mlvirsh.ml:541
+msgid "Destroy a network."
+msgstr "Zniszcz sieć."
+
+#: ../mlvirsh/mlvirsh.ml:430
+msgid "Detach device from domain."
+msgstr "Odłącz urządzenie z domeny."
+
+#: ../virt-ctrl/vc_mainwindow.ml:123
+msgid "Details"
+msgstr "Szczegóły"
+
+#: ../virt-top/virt_top.ml:175
+msgid "Disable CPU stats in CSV"
+msgstr "Wyłącz statystyki procesora w CSV"
+
+#: ../virt-top/virt_top.ml:177
+msgid "Disable block device stats in CSV"
+msgstr "Wyłącz statystyki urządzenia blokowego w CSV"
+
+#: ../virt-top/virt_top.ml:179
+msgid "Disable net stats in CSV"
+msgstr "Wyłącz statystyki sieci w CSV"
+
+#: ../mlvirsh/mlvirsh.ml:493
+msgid "Display free memory for machine, NUMA cell or range of cells"
+msgstr "Wyświetl wolną pamięć dla komputera, komórkę NUMA lub zakres komórek"
+
+#: ../mlvirsh/mlvirsh.ml:437
+msgid "Display the block device statistics for a domain."
+msgstr "Wyświetl statystyki urządzenia blokowego dla domeny."
+
+#: ../mlvirsh/mlvirsh.ml:444
+msgid "Display the network interface statistics for a domain."
+msgstr "Wyświetl statystyki interfejsu sieciowego dla domeny."
+
+#: ../virt-df/virt_df.ml:358
+msgid "Display version and exit"
+msgstr "Wyświetl wersję i zakończ"
+
+#: ../virt-top/virt_top.ml:191
+msgid "Do not read init file"
+msgstr "Nie odczytuj pliku init"
+
+#: ../virt-top/virt_top.ml:66
+msgid "Domain ID"
+msgstr "Identyfikator domeny"
+
+#: ../virt-top/virt_top.ml:67
+msgid "Domain name"
+msgstr "Nazwa domeny"
+
+#: ../virt-top/virt_top.ml:1610
+msgid "Domains display"
+msgstr "Ekran domen"
+
+#: ../virt-ctrl/vc_mainwindow.ml:61 ../virt-top/virt_top_main.ml:47 ../virt-top/virt_top.ml:1528
+msgid "Error"
+msgstr "Błąd"
+
+#: ../virt-top/virt_top.ml:185
+msgid "Exit at given time"
+msgstr "Zakończ o podanym czasie"
+
+#: ../virt-ctrl/vc_mainwindow.ml:79
+msgid "File"
+msgstr "Plik"
+
+#: ../virt-df/virt_df.ml:502
+msgid "Filesystem"
+msgstr "System plików"
+
+#: ../mlvirsh/mlvirsh.ml:606
+msgid "Get the current scheduler parameters for a domain."
+msgstr "Uzyskaj obecne parametry planisty dla domeny."
+
+#: ../mlvirsh/mlvirsh.ml:623
+msgid "Get the scheduler type."
+msgstr "Uzyskaj typ planisty."
+
+#: ../mlvirsh/mlvirsh.ml:635
+msgid "Gracefully shutdown a domain."
+msgstr "Wyłącz domenę."
+
+#: ../virt-ctrl/vc_mainwindow.ml:96 ../virt-ctrl/vc_mainwindow.ml:80 ../virt-top/virt_top.ml:1580
+msgid "Help"
+msgstr "Pomoc"
+
+#: ../virt-top/virt_top.ml:187
+msgid "Historical CPU delay"
+msgstr "Historyczne opóźnienie procsora"
+
+#: ../mlvirsh/mlvirsh.ml:35
+msgid "Hypervisor connection URI"
+msgstr "URI połączenia nadzorcy"
+
+#: ../virt-ctrl/vc_connections.ml:405
+msgid "ID"
+msgstr "Identyfikator"
+
+#: ../virt-df/virt_df.ml:500
+msgid "IFree"
+msgstr "IWolne"
+
+#: ../virt-df/virt_df.ml:500
+msgid "IUse"
+msgstr "IUżyte"
+
+#: ../virt-df/virt_df.ml:500
+msgid "Inodes"
+msgstr "Iwęzły"
+
+#: ../virt-df/virt_df_lvm2.ml:33
+msgid "LVM2 not supported yet"
+msgstr "LVM2 nie jest jeszcze obsługiwane"
+
+#: ../virt-df/virt_df_ext2.ml:82
+msgid "Linux ext2/3"
+msgstr "Linuksowe ext2/3"
+
+#: ../virt-df/virt_df_linux_swap.ml:33
+msgid "Linux swap"
+msgstr "Linuksowa przestrzeń wymiany"
+
+#: ../mlvirsh/mlvirsh.ml:557
+msgid "List the active networks."
+msgstr "Wyświetl listę aktywnych sieci."
+
+#: ../mlvirsh/mlvirsh.ml:565
+msgid "List the defined but inactive networks."
+msgstr "Wyświetl listę określonych, ale nieaktywnych sieci."
+
+#: ../mlvirsh/mlvirsh.ml:516
+msgid "List the defined but not running domains."
+msgstr "Wyświetl listę określonych, ale nie uruchomionych domen."
+
+#: ../mlvirsh/mlvirsh.ml:508
+msgid "List the running domains."
+msgstr "Wyświetl listę uruchomionych domen."
+
+#: ../virt-ctrl/vc_mainwindow.ml:158
+msgid "Local QEMU/KVM"
+msgstr "Lokalny QEMU/KVM"
+
+#: ../virt-ctrl/vc_mainwindow.ml:157
+msgid "Local Xen"
+msgstr "Lokalny Xen"
+
+#: ../virt-ctrl/vc_connection_dlg.ml:93
+msgid "Local network"
+msgstr "Lokalna sieć"
+
+#: ../virt-top/virt_top.ml:173
+msgid "Log statistics to CSV file"
+msgstr "Zapisz statystyki do pliku CSV"
+
+#: ../virt-top/virt_top.ml:1563
+msgid "MAIN KEYS"
+msgstr "GŁÓWNE KLUCZE"
+
+#: ../virt-ctrl/vc_connections.ml:409
+msgid "Memory"
+msgstr "Pamięć"
+
+#: ../virt-top/virt_top.ml:1617
+msgid "More help in virt-top(1) man page. Press any key to return."
+msgstr "Więcej pomocy na stronie podręcznika virt-top(1). Naciśnij dowolny klawisz, aby kontynuować."
+
+#: ../virt-df/virt_df.ml:382 ../virt-top/virt_top.ml:258
+msgid "NB: If you want to monitor a local Xen hypervisor, you usually need to be root"
+msgstr "NB: jeśli chcesz monitorować lokalnego nadzorcę Xena, zwykle musisz być rootem"
+
+#: ../virt-ctrl/vc_connections.ml:406
+msgid "Name"
+msgstr "Nazwa"
+
+#: ../virt-top/virt_top.ml:68
+msgid "Net RX bytes"
+msgstr "Sieciowe bajty RX"
+
+#: ../virt-top/virt_top.ml:69
+msgid "Net TX bytes"
+msgstr "Sieciowe bajty TX"
+
+#: ../virt-top/virt_top.ml:1332
+msgid "Not a valid number"
+msgstr "Nie jest prawidłowym numerem"
+
+#: ../virt-top/virt_top.ml:193
+msgid "Number of iterations to run"
+msgstr "Liczba iteracji do uruchomienia"
+
+#: ../virt-ctrl/vc_connection_dlg.ml:170 ../virt-ctrl/vc_connection_dlg.ml:137
+msgid "Open"
+msgstr "Otwórz"
+
+#: ../mlvirsh/mlvirsh.ml:418
+msgid "Open a new hypervisor connection."
+msgstr "Otwórz nowe połączenie nadzorcy."
+
+#: ../virt-ctrl/vc_mainwindow.ml:86
+msgid "Open connection ..."
+msgstr "Otwórz połączenie..."
+
+#: ../virt-ctrl/vc_connection_dlg.ml:40
+msgid "Open connection to hypervisor"
+msgstr "Otwórz połączenie do nadzorcy"
+
+#: ../virt-ctrl/vc_mainwindow.ml:130
+msgid "Pause"
+msgstr "Wstrzymaj"
+
+#: ../mlvirsh/mlvirsh.ml:670 ../mlvirsh/mlvirsh.ml:666
+msgid "Pin domain VCPU to a list of physical CPUs."
+msgstr "Przypnij wirtualny procesor do listy fizycznych procesorów."
+
+#: ../mlvirsh/mlvirsh.ml:706
+msgid "Print list of commands or full description of one command."
+msgstr "Wyświetl listę poleceń lub pełny opis jednego polecenia."
+
+#: ../mlvirsh/mlvirsh.ml:584
+msgid "Print node information."
+msgstr "Wyświetl informacje o węźle."
+
+#: ../virt-df/virt_df.ml:352 ../virt-df/virt_df.ml:350
+msgid "Print sizes in human-readable format"
+msgstr "Wyświetl rozmiary w formacie czytelnym dla człowieka"
+
+#: ../mlvirsh/mlvirsh.ml:440
+msgid "Print the ID of a domain."
+msgstr "Wyświetl identyfikator domeny."
+
+#: ../mlvirsh/mlvirsh.ml:464
+msgid "Print the OS type of a domain."
+msgstr "Wyświetl typ systemu operacyjnego domeny."
+
+#: ../mlvirsh/mlvirsh.ml:472
+msgid "Print the UUID of a domain."
+msgstr "Wyświetl UUID domeny."
+
+#: ../mlvirsh/mlvirsh.ml:581
+msgid "Print the UUID of a network."
+msgstr "Wyświetl UUID sieci."
+
+#: ../mlvirsh/mlvirsh.ml:480
+msgid "Print the XML description of a domain."
+msgstr "Wyświetl opis XML domeny."
+
+#: ../mlvirsh/mlvirsh.ml:545
+msgid "Print the XML description of a network."
+msgstr "Wyświetl opis XML sieci."
+
+#: ../mlvirsh/mlvirsh.ml:530
+msgid "Print the bridge name of a network."
+msgstr "Wyświetl nazwę mostka sieci."
+
+#: ../mlvirsh/mlvirsh.ml:653
+msgid "Print the canonical URI."
+msgstr "Wyświetl kanoniczne URI."
+
+#: ../mlvirsh/mlvirsh.ml:448
+msgid "Print the domain info."
+msgstr "Wyświetl informacje o domenie."
+
+#: ../mlvirsh/mlvirsh.ml:468
+msgid "Print the domain state."
+msgstr "Wyświetl stan domeny."
+
+#: ../mlvirsh/mlvirsh.ml:646
+msgid "Print the driver name"
+msgstr "Wyświetl nazwę sterownika"
+
+#: ../mlvirsh/mlvirsh.ml:677
+msgid "Print the driver version"
+msgstr "Wyświetl wersję sterownika"
+
+#: ../mlvirsh/mlvirsh.ml:500
+msgid "Print the hostname."
+msgstr "Wyświetl nazwę hosta."
+
+#: ../mlvirsh/mlvirsh.ml:522
+msgid "Print the max VCPUs available."
+msgstr "Wyświetl maksymalną ilość dostępnych wirtualnych procesorów."
+
+#: ../mlvirsh/mlvirsh.ml:456
+msgid "Print the max VCPUs of a domain."
+msgstr "Wyświetl maksymalną ilość wirtualnych procesorów domeny."
+
+#: ../mlvirsh/mlvirsh.ml:452
+msgid "Print the max memory (in kilobytes) of a domain."
+msgstr "Wyświetl maksymalną pamięć (w kilobitach) domeny."
+
+#: ../mlvirsh/mlvirsh.ml:460
+msgid "Print the name of a domain."
+msgstr "Wyświetl nazwę domeny."
+
+#: ../mlvirsh/mlvirsh.ml:569
+msgid "Print the name of a network."
+msgstr "Wyświetl nazwę sieci."
+
+#: ../mlvirsh/mlvirsh.ml:497
+msgid "Print whether a domain autostarts at boot."
+msgstr "Wyświetl, czy domena powinna być automatycznie uruchamiania po starcie."
+
+#: ../mlvirsh/mlvirsh.ml:549
+msgid "Print whether a network autostarts at boot."
+msgstr "Wyświetl, czy sieć powinna być automatycznie uruchamiania po starcie."
+
+#: ../virt-ctrl/vc_connection_dlg.ml:83
+msgid "QEMU or KVM"
+msgstr "QEMU lub KVM"
+
+#: ../virt-ctrl/vc_mainwindow.ml:89 ../virt-top/virt_top.ml:1578
+msgid "Quit"
+msgstr "Zakończ"
+
+#: ../mlvirsh/mlvirsh.ml:519
+msgid "Quit the interactive terminal."
+msgstr "Zakończ interaktywny terminal."
+
+#: ../mlvirsh/mlvirsh.ml:36
+msgid "Read-only connection"
+msgstr "Połączenie tylko do odczytu"
+
+#: ../mlvirsh/mlvirsh.ml:587
+msgid "Reboot a domain."
+msgstr "Ponownie uruchom domenę."
+
+#: ../virt-ctrl/vc_connection_dlg.ml:134
+msgid "Refresh"
+msgstr "Odśwież"
+
+#: ../mlvirsh/mlvirsh.ml:592
+msgid "Restore a domain from the named file."
+msgstr "Przywróć domenę z pliku named."
+
+#: ../virt-ctrl/vc_mainwindow.ml:133
+msgid "Resume"
+msgstr "Wznów"
+
+#: ../mlvirsh/mlvirsh.ml:595
+msgid "Resume a domain."
+msgstr "Wznów domenę."
+
+#: ../mlvirsh/mlvirsh.ml:406
+msgid "Returns capabilities of hypervisor/driver."
+msgstr "Zwraca możliwości nadzorcy/sterownika."
+
+#: ../virt-top/virt_top.ml:199
+msgid "Run from a script (no user interface)"
+msgstr "Uruchom ze skryptu (brak interfejsu użytkownika)"
+
+#: ../virt-top/virt_top.ml:1584
+msgid "SORTING"
+msgstr "SORTOWANIE"
+
+#: ../mlvirsh/mlvirsh.ml:599
+msgid "Save a domain to a file."
+msgstr "Zapisz domenę do pliku."
+
+#: ../virt-top/virt_top.ml:197
+msgid "Secure (\\\"kiosk\\\") mode"
+msgstr "Tryb bezpieczny (\\\"kiosk\\\")"
+
+#: ../virt-top/virt_top.ml:1593
+msgid "Select sort field"
+msgstr "Wybierz pole sortowania"
+
+#: ../virt-top/virt_top.ml:183
+msgid "Send debug messages to file"
+msgstr "Wyślij komunikaty debugowania do pliku"
+
+#: ../virt-top/virt_top.ml:189
+msgid "Set name of init file"
+msgstr "Ustaw nazwę pliku init"
+
+#: ../virt-top/virt_top.ml:195
+msgid "Set sort order (%s)"
+msgstr "Ustaw porządek sortowania (%s)"
+
+#: ../virt-top/virt_top.ml:1340
+msgid "Set sort order for main display"
+msgstr "Ustaw porządek sortowania dla głównego ekranu"
+
+#: ../mlvirsh/mlvirsh.ml:631
+msgid "Set the maximum memory used by the domain (in kilobytes)."
+msgstr "Ustaw maksymalną pamięć używaną przez domenę (w kilobajtach)."
+
+#: ../mlvirsh/mlvirsh.ml:627
+msgid "Set the memory used by the domain (in kilobytes)."
+msgstr "Ustaw pamięć używaną przez domenę (w kilobajtach)."
+
+#: ../mlvirsh/mlvirsh.ml:674
+msgid "Set the number of virtual CPUs assigned to a domain."
+msgstr "Ustaw liczbę wirtualnych procesorów powiązanych z domeną."
+
+#: ../mlvirsh/mlvirsh.ml:618
+msgid "Set the scheduler parameters for a domain."
+msgstr "Ustaw parametry planisty domeny."
+
+#: ../virt-top/virt_top.ml:1579
+msgid "Set update interval"
+msgstr "Ustaw czas między aktualizacjami"
+
+#: ../mlvirsh/mlvirsh.ml:403
+msgid "Set whether a domain autostarts at boot."
+msgstr "Ustaw, czy automatycznie uruchamiać domenę po starcie."
+
+#: ../mlvirsh/mlvirsh.ml:526
+msgid "Set whether a network autostarts at boot."
+msgstr "Ustaw, czy automatycznie uruchamiać sieć po starcie."
+
+#: ../virt-df/virt_df.ml:344 ../virt-df/virt_df.ml:342
+msgid "Show all domains (default: only active domains)"
+msgstr "Wyświetl wszystkie domeny (domyślnie: tylko aktywne domeny)"
+
+#: ../virt-df/virt_df.ml:356 ../virt-df/virt_df.ml:354
+msgid "Show inodes instead of blocks"
+msgstr "Wyświetl i-węzły zamiast bloków"
+
+#: ../virt-ctrl/vc_mainwindow.ml:137
+msgid "Shutdown"
+msgstr "Wyłącz"
+
+#: ../virt-df/virt_df.ml:499
+msgid "Size"
+msgstr "Rozmiar"
+
+#: ../virt-top/virt_top.ml:1589
+msgid "Sort by %CPU"
+msgstr "Uporządkuj według %CPU"
+
+#: ../virt-top/virt_top.ml:1590
+msgid "Sort by %MEM"
+msgstr "Uporządkuj według %MEM"
+
+#: ../virt-top/virt_top.ml:1592
+msgid "Sort by ID"
+msgstr "Uporządkuj według identyfikatorów"
+
+#: ../virt-top/virt_top.ml:1591
+msgid "Sort by TIME"
+msgstr "Uporządkuj według TIME"
+
+#: ../virt-ctrl/vc_mainwindow.ml:127
+msgid "Start"
+msgstr "Uruchom"
+
+#: ../mlvirsh/mlvirsh.ml:639
+msgid "Start a previously defined inactive domain."
+msgstr "Uruchom poprzednio określoną nieaktywną domenę."
+
+#: ../mlvirsh/mlvirsh.ml:573
+msgid "Start a previously defined inactive network."
+msgstr "Uruchom poprzednio określoną nieaktywną sieć."
+
+#: ../virt-top/virt_top.ml:165
+msgid "Start by displaying block devices"
+msgstr "Uruchom przez wyświetlenie urządzeń blokowych"
+
+#: ../virt-top/virt_top.ml:163
+msgid "Start by displaying network interfaces"
+msgstr "Uruchom przez wyświetlenie interfejsów sieciowych"
+
+#: ../virt-top/virt_top.ml:161
+msgid "Start by displaying pCPUs (default: tasks)"
+msgstr "Uruchom przez wyświetlanie fizycznych procesorów (domyślnie: zadania)"
+
+#: ../virt-ctrl/vc_connections.ml:407
+msgid "Status"
+msgstr "Stan"
+
+#: ../mlvirsh/mlvirsh.ml:643
+msgid "Suspend a domain."
+msgstr "Uśpij domenę."
+
+#: ../mlvirsh/mlvirsh.ml:40
+msgid "Synopsis:\n  %s [options] [command]\n\nList of all commands:\n  %s help\n\nFull description of a single command:\n  %s help command\n\nOptions:"
+msgstr "Podsumowanie:\n  %s [opcje] [polecenie]\n\nWyświetl listę wszystkich poleceń:\n  %s help\n\nPełny opis jednego polecenia:\n  %s help polecenie\n\nOpcje:"
+
+#: ../virt-top/virt_top.ml:65
+msgid "TIME (CPU time)"
+msgstr "TIME (czas procesora)"
+
+#: ../virt-ctrl/vc_connection_dlg.ml:62
+msgid "This machine"
+msgstr "Ten komputer"
+
+#: ../virt-top/virt_top.ml:1613
+msgid "Toggle block devices"
+msgstr "Przełącz urządzenia blokowe"
+
+#: ../virt-top/virt_top.ml:1612
+msgid "Toggle network interfaces"
+msgstr "Przełącz interfejsy sieciowe"
+
+#: ../virt-top/virt_top.ml:1611
+msgid "Toggle physical CPUs"
+msgstr "Przełącz fizyczne procesory"
+
+#: ../virt-df/virt_df.ml:502
+msgid "Type"
+msgstr "Podaj"
+
+#: ../virt-top/virt_top.ml:1341
+msgid "Type key or use up and down cursor keys."
+msgstr "Podaj klucz lub użyj klawiszy kursora w górę i w dół."
+
+#: ../virt-ctrl/vc_connection_dlg.ml:160
+msgid "URI connection"
+msgstr "Połączenie URI"
+
+#: ../mlvirsh/mlvirsh.ml:650
+msgid "Undefine an inactive domain."
+msgstr "Usuń określenie nieaktywnej domeny."
+
+#: ../mlvirsh/mlvirsh.ml:577
+msgid "Undefine an inactive network."
+msgstr "Usuń określenie nieaktywnej sieci."
+
+#: ../virt-top/virt_top.ml:1622
+msgid "Unknown command - try 'h' for help"
+msgstr "Nieznane polecenie - wypróbuj \"h\", aby uzyskać pomoc"
+
+#: ../virt-top/virt_top.ml:1577
+msgid "Update display"
+msgstr "Zaktualizuj ekran"
+
+#: ../mlvirsh/mlvirsh.ml:690
+msgid "Use '%s help command' for help on a command."
+msgstr "Użyj \"%s help polecenie\", aby uzyskać pomoc o poleceniu."
+
+#: ../virt-df/virt_df.ml:499 ../virt-df/virt_df.ml:498
+msgid "Used"
+msgstr "Użyte"
+
+#: ../virt-ctrl/vc_mainwindow.ml:23
+msgid "Virtual Control"
+msgstr "Kontrola wirtualna"
+
+#: ../virt-ctrl/vc_mainwindow.ml:53
+msgid "Virtualisation error"
+msgstr "Błąd wirtualizacji"
+
+#: ../virt-ctrl/vc_mainwindow.ml:39
+msgid "Virtualization control tool (virt-ctrl) by\nRichard W.M. Jones (rjones@redhat.com).\n\nCopyright %s 2007-2008 Red Hat Inc.\n\nLibvirt version: %s\n\nGtk toolkit version: %s"
+msgstr "Narzędzie kontroli wirtualizacji (virt-ctrl) by\nRichard W.M. Jones (rjones@redhat.com).\n\nCopyright %s 2007-2008 Red Hat Inc.\n\nWersja libvirt: %s\n\nWersja zestawu narzędzi GTK: %s"
+
+#: ../virt-top/virt_top.ml:1523
+msgid "Wrote settings to %s"
+msgstr "Zapisano ustawienia do %s"
+
+#: ../virt-ctrl/vc_connection_dlg.ml:76
+msgid "Xen hypervisor"
+msgstr "Nadzorca Xen"
+
+#: ../mlvirsh/mlvirsh.ml:364
+msgid "\\tCPU time: %Ld ns\\n"
+msgstr "\\tCzas procesora: %Ld ns\\n"
+
+#: ../mlvirsh/mlvirsh.ml:362
+msgid "\\tcurrent state: %s\\n"
+msgstr "\\tobecny stan: %s\\n"
+
+#: ../mlvirsh/mlvirsh.ml:361
+msgid "\\ton physical CPU: %d\\n"
+msgstr "\\tna fizycznym procesorze: %d\\n"
+
+#: ../mlvirsh/mlvirsh.ml:298 ../mlvirsh/mlvirsh.ml:289 ../virt-ctrl/vc_helpers.ml:54
+msgid "blocked"
+msgstr "zablokowano"
+
+#: ../mlvirsh/mlvirsh.ml:330
+msgid "cores: %d\\n"
+msgstr "rdzenie: %d\\n"
+
+#: ../mlvirsh/mlvirsh.ml:342
+msgid "cpu_time: %Ld ns\\n"
+msgstr "cpu_time: %Ld ns\\n"
+
+#: ../mlvirsh/mlvirsh.ml:326
+msgid "cpus: %d\\n"
+msgstr "procesory: %d\\n"
+
+#: ../mlvirsh/mlvirsh.ml:293 ../virt-ctrl/vc_helpers.ml:58
+msgid "crashed"
+msgstr "zawiesił się"
+
+#: ../virt-df/virt_df.ml:236
+msgid "detection of unpartitioned devices not yet supported"
+msgstr "wykrywanie niespartycjonowanych urządzeń nie jest jeszcze obsługiwane"
+
+#: ../mlvirsh/mlvirsh.ml:242
+msgid "domain %s: not found.  Additional info: %s"
+msgstr "domena %s: nie znaleziono. Dodatkowe informacje: %s"
+
+#: ../virt-df/virt_df_ext2.ml:39
+msgid "error reading ext2/ext3 magic"
+msgstr "błąd podczas odczytywanie magii ext2/ext3"
+
+#: ../virt-df/virt_df.ml:182
+msgid "error reading extended partition"
+msgstr "błąd podczas odczytywania partycji rozszerzonej"
+
+#: ../virt-df/virt_df.ml:149
+msgid "error reading partition table"
+msgstr "błąd podczas odczytywania tablicy partycji"
+
+#: ../virt-ctrl/vc_dbus.ml:239
+msgid "error set after getting System bus"
+msgstr "błąd podczas ustawiania po otrzymaniu magistrali systemowej"
+
+#: ../mlvirsh/mlvirsh.ml:379
+msgid "errors: %Ld\\n"
+msgstr "błędy: %Ld\\n"
+
+#: ../mlvirsh/mlvirsh.ml:258
+msgid "expected field value pairs, but got an odd number of arguments"
+msgstr "oczekiwano pary wartości pól, ale otrzymano nieparzystą liczbę argumentów"
+
+#: ../mlvirsh/mlvirsh.ml:610
+msgid "expecting domain followed by field value pairs"
+msgstr "oczekiwano domenę poprzedzoną parami wartości pól"
+
+#: ../mlvirsh/mlvirsh.ml:220
+msgid "flag should be '%s'"
+msgstr "flaga powinna być \"%s\""
+
+#: ../virt-df/virt_df.ml:419 ../virt-top/virt_top_xml.ml:46
+msgid "get_xml_desc didn't return <domain/>"
+msgstr "get_xml_desc nie zwróciło <domain/>"
+
+#: ../virt-df/virt_df.ml:427
+msgid "get_xml_desc returned no <name> node in XML"
+msgstr "get_xml_desc nie zwróciło węzła <name> w XML-u"
+
+#: ../virt-df/virt_df.ml:430
+msgid "get_xml_desc returned strange <name> node"
+msgstr "get_xml_desc zwróciło dziwny węzeł <name>"
+
+#: ../mlvirsh/mlvirsh.ml:700
+msgid "help: %s: command not found"
+msgstr "help: %s: nie znaleziono polecenia"
+
+#: ../mlvirsh/mlvirsh.ml:188 ../mlvirsh/mlvirsh.ml:182 ../mlvirsh/mlvirsh.ml:177 ../mlvirsh/mlvirsh.ml:172 ../mlvirsh/mlvirsh.ml:168 ../mlvirsh/mlvirsh.ml:164 ../mlvirsh/mlvirsh.ml:160
+msgid "incorrect number of arguments for function"
+msgstr "niepoprawna liczba argumentów dla funkcji"
+
+#: ../mlvirsh/mlvirsh.ml:339
+msgid "max_mem: %Ld K\\n"
+msgstr "max_mem: %Ld K\\n"
+
+#: ../mlvirsh/mlvirsh.ml:340 ../mlvirsh/mlvirsh.ml:325
+msgid "memory: %Ld K\\n"
+msgstr "pamięć: %Ld K\\n"
+
+#: ../mlvirsh/mlvirsh.ml:327
+msgid "mhz: %d\\n"
+msgstr "MHz: %d\\n"
+
+#: ../mlvirsh/mlvirsh.ml:727
+msgid "mlvirsh"
+msgstr "mlvirsh"
+
+#: ../mlvirsh/mlvirsh.ml:725
+msgid "mlvirsh(no connection)"
+msgstr "mlvirsh (brak połączenia)"
+
+#: ../mlvirsh/mlvirsh.ml:726
+msgid "mlvirsh(ro)"
+msgstr "mlvirsh (tylko do odczytu)"
+
+#: ../mlvirsh/mlvirsh.ml:324
+msgid "model: %s\\n"
+msgstr "model: %s\\n"
+
+#: ../mlvirsh/mlvirsh.ml:253
+msgid "network %s: not found.  Additional info: %s"
+msgstr "sieć %s: nie znaleziono. Dodatkowe informacje: %s"
+
+#: ../mlvirsh/mlvirsh.ml:328
+msgid "nodes: %d\\n"
+msgstr "węzły: %d\\n"
+
+#: ../mlvirsh/mlvirsh.ml:202 ../mlvirsh/mlvirsh.ml:197
+msgid "not connected to the hypervisor"
+msgstr "nie połączono z nadzorcą"
+
+#: ../mlvirsh/mlvirsh.ml:341
+msgid "nr_virt_cpu: %d\\n"
+msgstr "nr_virt_cpu: %d\\n"
+
+#: ../mlvirsh/mlvirsh.ml:296
+msgid "offline"
+msgstr "offline"
+
+#: ../virt-df/virt_df_ext2.ml:42
+msgid "partition marked EXT2/3 but no valid filesystem"
+msgstr "partycja jest oznaczona jako ext2/3, ale nie jest prawidłowym system plików"
+
+#: ../mlvirsh/mlvirsh.ml:290 ../virt-ctrl/vc_helpers.ml:55
+msgid "paused"
+msgstr "wstrzymano"
+
+#: ../virt-df/virt_df.ml:188
+msgid "probe_extended_partition: internal error"
+msgstr "probe_extended_partition: wewnętrzny błąd"
+
+#: ../mlvirsh/mlvirsh.ml:376
+msgid "read bytes: %Ld\\n"
+msgstr "odczytaj bajty: %Ld\\n"
+
+#: ../mlvirsh/mlvirsh.ml:375
+msgid "read requests: %Ld\\n"
+msgstr "odczytaj żądania: %Ld\\n"
+
+#: ../mlvirsh/mlvirsh.ml:297 ../mlvirsh/mlvirsh.ml:288 ../virt-ctrl/vc_helpers.ml:53
+msgid "running"
+msgstr "uruchomione"
+
+#: ../mlvirsh/mlvirsh.ml:384
+msgid "rx bytes: %Ld\\n"
+msgstr "bajty RX: %Ld\\n"
+
+#: ../mlvirsh/mlvirsh.ml:387
+msgid "rx dropped: %Ld\\n"
+msgstr "opuszczono RX: %Ld\\n"
+
+#: ../mlvirsh/mlvirsh.ml:386
+msgid "rx errs: %Ld\\n"
+msgstr "błędy RX: %Ld\\n"
+
+#: ../mlvirsh/mlvirsh.ml:385
+msgid "rx packets: %Ld\\n"
+msgstr "pakiety RX: %Ld\\n"
+
+#: ../mlvirsh/mlvirsh.ml:226
+msgid "setting should be '%s' or '%s'"
+msgstr "ustawienie powinno być \"%s\" lub \"%s\""
+
+#: ../mlvirsh/mlvirsh.ml:291 ../virt-ctrl/vc_helpers.ml:56
+msgid "shutdown"
+msgstr "wyłącz"
+
+#: ../mlvirsh/mlvirsh.ml:292 ../virt-ctrl/vc_helpers.ml:57
+msgid "shutoff"
+msgstr "wyłącz"
+
+#: ../mlvirsh/mlvirsh.ml:329
+msgid "sockets: %d\\n"
+msgstr "gniazda: %d\\n"
+
+#: ../mlvirsh/mlvirsh.ml:338
+msgid "state: %s\\n"
+msgstr "stan: %s\\n"
+
+#: ../mlvirsh/mlvirsh.ml:331
+msgid "threads: %d\\n"
+msgstr "wątki: %d\\n"
+
+#: ../mlvirsh/mlvirsh.ml:198
+msgid "tried to do read-write operation on read-only hypervisor connection"
+msgstr "spróbowano wykonać operację odczytu/zapisu na połączeniu nadzorcy tylko do odczytu"
+
+#: ../mlvirsh/mlvirsh.ml:388
+msgid "tx bytes: %Ld\\n"
+msgstr "bajty TX: %Ld\\n"
+
+#: ../mlvirsh/mlvirsh.ml:391
+msgid "tx dropped: %Ld\\n"
+msgstr "opuszczono TX: %Ld\\n"
+
+#: ../mlvirsh/mlvirsh.ml:390
+msgid "tx errs: %Ld\\n"
+msgstr "błędy TX: %Ld\\n"
+
+#: ../mlvirsh/mlvirsh.ml:389
+msgid "tx packets: %Ld\\n"
+msgstr "pakiety TX: %Ld\\n"
+
+#: ../mlvirsh/mlvirsh.ml:287 ../virt-ctrl/vc_helpers.ml:52
+msgid "unknown"
+msgstr "nieznane"
+
+#: ../virt-df/virt_df.ml:246
+msgid "unsupported partition type %02x"
+msgstr "nieobsługiwany typ partycji %02x"
+
+#: ../virt-df/virt_df.ml:363
+msgid "virt-df : like 'df', shows disk space used in guests\n\nSUMMARY\n  virt-df [-options]\n\nOPTIONS"
+msgstr "virt-df: podobne do \"df\", pokazuje użytą przestrzeń na dysku w gościach\n\nPODSUMOWANIE\n  virt-df [-opcje]\n\nOPCJE"
+
+#: ../virt-top/virt_top.ml:1543
+msgid "virt-top %s (libvirt %d.%d.%d) by Red Hat"
+msgstr "virt-top %s (libvirt %d.%d.%d) od Red Hata"
+
+#: ../virt-top/virt_top.ml:203
+msgid "virt-top : a 'top'-like utility for virtualization\n\nSUMMARY\n  virt-top [-options]\n\nOPTIONS"
+msgstr "virt-top: narzędzie podobne do \"top\" dla wirtualizacji\n\nPODSUMOWANIE\n  virt-top [-opcje]\n\nOPCJE"
+
+#: ../virt-top/virt_top.ml:40
+msgid "virt-top was compiled without support for CSV files"
+msgstr "virt-top został skompilowany bez obsługi plików CSV"
+
+#: ../virt-top/virt_top.ml:51
+msgid "virt-top was compiled without support for dates and times"
+msgstr "virt-top został skompilowany bez obsługi dat i czasu"
+
+#: ../mlvirsh/mlvirsh.ml:360
+msgid "virtual CPU: %d\\n"
+msgstr "wirtualny procesor: %d\\n"
+
+#: ../virt-ctrl/vc_dbus.ml:219
+msgid "warning: ignored unknown message %s from %s\\n%!"
+msgstr "ostrzeżenie: zignorowano nieznany komunikat %s z %s\\n%!"
+
+#: ../virt-ctrl/vc_dbus.ml:124
+msgid "warning: unexpected message contents of Found signal"
+msgstr "ostrzeżenie: nieoczekiwana zawartość komunikatu sygnału \"Found\""
+
+#: ../virt-ctrl/vc_dbus.ml:188
+msgid "warning: unexpected message contents of ItemNew signal"
+msgstr "ostrzeżenie: nieoczekiwana zawartość komunikatu sygnału \"ItemNew\""
+
+#: ../virt-ctrl/vc_dbus.ml:140
+msgid "warning: unexpected message contents of ItemRemove signal"
+msgstr "ostrzeżenie: nieoczekiwana zawartość komunikatu sygnału \"ItemRemove\""
+
+#: ../mlvirsh/mlvirsh.ml:378
+msgid "write bytes: %Ld\\n"
+msgstr "bajty zapisu: %Ld\\n"
+
+#: ../mlvirsh/mlvirsh.ml:377
+msgid "write requests: %Ld\\n"
+msgstr "żądania zapisu: %Ld\\n"
