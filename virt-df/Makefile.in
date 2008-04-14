@@ -25,10 +25,10 @@ prefix		= @prefix@
 exec_prefix	= @exec_prefix@
 bindir		= @bindir@
 
-pkg_xml_light	= @pkg_xml_light@
 pkg_gettext     = @pkg_gettext@
 
-OCAMLCPACKAGES	:= -package unix,extlib,xml-light
+#OCAMLCPACKAGES	:= -package unix,extlib,xml-light,bitmatch
+OCAMLCPACKAGES	:= -package unix,extlib,xml-light -I +bitmatch
 
 ifneq ($(pkg_gettext),no)
 OCAMLCPACKAGES  += -package gettext-stub
@@ -40,17 +40,24 @@ OBJS		:= \
 	virt_df_ext2.cmo \
 	virt_df_linux_swap.cmo \
 	virt_df_lvm2.cmo \
+	virt_df_mbr.cmo \
 	virt_df_main.cmo
 
 XOBJS		:= $(OBJS:.cmo=.cmx)
 
+SYNTAX		:= -pp "camlp4o -I`ocamlc -where`/bitmatch pa_bitmatch.cmo"
+
 OCAMLCPACKAGES  += -I ../libvirt
-OCAMLCFLAGS	:= -g -w s
-OCAMLCLIBS	:= -linkpkg
+OCAMLCFLAGS	:= -g -w s $(SYNTAX)
+#OCAMLCLIBS	:= -linkpkg
+OCAMLCLIBS	:= -linkpkg bitmatch.cma
 
 OCAMLOPTPACKAGES := $(OCAMLCPACKAGES)
-OCAMLOPTFLAGS	:= -w s
-OCAMLOPTLIBS	:= $(OCAMLCLIBS)
+OCAMLOPTFLAGS	:= -w s $(SYNTAX)
+#OCAMLOPTLIBS	:= $(OCAMLCLIBS)
+OCAMLOPTLIBS	:= -linkpkg bitmatch.cmxa
+
+OCAMLDEPFLAGS	:= $(SYNTAX)
 
 export LIBRARY_PATH=../libvirt
 export LD_LIBRARY_PATH=../libvirt
