@@ -194,6 +194,7 @@ if test "x$OCAMLFIND" != "x"; then
     AC_CHECK_OCAML_PKG(csv)
     AC_CHECK_OCAML_PKG(dbus)
     AC_CHECK_OCAML_PKG(gettext)
+    AC_CHECK_OCAML_PKG(bitmatch)
 
     dnl Need to check which version of calendar is installed.
     AC_CHECK_OCAML_MODULE(calendar,pkg_calendar2,CalendarLib.Date,[+calendar])
@@ -230,6 +231,7 @@ else
     AC_CHECK_OCAML_MODULE(csv,pkg_csv,Csv,[+csv])
     AC_CHECK_OCAML_MODULE(dbus,pkg_dbus,DBus,[+dbus])
     AC_CHECK_OCAML_MODULE(gettext,pkg_gettext,Gettext,[+gettext])
+    AC_CHECK_OCAML_MODULE(bitmatch,pkg_bitmatch,Bitmatch,[+bitmatch])
     dnl XXX Version check - see above.
     AC_CHECK_OCAML_MODULE(calendar,pkg_calendar,Calendar,[+calendar])
 fi
@@ -242,7 +244,9 @@ fi
 if test "x$pkg_extlib" != "xno" -a "x$pkg_curses" != "xno"; then
     subdirs="$subdirs virt-top"
 fi
-if test "x$pkg_extlib" != "xno" -a "x$pkg_xml_light" != "xno"; then
+if test "x$pkg_extlib" != "xno" \
+   -a "x$pkg_xml_light" != "xno" \
+   -a "x$pkg_bitmatch" != "xno"; then
     subdirs="$subdirs virt-df"
 fi
 AC_SUBST(subdirs)
