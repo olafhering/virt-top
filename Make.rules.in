@@ -47,11 +47,11 @@ depend: .depend
 ifneq ($(OCAMLFIND),)
 .depend: $(wildcard *.mli) $(wildcard *.ml)
 	rm -f .depend
-	$(OCAMLFIND) ocamldep $(OCAMLCPACKAGES) $^ > $@
+	$(OCAMLFIND) ocamldep $(OCAMLCPACKAGES) $(OCAMLDEPFLAGS) $^ > $@
 else
 .depend: $(wildcard *.mli) $(wildcard *.ml)
 	rm -f .depend
-	$(OCAMLDEP) $(OCAMLCINCS) $^ > $@
+	$(OCAMLDEP) $(OCAMLCINCS) $(OCAMLDEPFLAGS) $^ > $@
 endif
 
 ifeq ($(wildcard .depend),.depend)
