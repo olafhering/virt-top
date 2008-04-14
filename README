@@ -21,50 +21,52 @@ the packages below if you want to build from source.
 
                     W h a t   y o u   w a n t   t o   b u i l d
 
-                |Bindings, |Docs,    |virt-top |virt-ctrl |Windows
-                |examples, |manpages |         |          |version
-                |mlvirsh   |         |         |          |
-  --------------+----------+---------+---------+----------+---------
-  GNU make      | R        | R       | R       | R        | R
-                |          |         |         |          |
-  gcc           | R        |         | R       | R        | R
-                |          |         |         |          |
-  libvirt       | R        |         | R       | R        | R
-                | >= 0.2.1 |         |         |          |
-                |          |         |         |          |
-  ocaml         | R        |         | R       | R        | R
-                | >= 3.08  |         |         |          |
-                |          |         |         |          |
-  findlib       | HR       | R       | HR      | HR       | Note [1]
-                |          |         |         |          |
-  ocaml-gettext | R        | R       | R       | R        | Note [2]
-                |          |         |         |          |
-  MinGW + MSYS  |          |         |         |          | R
-  --------------+----------+---------+---------+----------+---------
-  ocamldoc      |          | R       |         |          | O
-                |          |         |         |          |
-  perldoc       |          | O       |         |          |
-  --------------+----------+---------+---------+----------+---------
-  ocaml-curses  |          |         | R       |          |
-                |          |         |         |          |
-  Extlib        |          |         | R       |          |
-                |          |         |         |          |
-  xml-light     |          |         | O       |          |
-                |          |         |         |          |
-  ocaml-calendar|          |         | O       |          |
-                |          |         |         |          |
-  ocaml CSV     |          |         | O       |          |
-  --------------+----------+---------+---------+----------+---------
-  GTK2          |          |         |         | R        | O
-                |          |         |         |          |
-  lablgtk2      |          |         |         | R        | O
-                |          |         |         | >= 2.10.0|
-  ocaml-dbus    |          |         |         | O        |
-                |          |         |         | >= 0.06  |
-  gnome-icon-theme         |         |         | O        |
-  --------------+----------+---------+---------+----------+---------
-  NSIS          |          |         |         |          | O
-  --------------+----------+---------+---------+----------+---------
+                |Bindings, |Docs,    |virt-top |virt-ctrl |virt-df   |Windows
+                |examples, |manpages |         |          |          |version
+                |mlvirsh   |         |         |          |          |
+  --------------+----------+---------+---------+----------+----------+------
+  GNU make      | R        | R       | R       | R        | R        | R
+                |          |         |         |          |          |
+  gcc           | R        |         | R       | R        | R        | R
+                |          |         |         |          |          |
+  libvirt       | R        |         | R       | R        | R        | R
+                | >= 0.2.1 |         |         |          |          |
+                |          |         |         |          |          |
+  ocaml         | R        |         | R       | R        | R        | R
+                | >= 3.08  |         |         |          | >= 3.10  |
+                |          |         |         |          |          |
+  findlib       | HR       | R       | HR      | HR       | HR       | Note [1]
+                |          |         |         |          |          |
+  ocaml-gettext | O        | O       | O       | O        | O        | Note [2]
+                |          |         |         |          |          |
+  MinGW + MSYS  |          |         |         |          |          | R
+  --------------+----------+---------+---------+----------+----------+------
+  ocamldoc      |          | R       |         |          |          | O
+                |          |         |         |          |          |
+  perldoc       |          | O       |         |          |          |
+  --------------+----------+---------+---------+----------+----------+------
+  ocaml-curses  |          |         | R       |          |          |
+                |          |         |         |          |          |
+  Extlib        |          |         | R       |          | R        |
+                |          |         |         |          |          |
+  xml-light     |          |         | O       |          | R        |
+                |          |         |         |          |          |
+  ocaml-calendar|          |         | O       |          |          |
+                |          |         |         |          |          |
+  ocaml CSV     |          |         | O       |          |          |
+                |          |         |         |          |          |
+  bitmatch      |          |         |         |          | R        |
+  --------------+----------+---------+---------+----------+----------+------
+  GTK2          |          |         |         | R        |          | O
+                |          |         |         |          |          |
+  lablgtk2      |          |         |         | R        |          | O
+                |          |         |         | >= 2.10.0|          |
+  ocaml-dbus    |          |         |         | O        |          |
+                |          |         |         | >= 0.06  |          |
+  gnome-icon-theme         |         |         | O        |          |
+  --------------+----------+---------+---------+----------+----------+------
+  NSIS          |          |         |         |          |          | O
+  --------------+----------+---------+---------+----------+----------+------
 
    R = required
    HR = highly recommended (use if possible)
@@ -121,6 +123,8 @@ Where to get the packages:
   ocaml-calendar   from http://www.lri.fr/~signoles/prog.en.html
                      or packaged in Debian, Ubuntu as 'libcalendar-ocaml-dev'
                      or packaged in Fedora as 'ocaml-calendar-devel'
+
+  bitmatch         from http://et.redhat.com/~rjones/bitmatch/
 
   GTK2             from http://gtk.org/
                      or packaged in Debian, Ubuntu and Fedora
