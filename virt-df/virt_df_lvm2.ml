@@ -32,12 +32,13 @@ let sector_size64 = 512L
 (* Probe to see if it's an LVM2 PV.  Look for the "LABELONE" label. *)
 let rec probe_pv lvm_plugin_id dev =
   try
-    let uuid, metadata_offset, metadata_length = read_pv_label dev in
+    let uuid, _ = read_pv_label dev in
     if debug then
-      eprintf "LVM2 detected UUID %s md offset 0x%lx len %ld\n%!"
-	uuid metadata_offset metadata_length;
+      eprintf "LVM2 detected PV UUID %s\n%!" uuid;
     { lvm_plugin_id = lvm_plugin_id; pv_uuid = uuid }
-  with _ -> raise Not_found
+  with exn ->
+    if debug then prerr_endline (Printexc.to_string exn);
+    raise Not_found
 
 and read_pv_label dev =
   (* Load the first 8 sectors.  I found by experimentation that
@@ -47,7 +48,7 @@ and read_pv_label dev =
    *)
   let bits = dev#read_bitstring 0L (9 * sector_size) in
 
-  Bitmatch.hexdump_bitstring stdout bits;
+  (*Bitmatch.hexdump_bitstring stdout bits;*)
 
   bitmatch bits with
   | sector0 : sector_size*8 : bitstring; (* sector 0 *)
@@ -64,26 +65,36 @@ and read_pv_label dev =
       when Bitmatch.string_of_bitstring labelone = "LABELONE" &&
 	   Bitmatch.string_of_bitstring lvm2_ver = "LVM2 001" ->
     let metadata_offset = metadata_offset +* 0x1000_l in
+    let metadata = read_metadata dev metadata_offset metadata_length in
+    (*prerr_endline metadata;*)
+    let uuid = Bitmatch.string_of_bitstring uuid in
 
-    (* Check the metadata offset & length look reasonable for this
-     * device.  Otherwise maybe it's a newer or older header which
-     * we don't really understand properly.
-     *)
-    let () =
-      let size =
-	if dev#size <= Int64.of_int32 Int32.max_int then Int64.to_int32 dev#size
-	else Int32.max_int in
-      if metadata_offset < 0x1200_l || metadata_offset >= size
-	|| metadata_length < 0_l || metadata_offset+*metadata_length >= size
-      then
-	invalid_arg "read_pv_label: bad metadata offset or length" in
-
-    Bitmatch.string_of_bitstring uuid, metadata_offset, metadata_length
-
+    uuid, metadata
 
   | _ ->
-    invalid_arg (sprintf "read_pv_label: %s: not an LVM2 physical volume"
-		   dev#name)
+    invalid_arg
+      (sprintf "LVM2: read_pv_label: %s: not an LVM2 physical volume" dev#name)
+
+and read_metadata dev offset32 len32 =
+  if debug then
+    eprintf "metadata: offset 0x%lx len %ld bytes\n" offset32 len32;
+
+  (* Check the offset and length are sensible. *)
+  let offset64 =
+    if offset32 <= Int32.max_int then Int64.of_int32 offset32
+    else invalid_arg "LVM2: read_metadata: metadata offset too large" in
+  let len64 =
+    if len32 <= 2_147_483_647_l then Int64.of_int32 len32
+    else invalid_arg "LVM2: read_metadata: metadata length too large" in
+
+  if offset64 <= 0x1200L || offset64 >= dev#size
+    || len64 <= 0L || offset64 +^ len64 >= dev#size then
+      invalid_arg "LVM2: read_metadata: bad metadata offset or length";
+
+  (* If it is outside the disk boundaries, this will throw an exception,
+   * otherwise it will read and return the metadata string.
+   *)
+  dev#read offset64 (Int64.to_int len64)
 
 (* We are passed a list of devices which we previously identified
  * as PVs belonging to us.  From these produce a list of all LVs
