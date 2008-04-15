@@ -44,8 +44,8 @@
 input	: lines EOF	{ List.rev $1 }
 	;
 
-lines	: /* empty */	{ prerr_endline "empty line"; [] }
-	| lines line	{ prerr_endline "input line"; $2 :: $1 }
+lines	: /* empty */	{ [] }
+	| lines line	{ $2 :: $1 }
 	;
 
 line	: /* empty */	/* These dummy entries get removed after parsing. */
