@@ -29,6 +29,7 @@ let sector_size64 = 512L
 
 let pv_label_offset = sector_size64
 
+(* Probe to see if it's an LVM2 PV.  Look for the "LABELONE" label. *)
 let rec probe_pv dev =
   try ignore (read_pv_label dev); true
   with _ -> false
@@ -36,6 +37,8 @@ let rec probe_pv dev =
 and read_pv_label dev =
   (* Load the second sector. *)
   let bits = dev#read_bitstring pv_label_offset sector_size in
+
+  Bitmatch.hexdump_bitstring stdout bits;
 
   bitmatch bits with
   | labelone : 8*8 : bitstring;		(* "LABELONE" *)
@@ -49,6 +52,11 @@ and read_pv_label dev =
     invalid_arg (sprintf "read_pv_label: %s: not an LVM2 physical volume"
 		   dev#name)
 
+(* We are passed a list of devices which we previously identified
+ * as PVs belonging to us.  From these produce a list of all LVs
+ * (as devices) and return them.  Note that we don't try to detect
+ * what is on these LVs - that will be done in the main code.
+ *)
 let list_lvs devs = []
 
 (* Register with main code. *)
