@@ -48,7 +48,7 @@ and output_metavalue chan prefix = function
       output_string chan "{\n";
       _output_metadata chan (prefix ^ "  ") md;
       output_string chan prefix;
-      output_string chan "}\n";
+      output_string chan "}";
   | String str ->
       output_char chan '"';
       output_string chan str;
