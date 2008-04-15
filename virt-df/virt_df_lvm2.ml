@@ -29,29 +29,58 @@ let plugin_name = "LVM2"
 let sector_size = 512
 let sector_size64 = 512L
 
-let pv_label_offset = sector_size64
-
 (* Probe to see if it's an LVM2 PV.  Look for the "LABELONE" label. *)
 let rec probe_pv lvm_plugin_id dev =
   try
-    let uuid = read_pv_label dev in
+    let uuid, metadata_offset, metadata_length = read_pv_label dev in
+    if debug then
+      eprintf "LVM2 detected UUID %s md offset 0x%lx len %ld\n%!"
+	uuid metadata_offset metadata_length;
     { lvm_plugin_id = lvm_plugin_id; pv_uuid = uuid }
   with _ -> raise Not_found
 
 and read_pv_label dev =
-  (* Load the second sector. *)
-  let bits = dev#read_bitstring pv_label_offset sector_size in
+  (* Load the first 8 sectors.  I found by experimentation that
+   * the second sector contains the header ("LABELONE" etc) and
+   * the nineth sector contains some additional information about
+   * the location of the current metadata.
+   *)
+  let bits = dev#read_bitstring 0L (9 * sector_size) in
 
-  (*Bitmatch.hexdump_bitstring stdout bits;*)
+  Bitmatch.hexdump_bitstring stdout bits;
 
   bitmatch bits with
-  | labelone : 8*8 : bitstring;		(* "LABELONE" *)
-    padding : 16*8 : bitstring;
+  | sector0 : sector_size*8 : bitstring; (* sector 0 *)
+    labelone : 8*8 : bitstring;		(* "LABELONE" *)
+    padding : 16*8 : bitstring;		(* Seems to contain something. *)
     lvm2_ver : 8*8 : bitstring;		(* "LVM2 001" *)
-    uuid : 32*8 : bitstring		(* UUID *)
+    uuid : 32*8 : bitstring;		(* UUID *)
+    padding2 : (sector_size-64)*8 : bitstring; (* to end of second sector *)
+    sector234567 : sector_size*8 * 6 : bitstring; (* sectors 2-6 *)
+    padding3 : 0x28*8 : bitstring;      (* start of sector 8 *)
+    metadata_offset : 32 : littleendian;(* metadata offset *)
+    padding4 : 4*8 : bitstring;
+    metadata_length : 32 : littleendian	(* length of metadata (bytes) *)
       when Bitmatch.string_of_bitstring labelone = "LABELONE" &&
-	Bitmatch.string_of_bitstring lvm2_ver = "LVM2 001" ->
-    Bitmatch.string_of_bitstring uuid
+	   Bitmatch.string_of_bitstring lvm2_ver = "LVM2 001" ->
+    let metadata_offset = metadata_offset +* 0x1000_l in
+
+    (* Check the metadata offset & length look reasonable for this
+     * device.  Otherwise maybe it's a newer or older header which
+     * we don't really understand properly.
+     *)
+    let () =
+      let size =
+	if dev#size <= Int64.of_int32 Int32.max_int then Int64.to_int32 dev#size
+	else Int32.max_int in
+      if metadata_offset < 0x1200_l || metadata_offset >= size
+	|| metadata_length < 0_l || metadata_offset+*metadata_length >= size
+      then
+	invalid_arg "read_pv_label: bad metadata offset or length" in
+
+    Bitmatch.string_of_bitstring uuid, metadata_offset, metadata_length
+
+
   | _ ->
     invalid_arg (sprintf "read_pv_label: %s: not an LVM2 physical volume"
 		   dev#name)
@@ -61,7 +90,8 @@ and read_pv_label dev =
  * (as devices) and return them.  Note that we don't try to detect
  * what is on these LVs - that will be done in the main code.
  *)
-let list_lvs devs = []
+let list_lvs devs =
+  []
 
 (* Register with main code. *)
 let () =
