@@ -29,7 +29,7 @@ let plugin_name = "LVM2"
 let sector_size = 512
 let sector_size64 = 512L
 
-(* Probe to see if it's an LVM2 PV.  Look for the "LABELONE" label. *)
+(* Probe to see if it's an LVM2 PV. *)
 let rec probe_pv lvm_plugin_id dev =
   try
     let uuid, _ = read_pv_label dev in
@@ -77,7 +77,7 @@ and read_pv_label dev =
 
 and read_metadata dev offset32 len32 =
   if debug then
-    eprintf "metadata: offset 0x%lx len %ld bytes\n" offset32 len32;
+    eprintf "metadata: offset 0x%lx len %ld bytes\n%!" offset32 len32;
 
   (* Check the offset and length are sensible. *)
   let offset64 =
@@ -102,6 +102,8 @@ and read_metadata dev offset32 len32 =
  * what is on these LVs - that will be done in the main code.
  *)
 let list_lvs devs =
+  (* Read the UUID and metadata (again) from each device. *)
+  let uuidmetas = List.map read_pv_label devs in
   []
 
 (* Register with main code. *)
