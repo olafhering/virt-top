@@ -21,6 +21,8 @@
 *)
 
 open Printf
+open ExtList
+
 open Virt_df_gettext.Gettext
 open Virt_df
 
@@ -114,29 +116,147 @@ let rec list_lvs devs =
   (* Read the UUID and metadata (again) from each device to end up with
    * an assoc list of PVs, keyed on the UUID.
    *)
-  let pvs = List.map read_pv_label devs in
+  let pvs = List.map (
+    fun dev ->
+      let uuid, metadata = read_pv_label dev in
+      (uuid, (metadata, dev))
+  ) devs in
 
   (* Parse the metadata using the external lexer/parser. *)
   let pvs = List.map (
-    fun (uuid, metadata) ->
-      eprintf "parsing: %s\n<<<<\n" metadata;
-      uuid, Virt_df_lvm2_lexer.parse_lvm2_metadata_from_string metadata
+    fun (uuid, (metadata, dev)) ->
+      uuid, (Virt_df_lvm2_lexer.parse_lvm2_metadata_from_string metadata,
+	     dev)
   ) pvs in
 
-  (* Print the parsed metadata. *)
+  (* Print the parsed metadata.
   List.iter (
-    fun (uuid, metadata) ->
+    fun (uuid, (metadata, dev)) ->
       eprintf "metadata for UUID %s:\n" uuid;
       output_metadata stderr metadata
   ) pvs;
+  *)
+
+  (* Scan for volume groups.  The first entry in the metadata
+   * appears to be the volume group name.  This gives us a
+   * list of VGs and the metadata for each underlying PV.
+   *)
+  let vgnames =
+    List.filter_map (
+      function
+      | pvuuid, (((vgname, Metadata vgmeta) :: _), dev) ->
+	  Some (vgname, (pvuuid, vgmeta))
+      | _ -> None
+    ) pvs in
+
+  let cmp ((a:string),_) ((b:string),_) = compare a b in
+  let vgnames = List.sort ~cmp vgnames in
+  let vgs = group_by vgnames in
+
+  (* Note that the metadata is supposed to be duplicated
+   * identically across all PVs (for redundancy purposes).
+   * In theory we should check this and use the 'seqno'
+   * field to find the latest metadata if it doesn't match,
+   * but in fact we don't check this.
+   *)
+  let vgs = List.map (
+    fun (vgname, metas) ->
+      let pvuuids = List.map fst metas in
+      let _, vgmeta = List.hd metas in (* just pick any metadata *)
+      vgname, (pvuuids, vgmeta)) vgs in
+
+  (* Print the VGs. *)
+  if debug then
+    List.iter (
+      fun (vgname, (pvuuids, vgmeta)) ->
+	eprintf "VG %s is on PVs: %s\n%!" vgname (String.concat "," pvuuids)
+    ) vgs;
+
+  (* Some useful getter functions.  If these can't get a value
+   * from the metadata or if the type is wrong they raise Not_found.
+   *)
+  let rec get_int64 field meta =
+    match List.assoc field meta with
+    | Int i -> i
+    | _ -> raise Not_found
+  and get_int field meta min max =
+    match List.assoc field meta with
+    | Int i when Int64.of_int min <= i && i <= Int64.of_int max ->
+	Int64.to_int i
+    | _ -> raise Not_found
+  and get_string field meta =
+    match List.assoc field meta with
+    | String s -> s
+    | _ -> raise Not_found
+  and get_meta field meta =
+    match List.assoc field meta with
+    | Metadata md -> md
+    | _ -> raise Not_found in
+  in
+
+  (* Scan for logical volumes.  Each VG contains several LVs.
+   * This gives us a list of LVs within each VG (hence extends
+   * the vgs variable).
+   *)
+  let vgs = List.map (
+    fun (vgname, (pvuuids, vgmeta)) ->
+      let lvs =
+	try
+	  let extent_size = get_int "extent_size" vgmeta 0 (256*1024) in
+	  let lvs = get_meta "logical_volumes" vgmeta in
+	  let lvs = List.filter_map (
+	    function
+	    | lvname, Metadata lvmeta ->
+		(try
+		   let segment_count = get_int "segment_count" lvmeta 0 1024 in
+
+		   (* Get the segments for this LV. *)
+		   let segments = range 1 (segment_count+1) in
+		   let segments =
+		     List.map
+		       (fun i -> get_meta ("segment" ^ string_of_int i) lvmeta)
+		       segments in
+
+		   let segments =
+		     List.map (
+		       fun segmeta ->
+			 let start_extent =
+			   get_int64 "start_extent" segmeta in
+			 let extent_count =
+			   get_int64 "extent_count" segmeta in
+			 let segtype = get_string "type" segmeta in
+			 if segtype <> "striped" then raise Not_found;
+			 let stripe_count =
+			   get_int "stripe_count" segmeta 0 1024 in
+			 (* let stripes =  in *)
+
+			 (start_extent, extent_count, stripe_count)
+		     ) segments in
+
+		   Some (lvname, (lvmeta, segments))
+		 with
+		   (* Something went wrong with segments - omit this LV. *)
+		   Not_found -> None)
+	    | _ -> None
+	  ) lvs in
+
+	  lvs
+	with
+	  Not_found ->
+	    (* Something went wrong - assume no LVs found. *)
+	    [] in
+      (vgname, (pvuuids, vgmeta, lvs))
+  ) vgs in
+
+  (* Print the LVs. *)
+  if debug then
+    List.iter (
+      fun (vgname, (pvuuids, vgmeta, lvs)) ->
+	let lvnames = List.map fst lvs in
+	eprintf "VG %s contains LVs: %s\n%!" vgname (String.concat ", " lvnames)
+    ) vgs;
 
   []
-
-
-
-
-
-  
 
 (* Register with main code. *)
 let () =
