@@ -268,13 +268,18 @@ OPTIONS" in
 	  { disk with d_content = `Partitions parts }
       | None ->
 	  (* Not partitioned.  Does it contain a filesystem? *)
-	  let fs = probe_for_filesystems dev in
+	  let fs = probe_for_filesystem dev in
 	  match fs with
 	  | Some fs ->
 	      { disk with d_content = `Filesystem fs }
 	  | None ->
-	      (* Not partitioned, no filesystem, so it's spare. *)
-	      disk
+	      (* Not partitioned, no filesystem, is it a PV? *)
+	      let pv = probe_for_pv dev in
+	      match pv with
+	      | Some lvm_name ->
+		  { disk with d_content = `PhysicalVolume lvm_name }
+	      | None ->
+		  disk (* Spare/unknown. *)
   ) in
 
   (* Now we have either detected partitions or a filesystem on each
@@ -287,12 +292,18 @@ OPTIONS" in
 	let ps = List.map (
 	  fun p ->
 	    if p.part_status = Bootable || p.part_status = Nonbootable then (
-	      let fs = probe_for_filesystems p.part_dev in
+	      let fs = probe_for_filesystem p.part_dev in
 	      match fs with
 	      | Some fs ->
 		  { p with part_content = `Filesystem fs }
 	      | None ->
-		  p
+		  (* Is it a PV? *)
+		  let pv = probe_for_pv p.part_dev in
+		  match pv with
+		  | Some lvm_name ->
+		      { p with part_content = `PhysicalVolume lvm_name }
+		  | None ->
+		      p (* Spare/unknown. *)
 	    ) else p
 	) parts.parts in
 	let parts = { parts with parts = ps } in
@@ -300,7 +311,9 @@ OPTIONS" in
     | disk -> disk
   ) in
 
-  (* XXX LVM stuff here. *)
+  (* XXX LVM filesystem detection ... *)
+
+
 
 
 

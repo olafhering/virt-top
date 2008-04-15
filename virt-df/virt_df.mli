@@ -17,9 +17,9 @@
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *)
 
-(* This module (Virt_df) contains functions and values which are
- * used throughout the plug-ins and main code.
- *)
+(** This module (Virt_df) contains functions and values which are
+    used throughout the plug-ins and main code.
+*)
 
 val debug : bool
 (** If true, emit logs of debugging information to stderr. *)
@@ -71,7 +71,7 @@ v}
    of the physical devices, partitions and filesystems potentially
    available to the guest.
     
-   Volume management schemes (eg. LVM) register themselves here
+   Volume management schemes (eg. LVM2) register themselves here
    and are called later with "spare" physical devices and partitions
    to see if they contain LVM data.  If this results in additional
    logical volumes then these are checked for filesystems.
@@ -131,7 +131,7 @@ and disk = {
 and disk_content =
     [ `Filesystem of filesystem		(** Contains a direct filesystem. *)
     | `Partitions of partitions		(** Contains partitions. *)
-    | `PhysicalVolume of unit		(** Contains an LVM PV. *)
+    | `PhysicalVolume of string		(** Contains an LVM PV. *)
     | `Unknown				(** Not probed or unknown. *)
     ]
 and partitions = {
@@ -147,7 +147,7 @@ and partition = {
 and partition_status = Bootable | Nonbootable | Malformed | NullEntry
 and partition_content =
     [ `Filesystem of filesystem		(** Filesystem. *)
-    | `PhysicalVolume of unit		(** Contains an LVM PV. *)
+    | `PhysicalVolume of string		(** Contains an LVM PV. *)
     | `Unknown				(** Not probed or unknown. *)
     ]
 and filesystem = {
@@ -177,5 +177,17 @@ val probe_for_partitions : device -> partitions option
 val filesystem_type_register : string -> (device -> filesystem) -> unit
 (** Register a filesystem probing plugin. *)
 
-val probe_for_filesystems : device -> filesystem option
+val probe_for_filesystem : device -> filesystem option
 (** Do a filesystem probe on a device.  Returns [Some filesystem] or [None]. *)
+
+val lvm_type_register :
+  string -> (device -> bool) -> (device list -> device list) -> unit
+(** [lvm_type_register lvm_name probe_fn list_lvs_fn]
+    registers a new LVM type.  [probe_fn] is a function which
+    should probe a device to find out if it contains a PV.
+    [list_lvs_fn] is a function which should take a list of
+    devices (PVs) and construct a list of LV devices.
+*)
+
+val probe_for_pv : device -> string option
+(** Do a PV probe on a device.  Returns [Some lvm_name] or [None]. *)

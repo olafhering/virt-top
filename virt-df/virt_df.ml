@@ -97,7 +97,7 @@ and disk_content =
   [ `Unknown				(* Not probed or unknown. *)
   | `Partitions of partitions		(* Contains partitions. *)
   | `Filesystem of filesystem		(* Contains a filesystem directly. *)
-  | `PhysicalVolume of unit		(* Contains an LVM PV. *)
+  | `PhysicalVolume of string		(* Contains an LVM PV. *)
   ]
 
 (* Partitions. *)
@@ -116,7 +116,7 @@ and partition_status = Bootable | Nonbootable | Malformed | NullEntry
 and partition_content =
   [ `Unknown				(* Not probed or unknown. *)
   | `Filesystem of filesystem		(* Filesystem. *)
-  | `PhysicalVolume of unit		(* Contains an LVM PV. *)
+  | `PhysicalVolume of string		(* Contains an LVM PV. *)
   ]
 
 (* Filesystems (also swap devices). *)
@@ -180,8 +180,8 @@ let filesystem_types = ref []
 let filesystem_type_register (fs_name : string) probe_fn =
   filesystem_types := (fs_name, probe_fn) :: !filesystem_types
 
-(* Probe a device for filesystems.  Returns [Some fs] or [None]. *)
-let probe_for_filesystems dev =
+(* Probe a device for a filesystem.  Returns [Some fs] or [None]. *)
+let probe_for_filesystem dev =
   if debug then eprintf "probing for a filesystem on %s ...\n%!" dev#name;
   let rec loop = function
     | [] -> None
@@ -200,8 +200,23 @@ let probe_for_filesystems dev =
   r
 
 (* Register a volume management type. *)
-(*
 let lvm_types = ref []
-let lvm_type_register (lvm_name : string) probe_fn =
-  lvm_types := (lvm_name, probe_fn) :: !lvm_types
-*)
+let lvm_type_register (lvm_name : string) probe_fn list_lvs_fn =
+  lvm_types := (lvm_name, (probe_fn, list_lvs_fn)) :: !lvm_types
+
+(* Probe a device for a PV.  Returns [Some lvm_name] or [None]. *)
+let probe_for_pv dev =
+  if debug then eprintf "probing if %s is a PV ...\n%!" dev#name;
+  let rec loop = function
+    | [] -> None
+    | (lvm_name, (probe_fn, _)) :: rest ->
+	if probe_fn dev then Some lvm_name else loop rest
+  in
+  let r = loop !lvm_types in
+  if debug then (
+    match r with
+    | None -> eprintf "no PV found on %s\n%!" dev#name
+    | Some lvm_name ->
+	eprintf "%s contains a %s PV\n%!" dev#name lvm_name
+  );
+  r
