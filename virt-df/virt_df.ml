@@ -98,7 +98,7 @@ and disk_content =
   [ `Unknown				(* Not probed or unknown. *)
   | `Partitions of partitions		(* Contains partitions. *)
   | `Filesystem of filesystem		(* Contains a filesystem directly. *)
-  | `PhysicalVolume of string		(* Contains an LVM PV. *)
+  | `PhysicalVolume of pv		(* Contains an LVM PV. *)
   ]
 
 (* Partitions. *)
@@ -117,7 +117,7 @@ and partition_status = Bootable | Nonbootable | Malformed | NullEntry
 and partition_content =
   [ `Unknown				(* Not probed or unknown. *)
   | `Filesystem of filesystem		(* Filesystem. *)
-  | `PhysicalVolume of string		(* Contains an LVM PV. *)
+  | `PhysicalVolume of pv		(* Contains an LVM PV. *)
   ]
 
 (* Filesystems (also swap devices). *)
@@ -134,6 +134,19 @@ and filesystem = {
   fs_inodes_avail : int64;		(* Inodes free (available). *)
   fs_inodes_used : int64;		(* Inodes in use. *)
 }
+
+(* Physical volumes. *)
+and pv = {
+  lvm_plugin_id : lvm_plugin_id;        (* The LVM plug-in. *)
+  pv_uuid : string;			(* UUID. *)
+}
+
+(* Logical volumes. *)
+and lv = {
+  lv_dev : device;			(* Logical volume device. *)
+}
+
+and lvm_plugin_id = string
 
 (* Convert partition, filesystem types to printable strings for debugging. *)
 let string_of_partition
@@ -211,14 +224,15 @@ let probe_for_pv dev =
   let rec loop = function
     | [] -> None
     | (lvm_name, (probe_fn, _)) :: rest ->
-	if probe_fn dev then Some lvm_name else loop rest
+	try Some (probe_fn lvm_name dev)
+	with Not_found -> loop rest
   in
   let r = loop !lvm_types in
   if debug then (
     match r with
     | None -> eprintf "no PV found on %s\n%!" dev#name
-    | Some lvm_name ->
-	eprintf "%s contains a %s PV\n%!" dev#name lvm_name
+    | Some { lvm_plugin_id = name } ->
+	eprintf "%s contains a %s PV\n%!" dev#name name
   );
   r
 

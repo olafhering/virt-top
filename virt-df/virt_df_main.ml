@@ -330,7 +330,7 @@ OPTIONS" in
       let pvs_on_disks = List.filter_map (
 	function
 	| { d_dev = d_dev;
-	    d_content = `PhysicalVolume lvm_name } -> Some (lvm_name, d_dev)
+	    d_content = `PhysicalVolume pv } -> Some (pv, d_dev)
 	| _ -> None
       ) disks in
       let pvs_on_partitions = List.map (
@@ -339,8 +339,8 @@ OPTIONS" in
 	    List.filter_map (
 	      function
 	      | { part_dev = part_dev;
-		  part_content = `PhysicalVolume lvm_name } ->
-		    Some (lvm_name, part_dev)
+		  part_content = `PhysicalVolume pv } ->
+		    Some (pv, part_dev)
 	      | _ -> None
 	    ) parts
 	| _ -> []
@@ -353,18 +353,22 @@ OPTIONS" in
   let doms = List.map (
     fun (dom, lvs) ->
       (* Group the LVs by plug-in type. *)
-      let cmp ((a:string),_) ((b:string),_) = compare a b in
+      let cmp (a,_) (b,_) = compare a b in
       let lvs = List.sort ~cmp lvs in
       let lvs = group_by lvs in
 
       let lvs =
-	List.map (fun (lvm_name, devs) -> list_lvs lvm_name devs) lvs in
+	List.map (fun (pv, devs) -> list_lvs pv.lvm_plugin_id devs)
+	  lvs in
       let lvs = List.concat lvs in
 
       (* lvs is a list of potential LV devices.  Now run them through the
        * probes to see if any contain filesystems.
        *)
-      let filesystems = List.filter_map probe_for_filesystem lvs in
+      let filesystems =
+	List.filter_map (
+	  fun { lv_dev = dev } -> probe_for_filesystem dev
+	) lvs in
 
       { dom with dom_lv_filesystems = filesystems }
   ) doms in

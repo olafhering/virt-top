@@ -132,7 +132,7 @@ and disk = {
 and disk_content =
     [ `Filesystem of filesystem		(** Contains a direct filesystem. *)
     | `Partitions of partitions		(** Contains partitions. *)
-    | `PhysicalVolume of string		(** Contains an LVM PV. *)
+    | `PhysicalVolume of pv		(** Contains an LVM PV. *)
     | `Unknown				(** Not probed or unknown. *)
     ]
 and partitions = {
@@ -148,7 +148,7 @@ and partition = {
 and partition_status = Bootable | Nonbootable | Malformed | NullEntry
 and partition_content =
     [ `Filesystem of filesystem		(** Filesystem. *)
-    | `PhysicalVolume of string		(** Contains an LVM PV. *)
+    | `PhysicalVolume of pv		(** Contains an LVM PV. *)
     | `Unknown				(** Not probed or unknown. *)
     ]
 and filesystem = {
@@ -164,6 +164,16 @@ and filesystem = {
   fs_inodes_avail : int64;		(** Inodes free (available). *)
   fs_inodes_used : int64;		(** Inodes in use. *)
 }
+and pv = {
+  lvm_plugin_id : lvm_plugin_id;        (** The LVM plug-in which detected
+					    this. *)
+  pv_uuid : string;			(** UUID. *)
+}
+and lv = {
+  lv_dev : device;			(** Logical volume device. *)
+}
+
+and lvm_plugin_id
 
 val string_of_partition : partition -> string
 val string_of_filesystem : filesystem -> string
@@ -184,7 +194,7 @@ val probe_for_filesystem : device -> filesystem option
 (** Do a filesystem probe on a device.  Returns [Some filesystem] or [None]. *)
 
 val lvm_type_register :
-  string -> (device -> bool) -> (device list -> device list) -> unit
+  string -> (lvm_plugin_id -> device -> pv) -> (device list -> lv list) -> unit
 (** [lvm_type_register lvm_name probe_fn list_lvs_fn]
     registers a new LVM type.  [probe_fn] is a function which
     should probe a device to find out if it contains a PV.
@@ -192,13 +202,11 @@ val lvm_type_register :
     devices (PVs) and construct a list of LV devices.
 *)
 
-val probe_for_pv : device -> string option
-(** Do a PV probe on a device.  Returns [Some lvm_name] or [None]. *)
+val probe_for_pv : device -> pv option
+(** Do a PV probe on a device.  Returns [Some pv] or [None]. *)
 
-val list_lvs : string -> device list -> device list
-(** Construct LV devices from a list of PVs.  The first argument
-    is the [lvm_name] which all PVs should belong to.
-*)
+val list_lvs : lvm_plugin_id -> device list -> lv list
+(** Construct LV devices from a list of PVs. *)
 
 (** {2 Utility functions} *)
 
