@@ -66,7 +66,7 @@ end
 
     @raise Not_found if it is not an MBR.
  *)
-let rec probe_mbr (dev : device) =
+let rec probe_mbr dev =
   (* Adjust size to sectors. *)
   let size = dev#size /^ sector_size64 in
 

@@ -23,7 +23,7 @@
 open Virt_df_gettext.Gettext
 open Virt_df
 
-let probe_swap (dev : device) =
+let probe_swap dev =
   (* Load the "superblock" (ie. first 0x1000 bytes). *)
   let bits = dev#read_bitstring 0L 0x1000 in
 

@@ -24,9 +24,33 @@ open Printf
 open Virt_df_gettext.Gettext
 open Virt_df
 
-let probe_lvm2 (dev : device) =
-  raise Not_found
+let sector_size = 512
+let sector_size64 = 512L
+
+let pv_label_offset = sector_size64
+
+let rec probe_pv dev =
+  try ignore (read_pv_label dev); true
+  with _ -> false
+
+and read_pv_label dev =
+  (* Load the second sector. *)
+  let bits = dev#read_bitstring pv_label_offset sector_size in
+
+  bitmatch bits with
+  | labelone : 8*8 : bitstring;		(* "LABELONE" *)
+    padding : 16*8 : bitstring;
+    lvm2_ver : 8*8 : bitstring;		(* "LVM2 001" *)
+    uuid : 32*8 : bitstring		(* UUID *)
+      when Bitmatch.string_of_bitstring labelone = "LABELONE" &&
+	Bitmatch.string_of_bitstring lvm2_ver = "LVM2 001" ->
+    uuid
+  | _ ->
+    invalid_arg (sprintf "read_pv_label: %s: not an LVM2 physical volume"
+		   dev#name)
+
+let list_lvs devs = []
 
 (* Register with main code. *)
 let () =
-  filesystem_type_register "LVM2" probe_lvm2
+  lvm_type_register "LVM2" probe_pv list_lvs

@@ -27,7 +27,7 @@ open Virt_df
 
 let superblock_offset = 1024L
 
-let probe_ext2 (dev : device) =
+let probe_ext2 dev =
   (* Load the superblock. *)
   let bits = dev#read_bitstring superblock_offset 1024 in
 
