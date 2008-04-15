@@ -1,4 +1,4 @@
-(* 'df' command for virtual domains.  -*- text -*-
+(* 'df' command for virtual domains.
    (C) Copyright 2007-2008 Richard W.M. Jones, Red Hat Inc.
    http://libvirt.org/
 
