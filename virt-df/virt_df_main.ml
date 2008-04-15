@@ -322,6 +322,10 @@ OPTIONS" in
    * (Note - a two-stage process because an LV can be spread over
    * several PVs, so we have to detect all PVs belonging to a
    * domain first).
+   *
+   * XXX To deal with RAID (ie. md devices) we will need to loop
+   * around here because RAID is like LVM except that they normally
+   * present as block devices which can be used by LVM.
    *)
   (* First: LV detection. *)
   let doms = List.map (
