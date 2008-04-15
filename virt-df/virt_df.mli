@@ -119,6 +119,7 @@ type domain = {
   dom_name : string;			(** Domain name. *)
   dom_id : int option;			(** Domain ID (if running). *)
   dom_disks : disk list;		(** Domain disks. *)
+  dom_lv_filesystems : filesystem list;	(** Domain LV filesystems. *)
 }
 and disk = {
   d_type : string option;		(** The <disk type=...> *)
@@ -168,14 +169,16 @@ val string_of_partition : partition -> string
 val string_of_filesystem : filesystem -> string
 (** Convert a partition or filesystem struct to a string (for debugging). *)
 
+(** {2 Plug-in registration functions} *)
+
 val partition_type_register : string -> (device -> partitions) -> unit
-(** Register a partition probing plugin. *)
+(** Register a partition probing plug-in. *)
 
 val probe_for_partitions : device -> partitions option
 (** Do a partition probe on a device.  Returns [Some partitions] or [None]. *)
 
 val filesystem_type_register : string -> (device -> filesystem) -> unit
-(** Register a filesystem probing plugin. *)
+(** Register a filesystem probing plug-in. *)
 
 val probe_for_filesystem : device -> filesystem option
 (** Do a filesystem probe on a device.  Returns [Some filesystem] or [None]. *)
@@ -191,3 +194,13 @@ val lvm_type_register :
 
 val probe_for_pv : device -> string option
 (** Do a PV probe on a device.  Returns [Some lvm_name] or [None]. *)
+
+val list_lvs : string -> device list -> device list
+(** Construct LV devices from a list of PVs.  The first argument
+    is the [lvm_name] which all PVs should belong to.
+*)
+
+(** {2 Utility functions} *)
+
+val group_by : ?cmp:('a -> 'a -> int) -> ('a * 'b) list -> ('a * 'b list) list
+(** Group a sorted list of pairs by the first element of the pair. *)

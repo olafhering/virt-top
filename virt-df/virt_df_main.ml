@@ -223,7 +223,8 @@ OPTIONS" in
 	      | _ -> None
 	    ) devices in
 
-	  { dom_name = name; dom_id = domid; dom_disks = disks }
+	  { dom_name = name; dom_id = domid;
+	    dom_disks = disks; dom_lv_filesystems = [] }
       ) xmls
     ) else (
       (* In test mode (-t option) the user can pass one or more
@@ -241,7 +242,8 @@ OPTIONS" in
 		d_source = filename; d_target = "hda";
 		d_dev = new block_device filename; d_content = `Unknown;
 	      }
-	    ]
+	    ];
+	    dom_lv_filesystems = []
 	  }
       ) !test_files
     ) in
@@ -311,13 +313,66 @@ OPTIONS" in
     | disk -> disk
   ) in
 
-  (* XXX LVM filesystem detection ... *)
+  (* LVM filesystem detection
+   *
+   * For each domain, look for all disks/partitions which have been
+   * identified as PVs and pass those back to the respective LVM
+   * plugin for LV detection.
+   *
+   * (Note - a two-stage process because an LV can be spread over
+   * several PVs, so we have to detect all PVs belonging to a
+   * domain first).
+   *)
+  (* First: LV detection. *)
+  let doms = List.map (
+    fun ({ dom_disks = disks } as dom) ->
+      (* Find all physical volumes, can be disks or partitions. *)
+      let pvs_on_disks = List.filter_map (
+	function
+	| { d_dev = d_dev;
+	    d_content = `PhysicalVolume lvm_name } -> Some (lvm_name, d_dev)
+	| _ -> None
+      ) disks in
+      let pvs_on_partitions = List.map (
+	function
+	| { d_content = `Partitions { parts = parts } } ->
+	    List.filter_map (
+	      function
+	      | { part_dev = part_dev;
+		  part_content = `PhysicalVolume lvm_name } ->
+		    Some (lvm_name, part_dev)
+	      | _ -> None
+	    ) parts
+	| _ -> []
+      ) disks in
+      let lvs = List.concat (pvs_on_disks :: pvs_on_partitions) in
+      dom, lvs
+  ) doms in
 
+  (* Second: filesystem on LV detection. *)
+  let doms = List.map (
+    fun (dom, lvs) ->
+      (* Group the LVs by plug-in type. *)
+      let cmp ((a:string),_) ((b:string),_) = compare a b in
+      let lvs = List.sort ~cmp lvs in
+      let lvs = group_by lvs in
 
+      let lvs =
+	List.map (fun (lvm_name, devs) -> list_lvs lvm_name devs) lvs in
+      let lvs = List.concat lvs in
 
+      (* lvs is a list of potential LV devices.  Now run them through the
+       * probes to see if any contain filesystems.
+       *)
+      let filesystems = List.filter_map probe_for_filesystem lvs in
 
+      { dom with dom_lv_filesystems = filesystems }
+  ) doms in
 
-  (* Print the title. *)
+  (* Now print the results.
+   *
+   * Print the title.
+   *)
   let () =
     let total, used, avail =
       match !inodes, !human with
@@ -337,37 +392,46 @@ OPTIONS" in
   in
 
   (* HOF to iterate over filesystems. *)
-  let iter_over_filesystems doms f =
+  let iter_over_filesystems doms
+      (f : domain -> ?disk:disk -> ?part:(partition * int) -> filesystem ->
+	unit) =
     List.iter (
-      fun ({ dom_disks = disks } as dom) ->
+      fun ({ dom_disks = disks; dom_lv_filesystems = filesystems } as dom) ->
+	(* Ordinary filesystems found on disks & partitions. *)
 	List.iter (
 	  function
 	  | ({ d_content = `Filesystem fs } as disk) ->
-	      f dom disk None fs
+	      f dom ~disk fs
 	  | ({ d_content = `Partitions partitions } as disk) ->
 	      List.iteri (
 		fun i ->
 		  function
 		  | ({ part_content = `Filesystem fs } as part) ->
-		      f dom disk (Some (part, i)) fs
+		      f dom ~disk ~part:(part, i) fs
 		  | _ -> ()
 	      ) partitions.parts
 	  | _ -> ()
-	) disks
+	) disks;
+	(* LV filesystems. *)
+	List.iter (fun fs -> f dom fs) filesystems
     ) doms
   in
 
   (* Print stats for each recognized filesystem. *)
-  let print_stats dom disk part fs =
+  let print_stats dom ?disk ?part fs =
     (* Printable name is like "domain:hda" or "domain:hda1". *)
     let name =
       let dom_name = dom.dom_name in
-      let d_target = disk.d_target in
+      let disk_name =
+	match disk with
+	| None -> "???" (* XXX keep LV dev around *)
+	| Some disk -> disk.d_target
+      in
       match part with
       | None ->
-	  dom_name ^ ":" ^ d_target
+	  dom_name ^ ":" ^ disk_name
       | Some (_, pnum) ->
-	  dom_name ^ ":" ^ d_target ^ string_of_int pnum in
+	  dom_name ^ ":" ^ disk_name ^ string_of_int pnum in
     printf "%-20s " name;
 
     if fs.fs_is_swap then (

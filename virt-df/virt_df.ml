@@ -81,6 +81,7 @@ type domain = {
   dom_name : string;			(* Domain name. *)
   dom_id : int option;			(* Domain ID (if running). *)
   dom_disks : disk list;		(* Domain disks. *)
+  dom_lv_filesystems : filesystem list;	(* Domain LV filesystems. *)
 }
 and disk = {
   (* From the XML ... *)
@@ -220,3 +221,26 @@ let probe_for_pv dev =
 	eprintf "%s contains a %s PV\n%!" dev#name lvm_name
   );
   r
+
+let list_lvs lvm_name devs =
+  let _, list_lvs_fn = List.assoc lvm_name !lvm_types in
+  list_lvs_fn devs
+
+(*----------------------------------------------------------------------*)
+
+(* This version by Isaac Trotts. *)
+let group_by ?(cmp = Pervasives.compare) ls =
+  let ls' =
+    List.fold_left
+      (fun acc (day1, x1) ->
+         match acc with
+             [] -> [day1, [x1]]
+           | (day2, ls2) :: acctl ->
+               if cmp day1 day2 = 0
+               then (day1, x1 :: ls2) :: acctl
+               else (day1, [x1]) :: acc)
+      []
+      ls
+  in
+  let ls' = List.rev ls' in
+  List.map (fun (x, xs) -> x, List.rev xs) ls'
