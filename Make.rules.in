@@ -40,6 +40,11 @@ else
 	$(OCAMLOPT) $(OCAMLOPTFLAGS) $(OCAMLOPTINCS) -c $<
 endif
 
+%.ml %.mli: %.mly
+	ocamlyacc $<
+.mll.ml:
+	ocamllex $<
+
 # Dependencies.
 
 depend: .depend
@@ -60,4 +65,4 @@ endif
 
 .PHONY: depend dist check-manifest dpkg doc
 
-.SUFFIXES:      .cmo .cmi .cmx .ml .mli .mll
+.SUFFIXES:      .cmo .cmi .cmx .ml .mli .mll .mly

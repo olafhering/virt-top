@@ -1,3 +1,4 @@
+virt_df_lvm2_parser.cmi: virt_df_lvm2_metadata.cmi 
 virt_df_ext2.cmo: virt_df_gettext.cmo virt_df.cmi \
     /usr/lib64/ocaml/bitmatch/bitmatch.cmi virt_df_ext2.cmi 
 virt_df_ext2.cmx: virt_df_gettext.cmx virt_df.cmx \
@@ -6,10 +7,18 @@ virt_df_linux_swap.cmo: virt_df_gettext.cmo virt_df.cmi \
     /usr/lib64/ocaml/bitmatch/bitmatch.cmi virt_df_linux_swap.cmi 
 virt_df_linux_swap.cmx: virt_df_gettext.cmx virt_df.cmx \
     /usr/lib64/ocaml/bitmatch/bitmatch.cmi virt_df_linux_swap.cmi 
-virt_df_lvm2.cmo: virt_df_gettext.cmo virt_df.cmi \
-    /usr/lib64/ocaml/bitmatch/bitmatch.cmi virt_df_lvm2.cmi 
-virt_df_lvm2.cmx: virt_df_gettext.cmx virt_df.cmx \
-    /usr/lib64/ocaml/bitmatch/bitmatch.cmi virt_df_lvm2.cmi 
+virt_df_lvm2_lexer.cmo: virt_df_lvm2_parser.cmi virt_df.cmi 
+virt_df_lvm2_lexer.cmx: virt_df_lvm2_parser.cmx virt_df.cmx 
+virt_df_lvm2_metadata.cmo: virt_df_lvm2_metadata.cmi 
+virt_df_lvm2_metadata.cmx: virt_df_lvm2_metadata.cmi 
+virt_df_lvm2.cmo: virt_df_lvm2_metadata.cmi virt_df_lvm2_lexer.cmo \
+    virt_df_gettext.cmo virt_df.cmi /usr/lib64/ocaml/bitmatch/bitmatch.cmi \
+    virt_df_lvm2.cmi 
+virt_df_lvm2.cmx: virt_df_lvm2_metadata.cmx virt_df_lvm2_lexer.cmx \
+    virt_df_gettext.cmx virt_df.cmx /usr/lib64/ocaml/bitmatch/bitmatch.cmi \
+    virt_df_lvm2.cmi 
+virt_df_lvm2_parser.cmo: virt_df_lvm2_metadata.cmi virt_df_lvm2_parser.cmi 
+virt_df_lvm2_parser.cmx: virt_df_lvm2_metadata.cmx virt_df_lvm2_parser.cmi 
 virt_df_main.cmo: virt_df_gettext.cmo virt_df.cmi \
     ../libvirt/libvirt_version.cmi ../libvirt/libvirt.cmi 
 virt_df_main.cmx: virt_df_gettext.cmx virt_df.cmx \

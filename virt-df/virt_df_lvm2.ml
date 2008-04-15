@@ -24,6 +24,8 @@ open Printf
 open Virt_df_gettext.Gettext
 open Virt_df
 
+open Virt_df_lvm2_metadata
+
 let plugin_name = "LVM2"
 
 let sector_size = 512
@@ -64,9 +66,16 @@ and read_pv_label dev =
     metadata_length : 32 : littleendian	(* length of metadata (bytes) *)
       when Bitmatch.string_of_bitstring labelone = "LABELONE" &&
 	   Bitmatch.string_of_bitstring lvm2_ver = "LVM2 001" ->
+
+    (* Metadata offset is relative to end of PV label. *)
     let metadata_offset = metadata_offset +* 0x1000_l in
+    (* Metadata length appears to include the trailing \000 which
+     * we don't want.
+     *)
+    let metadata_length = metadata_length -* 1_l in
+
     let metadata = read_metadata dev metadata_offset metadata_length in
-    (*prerr_endline metadata;*)
+
     let uuid = Bitmatch.string_of_bitstring uuid in
 
     uuid, metadata
@@ -101,10 +110,33 @@ and read_metadata dev offset32 len32 =
  * (as devices) and return them.  Note that we don't try to detect
  * what is on these LVs - that will be done in the main code.
  *)
-let list_lvs devs =
-  (* Read the UUID and metadata (again) from each device. *)
-  let uuidmetas = List.map read_pv_label devs in
+let rec list_lvs devs =
+  (* Read the UUID and metadata (again) from each device to end up with
+   * an assoc list of PVs, keyed on the UUID.
+   *)
+  let pvs = List.map read_pv_label devs in
+
+  (* Parse the metadata using the external lexer/parser. *)
+  let pvs = List.map (
+    fun (uuid, metadata) ->
+      eprintf "parsing: %s\n<<<<\n" metadata;
+      uuid, Virt_df_lvm2_lexer.parse_lvm2_metadata_from_string metadata
+  ) pvs in
+
+  (* Print the parsed metadata. *)
+  List.iter (
+    fun (uuid, metadata) ->
+      eprintf "metadata for UUID %s:\n" uuid;
+      output_metadata stderr metadata
+  ) pvs;
+
   []
+
+
+
+
+
+  
 
 (* Register with main code. *)
 let () =

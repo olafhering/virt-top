@@ -39,6 +39,9 @@ OBJS		:= \
 	virt_df.cmo \
 	virt_df_ext2.cmo \
 	virt_df_linux_swap.cmo \
+	virt_df_lvm2_metadata.cmo \
+	virt_df_lvm2_parser.cmo \
+	virt_df_lvm2_lexer.cmo \
 	virt_df_lvm2.cmo \
 	virt_df_mbr.cmo \
 	virt_df_main.cmo
@@ -81,6 +84,11 @@ virt-df.opt: $(XOBJS)
 	ocamlfind ocamlopt \
 	  $(OCAMLOPTPACKAGES) $(OCAMLOPTFLAGS) $(OCAMLOPTLIBS) \
 	  ../libvirt/mllibvirt.cmxa -o $@ $^
+
+# 'make depend' doesn't catch these dependencies because the .mli file
+# is auto-generated.
+virt_df_lvm2_parser.cmo: virt_df_lvm2_parser.mli
+virt_df_lvm2_parser.cmx: virt_df_lvm2_parser.mli
 
 # Manual page.
 ifeq ($(HAVE_PERLDOC),perldoc)
