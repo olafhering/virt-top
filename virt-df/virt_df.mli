@@ -212,3 +212,8 @@ val list_lvs : lvm_plugin_id -> device list -> lv list
 
 val group_by : ?cmp:('a -> 'a -> int) -> ('a * 'b) list -> ('a * 'b list) list
 (** Group a sorted list of pairs by the first element of the pair. *)
+
+val range : int -> int -> int list
+(** [range a b] returns the list of integers [a <= i < b].
+    If [a >= b] then the empty list is returned.
+*)

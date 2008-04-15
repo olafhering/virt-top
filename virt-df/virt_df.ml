@@ -258,3 +258,7 @@ let group_by ?(cmp = Pervasives.compare) ls =
   in
   let ls' = List.rev ls' in
   List.map (fun (x, xs) -> x, List.rev xs) ls'
+
+let rec range a b =
+  if a < b then a :: range (a+1) b
+  else []
