@@ -19,6 +19,8 @@ dnl Process this file with autoconf to produce a configure script.
 
 AC_INIT(virt-top,1.0.0)
 
+AC_PROG_INSTALL
+
 dnl Check for basic OCaml environment & findlib.
 AC_PROG_OCAML
 AC_PROG_FINDLIB
