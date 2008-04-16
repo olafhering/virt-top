@@ -44,11 +44,11 @@ plug-ins at time of writing are:
 
  - virt_df_linux_swap.ml / virt_df_linux_swap.mli
 
-   Linux swap (new style).
+   Linux swap (new style) plug-in.
 
  - virt_df_mbr.ml / virt_df_mbr.mli
 
-   Master Boot Record (MS-DOS) disk partitioning.
+   Master Boot Record (MS-DOS) disk partitioning plug-in.
 
  - virt_df_lvm2*
 
