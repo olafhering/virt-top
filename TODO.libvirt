@@ -1,1 +1,0 @@
-Turn VIR_ERR_NO_DOMAIN and NO_NETWORK errors into Not_found exceptions.

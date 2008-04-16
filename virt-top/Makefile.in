@@ -32,7 +32,7 @@ pkg_calendar    = @pkg_calendar@
 pkg_calendar2   = @pkg_calendar2@
 pkg_gettext	= @pkg_gettext@
 
-OCAMLCPACKAGES	:= -package unix,extlib,curses,str
+OCAMLCPACKAGES	:= -package unix,extlib,curses,str,libvirt
 
 ifeq ($(pkg_gettext),yes)
 OCAMLCPACKAGES  += -package gettext-stub
@@ -59,16 +59,12 @@ OBJS		+= virt_top_main.cmo
 
 XOBJS		:= $(OBJS:.cmo=.cmx)
 
-OCAMLCPACKAGES  += -I ../libvirt
 OCAMLCFLAGS	:= -g -w s
 OCAMLCLIBS	:= -linkpkg
 
 OCAMLOPTPACKAGES := $(OCAMLCPACKAGES)
 OCAMLOPTFLAGS	:= -w s
 OCAMLOPTLIBS	:= $(OCAMLCLIBS)
-
-export LIBRARY_PATH=../libvirt
-export LD_LIBRARY_PATH=../libvirt
 
 BYTE_TARGETS	:= virt-top
 OPT_TARGETS	:= virt-top.opt
@@ -82,13 +78,12 @@ all: $(BYTE_TARGETS)
 opt: $(OPT_TARGETS)
 
 virt-top: $(OBJS)
-	ocamlfind ocamlc $(OCAMLCPACKAGES) $(OCAMLCFLAGS) $(OCAMLCLIBS) \
-	  ../libvirt/mllibvirt.cma -o $@ $^
+	ocamlfind ocamlc $(OCAMLCPACKAGES) $(OCAMLCFLAGS) $(OCAMLCLIBS) -o $@ $^
 
 virt-top.opt: $(XOBJS)
 	ocamlfind ocamlopt \
 	  $(OCAMLOPTPACKAGES) $(OCAMLOPTFLAGS) $(OCAMLOPTLIBS) \
-	  ../libvirt/mllibvirt.cmxa -cclib -lncurses -o $@ $^
+	  -cclib -lncurses -o $@ $^
 
 # Manual page.
 ifeq ($(HAVE_PERLDOC),perldoc)

@@ -1,2 +1,0 @@
-mlvirsh.cmo: mlvirsh_gettext.cmo ../libvirt/libvirt.cmi 
-mlvirsh.cmx: mlvirsh_gettext.cmx ../libvirt/libvirt.cmx 

@@ -1,4 +1,4 @@
-# ocaml-libvirt
+# virt-top
 # Copyright (C) 2007 Red Hat Inc., Richard W.M. Jones
 #
 # This library is free software; you can redistribute it and/or
@@ -22,10 +22,7 @@ INSTALL		= @INSTALL@
 
 MAKENSIS	= @MAKENSIS@
 
-OCAMLDOC        = @OCAMLDOC@
-OCAMLDOCFLAGS	:= -html -sort
-
-SUBDIRS		= @subdirs@
+SUBDIRS		= virt-top
 
 all opt depend install:
 	for d in $(SUBDIRS); do \
@@ -37,36 +34,13 @@ clean:
 	for d in . $(SUBDIRS); do \
 	  (cd $$d; rm -f *.cmi *.cmo *.cmx *.cma *.cmxa *.o *.a *.so *.opt *~ *.dll *.exe core); \
 	done
-	rm -f examples/list_domains
-	rm -f examples/node_info
-	rm -f mlvirsh/mlvirsh
-	rm -f virt-ctrl/virt-ctrl
 	rm -f virt-top/virt-top
-	rm -f virt-df/virt-df
 
 distclean: clean
 	rm -f config.h config.log config.status configure
 	rm -rf autom4te.cache
-	rm -f META
-	rm -f libvirt/libvirt_version.ml
 	rm -f Makefile
-	rm -f libvirt/Makefile
-	rm -f examples/Makefile
-	rm -f mlvirsh/Makefile
-	rm -f virt-ctrl/Makefile
 	rm -f virt-top/Makefile
-	rm -f virt-df/Makefile
-
-# Developer documentation (in html/ subdirectory).
-
-ifneq ($(OCAMLDOC),)
-doc:
-	rm -rf html
-	mkdir html
-	-cd libvirt; \
-	$(OCAMLDOC) $(OCAMLDOCFLAGS) -d ../html \
-	  libvirt.{ml,mli} libvirt_version.{ml,mli}
-endif
 
 # Windows installer (requires NSIS).
 
@@ -81,14 +55,6 @@ $(WININSTALLER): wininstaller.nsis all opt
 	  //DOUTFILE=$@ $<
 	ls -l $@
 endif
-
-# Update configure and rerun.
-
-configure: force
-	autoreconf
-	CFLAGS=-g \
-	  ./configure \
-	  --enable-debug=yes --with-libvirt=/home/rjones/local
 
 # Distribution.
 
@@ -108,43 +74,6 @@ check-manifest:
 	diff -u .orig-manifest .check-manifest; rv=$$?; \
 	rm -f .orig-manifest .check-manifest; \
 	exit $$rv
-
-# Do a release (update the website).
-
-release: configure
-	$(MAKE) release_stage_2
-
-release_stage_2: clean all opt doc dist
-	$(MAKE) release_stage_3
-
-WEBSITE	= ../redhat/websites
-
-release_stage_3:
-	rm -f $(WEBSITE)/ocaml-libvirt/html/*.{html,css}
-	cp html/*.{html,css} $(WEBSITE)/ocaml-libvirt/html/
-	cp README $(WEBSITE)/ocaml-libvirt/README.txt
-	cp ChangeLog $(WEBSITE)/ocaml-libvirt/ChangeLog.txt
-#	cp virt-top/virt-top.txt $(WEBSITE)/virt-top/
-#	cp ChangeLog $(WEBSITE)/virt-top/ChangeLog.txt
-
-# Upload to main website.
-
-upload:
-	cd $(WEBSITE)/ocaml-libvirt && \
-	scp ChangeLog.txt index.html README.txt Screenshot*.png \
-	  libvirt.org:/data/www/libvirt.org/ocaml && \
-	scp css/*.css \
-	  libvirt.org:/data/www/libvirt.org/ocaml/css/ && \
-	scp html/*.html html/*.css \
-	  libvirt.org:/data/www/libvirt.org/ocaml/html/
-	scp $(PACKAGE)-$(VERSION).tar.gz libvirt.org:/data/ftp/libvirt/ocaml/
-
-# Upload Windows binary installer to main website.
-
-winupload:
-	scp $(WININSTALLER) libvirt.org:/data/ftp/libvirt/ocaml/
-
-force:
 
 .PHONY: all opt depend install clean distclean configure dist check-manifest \
 	release release_stage_2 release_stage_3 force
