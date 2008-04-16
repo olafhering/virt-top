@@ -67,6 +67,21 @@ object (self)
   method name = filename
 end
 
+(* A linear offset/size from an underlying device. *)
+class offset_device name start size (dev : device) =
+object
+  inherit device
+  method name = name
+  method size = size
+  method read offset len =
+    if offset < 0L || len < 0 || offset +^ Int64.of_int len > size then
+      invalid_arg (
+	sprintf "%s: tried to read outside device boundaries (%Ld/%d/%Ld)"
+	  name offset len size
+      );
+    dev#read (start+^offset) len
+end
+
 (* The null device.  Any attempt to read generates an error. *)
 let null_device : device =
 object
@@ -80,7 +95,8 @@ type domain = {
   dom_name : string;			(* Domain name. *)
   dom_id : int option;			(* Domain ID (if running). *)
   dom_disks : disk list;		(* Domain disks. *)
-  dom_lv_filesystems : filesystem list;	(* Domain LV filesystems. *)
+  dom_lv_filesystems :
+    (lv * filesystem) list;		(* Domain LV filesystems. *)
 }
 and disk = {
   (* From the XML ... *)
@@ -162,6 +178,20 @@ let string_of_partition
 let string_of_filesystem { fs_name = name; fs_is_swap = swap } =
   if not swap then name
   else name ^ " [swap]"
+
+(* Convert a UUID (containing '-' chars) to canonical form. *)
+let canonical_uuid uuid =
+  let uuid' = String.make 32 ' ' in
+  let j = ref 0 in
+  for i = 0 to String.length uuid - 1 do
+    if !j >= 32 then
+      invalid_arg (sprintf (f_ "canonical_uuid: UUID is too long: %s") uuid);
+    let c = uuid.[i] in
+    if c <> '-' then ( uuid'.[!j] <- c; incr j )
+  done;
+  if !j <> 32 then
+    invalid_arg (sprintf (f_ "canonical_uuid: invalid UUID: %s") uuid);
+  uuid'
 
 (* Register a partition scheme. *)
 let partition_types = ref []

@@ -100,8 +100,7 @@ class virtual device :
      Note the very rare use of OOP in OCaml!
   *)
 
-class block_device :
-  string ->
+class block_device : string ->
   object
     method name : string
     method read : int64 -> int -> string
@@ -110,6 +109,23 @@ class block_device :
   end
     (** A concrete device which just direct-maps a file or /dev device. *)
 
+class offset_device : string -> int64 -> int64 -> device ->
+  object
+    method name : string
+    method read : int64 -> int -> string
+    method read_bitstring : int64 -> int -> string * int * int
+    method size : int64
+  end
+    (** A concrete device which maps a linear part of an underlying device.
+
+	[new offset_device name start size dev] creates a new
+	device which maps bytes from [start] to [start+size-1]
+	of the underlying device [dev] (ie. in this device they
+	appear as bytes [0] to [size-1]).
+
+	Useful for things like partitions.
+    *)
+
 val null_device : device
     (** The null device.  Any attempt to read generates an error. *)
 
@@ -117,7 +133,8 @@ type domain = {
   dom_name : string;			(** Domain name. *)
   dom_id : int option;			(** Domain ID (if running). *)
   dom_disks : disk list;		(** Domain disks. *)
-  dom_lv_filesystems : filesystem list;	(** Domain LV filesystems. *)
+  dom_lv_filesystems :
+    (lv * filesystem) list;		(** Domain LV filesystems. *)
 }
 and disk = {
   d_type : string option;		(** The <disk type=...> *)
@@ -176,6 +193,9 @@ and lvm_plugin_id
 val string_of_partition : partition -> string
 val string_of_filesystem : filesystem -> string
 (** Convert a partition or filesystem struct to a string (for debugging). *)
+
+val canonical_uuid : string -> string
+(** Convert a UUID which may contain '-' characters to canonical form. *)
 
 (** {2 Plug-in registration functions} *)
 
