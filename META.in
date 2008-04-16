@@ -1,5 +1,0 @@
-name="libvirt"
-version="@PACKAGE_VERSION@"
-description="libvirt bindings for OCaml"
-archive(byte)="mllibvirt.cma"
-archive(native)="mllibvirt.cmxa"
