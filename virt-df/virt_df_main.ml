@@ -65,7 +65,7 @@ let () =
     "--inodes", Arg.Set inodes,
       " " ^ s_ "Show inodes instead of blocks";
     "-t", Arg.String test_mode,
-      "dev" ^ s_ "(Test mode) Display contents of block device or file";
+      "dev " ^ s_ "(Test mode) Display contents of block device or file";
     "--version", Arg.Unit version,
       " " ^ s_ "Display version and exit";
   ] in
