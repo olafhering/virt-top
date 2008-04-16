@@ -21,9 +21,6 @@
     used throughout the plug-ins and main code.
 *)
 
-val debug : bool
-(** If true, emit logs of debugging information to stderr. *)
-
 val ( +* ) : int32 -> int32 -> int32
 val ( -* ) : int32 -> int32 -> int32
 val ( ** ) : int32 -> int32 -> int32
@@ -34,6 +31,7 @@ val ( *^ ) : int64 -> int64 -> int64
 val ( /^ ) : int64 -> int64 -> int64
 (** int32 and int64 infix operators for convenience. *)
 
+val debug : bool ref			(** If true, emit debug info to stderr*)
 val uri : string option ref		(** Hypervisor/libvirt URI. *)
 val inodes : bool ref			(** Display inodes. *)
 val human : bool ref			(** Display human-readable. *)

@@ -23,8 +23,6 @@ open Unix
 
 open Virt_df_gettext.Gettext
 
-let debug = true     (* If true emit lots of debugging information. *)
-
 let ( +* ) = Int32.add
 let ( -* ) = Int32.sub
 let ( ** ) = Int32.mul
@@ -35,6 +33,7 @@ let ( -^ ) = Int64.sub
 let ( *^ ) = Int64.mul
 let ( /^ ) = Int64.div
 
+let debug = ref false
 let uri = ref None
 let inodes = ref false
 let human = ref false
@@ -171,7 +170,7 @@ let partition_type_register (parts_name : string) probe_fn =
 
 (* Probe a device for partitions.  Returns [Some parts] or [None]. *)
 let probe_for_partitions dev =
-  if debug then eprintf "probing for partitions on %s ...\n%!" dev#name;
+  if !debug then eprintf "probing for partitions on %s ...\n%!" dev#name;
   let rec loop = function
     | [] -> None
     | (parts_name, probe_fn) :: rest ->
@@ -179,7 +178,7 @@ let probe_for_partitions dev =
 	with Not_found -> loop rest
   in
   let r = loop !partition_types in
-  if debug then (
+  if !debug then (
     match r with
     | None -> eprintf "no partitions found on %s\n%!" dev#name
     | Some { parts_name = name; parts = parts } ->
@@ -196,7 +195,7 @@ let filesystem_type_register (fs_name : string) probe_fn =
 
 (* Probe a device for a filesystem.  Returns [Some fs] or [None]. *)
 let probe_for_filesystem dev =
-  if debug then eprintf "probing for a filesystem on %s ...\n%!" dev#name;
+  if !debug then eprintf "probing for a filesystem on %s ...\n%!" dev#name;
   let rec loop = function
     | [] -> None
     | (fs_name, probe_fn) :: rest ->
@@ -204,7 +203,7 @@ let probe_for_filesystem dev =
 	with Not_found -> loop rest
   in
   let r = loop !filesystem_types in
-  if debug then (
+  if !debug then (
     match r with
     | None -> eprintf "no filesystem found on %s\n%!" dev#name
     | Some fs ->
@@ -220,7 +219,7 @@ let lvm_type_register (lvm_name : string) probe_fn list_lvs_fn =
 
 (* Probe a device for a PV.  Returns [Some lvm_name] or [None]. *)
 let probe_for_pv dev =
-  if debug then eprintf "probing if %s is a PV ...\n%!" dev#name;
+  if !debug then eprintf "probing if %s is a PV ...\n%!" dev#name;
   let rec loop = function
     | [] -> None
     | (lvm_name, (probe_fn, _)) :: rest ->
@@ -228,7 +227,7 @@ let probe_for_pv dev =
 	with Not_found -> loop rest
   in
   let r = loop !lvm_types in
-  if debug then (
+  if !debug then (
     match r with
     | None -> eprintf "no PV found on %s\n%!" dev#name
     | Some { lvm_plugin_id = name } ->

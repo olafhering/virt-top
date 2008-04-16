@@ -37,11 +37,11 @@ let sector_size64 = 512L
 let rec probe_pv lvm_plugin_id dev =
   try
     let uuid, _ = read_pv_label dev in
-    if debug then
+    if !debug then
       eprintf "LVM2 detected PV UUID %s\n%!" uuid;
     { lvm_plugin_id = lvm_plugin_id; pv_uuid = uuid }
   with exn ->
-    if debug then prerr_endline (Printexc.to_string exn);
+    if !debug then prerr_endline (Printexc.to_string exn);
     raise Not_found
 
 and read_pv_label dev =
@@ -87,7 +87,7 @@ and read_pv_label dev =
       (sprintf "LVM2: read_pv_label: %s: not an LVM2 physical volume" dev#name)
 
 and read_metadata dev offset32 len32 =
-  if debug then
+  if !debug then
     eprintf "metadata: offset 0x%lx len %ld bytes\n%!" offset32 len32;
 
   (* Check the offset and length are sensible. *)
@@ -166,7 +166,7 @@ let rec list_lvs devs =
       vgname, (pvuuids, vgmeta)) vgs in
 
   (* Print the VGs. *)
-  if debug then
+  if !debug then
     List.iter (
       fun (vgname, (pvuuids, vgmeta)) ->
 	eprintf "VG %s is on PVs: %s\n%!" vgname (String.concat "," pvuuids)
@@ -249,7 +249,7 @@ let rec list_lvs devs =
   ) vgs in
 
   (* Print the LVs. *)
-  if debug then
+  if !debug then
     List.iter (
       fun (vgname, (pvuuids, vgmeta, lvs)) ->
 	let lvnames = List.map fst lvs in

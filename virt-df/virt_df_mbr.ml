@@ -133,8 +133,9 @@ and parse_mbr_entry dev i bits =
 and make_mbr_entry part_status dev partno part_type first_lba part_size =
   let first_lba = uint64_of_int32 first_lba in
   let part_size = uint64_of_int32 part_size in
-  eprintf "first_lba = %Lx\n" first_lba;
-  eprintf "part_size = %Lx\n" part_size;
+  if !debug then
+    eprintf "make_mbr_entry: first_lba = %Lx part_size = %Lx\n%!"
+      first_lba part_size;
   { part_status = part_status;
     part_type = part_type;
     part_dev = new partition_device dev partno first_lba part_size;

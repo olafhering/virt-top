@@ -54,6 +54,8 @@ let () =
       "uri " ^ s_ "Connect to URI (default: Xen)";
     "--connect", Arg.String set_uri,
       "uri " ^ s_ "Connect to URI (default: Xen)";
+    "--debug", Arg.Set debug,
+      " " ^ s_ "Debug mode (default: false)";
     "-h", Arg.Set human,
       " " ^ s_ "Print sizes in human-readable format";
     "--human-readable", Arg.Set human,
