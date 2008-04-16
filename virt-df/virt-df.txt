@@ -23,6 +23,10 @@ OPTIONS
         Connect to libvirt URI. The default is to connect to the default
         libvirt URI, normally Xen.
 
+    --debug
+        Emit debugging information on stderr. Please supply this if you
+        report a bug.
+
     -h, --human-readable
         Display human-readable sizes (eg. 10GiB).
 
@@ -31,6 +35,11 @@ OPTIONS
 
     --help
         Display usage summary.
+
+    -t diskimage
+        Test mode. Instead of checking libvirt for domain information, this
+        runs virt-df directly on the disk image (or device) supplied. You
+        may specify the -t option multiple times.
 
     --version
         Display version and exit.
@@ -68,12 +77,8 @@ SHORTCOMINGS
     least].
 
 SECURITY
-    The current code is probably not secure against malicious guests. In
-    particular a malicious guest can set up a disk in such a way that disk
-    structures with loops can cause virt-df to spin forever. We are
-    preparing a parsing library which can fix these sorts of problems.
-
-    In the meantime, do not run virt-df on untrusted guests.
+    The current code tries hard to be secure against malicious guests, for
+    example guests which set up malicious disk partitions.
 
 SEE ALSO
     df(1), virsh(1), xm(1), <http://www.libvirt.org/ocaml/>,
@@ -115,7 +120,7 @@ REPORTING BUGS
     2. Capture debug and error messages
         Run
 
-         virt-df > virt-df.log 2>&1
+         virt-df --debug > virt-df.log 2>&1
 
         and keep *virt-df.log*. It contains error messages which you should
         submit with your bug report.

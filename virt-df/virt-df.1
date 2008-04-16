@@ -129,7 +129,7 @@
 .\" ========================================================================
 .\"
 .IX Title "VIRT-DF 1"
-.TH VIRT-DF 1 "2008-03-04" "ocaml-libvirt-0.4.0.3" "Virtualization Support"
+.TH VIRT-DF 1 "2008-04-16" "ocaml-libvirt-0.4.1.1" "Virtualization Support"
 .SH "NAME"
 virt\-df \- 'df'\-like utility for virtualization stats
 .SH "SUMMARY"
@@ -156,6 +156,10 @@ Show all domains.  The default is show only running (active) domains.
 .IX Item "-c uri, --connect uri"
 Connect to libvirt \s-1URI\s0.  The default is to connect to the default
 libvirt \s-1URI\s0, normally Xen.
+.IP "\fB\-\-debug\fR" 4
+.IX Item "--debug"
+Emit debugging information on stderr.  Please supply this if you
+report a bug.
 .IP "\fB\-h\fR, \fB\-\-human\-readable\fR" 4
 .IX Item "-h, --human-readable"
 Display human-readable sizes (eg. 10GiB).
@@ -165,6 +169,11 @@ Display inode information.
 .IP "\fB\-\-help\fR" 4
 .IX Item "--help"
 Display usage summary.
+.IP "\fB\-t diskimage\fR" 4
+.IX Item "-t diskimage"
+Test mode.  Instead of checking libvirt for domain information, this
+runs virt-df directly on the disk image (or device) supplied.  You may
+specify the \fB\-t\fR option multiple times.
 .IP "\fB\-\-version\fR" 4
 .IX Item "--version"
 Display version and exit.
@@ -202,12 +211,8 @@ superblock, for example \fIfsync\fR\|(2) [that is my reading of the ext2/3
 source code at least].
 .SH "SECURITY"
 .IX Header "SECURITY"
-The current code is probably not secure against malicious guests.  In
-particular a malicious guest can set up a disk in such a way that disk
-structures with loops can cause virt-df to spin forever.  We are
-preparing a parsing library which can fix these sorts of problems.
-.PP
-In the meantime, do not run virt-df on untrusted guests.
+The current code tries hard to be secure against malicious guests, for
+example guests which set up malicious disk partitions.
 .SH "SEE ALSO"
 .IX Header "SEE ALSO"
 \&\fIdf\fR\|(1),
@@ -254,7 +259,7 @@ have fixed it.
 Run
 .Sp
 .Vb 1
-\& virt-df > virt-df.log 2>&1
+\& virt-df --debug > virt-df.log 2>&1
 .Ve
 .Sp
 and keep \fIvirt\-df.log\fR.  It contains error messages which you should

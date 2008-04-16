@@ -32,6 +32,11 @@ Show all domains.  The default is show only running (active) domains.
 Connect to libvirt URI.  The default is to connect to the default
 libvirt URI, normally Xen.
 
+=item  B<--debug>
+
+Emit debugging information on stderr.  Please supply this if you
+report a bug.
+
 =item B<-h>, B<--human-readable>
 
 Display human-readable sizes (eg. 10GiB).
@@ -43,6 +48,12 @@ Display inode information.
 =item B<--help>
 
 Display usage summary.
+
+=item B<-t diskimage>
+
+Test mode.  Instead of checking libvirt for domain information, this
+runs virt-df directly on the disk image (or device) supplied.  You may
+specify the B<-t> option multiple times.
 
 =item B<--version>
 
@@ -85,12 +96,8 @@ source code at least].
 
 =head1 SECURITY
 
-The current code is probably not secure against malicious guests.  In
-particular a malicious guest can set up a disk in such a way that disk
-structures with loops can cause virt-df to spin forever.  We are
-preparing a parsing library which can fix these sorts of problems.
-
-In the meantime, do not run virt-df on untrusted guests.
+The current code tries hard to be secure against malicious guests, for
+example guests which set up malicious disk partitions.
 
 =head1 SEE ALSO
 
@@ -144,7 +151,7 @@ have fixed it.
 
 Run
 
- virt-df > virt-df.log 2>&1
+ virt-df --debug > virt-df.log 2>&1
 
 and keep I<virt-df.log>.  It contains error messages which you should
 submit with your bug report.
