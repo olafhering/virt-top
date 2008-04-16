@@ -42,22 +42,13 @@ let max_extended_partitions = 100
  *     (cf. /dev/hda1 is the first partition).
  * (3) 'dev' is the underlying block device.
  *)
-class partition_device dev partno start size =
+class partition_device partno start size dev =
   let devname = dev#name in
   let name = sprintf "%s%d" devname partno in
   let start = start *^ sector_size64 in
   let size = size *^ sector_size64 in
 object (self)
-  inherit device
-  method name = name
-  method size = size
-  method read offset len =
-    if offset < 0L || len < 0 || offset +^ Int64.of_int len > size then
-      invalid_arg (
-	sprintf "%s: tried to read outside partition boundaries (%Ld/%d/%Ld)"
-	  name offset len size
-      );
-    dev#read (start+^offset) len
+  inherit offset_device name start size dev
 end
 
 (** Probe the
@@ -138,7 +129,7 @@ and make_mbr_entry part_status dev partno part_type first_lba part_size =
       first_lba part_size;
   { part_status = part_status;
     part_type = part_type;
-    part_dev = new partition_device dev partno first_lba part_size;
+    part_dev = new partition_device partno first_lba part_size dev;
     part_content = `Unknown }
 
 (*
