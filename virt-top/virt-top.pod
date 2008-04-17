@@ -444,5 +444,3 @@ spaces).  You can also send me an email with the bug number if you
 want a faster response.
 
 =back
-
-=end
