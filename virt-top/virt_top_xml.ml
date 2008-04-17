@@ -21,6 +21,8 @@
 
 open ExtList
 
+open Virt_top_gettext.Gettext
+
 module C = Libvirt.Connect
 module D = Libvirt.Domain
 module N = Libvirt.Network ;;
@@ -41,7 +43,7 @@ fun id dom ->
 	    ) children in
 	  List.concat devices
       | _ ->
-	  failwith "get_xml_desc didn't return <domain/>" in
+	  failwith (s_ "get_xml_desc didn't return <domain/>") in
     let rec target_dev_of = function
       | [] -> None
       | Xml.Element ("target", attrs, _) :: rest ->

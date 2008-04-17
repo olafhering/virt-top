@@ -1,0 +1,79 @@
+# Makefile for po subdirectory.
+# @configure_input@
+#
+# Copyright (C) 2007-2008 Red Hat Inc.
+# Written by Richard W.M. Jones <rjones@redhat.com>
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+OCAML_GETTEXT_PACKAGE = virt-top
+LINGUAS		= $(shell cat LINGUAS)
+SOURCES		= POTFILES
+
+OCAML_GETTEXT	= @OCAML_GETTEXT@
+OCAML_GETTEXT_EXTRACT_OPTIONS =
+OCAML_GETTEXT_COMPILE_OPTIONS =
+OCAML_GETTEXT_INSTALL_OPTIONS =
+OCAML_GETTEXT_MERGE_OPTIONS   =
+
+PODIR		= @prefix@/share/locale
+
+POFILES		= $(addsuffix .po,$(LINGUAS))
+MOFILES		= $(addsuffix .mo,$(LINGUAS))
+POTFILE		= $(OCAML_GETTEXT_PACKAGE).pot
+
+all: $(MOFILES) $(POTFILE)
+
+install: install-po
+
+uninstall: uninstall-po
+
+clean:: clean-po
+
+%.mo: %.po
+	$(OCAML_GETTEXT) --action compile $(OCAML_GETTEXT_COMPILE_OPTIONS) \
+	--compile-output $@ $^
+
+%.pot: $(SOURCES) $(shell cat $(SOURCES))
+	$(OCAML_GETTEXT) --action extract $(OCAML_GETTEXT_EXTRACT_OPTIONS) \
+	--extract-pot $@ $<
+
+# Also includes a fix for incorrectly escaped multi-byte sequences.
+%.po: $(POTFILE)
+	$(OCAML_GETTEXT) --action merge   $(OCAML_GETTEXT_MERGE_OPTIONS) \
+	--merge-pot $(POTFILE) $@
+	mv $@ $@.orig
+	perl -wpe 's/\\(\d{3})/pack "C*", $$1/ge' < $@.orig > $@
+
+$(BUILDPO):
+	mkdir -p $(BUILDPO)
+
+.PRECIOUS: $(POTFILE) 
+
+install-po: $(MOFILES) 
+	$(OCAML_GETTEXT) --action install $(OCAML_GETTEXT_INSTALL_OPTIONS) \
+	--install-textdomain $(OCAML_GETTEXT_PACKAGE) \
+	--install-destdir $(PODIR) $(MOFILES)
+
+uninstall-po:
+	$(OCAML_GETTEXT) --action uninstall $(OCAML_GETTEXT_INSTALL_OPTIONS) \
+	--uninstall-textdomain $(OCAML_GETTEXT_PACKAGE) \
+	--uninstall-orgdir $(PODIR) $(MOFILES)
+
+clean-po:
+	-$(OCAML_GETTEXT) --action uninstall $(OCAML_GETTEXT_INSTALL_OPTIONS) \
+	--uninstall-textdomain $(OCAML_GETTEXT_PACKAGE) \
+	--uninstall-orgdir $(BUILDPO) $(MOFILES)
+	-$(RM) $(MOFILES) 

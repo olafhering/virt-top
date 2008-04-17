@@ -1,4 +1,0 @@
-list_domains.cmo: ../libvirt/libvirt.cmi 
-list_domains.cmx: ../libvirt/libvirt.cmx 
-node_info.cmo: ../libvirt/libvirt.cmi 
-node_info.cmx: ../libvirt/libvirt.cmx 

@@ -19,6 +19,8 @@
    This file contains all code which requires CSV support.
 *)
 
+open Virt_top_gettext.Gettext
+
 (* Output channel, or None if CSV output not enabled. *)
 let chan = ref None ;;
 

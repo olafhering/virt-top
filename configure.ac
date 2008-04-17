@@ -1,4 +1,4 @@
-# ocaml-libvirt
+# virt-top
 # Copyright (C) 2007-2008 Red Hat Inc., Richard W.M. Jones
 #
 # This library is free software; you can redistribute it and/or
@@ -17,240 +17,69 @@
 
 dnl Process this file with autoconf to produce a configure script.
 
-AC_INIT(ocaml-libvirt,0.4.1.0)
+AC_INIT(virt-top,1.0.0)
 
-dnl Check for basic C environment.
-AC_PROG_CC
 AC_PROG_INSTALL
-AC_PROG_CPP
-
-AC_C_PROTOTYPES
-test "x$U" != "x" && AC_MSG_ERROR(Compiler not ANSI compliant)
-
-AC_PROG_CC_C_O
-
-dnl Select some C flags based on the host type.
-AC_CANONICAL_HOST
-
-DEBUG="-g"
-WARNINGS="-Wall -Werror"
-CFLAGS_FPIC="-fPIC"
-WIN32=no
-case "$host" in
-  *-*-mingw*)
-    WARNINGS="$WARNINGS -Wno-unused"
-    CFLAGS_FPIC=""
-    WIN32=yes
-esac
-AC_SUBST(DEBUG)
-AC_SUBST(WARNINGS)
-AC_SUBST(CFLAGS_FPIC)
-AC_SUBST(WIN32)
-
-dnl Check for libvirt development environment.
-AC_ARG_WITH(libvirt,
-	AC_HELP_STRING([--with-libvirt=PATH],[Set path to installed libvirt]),
-	[if test "x$withval" != "x"; then
-	   CFLAGS="$CFLAGS -I$withval/include"
-	   LDFLAGS="$LDFLAGS -L$withval/lib"
-	 fi
-	])
-AC_CHECK_LIB(virt,virConnectOpen,
-	[],
-	AC_MSG_ERROR([You must install libvirt library]))
-AC_CHECK_HEADER([libvirt/libvirt.h],
-	[],
-	AC_MSG_ERROR([You must install libvirt development package]))
-
-dnl We also use <libvirt/virterror.h>
-AC_CHECK_HEADER([libvirt/virterror.h],
-	[],
-	AC_MSG_ERROR([You must install libvirt development package]))
-
-dnl Check for libvirt >= 0.2.1 (our minimum supported version).
-dnl See: http://libvirt.org/hvsupport.html
-AC_CHECK_FUNC(virConnectGetCapabilities,
-	[],
-	AC_MSG_ERROR([You must have libvirt >= 0.2.1]))
-
-dnl Check for optional libvirt functions added since 0.2.1.
-dnl See: http://libvirt.org/hvsupport.html
-AC_CHECK_FUNCS([virConnectGetHostname \
-		virConnectGetURI \
-		virDomainBlockStats \
-		virDomainGetSchedulerParameters \
-		virDomainGetSchedulerType \
-		virDomainInterfaceStats \
-		virDomainMigrate \
-		virDomainSetSchedulerParameters \
-		virNodeGetFreeMemory \
-		virNodeGetCellsFreeMemory \
-		virStoragePoolGetConnect \
-		virConnectNumOfStoragePools \
-		virConnectListStoragePools \
-		virConnectNumOfDefinedStoragePools \
-		virConnectListDefinedStoragePools \
-		virStoragePoolLookupByName \
-		virStoragePoolLookupByUUID \
-		virStoragePoolLookupByUUIDString \
-		virStoragePoolLookupByVolume \
-		virStoragePoolCreateXML \
-		virStoragePoolDefineXML \
-		virStoragePoolBuild \
-		virStoragePoolUndefine \
-		virStoragePoolCreate \
-		virStoragePoolDestroy \
-		virStoragePoolDelete \
-		virStoragePoolFree \
-		virStoragePoolRefresh \
-		virStoragePoolGetName \
-		virStoragePoolGetUUID \
-		virStoragePoolGetUUIDString \
-		virStoragePoolGetInfo \
-		virStoragePoolGetXMLDesc \
-		virStoragePoolGetAutostart \
-		virStoragePoolSetAutostart \
-		virStoragePoolNumOfVolumes \
-		virStoragePoolListVolumes \
-		virStorageVolLookupByName \
-		virStorageVolLookupByKey \
-		virStorageVolLookupByPath \
-		virStorageVolGetName \
-		virStorageVolGetKey \
-		virStorageVolCreateXML \
-		virStorageVolDelete \
-		virStorageVolFree \
-		virStorageVolGetInfo \
-		virStorageVolGetXMLDesc \
-		virStorageVolGetPath \
-])
-
-# This jobs API was never published and is due to get overhauled
-# in the near future:
-#		virJobGetInfo
-#		virJobGetDomain
-#		virJobGetNetwork
-#		virJobCancel
-#		virJobFree
-#		virDomainCreateLinuxJob
-#		virDomainSaveJob
-#		virDomainRestoreJob
-#		virDomainCoreDumpJob
-#		virDomainCreateJob
-#		virNetworkCreateXMLJob
-#		virNetworkCreateJob
-
-dnl Check for optional types added since 0.2.1.
-AC_CHECK_TYPES([virJobPtr, virStoragePoolPtr, virStorageVolPtr],,,
-	       [#include <libvirt/libvirt.h>])
-
-dnl Check for optional ncurses.
-AC_CHECK_LIB(ncurses,initscr)
-
-dnl Check for optional GNOME icons (from gnome-icon-theme package).
-AC_ARG_WITH(icons,
-	AC_HELP_STRING([--with-icons=PATH],
-		[Set path to installed icons @<:@default=/usr/share/icons@:>@]),
-	[],[with_icons=/usr/share/icons])
-icons=""
-if test "x$with_icons" != "xno"; then
-    for size in 16 24 32 48; do
-	for f in devices/computer.png; do
-	    fname="${with_icons}/gnome/${size}x${size}/${f}"
-	    AC_MSG_CHECKING([checking for icon $fname])
-	    if test -f "$fname"; then
-	    	AC_MSG_RESULT([yes])
-	        icons="$size $f $fname $icons"
-	    else
-	    	AC_MSG_RESULT([no])
-	    fi
-	done
-    done
-fi
-AC_SUBST(with_icons)
-AC_SUBST(icons)
 
 dnl Check for basic OCaml environment & findlib.
-dnl Note that findlib is not necessary, but things will work better
-dnl if it is present.
 AC_PROG_OCAML
 AC_PROG_FINDLIB
 
-if test "x$OCAMLFIND" != "x"; then
-    dnl Use ocamlfind to find the required packages ...
-
-    dnl Check for required OCaml packages.
-    AC_CHECK_OCAML_PKG(unix)
-    if test "x$pkg_unix" != "xyes"; then
-        AC_MSG_ERROR([Cannot find required OCaml package 'unix'])
-    fi
-
-    dnl Check for optional OCaml packages.
-    AC_CHECK_OCAML_PKG(extlib)
-    AC_CHECK_OCAML_PKG(lablgtk2)
-    AC_CHECK_OCAML_PKG(curses)
-    AC_CHECK_OCAML_PKG(gettext)
-    AC_CHECK_OCAML_PKG(xml-light)
-    AC_CHECK_OCAML_PKG(csv)
-    AC_CHECK_OCAML_PKG(dbus)
-
-    dnl Need to check which version of calendar is installed.
-    AC_CHECK_OCAML_MODULE(calendar,pkg_calendar2,CalendarLib.Date,[+calendar])
-    if test "x$pkg_calendar2" = "xno"; then
-    	AC_CHECK_OCAML_PKG(calendar)
-    fi
-
-    AC_SUBST(pkg_unix)
-    AC_SUBST(pkg_extlib)
-    AC_SUBST(pkg_lablgtk2)
-    AC_SUBST(pkg_curses)
-    AC_SUBST(pkg_gettext)
-    AC_SUBST(pkg_xml_light)
-    AC_SUBST(pkg_csv)
-    AC_SUBST(pkg_dbus)
-    AC_SUBST(pkg_calendar)
-    AC_SUBST(pkg_calendar2)
-else
-    dnl Use a basic module test if there is no findlib ...
-
-    dnl Check for required OCaml modules.
-    AC_CHECK_OCAML_MODULE(unix,pkg_unix,Unix,[.])
-    if test "x$pkg_unix" = "xno"; then
-        AC_MSG_ERROR([Cannot find required OCaml package 'unix'])
-    fi
-
-    dnl Check for optional OCaml modules.
-    AC_CHECK_OCAML_MODULE(extlib,pkg_extlib,ExtString,[+extlib])
-    AC_CHECK_OCAML_MODULE(lablgtk2,pkg_lablgtk2,GMain,[+lablgtk2])
-    AC_CHECK_OCAML_MODULE(curses,pkg_curses,Curses,[+curses])
-    AC_CHECK_OCAML_MODULE(gettext,pkg_gettext,Gettext,[+gettext]) dnl XXX
-    AC_CHECK_OCAML_MODULE(xml-light,pkg_xml_light,Xml,[+xml-light])
-    AC_CHECK_OCAML_MODULE(csv,pkg_csv,Csv,[+csv])
-    AC_CHECK_OCAML_MODULE(dbus,pkg_dbus,DBus,[+dbus])
-    dnl XXX Version check - see above.
-    AC_CHECK_OCAML_MODULE(calendar,pkg_calendar,Calendar,[+calendar])
+if test "x$OCAMLFIND" = "x"; then
+    AC_MSG_ERROR([OCaml findlib is required])
 fi
 
-dnl Which subpackages (== subdirs) will we build?
-subdirs="libvirt examples mlvirsh"
-if test "x$pkg_lablgtk2" != "xno"; then
-    subdirs="$subdirs virt-ctrl"
+dnl Use ocamlfind to find the required packages ...
+
+dnl Check for required OCaml packages.
+AC_CHECK_OCAML_PKG(unix)
+if test "x$pkg_unix" != "xyes"; then
+    AC_MSG_ERROR([Cannot find required OCaml package 'unix'])
 fi
-if test "x$pkg_extlib" != "xno" -a "x$pkg_curses" != "xno"; then
-    subdirs="$subdirs virt-top"
+
+AC_CHECK_OCAML_PKG(extlib)
+if test "x$pkg_extlib" != "xyes"; then
+    AC_MSG_ERROR([Cannot find required OCaml package 'extlib'])
 fi
-if test "x$pkg_extlib" != "xno" -a "x$pkg_xml_light" != "xno"; then
-    subdirs="$subdirs virt-df"
+
+AC_CHECK_OCAML_PKG(libvirt)
+if test "x$pkg_libvirt" != "xyes"; then
+    AC_MSG_ERROR([Cannot find required OCaml package 'libvirt'])
 fi
-AC_SUBST(subdirs)
+
+AC_CHECK_OCAML_PKG(curses)
+if test "x$pkg_curses" != "xyes"; then
+    AC_MSG_ERROR([Cannot find required OCaml package 'curses'])
+fi
+
+dnl Check for optional OCaml packages.
+AC_CHECK_OCAML_PKG(gettext)
+AC_CHECK_OCAML_PKG(xml-light)
+AC_CHECK_OCAML_PKG(csv)
+
+dnl Need to check which version of calendar is installed.
+AC_CHECK_OCAML_MODULE(calendar,pkg_calendar2,CalendarLib.Date,[+calendar])
+if test "x$pkg_calendar2" = "xno"; then
+    AC_CHECK_OCAML_PKG(calendar)
+fi
+
+AC_SUBST(pkg_unix)
+AC_SUBST(pkg_extlib)
+AC_SUBST(pkg_curses)
+AC_SUBST(pkg_gettext)
+AC_SUBST(pkg_xml_light)
+AC_SUBST(pkg_csv)
+AC_SUBST(pkg_calendar)
+AC_SUBST(pkg_calendar2)
 
 dnl Check for optional perldoc (for building manual pages).
 AC_CHECK_PROG(HAVE_PERLDOC,perldoc,perldoc)
 
-dnl Check for optional gdk-pixbuf-mlsource (for icons).
-AC_CHECK_PROG(HAVE_GDK_PIXBUF_MLSOURCE,gdk-pixbuf-mlsource,gdk-pixbuf-mlsource)
+dnl Check for recommended ocaml-gettext tool.
+AC_CHECK_PROG(OCAML_GETTEXT,ocaml-gettext,ocaml-gettext)
 
 dnl Check for optional NSIS (for building a Windows installer).
+dnl XXX NSIS support is probably broken at the moment XXX
 AC_ARG_WITH([nsis],
 	[AS_HELP_STRING([--with-nsis],
 	    [use NSIS to build a Windows installer])],
@@ -339,24 +168,53 @@ AC_SUBST(GNUTLS_DLL_PATH)
 AC_SUBST(GTK_DLL_PATH)
 AC_SUBST(GTK_PATH)
 
+dnl Write gettext modules for the programs.
+dnl http://www.le-gall.net/sylvain+violaine/documentation/ocaml-gettext/html/reference-manual/ch03s04.html
+for d in virt-top; do
+    f=`echo $d | tr - _`_gettext.ml
+    AC_MSG_NOTICE([creating $d/$f])
+    rm -f $d/$f
+    echo "(* This file is generated automatically by ./configure. *)" > $d/$f
+    if test "x$pkg_gettext" != "xno"; then
+        # Gettext module is available, so use it.
+        cat <<EOT >>$d/$f
+module Gettext = Gettext.Program (
+  struct
+    let textdomain = "$d"
+    let codeset = None
+    let dir = None
+    let dependencies = [[]]
+  end
+) (GettextStub.Native)
+EOT
+    else
+        # No gettext module is available, so fake the translation functions.
+        cat <<EOT >>$d/$f
+module Gettext = struct
+  external s_ : string -> string = "%identity"
+  external f_ : ('a -> 'b, 'c, 'd) format -> ('a -> 'b, 'c, 'd) format
+    = "%identity"
+  let sn_ : string -> string -> int -> string
+    = fun s p n -> if n = 1 then s else p
+  let fn_ : ('a -> 'b, 'c, 'd) format -> ('a -> 'b, 'c, 'd) format -> int
+      -> ('a -> 'b, 'c, 'd) format
+    = fun s p n -> if n = 1 then s else p
+end
+EOT
+    fi
+done
+
 dnl Summary.
 echo "------------------------------------------------------------"
 echo "Thanks for downloading" $PACKAGE_STRING
-echo " subpackages to build : $subdirs"
 echo "------------------------------------------------------------"
 
 dnl Produce output files.
 AC_CONFIG_HEADERS([config.h])
-AC_CONFIG_FILES([META
-	libvirt/libvirt_version.ml
-	Makefile
+AC_CONFIG_FILES([Makefile
 	Make.rules
-	libvirt/Makefile
-	examples/Makefile
-	mlvirsh/Makefile
-	virt-ctrl/Makefile
+	po/Makefile
 	virt-top/Makefile
-	virt-df/Makefile
 	])
 if test "x$MAKENSIS" != "x"; then
 	AC_CONFIG_FILES([wininstaller.nsis])

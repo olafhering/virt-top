@@ -21,6 +21,7 @@
 
 open Curses
 
+open Virt_top_gettext.Gettext
 open Virt_top
 
 (* Note: make sure we catch any exceptions and clean up the display.
@@ -43,7 +44,7 @@ let error =
       true
   | exn ->
       if not script_mode then endwin ();
-      prerr_endline ("Error: " ^ Printexc.to_string exn);
+      prerr_endline (s_ "Error" ^ ": " ^ Printexc.to_string exn);
       true
 
 let () =
