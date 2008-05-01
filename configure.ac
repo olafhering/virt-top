@@ -17,7 +17,7 @@
 
 dnl Process this file with autoconf to produce a configure script.
 
-AC_INIT(virt-top,1.0.0)
+AC_INIT(virt-top,1.0.1)
 
 AC_PROG_INSTALL
 

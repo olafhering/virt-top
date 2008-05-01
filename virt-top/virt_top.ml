@@ -28,6 +28,8 @@ module C = Libvirt.Connect
 module D = Libvirt.Domain
 module N = Libvirt.Network
 
+let rcfile = ".virt-toprc"
+
 (* Hook for XML support (see virt_top_xml.ml). *)
 let parse_device_xml : (int -> [>`R] D.t -> string list * string list) ref =
   ref (
@@ -238,7 +240,7 @@ OPTIONS" in
    | NoInitFile -> ()
    | DefaultInitFile ->
        let home = try Sys.getenv "HOME" with Not_found -> "/" in
-       let filename = home // ".virt-toprc" in
+       let filename = home // rcfile in
        try_to_read_init_file filename
    | InitFile filename ->
        try_to_read_init_file filename
@@ -1462,7 +1464,7 @@ and write_init_file () =
   | NoInitFile -> ()			(* Do nothing if --no-init-file *)
   | DefaultInitFile ->
       let home = try Sys.getenv "HOME" with Not_found -> "/" in
-      let filename = home // ".virt-toprc" in
+      let filename = home // rcfile in
       _write_init_file filename
   | InitFile filename ->
       _write_init_file filename
@@ -1487,7 +1489,7 @@ and _write_init_file filename =
 
     let fp = fprintf in
     let nl () = fp chan "\n" in
-    let () = fp chan (f_ "# .virt-toprc virt-top configuration file\n") in
+    let () = fp chan (f_ "# %s virt-top configuration file\n") rcfile in
     let () = fp chan (f_ "# generated on %s by %s\n") printable_date_time username in
     nl ();
     fp chan "display %s\n" (cli_of_display !display_mode);
@@ -1502,13 +1504,13 @@ and _write_init_file filename =
     if !batch_mode = true then fp chan "batch true\n";
     if !secure_mode = true then fp chan "secure true\n";
     nl ();
-    let () = fp chan (f_ "# To send debug and error messages to a file, uncomment next line\n") in
+    output_string chan (s_ "# To send debug and error messages to a file, uncomment next line\n");
     fp chan "#debug virt-top.out\n";
     nl ();
-    let () = fp chan (f_ "# Enable CSV output to the named file\n") in
+    output_string chan (s_ "# Enable CSV output to the named file\n");
     fp chan "#csv virt-top.csv\n";
     nl ();
-    let () = fp chan (f_ "# To protect this file from being overwritten, uncomment next line\n") in
+    output_string chan (s_ "# To protect this file from being overwritten, uncomment next line\n");
     fp chan "#overwrite-init-file false\n";
 
     close_out chan;
