@@ -1,5 +1,5 @@
 # virt-top
-# Copyright (C) 2007 Red Hat Inc., Richard W.M. Jones
+# Copyright (C) 2007-2008 Red Hat Inc., Richard W.M. Jones
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -58,7 +58,7 @@ endif
 
 # Distribution.
 
-dist:
+dist: ChangeLog
 	$(MAKE) check-manifest
 	rm -rf $(PACKAGE)-$(VERSION)
 	mkdir $(PACKAGE)-$(VERSION)
@@ -75,5 +75,8 @@ check-manifest:
 	rm -f .orig-manifest .check-manifest; \
 	exit $$rv
 
-.PHONY: all opt depend install clean distclean configure dist check-manifest \
-	release release_stage_2 release_stage_3 force
+ChangeLog:
+	hg log --style changelog > $@.new
+	mv $@.new $@
+
+.PHONY: all opt depend install clean distclean force
