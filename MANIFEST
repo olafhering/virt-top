@@ -11,6 +11,7 @@ install-sh
 Makefile.in
 Make.rules.in
 MANIFEST
+po/de.po
 po/ja.po
 po/LINGUAS
 po/Makefile.in
@@ -18,6 +19,7 @@ po/pl.po
 po/pt_BR.po
 po/POTFILES
 po/virt-top.pot
+po/zh_CN.po
 README
 TODO.virt-top
 virt-top/.depend
