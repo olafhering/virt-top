@@ -1,0 +1,307 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: virt-top.tip\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2008-03-28 17:30+0000\n"
+"PO-Revision-Date: 2008-10-10 11:51+0530\n"
+"Last-Translator: Sandeep Shedmake <sandeep.shedmake@gmail.com>\n"
+"Language-Team: marathi\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+"X-Generator: KBabel 1.11.4\n"
+
+#: ../virt-top/virt_top.ml:1492
+msgid "# %s virt-top configuration file\\n"
+msgstr ""
+
+#: ../virt-top/virt_top.ml:1510
+msgid "# Enable CSV output to the named file\\n"
+msgstr "# नामांकीत फाइल करीता CSV आऊटपुट कार्यान्वीत करा\\n"
+
+#: ../virt-top/virt_top.ml:1513
+msgid "# To protect this file from being overwritten, uncomment next line\\n"
+msgstr "# ही फाइल खोडून पुन्हा लिहीण्यापासून, पुढिल ओळीतील टिपण्णी काढून टाका\\n"
+
+#: ../virt-top/virt_top.ml:1507
+msgid "# To send debug and error messages to a file, uncomment next line\\n"
+msgstr "# फाइल करीता डीबग व त्रुटी संदेश पाठविण्याकरीता, पुढिल ओळीतील टिपण्णीत काढून टाका\\n"
+
+#: ../virt-top/virt_top.ml:1493
+msgid "# generated on %s by %s\\n"
+msgstr "# %s वर बनविले, %s द्वारे\\n"
+
+#: ../virt-top/virt_top.ml:65
+msgid "%CPU"
+msgstr "%CPU"
+
+#: ../virt-top/virt_top.ml:66
+msgid "%MEM"
+msgstr "%MEM"
+
+#: ../virt-top/virt_top.ml:1146
+msgid "%d domains, %d active, %d running, %d sleeping, %d paused, %d inactive D:%d O:%d X:%d"
+msgstr "%d क्षेत्र, %d सक्रीय, %d कार्यरत, %d अकार्यक्षम, %d स्तब्ध, %d निष्क्रीय D:%d O:%d X:%d"
+
+#: ../virt-top/virt_top.ml:107
+msgid "%s: display should be %s"
+msgstr "%s: प्रदर्शक %s असायला हवे"
+
+#: ../virt-top/virt_top.ml:84
+msgid "%s: sort order should be: %s"
+msgstr "%s: क्रमवारी यानुरूप असायला हवे: %s"
+
+#: ../virt-top/virt_top.ml:204
+msgid "%s: unknown parameter"
+msgstr "%s: अपरिचीत बाब"
+
+#: ../virt-top/virt_top.ml:235
+msgid "%s:%d: configuration item ``%s'' ignored\\n%!"
+msgstr "%s:%d: संयोजना घटक ``%s'' दुर्लक्षीत केले गेले\\n%!"
+
+#: ../virt-top/virt_top.ml:147
+msgid "-d: cannot set a negative delay"
+msgstr "-d: नकारात्मक विलंब निश्चित केले जाऊ शकत नाही"
+
+#: ../virt-top/virt_top.ml:169
+msgid "Batch mode"
+msgstr "बॅच् पद्धती"
+
+#: ../virt-top/virt_top.ml:72
+msgid "Block read reqs"
+msgstr "ब्लॉक वाचन करीता आवश्यकता"
+
+#: ../virt-top/virt_top.ml:73
+msgid "Block write reqs"
+msgstr "ब्लॉक लेखन आवश्यक"
+
+#: ../virt-top/virt_top.ml:1153
+msgid "CPU: %2.1f%%  Mem: %Ld MB (%Ld MB by guests)"
+msgstr "CPU: %2.1f%%  Mem: %Ld MB (%Ld MB अतिथी द्वारे)"
+
+#: ../virt-top/virt_top.ml:1321
+msgid "Change delay from %.1f to: "
+msgstr "%.1f पासूनचे विलंब यानुरूप बदलवा: "
+
+#: ../virt-top/virt_top.ml:173 ../virt-top/virt_top.ml:171
+msgid "Connect to URI (default: Xen)"
+msgstr "URI शी जुळवणी करा (मुलभूत: Xen)"
+
+#: ../virt-top/virt_top.ml:1560
+msgid "Connect: %s; Hostname: %s"
+msgstr "जुळवणी: %s; यजमाननाव: %s"
+
+#: ../virt-top/virt_top.ml:1598
+msgid "DISPLAY MODES"
+msgstr "DISPLAY पद्धती"
+
+#: ../virt-top/virt_top.ml:1328
+msgid "Delay must be > 0"
+msgstr "विलंब असायला हवे > 0"
+
+#: ../virt-top/virt_top.ml:183
+msgid "Delay time interval (seconds)"
+msgstr "विलंब वेळ अवधी (सेकंद)"
+
+#: ../virt-top/virt_top.ml:1554
+msgid "Delay: %.1f secs; Batch: %s; Secure: %s; Sort: %s"
+msgstr "विलंब: %.1f secs; बॅच्: %s; सुरक्षीत: %s; क्रमवारी: %s"
+
+#: ../virt-top/virt_top.ml:177
+msgid "Disable CPU stats in CSV"
+msgstr "CSV अंतर्गत CPU आकडेवारी अकार्यान्वीत करा"
+
+#: ../virt-top/virt_top.ml:179
+msgid "Disable block device stats in CSV"
+msgstr "CSV अंतर्गत ब्लॉक साधन आकडेवारी अकार्यान्वीत करा"
+
+#: ../virt-top/virt_top.ml:181
+msgid "Disable net stats in CSV"
+msgstr "CSV अंतर्गत नेट आकडेवारी अकार्यान्वीत करा"
+
+#: ../virt-top/virt_top.ml:193
+msgid "Do not read init file"
+msgstr "init फाइल वाचू नका"
+
+#: ../virt-top/virt_top.ml:68
+msgid "Domain ID"
+msgstr "डोमेन ID"
+
+#: ../virt-top/virt_top.ml:69
+msgid "Domain name"
+msgstr "क्षेत्र नाव"
+
+#: ../virt-top/virt_top.ml:1612
+msgid "Domains display"
+msgstr "क्षेत्र प्रदर्शन"
+
+#: ../virt-top/virt_top_main.ml:47 ../virt-top/virt_top.ml:1530
+msgid "Error"
+msgstr "चूक"
+
+#: ../virt-top/virt_top.ml:187
+msgid "Exit at given time"
+msgstr "ठराविक वेळेस बाहेर पडा"
+
+#: ../virt-top/virt_top.ml:1582
+msgid "Help"
+msgstr "मदत"
+
+#: ../virt-top/virt_top.ml:189
+msgid "Historical CPU delay"
+msgstr "ऐतिहासिक CPU विलंब"
+
+#: ../virt-top/virt_top.ml:175
+msgid "Log statistics to CSV file"
+msgstr "CSV फाइल करीता लॉग आकडेवारी"
+
+#: ../virt-top/virt_top.ml:1565
+msgid "MAIN KEYS"
+msgstr "मुख्य कि"
+
+#: ../virt-top/virt_top.ml:1619
+msgid "More help in virt-top(1) man page. Press any key to return."
+msgstr "virt-top(1) man पान अंतर्गत अधिक मदत. पहाण्याकरीता कुठलिही कि दाबा."
+
+#: ../virt-top/virt_top.ml:260
+msgid "NB: If you want to monitor a local Xen hypervisor, you usually need to be root"
+msgstr "NB: स्थानीय Xen हायपरवाइजर मॉनीटर करायचे असल्यास, तुम्हाला रूट व्हावे लागेल"
+
+#: ../virt-top/virt_top.ml:70
+msgid "Net RX bytes"
+msgstr "एकूण RX बाइटस्"
+
+#: ../virt-top/virt_top.ml:71
+msgid "Net TX bytes"
+msgstr "एकूणTX बाइटस्"
+
+#: ../virt-top/virt_top.ml:1334
+msgid "Not a valid number"
+msgstr "वैध संख्या नाही"
+
+#: ../virt-top/virt_top.ml:195
+msgid "Number of iterations to run"
+msgstr "चालविण्याजोगी काळचक्रची संख्या"
+
+#: ../virt-top/virt_top.ml:1580
+msgid "Quit"
+msgstr "सोडून द्या"
+
+#: ../virt-top/virt_top.ml:201
+msgid "Run from a script (no user interface)"
+msgstr "स्क्रीप्ट पासून चालवा (वापरकर्ता संवाद नाही)"
+
+#: ../virt-top/virt_top.ml:1586
+msgid "SORTING"
+msgstr "SORTING"
+
+#: ../virt-top/virt_top.ml:199
+msgid "Secure (\\\"kiosk\\\") mode"
+msgstr "सुरक्षा (\\\"कीओस्क्\\\")  पद्धती"
+
+#: ../virt-top/virt_top.ml:1595
+msgid "Select sort field"
+msgstr "क्रमवारी गुणविशेष निवडा"
+
+#: ../virt-top/virt_top.ml:185
+msgid "Send debug messages to file"
+msgstr "डीबग संदेश फाइल करीता पाठवा"
+
+#: ../virt-top/virt_top.ml:191
+msgid "Set name of init file"
+msgstr "init फाइल करीता नाव निश्चित करा"
+
+#: ../virt-top/virt_top.ml:197
+msgid "Set sort order (%s)"
+msgstr "क्रमवारी निश्चित करा (%s)"
+
+#: ../virt-top/virt_top.ml:1342
+msgid "Set sort order for main display"
+msgstr "क्रमवारी निश्चित करा (%s)"
+
+#: ../virt-top/virt_top.ml:1581
+msgid "Set update interval"
+msgstr "अद्ययावत अवधी निश्चित करा"
+
+#: ../virt-top/virt_top.ml:1591
+msgid "Sort by %CPU"
+msgstr "%CPU नुरूप क्रमावरीत लावा"
+
+#: ../virt-top/virt_top.ml:1592
+msgid "Sort by %MEM"
+msgstr "%MEM नुरूप क्रमावरीत लावा"
+
+#: ../virt-top/virt_top.ml:1594
+msgid "Sort by ID"
+msgstr "ID नुरूप क्रमावरीत लावा"
+
+#: ../virt-top/virt_top.ml:1593
+msgid "Sort by TIME"
+msgstr "TIME नुरूप क्रमावरीत लावा"
+
+#: ../virt-top/virt_top.ml:167
+msgid "Start by displaying block devices"
+msgstr "ब्लॉक साधन दर्शवून प्रारंभ करा"
+
+#: ../virt-top/virt_top.ml:165
+msgid "Start by displaying network interfaces"
+msgstr "संजाळ संवाद दर्शवून प्रारंभ करा"
+
+#: ../virt-top/virt_top.ml:163
+msgid "Start by displaying pCPUs (default: tasks)"
+msgstr "pCPUs दर्शवून प्रारंभ करा (मुलभूत: कार्य))"
+
+#: ../virt-top/virt_top.ml:67
+msgid "TIME (CPU time)"
+msgstr "TIME (CPU वेळ)"
+
+#: ../virt-top/virt_top.ml:1615
+msgid "Toggle block devices"
+msgstr "ब्लॉक साधन बदलवा"
+
+#: ../virt-top/virt_top.ml:1614
+msgid "Toggle network interfaces"
+msgstr "संजाळ संवाद बदलवा"
+
+#: ../virt-top/virt_top.ml:1613
+msgid "Toggle physical CPUs"
+msgstr "वास्तविक CPU बदलवा"
+
+#: ../virt-top/virt_top.ml:1343
+msgid "Type key or use up and down cursor keys."
+msgstr "कि टाइप करा किंवा वर आणि खाली कर्सर कि चा वापर करा."
+
+#: ../virt-top/virt_top.ml:1624
+msgid "Unknown command - try 'h' for help"
+msgstr "अपरिचीत आदेश - मदत करीता 'h' वापरून पहा"
+
+#: ../virt-top/virt_top.ml:1579
+msgid "Update display"
+msgstr "प्रदर्शन अद्ययावत करा"
+
+#: ../virt-top/virt_top.ml:1525
+msgid "Wrote settings to %s"
+msgstr "%s करीता संयोजना लिहीले"
+
+#: ../virt-top/virt_top_xml.ml:46
+msgid "get_xml_desc didn't return <domain/>"
+msgstr "get_xml_desc ने <domain/> पाठविले नाही"
+
+#: ../virt-top/virt_top.ml:1545
+msgid "virt-top %s (libvirt %d.%d.%d) by Red Hat"
+msgstr "virt-top %s (libvirt %d.%d.%d) , Red Hat द्वारे"
+
+#: ../virt-top/virt_top.ml:205
+msgid "virt-top : a 'top'-like utility for virtualization\n\nSUMMARY\n  virt-top [-options]\n\nOPTIONS"
+msgstr "virt-top : आभासीकरण करीता 'top'-नुरूप उपकार्यक्रम\n\nसारांश\n  virt-top [-options]\n\nपर्याय"
+
+#: ../virt-top/virt_top.ml:42
+msgid "virt-top was compiled without support for CSV files"
+msgstr "virt-top ला CSV फाइल करीता समर्थन न पुरविता कंपाईल केले गेले"
+
+#: ../virt-top/virt_top.ml:53
+msgid "virt-top was compiled without support for dates and times"
+msgstr "virt-top ला दिनांक व वेळ करीता समर्थन न पुरविता कंपाईल केले गेले"
+

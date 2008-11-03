@@ -1,8 +1,4 @@
-# translation of virt-top.tip.po to Simplified Chinese
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-#
-# Leah Liu <lliu@redhat.com>, 2008.
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: virt-top.tip\n"
@@ -17,1007 +13,295 @@ msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "X-Generator: KBabel 1.11.4\n"
 
-#: ../virt-top/virt_top.ml:1490
-msgid "# .virt-toprc virt-top configuration file\\n"
-msgstr "# .virt-toprc virt-top 配置文件\\n"
+#: ../virt-top/virt_top.ml:1492
+msgid "# %s virt-top configuration file\\n"
+msgstr ""
 
-#: ../virt-top/virt_top.ml:1508
+#: ../virt-top/virt_top.ml:1510
 msgid "# Enable CSV output to the named file\\n"
 msgstr "# 启用 CSV 输出到命名文件\\n"
 
-#: ../virt-top/virt_top.ml:1511
+#: ../virt-top/virt_top.ml:1513
 msgid "# To protect this file from being overwritten, uncomment next line\\n"
 msgstr "# 保护这个文件不被覆盖，下一行取消注释\\n"
 
-#: ../virt-top/virt_top.ml:1505
+#: ../virt-top/virt_top.ml:1507
 msgid "# To send debug and error messages to a file, uncomment next line\\n"
 msgstr "# 将 debug 和出错信息发送到一个文件，下一行取消注释\\n"
 
-#: ../virt-top/virt_top.ml:1491
+#: ../virt-top/virt_top.ml:1493
 msgid "# generated on %s by %s\\n"
 msgstr "# 使用 %s 在 %s 中创建\\n"
 
-#: ../virt-top/virt_top.ml:63
+#: ../virt-top/virt_top.ml:65
 msgid "%CPU"
 msgstr "%CPU"
 
-#: ../virt-top/virt_top.ml:64
+#: ../virt-top/virt_top.ml:66
 msgid "%MEM"
 msgstr "%MEM"
 
-#: ../virt-top/virt_top.ml:1144
+#: ../virt-top/virt_top.ml:1146
 msgid "%d domains, %d active, %d running, %d sleeping, %d paused, %d inactive D:%d O:%d X:%d"
 msgstr "%d domains, %d active, %d running, %d sleeping, %d paused, %d inactive D:%d O:%d X:%d"
 
-#: ../mlvirsh/mlvirsh.ml:716
-msgid "%s: command not found"
-msgstr "%s：命令未找到"
-
-#: ../virt-top/virt_top.ml:105
+#: ../virt-top/virt_top.ml:107
 msgid "%s: display should be %s"
 msgstr "%s：显示应该为 %s"
 
-#: ../virt-top/virt_top.ml:82
+#: ../virt-top/virt_top.ml:84
 msgid "%s: sort order should be: %s"
 msgstr "%s：排列顺寻应该为：%s"
 
-#: ../virt-df/virt_df.ml:362 ../virt-top/virt_top.ml:202
+#: ../virt-top/virt_top.ml:204
 msgid "%s: unknown parameter"
 msgstr "%s：未知参数"
 
-#: ../virt-top/virt_top.ml:233
+#: ../virt-top/virt_top.ml:235
 msgid "%s:%d: configuration item ``%s'' ignored\\n%!"
 msgstr "%s：%d：忽略配置项目 ``%s''\\n%!"
 
-#: ../virt-df/virt_df.ml:514
-msgid "(device omitted)"
-msgstr "（设备省略）"
-
-#: ../virt-top/virt_top.ml:145
+#: ../virt-top/virt_top.ml:147
 msgid "-d: cannot set a negative delay"
 msgstr "-d：无法设定负延迟"
 
-#: ../virt-df/virt_df.ml:498
-msgid "1K-blocks"
-msgstr "1K-块"
-
-#: ../virt-ctrl/vc_mainwindow.ml:97
-msgid "About ..."
-msgstr "关于......"
-
-#: ../mlvirsh/mlvirsh.ml:399
-msgid "Attach device to domain."
-msgstr "在域中附加设备。"
-
-#: ../virt-df/virt_df.ml:499 ../virt-df/virt_df.ml:498
-msgid "Available"
-msgstr "可用"
-
-#: ../virt-top/virt_top.ml:167
+#: ../virt-top/virt_top.ml:169
 msgid "Batch mode"
 msgstr "批模式"
 
-#: ../virt-top/virt_top.ml:70
+#: ../virt-top/virt_top.ml:72
 msgid "Block read reqs"
 msgstr "块读取请求"
 
-#: ../virt-top/virt_top.ml:71
+#: ../virt-top/virt_top.ml:73
 msgid "Block write reqs"
 msgstr "块写入请求"
 
-#: ../virt-ctrl/vc_connections.ml:408
-msgid "CPU"
-msgstr "CPU"
-
-#: ../mlvirsh/mlvirsh.ml:365
-msgid "CPU affinity"
-msgstr "CPU 亲和性"
-
-#: ../virt-top/virt_top.ml:1151
+#: ../virt-top/virt_top.ml:1153
 msgid "CPU: %2.1f%%  Mem: %Ld MB (%Ld MB by guests)"
 msgstr "CPU: %2.1f%%  Mem: %Ld MB（客户端 %Ld MB）"
 
-#: ../virt-ctrl/vc_connection_dlg.ml:182
-msgid "Cancel"
-msgstr "取消"
-
-#: ../virt-top/virt_top.ml:1319
+#: ../virt-top/virt_top.ml:1321
 msgid "Change delay from %.1f to: "
 msgstr "将延迟从 %.1f 更改至："
 
-#: ../mlvirsh/mlvirsh.ml:409
-msgid "Close an existing hypervisor connection."
-msgstr "关闭当前监控程序连接。"
-
-#: ../virt-ctrl/vc_mainwindow.ml:118
-msgid "Connect ..."
-msgstr "连接......"
-
-#: ../virt-ctrl/vc_mainwindow.ml:160
-msgid "Connect to ..."
-msgstr "连接到......"
-
-#: ../virt-df/virt_df.ml:348 ../virt-df/virt_df.ml:346 ../virt-top/virt_top.ml:171 ../virt-top/virt_top.ml:169
+#: ../virt-top/virt_top.ml:173 ../virt-top/virt_top.ml:171
 msgid "Connect to URI (default: Xen)"
 msgstr "连接到 URI（默认：Xen）"
 
-#: ../virt-top/virt_top.ml:1558
+#: ../virt-top/virt_top.ml:1560
 msgid "Connect: %s; Hostname: %s"
 msgstr "连接：%s；主机名：%s"
 
-#: ../mlvirsh/mlvirsh.ml:476
-msgid "Core dump a domain to a file for analysis."
-msgstr "核将域转储至文件进行分析。"
-
-#: ../mlvirsh/mlvirsh.ml:422
-msgid "Create a domain from an XML file."
-msgstr "从 XML 文件创建域。"
-
-#: ../mlvirsh/mlvirsh.ml:534
-msgid "Create a network from an XML file."
-msgstr "从 XML 文件创建网络。"
-
-#: ../virt-top/virt_top.ml:1596
+#: ../virt-top/virt_top.ml:1598
 msgid "DISPLAY MODES"
 msgstr "显示模式"
 
-#: ../mlvirsh/mlvirsh.ml:426
-msgid "Define (but don't start) a domain from an XML file."
-msgstr "从 XML 文件定义（但不启动）域。"
-
-#: ../mlvirsh/mlvirsh.ml:538
-msgid "Define (but don't start) a network from an XML file."
-msgstr "从 XML 文件定义（但不启动）网络。"
-
-#: ../virt-top/virt_top.ml:1326
+#: ../virt-top/virt_top.ml:1328
 msgid "Delay must be > 0"
 msgstr "延迟必须 > 0"
 
-#: ../virt-top/virt_top.ml:181
+#: ../virt-top/virt_top.ml:183
 msgid "Delay time interval (seconds)"
 msgstr "延迟时间间隔（秒）"
 
-#: ../virt-top/virt_top.ml:1552
+#: ../virt-top/virt_top.ml:1554
 msgid "Delay: %.1f secs; Batch: %s; Secure: %s; Sort: %s"
 msgstr "Delay: %.1f secs; Batch: %s; Secure: %s; Sort: %s"
 
-#: ../mlvirsh/mlvirsh.ml:433
-msgid "Destroy a domain."
-msgstr "销毁域"
-
-#: ../mlvirsh/mlvirsh.ml:541
-msgid "Destroy a network."
-msgstr "销毁网络"
-
-#: ../mlvirsh/mlvirsh.ml:430
-msgid "Detach device from domain."
-msgstr "从域中取消设备。"
-
-#: ../virt-ctrl/vc_mainwindow.ml:123
-msgid "Details"
-msgstr "详情"
-
-#: ../virt-top/virt_top.ml:175
+#: ../virt-top/virt_top.ml:177
 msgid "Disable CPU stats in CSV"
 msgstr "在 CSV 中禁用 XPU 统计"
 
-#: ../virt-top/virt_top.ml:177
+#: ../virt-top/virt_top.ml:179
 msgid "Disable block device stats in CSV"
 msgstr "在 CSV 中禁用块设备统计"
 
-#: ../virt-top/virt_top.ml:179
+#: ../virt-top/virt_top.ml:181
 msgid "Disable net stats in CSV"
 msgstr "在 CSV 中禁用网络统计"
 
-#: ../mlvirsh/mlvirsh.ml:493
-msgid "Display free memory for machine, NUMA cell or range of cells"
-msgstr "显示机器可用内存、NUMA 单元或者范围单元"
-
-#: ../mlvirsh/mlvirsh.ml:437
-msgid "Display the block device statistics for a domain."
-msgstr "显示域的块设备统计。"
-
-#: ../mlvirsh/mlvirsh.ml:444
-msgid "Display the network interface statistics for a domain."
-msgstr "显示域的网络接口统计。"
-
-#: ../virt-df/virt_df.ml:358
-msgid "Display version and exit"
-msgstr "显示版本并退出"
-
-#: ../virt-top/virt_top.ml:191
+#: ../virt-top/virt_top.ml:193
 msgid "Do not read init file"
 msgstr "不读取初始化文件"
 
-#: ../virt-top/virt_top.ml:66
+#: ../virt-top/virt_top.ml:68
 msgid "Domain ID"
 msgstr "域 ID"
 
-#: ../virt-top/virt_top.ml:67
+#: ../virt-top/virt_top.ml:69
 msgid "Domain name"
 msgstr "域名"
 
-#: ../virt-top/virt_top.ml:1610
+#: ../virt-top/virt_top.ml:1612
 msgid "Domains display"
 msgstr "域显示"
 
-#: ../virt-ctrl/vc_mainwindow.ml:61 ../virt-top/virt_top_main.ml:47 ../virt-top/virt_top.ml:1528
+#: ../virt-top/virt_top_main.ml:47 ../virt-top/virt_top.ml:1530
 msgid "Error"
 msgstr "错误"
 
-#: ../virt-top/virt_top.ml:185
+#: ../virt-top/virt_top.ml:187
 msgid "Exit at given time"
 msgstr "在指定时间退出"
 
-#: ../virt-ctrl/vc_mainwindow.ml:79
-msgid "File"
-msgstr "文件"
-
-#: ../virt-df/virt_df.ml:502
-msgid "Filesystem"
-msgstr "文件系统"
-
-#: ../mlvirsh/mlvirsh.ml:606
-msgid "Get the current scheduler parameters for a domain."
-msgstr "为域获得当前调度程序参数。"
-
-#: ../mlvirsh/mlvirsh.ml:623
-msgid "Get the scheduler type."
-msgstr "获得调度程序类型。"
-
-#: ../mlvirsh/mlvirsh.ml:635
-msgid "Gracefully shutdown a domain."
-msgstr "关闭域。"
-
-#: ../virt-ctrl/vc_mainwindow.ml:96 ../virt-ctrl/vc_mainwindow.ml:80 ../virt-top/virt_top.ml:1580
+#: ../virt-top/virt_top.ml:1582
 msgid "Help"
 msgstr "帮助"
 
-#: ../virt-top/virt_top.ml:187
+#: ../virt-top/virt_top.ml:189
 msgid "Historical CPU delay"
 msgstr "CPU 延迟历史记录"
 
-#: ../mlvirsh/mlvirsh.ml:35
-msgid "Hypervisor connection URI"
-msgstr "监控程序连接 URI"
-
-#: ../virt-ctrl/vc_connections.ml:405
-msgid "ID"
-msgstr "ID"
-
-#: ../virt-df/virt_df.ml:500
-msgid "IFree"
-msgstr "IFree"
-
-#: ../virt-df/virt_df.ml:500
-msgid "IUse"
-msgstr "IUse"
-
-#: ../virt-df/virt_df.ml:500
-msgid "Inodes"
-msgstr "Inodes"
-
-#: ../virt-df/virt_df_lvm2.ml:33
-msgid "LVM2 not supported yet"
-msgstr "还不支持 LVM2"
-
-#: ../virt-df/virt_df_ext2.ml:82
-msgid "Linux ext2/3"
-msgstr "Linux ext2/3"
-
-#: ../virt-df/virt_df_linux_swap.ml:33
-msgid "Linux swap"
-msgstr "Linux swap"
-
-#: ../mlvirsh/mlvirsh.ml:557
-msgid "List the active networks."
-msgstr "列出活跃网络。"
-
-#: ../mlvirsh/mlvirsh.ml:565
-msgid "List the defined but inactive networks."
-msgstr "列出定义但没有激活的网络。"
-
-#: ../mlvirsh/mlvirsh.ml:516
-msgid "List the defined but not running domains."
-msgstr "列出定义但没有运行的域。"
-
-#: ../mlvirsh/mlvirsh.ml:508
-msgid "List the running domains."
-msgstr "列出运行的域。"
-
-#: ../virt-ctrl/vc_mainwindow.ml:158
-msgid "Local QEMU/KVM"
-msgstr "本地 QEMU/KVM"
-
-#: ../virt-ctrl/vc_mainwindow.ml:157
-msgid "Local Xen"
-msgstr "本地 Xen"
-
-#: ../virt-ctrl/vc_connection_dlg.ml:93
-msgid "Local network"
-msgstr "本地网络"
-
-#: ../virt-top/virt_top.ml:173
+#: ../virt-top/virt_top.ml:175
 msgid "Log statistics to CSV file"
 msgstr "将统计记录到 CSV 文件中作为日志"
 
-#: ../virt-top/virt_top.ml:1563
+#: ../virt-top/virt_top.ml:1565
 msgid "MAIN KEYS"
 msgstr "主要密钥"
 
-#: ../virt-ctrl/vc_connections.ml:409
-msgid "Memory"
-msgstr "内存"
-
-#: ../virt-top/virt_top.ml:1617
+#: ../virt-top/virt_top.ml:1619
 msgid "More help in virt-top(1) man page. Press any key to return."
 msgstr "更多帮助请参考 virt-top(1) man page。按任意键返回。"
 
-#: ../virt-df/virt_df.ml:382 ../virt-top/virt_top.ml:258
+#: ../virt-top/virt_top.ml:260
 msgid "NB: If you want to monitor a local Xen hypervisor, you usually need to be root"
 msgstr "NB：如果您要监控本地 Xen 监控程序，您通常需要是根用户"
 
-#: ../virt-ctrl/vc_connections.ml:406
-msgid "Name"
-msgstr "名称"
-
-#: ../virt-top/virt_top.ml:68
+#: ../virt-top/virt_top.ml:70
 msgid "Net RX bytes"
 msgstr "纯 RX 字节"
 
-#: ../virt-top/virt_top.ml:69
+#: ../virt-top/virt_top.ml:71
 msgid "Net TX bytes"
 msgstr "纯 TX 字节"
 
-#: ../virt-top/virt_top.ml:1332
+#: ../virt-top/virt_top.ml:1334
 msgid "Not a valid number"
 msgstr "非有效数字"
 
-#: ../virt-top/virt_top.ml:193
+#: ../virt-top/virt_top.ml:195
 msgid "Number of iterations to run"
 msgstr "要运行的重复数"
 
-#: ../virt-ctrl/vc_connection_dlg.ml:170 ../virt-ctrl/vc_connection_dlg.ml:137
-msgid "Open"
-msgstr "打开"
-
-#: ../mlvirsh/mlvirsh.ml:418
-msgid "Open a new hypervisor connection."
-msgstr "打开新的监控程序连接。"
-
-#: ../virt-ctrl/vc_mainwindow.ml:86
-msgid "Open connection ..."
-msgstr "打开连接......"
-
-#: ../virt-ctrl/vc_connection_dlg.ml:40
-msgid "Open connection to hypervisor"
-msgstr "打开到监控程序的连接"
-
-#: ../virt-ctrl/vc_mainwindow.ml:130
-msgid "Pause"
-msgstr "暂停"
-
-#: ../mlvirsh/mlvirsh.ml:670 ../mlvirsh/mlvirsh.ml:666
-msgid "Pin domain VCPU to a list of physical CPUs."
-msgstr "在物理 CPU 列表中 pin 域 VCPU。"
-
-#: ../mlvirsh/mlvirsh.ml:706
-msgid "Print list of commands or full description of one command."
-msgstr "输出命令列表或者一个命令的完整说明。"
-
-#: ../mlvirsh/mlvirsh.ml:584
-msgid "Print node information."
-msgstr "输出节点信息。"
-
-#: ../virt-df/virt_df.ml:352 ../virt-df/virt_df.ml:350
-msgid "Print sizes in human-readable format"
-msgstr "以可读格式输出大小"
-
-#: ../mlvirsh/mlvirsh.ml:440
-msgid "Print the ID of a domain."
-msgstr "输出域 ID。"
-
-#: ../mlvirsh/mlvirsh.ml:464
-msgid "Print the OS type of a domain."
-msgstr "输出域的操作系统类型。"
-
-#: ../mlvirsh/mlvirsh.ml:472
-msgid "Print the UUID of a domain."
-msgstr "输出域的 UUID。"
-
-#: ../mlvirsh/mlvirsh.ml:581
-msgid "Print the UUID of a network."
-msgstr "输出网络的 UUID。"
-
-#: ../mlvirsh/mlvirsh.ml:480
-msgid "Print the XML description of a domain."
-msgstr "输出域的 XML 描述。"
-
-#: ../mlvirsh/mlvirsh.ml:545
-msgid "Print the XML description of a network."
-msgstr "输入网络的 XML 描述。"
-
-#: ../mlvirsh/mlvirsh.ml:530
-msgid "Print the bridge name of a network."
-msgstr "输出网络的桥接名称。"
-
-#: ../mlvirsh/mlvirsh.ml:653
-msgid "Print the canonical URI."
-msgstr "输出正规 URI。"
-
-#: ../mlvirsh/mlvirsh.ml:448
-msgid "Print the domain info."
-msgstr "输出域信息。"
-
-#: ../mlvirsh/mlvirsh.ml:468
-msgid "Print the domain state."
-msgstr "输出域状态。"
-
-#: ../mlvirsh/mlvirsh.ml:646
-msgid "Print the driver name"
-msgstr "输出驱动程序名称"
-
-#: ../mlvirsh/mlvirsh.ml:677
-msgid "Print the driver version"
-msgstr "输出驱动程序版本"
-
-#: ../mlvirsh/mlvirsh.ml:500
-msgid "Print the hostname."
-msgstr "输出主机名。"
-
-#: ../mlvirsh/mlvirsh.ml:522
-msgid "Print the max VCPUs available."
-msgstr "输出可用 VCPU 的最大值。"
-
-#: ../mlvirsh/mlvirsh.ml:456
-msgid "Print the max VCPUs of a domain."
-msgstr "输出域的最多 VCPU。"
-
-#: ../mlvirsh/mlvirsh.ml:452
-msgid "Print the max memory (in kilobytes) of a domain."
-msgstr "输出域的最大内存（以 kb 为单位）。"
-
-#: ../mlvirsh/mlvirsh.ml:460
-msgid "Print the name of a domain."
-msgstr "输出域名。"
-
-#: ../mlvirsh/mlvirsh.ml:569
-msgid "Print the name of a network."
-msgstr "输出网络名称。"
-
-#: ../mlvirsh/mlvirsh.ml:497
-msgid "Print whether a domain autostarts at boot."
-msgstr "输出在引导时域是否自动启动。"
-
-#: ../mlvirsh/mlvirsh.ml:549
-msgid "Print whether a network autostarts at boot."
-msgstr "输出在引导时网络是否自动启动。"
-
-#: ../virt-ctrl/vc_connection_dlg.ml:83
-msgid "QEMU or KVM"
-msgstr "QEMU 或者 KVM"
-
-#: ../virt-ctrl/vc_mainwindow.ml:89 ../virt-top/virt_top.ml:1578
+#: ../virt-top/virt_top.ml:1580
 msgid "Quit"
 msgstr "退出"
 
-#: ../mlvirsh/mlvirsh.ml:519
-msgid "Quit the interactive terminal."
-msgstr "退出互动的终端。"
-
-#: ../mlvirsh/mlvirsh.ml:36
-msgid "Read-only connection"
-msgstr "只读连接"
-
-#: ../mlvirsh/mlvirsh.ml:587
-msgid "Reboot a domain."
-msgstr "重启域。"
-
-#: ../virt-ctrl/vc_connection_dlg.ml:134
-msgid "Refresh"
-msgstr "刷新"
-
-#: ../mlvirsh/mlvirsh.ml:592
-msgid "Restore a domain from the named file."
-msgstr "从命名的文件中恢复域。"
-
-#: ../virt-ctrl/vc_mainwindow.ml:133
-msgid "Resume"
-msgstr "恢复"
-
-#: ../mlvirsh/mlvirsh.ml:595
-msgid "Resume a domain."
-msgstr "恢复域。"
-
-#: ../mlvirsh/mlvirsh.ml:406
-msgid "Returns capabilities of hypervisor/driver."
-msgstr "返回监控程序/驱动程序功能。"
-
-#: ../virt-top/virt_top.ml:199
+#: ../virt-top/virt_top.ml:201
 msgid "Run from a script (no user interface)"
 msgstr "从脚本运行（而不是用户界面）"
 
-#: ../virt-top/virt_top.ml:1584
+#: ../virt-top/virt_top.ml:1586
 msgid "SORTING"
 msgstr "排序"
 
-#: ../mlvirsh/mlvirsh.ml:599
-msgid "Save a domain to a file."
-msgstr "将域保存到文件中。"
-
-#: ../virt-top/virt_top.ml:197
+#: ../virt-top/virt_top.ml:199
 msgid "Secure (\\\"kiosk\\\") mode"
 msgstr "安全默认是（\\\"kiosk\\\"）"
 
-#: ../virt-top/virt_top.ml:1593
+#: ../virt-top/virt_top.ml:1595
 msgid "Select sort field"
 msgstr "选择排序字段"
 
-#: ../virt-top/virt_top.ml:183
+#: ../virt-top/virt_top.ml:185
 msgid "Send debug messages to file"
 msgstr "将 debug 信息发送到文件中"
 
-#: ../virt-top/virt_top.ml:189
+#: ../virt-top/virt_top.ml:191
 msgid "Set name of init file"
 msgstr "设定初始化文件名称"
 
-#: ../virt-top/virt_top.ml:195
+#: ../virt-top/virt_top.ml:197
 msgid "Set sort order (%s)"
 msgstr "设定排序顺序（%s）"
 
-#: ../virt-top/virt_top.ml:1340
+#: ../virt-top/virt_top.ml:1342
 msgid "Set sort order for main display"
 msgstr "为主显示设定排序顺序"
 
-#: ../mlvirsh/mlvirsh.ml:631
-msgid "Set the maximum memory used by the domain (in kilobytes)."
-msgstr "设定域使用的最大内存（以 kb 为单位）。"
-
-#: ../mlvirsh/mlvirsh.ml:627
-msgid "Set the memory used by the domain (in kilobytes)."
-msgstr "设定域使用的内存（以 kb 为单位）。"
-
-#: ../mlvirsh/mlvirsh.ml:674
-msgid "Set the number of virtual CPUs assigned to a domain."
-msgstr "设定为域分配的虚拟 CPU 数目。"
-
-#: ../mlvirsh/mlvirsh.ml:618
-msgid "Set the scheduler parameters for a domain."
-msgstr "为域设定调度程序参数。"
-
-#: ../virt-top/virt_top.ml:1579
+#: ../virt-top/virt_top.ml:1581
 msgid "Set update interval"
 msgstr "设定更新间隔"
 
-#: ../mlvirsh/mlvirsh.ml:403
-msgid "Set whether a domain autostarts at boot."
-msgstr "设定域是否在引导时自动启动。"
-
-#: ../mlvirsh/mlvirsh.ml:526
-msgid "Set whether a network autostarts at boot."
-msgstr "设定网络是否在引导时自动启动。"
-
-#: ../virt-df/virt_df.ml:344 ../virt-df/virt_df.ml:342
-msgid "Show all domains (default: only active domains)"
-msgstr "显示所有域（默认：只有活跃的域）"
-
-#: ../virt-df/virt_df.ml:356 ../virt-df/virt_df.ml:354
-msgid "Show inodes instead of blocks"
-msgstr "显示内节点而不是块"
-
-#: ../virt-ctrl/vc_mainwindow.ml:137
-msgid "Shutdown"
-msgstr "关闭"
-
-#: ../virt-df/virt_df.ml:499
-msgid "Size"
-msgstr "大小"
-
-#: ../virt-top/virt_top.ml:1589
+#: ../virt-top/virt_top.ml:1591
 msgid "Sort by %CPU"
 msgstr "根据 %CPU 排序"
 
-#: ../virt-top/virt_top.ml:1590
+#: ../virt-top/virt_top.ml:1592
 msgid "Sort by %MEM"
 msgstr "根据 %MEM 排序"
 
-#: ../virt-top/virt_top.ml:1592
+#: ../virt-top/virt_top.ml:1594
 msgid "Sort by ID"
 msgstr "根据 ID 排序"
 
-#: ../virt-top/virt_top.ml:1591
+#: ../virt-top/virt_top.ml:1593
 msgid "Sort by TIME"
 msgstr "根据时间排序"
 
-#: ../virt-ctrl/vc_mainwindow.ml:127
-msgid "Start"
-msgstr "启动"
-
-#: ../mlvirsh/mlvirsh.ml:639
-msgid "Start a previously defined inactive domain."
-msgstr "启动之前定义的不活跃域。"
-
-#: ../mlvirsh/mlvirsh.ml:573
-msgid "Start a previously defined inactive network."
-msgstr "启动之前定义的不活跃网络。"
-
-#: ../virt-top/virt_top.ml:165
+#: ../virt-top/virt_top.ml:167
 msgid "Start by displaying block devices"
 msgstr "用显示的块设备启动"
 
-#: ../virt-top/virt_top.ml:163
+#: ../virt-top/virt_top.ml:165
 msgid "Start by displaying network interfaces"
 msgstr "用显示的网络接口启动"
 
-#: ../virt-top/virt_top.ml:161
+#: ../virt-top/virt_top.ml:163
 msgid "Start by displaying pCPUs (default: tasks)"
 msgstr "用显示的 pCPU 启动（默认：任务）"
 
-#: ../virt-ctrl/vc_connections.ml:407
-msgid "Status"
-msgstr "状态"
-
-#: ../mlvirsh/mlvirsh.ml:643
-msgid "Suspend a domain."
-msgstr "挂起一个域。"
-
-#: ../mlvirsh/mlvirsh.ml:40
-msgid "Synopsis:\n  %s [options] [command]\n\nList of all commands:\n  %s help\n\nFull description of a single command:\n  %s help command\n\nOptions:"
-msgstr "Synopsis:\n  %s [options] [command]\n\nList of all commands:\n  %s help\n\nFull description of a single command:\n  %s help command\n\nOptions:"
-
-#: ../virt-top/virt_top.ml:65
+#: ../virt-top/virt_top.ml:67
 msgid "TIME (CPU time)"
 msgstr "时间（CPU 时间）"
 
-#: ../virt-ctrl/vc_connection_dlg.ml:62
-msgid "This machine"
-msgstr "这台机器"
-
-#: ../virt-top/virt_top.ml:1613
+#: ../virt-top/virt_top.ml:1615
 msgid "Toggle block devices"
 msgstr "触发块设备"
 
-#: ../virt-top/virt_top.ml:1612
+#: ../virt-top/virt_top.ml:1614
 msgid "Toggle network interfaces"
 msgstr "触发网络接口"
 
-#: ../virt-top/virt_top.ml:1611
+#: ../virt-top/virt_top.ml:1613
 msgid "Toggle physical CPUs"
 msgstr "触发物理 CPU"
 
-#: ../virt-df/virt_df.ml:502
-msgid "Type"
-msgstr "输入"
-
-#: ../virt-top/virt_top.ml:1341
+#: ../virt-top/virt_top.ml:1343
 msgid "Type key or use up and down cursor keys."
 msgstr "输入密钥或者使用上下箭头键。"
 
-#: ../virt-ctrl/vc_connection_dlg.ml:160
-msgid "URI connection"
-msgstr "URI 连接"
-
-#: ../mlvirsh/mlvirsh.ml:650
-msgid "Undefine an inactive domain."
-msgstr "取消对某个不活跃域的定义。"
-
-#: ../mlvirsh/mlvirsh.ml:577
-msgid "Undefine an inactive network."
-msgstr "取消对某个不活跃网络的定义。"
-
-#: ../virt-top/virt_top.ml:1622
+#: ../virt-top/virt_top.ml:1624
 msgid "Unknown command - try 'h' for help"
 msgstr "未知命令 - 试用 ‘h’获得帮助"
 
-#: ../virt-top/virt_top.ml:1577
+#: ../virt-top/virt_top.ml:1579
 msgid "Update display"
 msgstr "更新显示"
 
-#: ../mlvirsh/mlvirsh.ml:690
-msgid "Use '%s help command' for help on a command."
-msgstr "使用 '%s help command' 获得某个命令的帮助信息。"
-
-#: ../virt-df/virt_df.ml:499 ../virt-df/virt_df.ml:498
-msgid "Used"
-msgstr "使用的"
-
-#: ../virt-ctrl/vc_mainwindow.ml:23
-msgid "Virtual Control"
-msgstr "虚拟控制"
-
-#: ../virt-ctrl/vc_mainwindow.ml:53
-msgid "Virtualisation error"
-msgstr "虚拟化错误"
-
-#: ../virt-ctrl/vc_mainwindow.ml:39
-msgid "Virtualization control tool (virt-ctrl) by\nRichard W.M. Jones (rjones@redhat.com).\n\nCopyright %s 2007-2008 Red Hat Inc.\n\nLibvirt version: %s\n\nGtk toolkit version: %s"
-msgstr "虚拟化控制工具（virt-ctrl）\n作者：Richard W.M. Jones (rjones@redhat.com).\n\n版权 %s 2007-2008 Red Hat Inc.\n\nLibvirt 版本: %s\n\nGtk 工具套件版本: %s"
-
-#: ../virt-top/virt_top.ml:1523
+#: ../virt-top/virt_top.ml:1525
 msgid "Wrote settings to %s"
 msgstr "将设置写入 %s"
 
-#: ../virt-ctrl/vc_connection_dlg.ml:76
-msgid "Xen hypervisor"
-msgstr "Xen 监控程序"
-
-#: ../mlvirsh/mlvirsh.ml:364
-msgid "\\tCPU time: %Ld ns\\n"
-msgstr "\\tCPU 时间: %Ld ns\\n"
-
-#: ../mlvirsh/mlvirsh.ml:362
-msgid "\\tcurrent state: %s\\n"
-msgstr "\\tcurrent state: %s\\n"
-
-#: ../mlvirsh/mlvirsh.ml:361
-msgid "\\ton physical CPU: %d\\n"
-msgstr "\\ton 物理 CPU: %d\\n"
-
-#: ../mlvirsh/mlvirsh.ml:298 ../mlvirsh/mlvirsh.ml:289 ../virt-ctrl/vc_helpers.ml:54
-msgid "blocked"
-msgstr "阻断的"
-
-#: ../mlvirsh/mlvirsh.ml:330
-msgid "cores: %d\\n"
-msgstr "核：%d\\n"
-
-#: ../mlvirsh/mlvirsh.ml:342
-msgid "cpu_time: %Ld ns\\n"
-msgstr "cpu_time: %Ld ns\\n"
-
-#: ../mlvirsh/mlvirsh.ml:326
-msgid "cpus: %d\\n"
-msgstr "cpus: %d\\n"
-
-#: ../mlvirsh/mlvirsh.ml:293 ../virt-ctrl/vc_helpers.ml:58
-msgid "crashed"
-msgstr "崩溃的"
-
-#: ../virt-df/virt_df.ml:236
-msgid "detection of unpartitioned devices not yet supported"
-msgstr "还不支持对没有分区设备的侦测"
-
-#: ../mlvirsh/mlvirsh.ml:242
-msgid "domain %s: not found.  Additional info: %s"
-msgstr "域 %s：没有找到。附加信息：%s"
-
-#: ../virt-df/virt_df_ext2.ml:39
-msgid "error reading ext2/ext3 magic"
-msgstr "读取 ext2/ext3 magic 出错"
-
-#: ../virt-df/virt_df.ml:182
-msgid "error reading extended partition"
-msgstr "读取扩展分区出错"
-
-#: ../virt-df/virt_df.ml:149
-msgid "error reading partition table"
-msgstr "读取分区表出错"
-
-#: ../virt-ctrl/vc_dbus.ml:239
-msgid "error set after getting System bus"
-msgstr "获得系统总线后的错误集合"
-
-#: ../mlvirsh/mlvirsh.ml:379
-msgid "errors: %Ld\\n"
-msgstr "错误：%Ld\\n"
-
-#: ../mlvirsh/mlvirsh.ml:258
-msgid "expected field value pairs, but got an odd number of arguments"
-msgstr "希望获得字段数值对，但得到的是奇数个参数"
-
-#: ../mlvirsh/mlvirsh.ml:610
-msgid "expecting domain followed by field value pairs"
-msgstr "希望域后面是字段数值对"
-
-#: ../mlvirsh/mlvirsh.ml:220
-msgid "flag should be '%s'"
-msgstr "标签应该是 '%s'"
-
-#: ../virt-df/virt_df.ml:419 ../virt-top/virt_top_xml.ml:46
+#: ../virt-top/virt_top_xml.ml:46
 msgid "get_xml_desc didn't return <domain/>"
 msgstr "get_xml_desc 没有返回 <domain/>"
 
-#: ../virt-df/virt_df.ml:427
-msgid "get_xml_desc returned no <name> node in XML"
-msgstr "get_xml_desc 返回没有 <name> 节点的 XML"
-
-#: ../virt-df/virt_df.ml:430
-msgid "get_xml_desc returned strange <name> node"
-msgstr "get_xml_desc 返回奇怪的 <name> 节点"
-
-#: ../mlvirsh/mlvirsh.ml:700
-msgid "help: %s: command not found"
-msgstr "帮助：%s：命令没有找到"
-
-#: ../mlvirsh/mlvirsh.ml:188 ../mlvirsh/mlvirsh.ml:182 ../mlvirsh/mlvirsh.ml:177 ../mlvirsh/mlvirsh.ml:172 ../mlvirsh/mlvirsh.ml:168 ../mlvirsh/mlvirsh.ml:164 ../mlvirsh/mlvirsh.ml:160
-msgid "incorrect number of arguments for function"
-msgstr "功能的不正确参数数目"
-
-#: ../mlvirsh/mlvirsh.ml:339
-msgid "max_mem: %Ld K\\n"
-msgstr "max_mem: %Ld K\\n"
-
-#: ../mlvirsh/mlvirsh.ml:340 ../mlvirsh/mlvirsh.ml:325
-msgid "memory: %Ld K\\n"
-msgstr "memory: %Ld K\\n"
-
-#: ../mlvirsh/mlvirsh.ml:327
-msgid "mhz: %d\\n"
-msgstr "mhz: %d\\n"
-
-#: ../mlvirsh/mlvirsh.ml:727
-msgid "mlvirsh"
-msgstr "mlvirsh"
-
-#: ../mlvirsh/mlvirsh.ml:725
-msgid "mlvirsh(no connection)"
-msgstr "mlvirsh（无连接）"
-
-#: ../mlvirsh/mlvirsh.ml:726
-msgid "mlvirsh(ro)"
-msgstr "mlvirsh（ro）"
-
-#: ../mlvirsh/mlvirsh.ml:324
-msgid "model: %s\\n"
-msgstr "model: %s\\n"
-
-#: ../mlvirsh/mlvirsh.ml:253
-msgid "network %s: not found.  Additional info: %s"
-msgstr "网络 %s：没有找到。附加信息：%s"
-
-#: ../mlvirsh/mlvirsh.ml:328
-msgid "nodes: %d\\n"
-msgstr "节点：%d\\n"
-
-#: ../mlvirsh/mlvirsh.ml:202 ../mlvirsh/mlvirsh.ml:197
-msgid "not connected to the hypervisor"
-msgstr "没有连接到监控程序"
-
-#: ../mlvirsh/mlvirsh.ml:341
-msgid "nr_virt_cpu: %d\\n"
-msgstr "nr_virt_cpu: %d\\n"
-
-#: ../mlvirsh/mlvirsh.ml:296
-msgid "offline"
-msgstr "离线"
-
-#: ../virt-df/virt_df_ext2.ml:42
-msgid "partition marked EXT2/3 but no valid filesystem"
-msgstr "分区标记为 EXT2/3，但没有有效文件系统"
-
-#: ../mlvirsh/mlvirsh.ml:290 ../virt-ctrl/vc_helpers.ml:55
-msgid "paused"
-msgstr "暂停的"
-
-#: ../virt-df/virt_df.ml:188
-msgid "probe_extended_partition: internal error"
-msgstr "probe_extended_partition：内部错误"
-
-#: ../mlvirsh/mlvirsh.ml:376
-msgid "read bytes: %Ld\\n"
-msgstr "读取字节：%Ld\\n"
-
-#: ../mlvirsh/mlvirsh.ml:375
-msgid "read requests: %Ld\\n"
-msgstr "读取请求：%Ld\\n"
-
-#: ../mlvirsh/mlvirsh.ml:297 ../mlvirsh/mlvirsh.ml:288 ../virt-ctrl/vc_helpers.ml:53
-msgid "running"
-msgstr "运行中"
-
-#: ../mlvirsh/mlvirsh.ml:384
-msgid "rx bytes: %Ld\\n"
-msgstr "rx bytes: %Ld\\n"
-
-#: ../mlvirsh/mlvirsh.ml:387
-msgid "rx dropped: %Ld\\n"
-msgstr "rx dropped: %Ld\\n"
-
-#: ../mlvirsh/mlvirsh.ml:386
-msgid "rx errs: %Ld\\n"
-msgstr "rx errs: %Ld\\n"
-
-#: ../mlvirsh/mlvirsh.ml:385
-msgid "rx packets: %Ld\\n"
-msgstr "rx packets: %Ld\\n"
-
-#: ../mlvirsh/mlvirsh.ml:226
-msgid "setting should be '%s' or '%s'"
-msgstr "设置应该是 '%s' 或者 '%s'"
-
-#: ../mlvirsh/mlvirsh.ml:291 ../virt-ctrl/vc_helpers.ml:56
-msgid "shutdown"
-msgstr "关闭"
-
-#: ../mlvirsh/mlvirsh.ml:292 ../virt-ctrl/vc_helpers.ml:57
-msgid "shutoff"
-msgstr "停止"
-
-#: ../mlvirsh/mlvirsh.ml:329
-msgid "sockets: %d\\n"
-msgstr "套接字：%d\\n"
-
-#: ../mlvirsh/mlvirsh.ml:338
-msgid "state: %s\\n"
-msgstr "状态：%s\\n"
-
-#: ../mlvirsh/mlvirsh.ml:331
-msgid "threads: %d\\n"
-msgstr "线程：%d\\n"
-
-#: ../mlvirsh/mlvirsh.ml:198
-msgid "tried to do read-write operation on read-only hypervisor connection"
-msgstr "试图在只读监控程序连接中进行读-写操作"
-
-#: ../mlvirsh/mlvirsh.ml:388
-msgid "tx bytes: %Ld\\n"
-msgstr "tx bytes: %Ld\\n"
-
-#: ../mlvirsh/mlvirsh.ml:391
-msgid "tx dropped: %Ld\\n"
-msgstr "tx dropped: %Ld\\n"
-
-#: ../mlvirsh/mlvirsh.ml:390
-msgid "tx errs: %Ld\\n"
-msgstr "tx errs: %Ld\\n"
-
-#: ../mlvirsh/mlvirsh.ml:389
-msgid "tx packets: %Ld\\n"
-msgstr "tx packets: %Ld\\n"
-
-#: ../mlvirsh/mlvirsh.ml:287 ../virt-ctrl/vc_helpers.ml:52
-msgid "unknown"
-msgstr "未知"
-
-#: ../virt-df/virt_df.ml:246
-msgid "unsupported partition type %02x"
-msgstr "不支持的分区类型 %02x"
-
-#: ../virt-df/virt_df.ml:363
-msgid "virt-df : like 'df', shows disk space used in guests\n\nSUMMARY\n  virt-df [-options]\n\nOPTIONS"
-msgstr "virt-df：类似 'df'，显示客户端使用的磁盘空间\n\n小结\n  virt-df [-options]\n\nOPTIONS"
-
-#: ../virt-top/virt_top.ml:1543
+#: ../virt-top/virt_top.ml:1545
 msgid "virt-top %s (libvirt %d.%d.%d) by Red Hat"
 msgstr "红帽公司的 virt-top %s (libvirt %d.%d.%d)"
 
-#: ../virt-top/virt_top.ml:203
+#: ../virt-top/virt_top.ml:205
 msgid "virt-top : a 'top'-like utility for virtualization\n\nSUMMARY\n  virt-top [-options]\n\nOPTIONS"
 msgstr "virt-top：一个用于虚拟化的类似 'top' 的工具 \n\n小结\n  virt-top [-options]\n\nOPTIONS"
 
-#: ../virt-top/virt_top.ml:40
+#: ../virt-top/virt_top.ml:42
 msgid "virt-top was compiled without support for CSV files"
 msgstr "virt-top 是以不支持 CSV 文件的形式编译"
 
-#: ../virt-top/virt_top.ml:51
+#: ../virt-top/virt_top.ml:53
 msgid "virt-top was compiled without support for dates and times"
 msgstr "virt-top 是以不支持日期和时间的形式编译"
-
-#: ../mlvirsh/mlvirsh.ml:360
-msgid "virtual CPU: %d\\n"
-msgstr "虚拟 CPU：%d\\n"
-
-#: ../virt-ctrl/vc_dbus.ml:219
-msgid "warning: ignored unknown message %s from %s\\n%!"
-msgstr "警告：忽略来自 %s 的未知信息 %s\\n%!"
-
-#: ../virt-ctrl/vc_dbus.ml:124
-msgid "warning: unexpected message contents of Found signal"
-msgstr "警告：Found 信号的意外信息内容"
-
-#: ../virt-ctrl/vc_dbus.ml:188
-msgid "warning: unexpected message contents of ItemNew signal"
-msgstr "警告：ItemNew 信号的意外信息内容"
-
-#: ../virt-ctrl/vc_dbus.ml:140
-msgid "warning: unexpected message contents of ItemRemove signal"
-msgstr "警告：ItemRemove 信号的意外信息内容"
-
-#: ../mlvirsh/mlvirsh.ml:378
-msgid "write bytes: %Ld\\n"
-msgstr "写入字节：%Ld\\n"
-
-#: ../mlvirsh/mlvirsh.ml:377
-msgid "write requests: %Ld\\n"
-msgstr "写入请求：%Ld\\n"
 
