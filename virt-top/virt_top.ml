@@ -157,6 +157,10 @@ let start_up () =
   and no_init_file () = init_file := NoInitFile
   and set_init_file filename = init_file := InitFile filename
   and set_end_time time = end_time := Some ((!parse_date_time) time)
+  and display_version () =
+    printf "virt-top %s ocaml-libvirt %s\n"
+      Virt_top_version.version Libvirt_version.version;
+    exit 0
   in
   let argspec = Arg.align [
     "-1", Arg.Unit set_pcpu_mode,
@@ -199,6 +203,8 @@ let start_up () =
       " " ^ s_ "Secure (\"kiosk\") mode";
     "--script", Arg.Set script_mode,
       " " ^ s_ "Run from a script (no user interface)";
+    "--version", Arg.Unit display_version,
+      " " ^ s_ "Display version number and exit";
   ] in
   let anon_fun str =
     raise (Arg.Bad (sprintf (f_ "%s: unknown parameter") str)) in
