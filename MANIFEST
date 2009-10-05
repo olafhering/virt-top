@@ -45,6 +45,7 @@ virt-top/virt_top_csv.ml
 virt-top/virt_top_main.ml
 virt-top/virt_top_utils.ml
 virt-top/virt_top_utils.mli
+virt-top/virt_top_version.ml.in
 virt-top/virt_top_xml.ml
 wininstaller.nsis.in
 winlicense.rtf
