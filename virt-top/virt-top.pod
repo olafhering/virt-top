@@ -196,6 +196,10 @@ for details).
 
 Display usage summary.
 
+=item B<--version>
+
+Display version number and exit.
+
 =back
 
 =head1 KEYS
@@ -425,9 +429,12 @@ should submit with your bug report.
 
 =item 3. Get version of virt-top and version of libvirt.
 
-In virt-top, press the I<h> (help) key, and write down the version of
-virt-top and the version of libvirt.  They are shown in the first
-line.
+Use:
+
+ virt-top --version
+
+If you can get the precise version of libvirt you are using
+then that too is helpful.
 
 =item 4. Submit a bug report.
 

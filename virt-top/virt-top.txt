@@ -152,6 +152,9 @@ OPTIONS
     --help
         Display usage summary.
 
+    --version
+        Display version number and exit.
+
 KEYS
     Note that keys are case sensitive. For example use upper-case *P* (shift
     P) to sort by %CPU. *^* before a key means a Ctrl key, so *^L* is Ctrl
@@ -310,9 +313,12 @@ REPORTING BUGS
         submit with your bug report.
 
     3. Get version of virt-top and version of libvirt.
-        In virt-top, press the *h* (help) key, and write down the version of
-        virt-top and the version of libvirt. They are shown in the first
-        line.
+        Use:
+
+         virt-top --version
+
+        If you can get the precise version of libvirt you are using then
+        that too is helpful.
 
     4. Submit a bug report.
         Go to <https://bugzilla.redhat.com/> and enter a new bug. Please
