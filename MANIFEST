@@ -30,7 +30,7 @@ po/ru.po
 po/virt-top.pot
 po/zh_CN.po
 README
-TODO.virt-top
+TODO
 virt-top/.depend
 virt-top/Makefile.in
 virt-top/README
