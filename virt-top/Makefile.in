@@ -83,7 +83,7 @@ virt-top: $(OBJS)
 virt-top.opt: $(XOBJS)
 	ocamlfind ocamlopt \
 	  $(OCAMLOPTPACKAGES) $(OCAMLOPTFLAGS) $(OCAMLOPTLIBS) \
-	  -cclib -lncurses -o $@ $^
+	  -o $@ $^
 
 # Manual page.
 ifeq ($(HAVE_PERLDOC),perldoc)
