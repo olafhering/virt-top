@@ -218,6 +218,7 @@ AC_CONFIG_FILES([Makefile
 	Make.rules
 	po/Makefile
 	virt-top/Makefile
+	virt-top/virt_top_version.ml
 	])
 if test "x$MAKENSIS" != "x"; then
 	AC_CONFIG_FILES([wininstaller.nsis])

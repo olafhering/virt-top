@@ -1,5 +1,9 @@
 2009-10-05  Richard Jones  <rjones@trick.home.annexia.org>
 
+	Version 1.0.4 for release.
+
+	Fix changelog and manifest files.
+
 	gitlog-to-changelog: If the date field is empty, don't barf.
 
 	Added Jim Meyering's gitlog-to-changelog program.

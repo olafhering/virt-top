@@ -38,6 +38,7 @@ mlvirsh/mlvirsh_gettext.ml
 virt-ctrl/virt_ctrl_gettext.ml
 virt-df/virt_df_gettext.ml
 virt-top/virt_top_gettext.ml
+virt-top/virt_top_version.ml
 po/*.mo
 po/*.po.bak
 virt-df/virt_df_lvm2_lexer.ml

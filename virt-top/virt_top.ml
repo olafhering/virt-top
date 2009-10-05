@@ -1545,8 +1545,10 @@ and show_help (_, _, _, _, _, hostname,
 
   (* Banner at the top of the screen. *)
   let banner =
-    sprintf (f_ "virt-top %s (libvirt %d.%d.%d) by Red Hat")
-      Libvirt_version.version libvirt_major libvirt_minor libvirt_release in
+    sprintf (f_ "virt-top %s ocaml-libvirt %s libvirt %d.%d.%d by Red Hat")
+      Virt_top_version.version
+      Libvirt_version.version
+      libvirt_major libvirt_minor libvirt_release in
   let banner = pad cols banner in
   attron A.reverse;
   mvaddstr 0 0 banner;

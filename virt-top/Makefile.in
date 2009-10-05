@@ -38,7 +38,11 @@ ifeq ($(pkg_gettext),yes)
 OCAMLCPACKAGES  += -package gettext-stub
 endif
 
-OBJS		:= virt_top_gettext.cmo virt_top_utils.cmo virt_top.cmo
+OBJS		:= \
+		   virt_top_version.cmo \
+		   virt_top_gettext.cmo \
+		   virt_top_utils.cmo \
+		   virt_top.cmo
 ifeq ($(pkg_xml_light),yes)
 OBJS		+= virt_top_xml.cmo
 OCAMLCPACKAGES	+= -package xml-light
