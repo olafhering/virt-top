@@ -22,6 +22,8 @@ OCAML_GETTEXT_PACKAGE = virt-top
 LINGUAS		= $(shell cat LINGUAS)
 SOURCES		= POTFILES
 
+MSGFMT		= @MSGFMT@
+
 OCAML_GETTEXT	= @OCAML_GETTEXT@
 OCAML_GETTEXT_EXTRACT_OPTIONS =
 OCAML_GETTEXT_COMPILE_OPTIONS =
@@ -43,8 +45,7 @@ uninstall: uninstall-po
 clean:: clean-po
 
 %.mo: %.po
-	$(OCAML_GETTEXT) --action compile $(OCAML_GETTEXT_COMPILE_OPTIONS) \
-	--compile-output $@ $^
+	$(MSGFMT) -o $@ $^
 
 %.pot: $(SOURCES) $(shell cat $(SOURCES))
 	$(OCAML_GETTEXT) --action extract $(OCAML_GETTEXT_EXTRACT_OPTIONS) \
