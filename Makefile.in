@@ -69,14 +69,14 @@ dist: ChangeLog
 	ls -l $(PACKAGE)-$(VERSION).tar.gz
 
 check-manifest:
-	hg manifest | sort > .check-manifest; \
+	git ls-files | sort > .check-manifest; \
 	sort MANIFEST > .orig-manifest; \
 	diff -u .orig-manifest .check-manifest; rv=$$?; \
 	rm -f .orig-manifest .check-manifest; \
 	exit $$rv
 
-ChangeLog:
-	hg log --style changelog > $@.new
+ChangeLog: $(shell find -type f)
+	./gitlog-to-changelog > $@.new
 	mv $@.new $@
 
 .PHONY: all opt depend install clean distclean force
