@@ -1,5 +1,4 @@
-# translation of ja.po to Japanese
-# Kiyoto Hashida <khashida@redhat.com>, 2008, 2009.
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: ja\n"
