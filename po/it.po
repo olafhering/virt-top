@@ -3,18 +3,19 @@ msgid ""
 msgstr ""
 "Project-Id-Version: virt-top.tip\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-28 17:30+0000\n"
-"PO-Revision-Date: 2008-10-25 16:11+0200\n"
-"Last-Translator:  <perplesso82@gmail.com>\n"
+"POT-Creation-Date: 2008-11-03 12:11+0000\n"
+"PO-Revision-Date: 2009-09-15 14:34+1000\n"
+"Last-Translator: \n"
 "Language-Team:  <it@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: KBabel 1.11.4\n"
 
 #: ../virt-top/virt_top.ml:1492
 msgid "# %s virt-top configuration file\\n"
-msgstr ""
+msgstr "# file di configurazione virt-top %s\\n"
 
 #: ../virt-top/virt_top.ml:1510
 msgid "# Enable CSV output to the named file\\n"
@@ -22,11 +23,15 @@ msgstr "# Abilita l'output CSV al file indicato\\n"
 
 #: ../virt-top/virt_top.ml:1513
 msgid "# To protect this file from being overwritten, uncomment next line\\n"
-msgstr "# Per proteggere questo file e non sovrascriverlo decommentare la riga successiva\\n"
+msgstr ""
+"# Per proteggere questo file e non sovrascriverlo decommentare la riga "
+"successiva\\n"
 
 #: ../virt-top/virt_top.ml:1507
 msgid "# To send debug and error messages to a file, uncomment next line\\n"
-msgstr "# Per inviare i messaggi d'errore e di debug ad un file decommentare la riga successiva\\n"
+msgstr ""
+"# Per inviare i messaggi d'errore e di debug ad un file decommentare la riga "
+"successiva\\n"
 
 #: ../virt-top/virt_top.ml:1493
 msgid "# generated on %s by %s\\n"
@@ -41,8 +46,12 @@ msgid "%MEM"
 msgstr "%MEM"
 
 #: ../virt-top/virt_top.ml:1146
-msgid "%d domains, %d active, %d running, %d sleeping, %d paused, %d inactive D:%d O:%d X:%d"
-msgstr "%d domini, %d attivi, %d in esecuzione, %d sospesi, %d in pausa, %d inattivo D:%d O:%d X:%d"
+msgid ""
+"%d domains, %d active, %d running, %d sleeping, %d paused, %d inactive D:%d "
+"O:%d X:%d"
+msgstr ""
+"%d domini, %d attivi, %d in esecuzione, %d sospesi, %d in pausa, %d inattivo "
+"D:%d O:%d X:%d"
 
 #: ../virt-top/virt_top.ml:107
 msgid "%s: display should be %s"
@@ -162,11 +171,17 @@ msgstr "TASTI PRINCIPALI"
 
 #: ../virt-top/virt_top.ml:1619
 msgid "More help in virt-top(1) man page. Press any key to return."
-msgstr "Maggiori informazioni nella pagina man di virt-top(1). Premere qualsiasi tasto per ritornare allo stato precedente."
+msgstr ""
+"Maggiori informazioni nella pagina man di virt-top(1). Premere qualsiasi "
+"tasto per ritornare allo stato precedente."
 
 #: ../virt-top/virt_top.ml:260
-msgid "NB: If you want to monitor a local Xen hypervisor, you usually need to be root"
-msgstr "NB: Se si desidera monitorare un hypervisor di Xen locale, generalmente sarà necessario eseguire il riavvio"
+msgid ""
+"NB: If you want to monitor a local Xen hypervisor, you usually need to be "
+"root"
+msgstr ""
+"NB: Se si desidera monitorare un hypervisor di Xen locale, generalmente sarà "
+"necessario eseguire il riavvio"
 
 #: ../virt-top/virt_top.ml:70
 msgid "Net RX bytes"
@@ -293,8 +308,20 @@ msgid "virt-top %s (libvirt %d.%d.%d) by Red Hat"
 msgstr "virt-top %s (libvirt %d.%d.%d) di Red Hat"
 
 #: ../virt-top/virt_top.ml:205
-msgid "virt-top : a 'top'-like utility for virtualization\n\nSUMMARY\n  virt-top [-options]\n\nOPTIONS"
-msgstr "virt-top : simile a 'top' è una utilità per la virtualizzazione\n\nSOMMARIO\n  virt-top [-options]\n\nOPZIONI"
+msgid ""
+"virt-top : a 'top'-like utility for virtualization\n"
+"\n"
+"SUMMARY\n"
+"  virt-top [-options]\n"
+"\n"
+"OPTIONS"
+msgstr ""
+"virt-top : simile a 'top' è una utilità per la virtualizzazione\n"
+"\n"
+"SOMMARIO\n"
+"  virt-top [-options]\n"
+"\n"
+"OPZIONI"
 
 #: ../virt-top/virt_top.ml:42
 msgid "virt-top was compiled without support for CSV files"

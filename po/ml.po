@@ -2,11 +2,11 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: virt-top.tip.ml\n"
-"Report-Msgid-Bugs-To: https://bugzilla.redhat.com/bugzilla\n"
-"POT-Creation-Date: 2008-10-17 01:28+0000\n"
-"PO-Revision-Date: 2008-10-27 12:26+0530\n"
-"Last-Translator: \n"
-"Language-Team:  <en@li.org>\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2008-11-03 12:11+0000\n"
+"PO-Revision-Date: 2009-09-21 21:13+0530\n"
+"Last-Translator: Ani Peter <apeter@redhat.com>\n"
+"Language-Team:  Swathantra Malayalam Computing|സ്വതന്ത്ര മലയാളം കമ്പ്യൂട്ടിങ് <smc-discuss@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -15,7 +15,7 @@ msgstr ""
 
 #: ../virt-top/virt_top.ml:1492
 msgid "# %s virt-top configuration file\\n"
-msgstr ""
+msgstr "# %s virt-top ക്രമീകരണ ഫയല്‍\\n"
 
 #: ../virt-top/virt_top.ml:1510
 msgid "# Enable CSV output to the named file\\n"
@@ -23,11 +23,15 @@ msgstr "# പറഞ്ഞിരിക്കുന്ന ഫയലിലേക്
 
 #: ../virt-top/virt_top.ml:1513
 msgid "# To protect this file from being overwritten, uncomment next line\\n"
-msgstr "# ഈ ഫയലിന്റെ മുകളിലേക്ക് എഴുതാതിരിക്കാതെ സൂക്ഷിക്കാന്‍, അടുത്ത വരി അണ്‍കമെന്റ് ചെയ്യുക (കമെന്റ് മാറ്റുക) \\n"
+msgstr ""
+"# ഈ ഫയലിന്റെ മുകളിലേക്ക് എഴുതാതിരിക്കാതെ സൂക്ഷിക്കാന്‍, അടുത്ത വരി അണ്‍കമെന്റ് ചെയ്യുക (കമെന്റ് "
+"മാറ്റുക) \\n"
 
 #: ../virt-top/virt_top.ml:1507
 msgid "# To send debug and error messages to a file, uncomment next line\\n"
-msgstr "# പിശകു്‌, ഡീബഗ് സന്ദേശങ്ങള്‍ ഒരു ഫയലിലേക്ക് അയക്കുവാന്‍, അടുത്ത വരി അണ്‍കമെന്റ് ചെയ്യുക (കമെന്റ് മാറ്റുക) \\n"
+msgstr ""
+"# പിശകു്‌, ഡീബഗ് സന്ദേശങ്ങള്‍ ഒരു ഫയലിലേക്ക് അയക്കുവാന്‍, അടുത്ത വരി അണ്‍കമെന്റ് ചെയ്യുക (കമെന്റ് "
+"മാറ്റുക) \\n"
 
 #: ../virt-top/virt_top.ml:1493
 msgid "# generated on %s by %s\\n"
@@ -42,8 +46,12 @@ msgid "%MEM"
 msgstr "%MEM"
 
 #: ../virt-top/virt_top.ml:1146
-msgid "%d domains, %d active, %d running, %d sleeping, %d paused, %d inactive D:%d O:%d X:%d"
-msgstr "%d ഡൊമേനുകള്‍, %d സജീവം, %d പ്രവര്‍ത്തിക്കുന്നു, %d ഉറങ്ങുന്നു, %d താല്‍കാലികമായി നിര്‍ത്തിയിരിക്കുന്നു, %d നിര്‍ജ്ജീവം  D:%d O:%d X:%d"
+msgid ""
+"%d domains, %d active, %d running, %d sleeping, %d paused, %d inactive D:%d "
+"O:%d X:%d"
+msgstr ""
+"%d ഡൊമേനുകള്‍, %d സജീവം, %d പ്രവര്‍ത്തിക്കുന്നു, %d ഉറങ്ങുന്നു, %d താല്‍കാലികമായി "
+"നിര്‍ത്തിയിരിക്കുന്നു, %d നിര്‍ജ്ജീവം  D:%d O:%d X:%d"
 
 #: ../virt-top/virt_top.ml:107
 msgid "%s: display should be %s"
@@ -58,12 +66,8 @@ msgid "%s: unknown parameter"
 msgstr "%s: അറിയാത്ത ചരം (പാരാമീറ്റര്‍)"
 
 #: ../virt-top/virt_top.ml:235
-msgid ""
-"%s:%d: configuration item ``%s'' ignored\\n"
-"%!"
-msgstr ""
-"%s:%d: ക്രമീകരണ ഇനം ``%s'' അവഗണിച്ചു\\n"
-"%!"
+msgid "%s:%d: configuration item ``%s'' ignored\\n%!"
+msgstr "%s:%d: ക്രമീകരണ ഇനം ``%s'' അവഗണിച്ചു\\n%!"
 
 #: ../virt-top/virt_top.ml:147
 msgid "-d: cannot set a negative delay"
@@ -170,7 +174,9 @@ msgid "More help in virt-top(1) man page. Press any key to return."
 msgstr "virt-top(1) man താളില്‍ കൂടുതല്‍ സഹായം. തിരികെ പോകുന്നതിനായി ഏതെങ്കിലും കീ അമര്‍ത്തുക."
 
 #: ../virt-top/virt_top.ml:260
-msgid "NB: If you want to monitor a local Xen hypervisor, you usually need to be root"
+msgid ""
+"NB: If you want to monitor a local Xen hypervisor, you usually need to be "
+"root"
 msgstr "കുറിപ്പു്: ഒരു ലോക്കല്‍ ക്സെന്‍ ഹൈപ്പര്‍വൈസര്‍ നിരീക്ഷിക്കുന്നതിനു്, ഒരു റൂട്ടായി പാടുള്ളൂ."
 
 #: ../virt-top/virt_top.ml:70

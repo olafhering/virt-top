@@ -3,19 +3,19 @@ msgid ""
 msgstr ""
 "Project-Id-Version: virt-top.tip\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-28 17:30+0000\n"
-"PO-Revision-Date: 2008-10-21 13:11+0530\n"
+"POT-Creation-Date: 2008-11-03 12:11+0000\n"
+"PO-Revision-Date: 2009-04-03 16:01+0530\n"
 "Last-Translator: Amitakhya Phukan <aphukan@fedoraproject.org>\n"
-"Language-Team: Assamese\n"
+"Language-Team: Assamese <fedora-trans-as@redhat.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n!=1)\n"
-"X-Generator: KBabel 1.11.4\n"
+"X-Generator: Lokalize 0.3\n"
 
 #: ../virt-top/virt_top.ml:1492
 msgid "# %s virt-top configuration file\\n"
-msgstr ""
+msgstr "# %s virt-top বিন্যাস নথিপত্ৰ\\n"
 
 #: ../virt-top/virt_top.ml:1510
 msgid "# Enable CSV output to the named file\\n"
@@ -23,11 +23,15 @@ msgstr "# উল্লেখিত নথিপত্ৰত CSV নিৰ্গ�
 
 #: ../virt-top/virt_top.ml:1513
 msgid "# To protect this file from being overwritten, uncomment next line\\n"
-msgstr "# এই নথিপত্ৰৰ বিষয়বস্তুৰ ওপৰত পুনঃ নিলিখিবলৈ, পৰবৰ্তী পংক্তিৰ পৰা মন্তব্যৰ চিহ্ন আঁতৰাওক\\n"
+msgstr ""
+"# এই নথিপত্ৰৰ বিষয়বস্তুৰ ওপৰত পুনঃ নিলিখিবলৈ, পৰবৰ্তী পংক্তিৰ পৰা মন্তব্যৰ চিহ্ন "
+"আঁতৰাওক\\n"
 
 #: ../virt-top/virt_top.ml:1507
 msgid "# To send debug and error messages to a file, uncomment next line\\n"
-msgstr "# ডিবাগ আৰু ত্ৰুটি বাৰ্তা নথিপত্ৰত লিখাৰ বাবে পৰবৰ্তী পংক্তিৰ পৰা মন্তব্যৰ চিহ্ন আঁতৰাওক\\n"
+msgstr ""
+"# ডিবাগ আৰু ত্ৰুটি বাৰ্তা নথিপত্ৰত লিখাৰ বাবে পৰবৰ্তী পংক্তিৰ পৰা মন্তব্যৰ চিহ্ন আঁতৰাওক"
+"\\n"
 
 #: ../virt-top/virt_top.ml:1493
 msgid "# generated on %s by %s\\n"
@@ -42,8 +46,11 @@ msgid "%MEM"
 msgstr "%MEM"
 
 #: ../virt-top/virt_top.ml:1146
-msgid "%d domains, %d active, %d running, %d sleeping, %d paused, %d inactive D:%d O:%d X:%d"
-msgstr "%d ডোমেইন, %d সক্ৰিয়, %d চলমান, %d নিদ্ৰিত, %d স্থগিত, %d নিষ্ক্ৰিয় D:%d O:%d X:%d"
+msgid ""
+"%d domains, %d active, %d running, %d sleeping, %d paused, %d inactive D:%d "
+"O:%d X:%d"
+msgstr ""
+"%d ডোমেইন, %d সক্ৰিয়, %d চলমান, %d নিদ্ৰিত, %d স্থগিত, %d নিষ্ক্ৰিয় D:%d O:%d X:%d"
 
 #: ../virt-top/virt_top.ml:107
 msgid "%s: display should be %s"
@@ -163,11 +170,17 @@ msgstr "MAIN KEYS"
 
 #: ../virt-top/virt_top.ml:1619
 msgid "More help in virt-top(1) man page. Press any key to return."
-msgstr "virt-top(1) man পৃষ্ঠাত অতিৰিক্ত সহায়ক তথ্য উপস্থিত আছে । প্ৰত্যাবৰ্তন কৰাৰ বাবে যি কোনো চাবি টিপক ।"
+msgstr ""
+"virt-top(1) man পৃষ্ঠাত অতিৰিক্ত সহায়ক তথ্য উপস্থিত আছে । প্ৰত্যাবৰ্তন কৰাৰ বাবে যি "
+"কোনো চাবি টিপক ।"
 
 #: ../virt-top/virt_top.ml:260
-msgid "NB: If you want to monitor a local Xen hypervisor, you usually need to be root"
-msgstr "উল্লেখ্য: স্থানীয় Xen হাইপাৰভাইছৰ নিৰীক্ষণৰ বাবে root ব্যৱহাৰকৰোঁতাৰ পৰিচয় ধাৰণ কৰা আৱশ্যক"
+msgid ""
+"NB: If you want to monitor a local Xen hypervisor, you usually need to be "
+"root"
+msgstr ""
+"উল্লেখ্য: স্থানীয় Xen হাইপাৰভাইছৰ নিৰীক্ষণৰ বাবে root ব্যৱহাৰকৰোঁতাৰ পৰিচয় ধাৰণ "
+"কৰা আৱশ্যক"
 
 #: ../virt-top/virt_top.ml:70
 msgid "Net RX bytes"
@@ -294,8 +307,20 @@ msgid "virt-top %s (libvirt %d.%d.%d) by Red Hat"
 msgstr "Red Hat দ্বাৰা উপলব্ধ virt-top %s (libvirt %d.%d.%d)"
 
 #: ../virt-top/virt_top.ml:205
-msgid "virt-top : a 'top'-like utility for virtualization\n\nSUMMARY\n  virt-top [-options]\n\nOPTIONS"
-msgstr "virt-top : ভাৰ্চুৱেলাইজ কৰাৰ পৰিবেশৰ বাবে 'top' আদেশৰ অনুৰূপ বৈশিষ্ট্য\n\nSUMMARY\n  virt-top [-options]\n\nOPTIONS"
+msgid ""
+"virt-top : a 'top'-like utility for virtualization\n"
+"\n"
+"SUMMARY\n"
+"  virt-top [-options]\n"
+"\n"
+"OPTIONS"
+msgstr ""
+"virt-top : ভাৰ্চুৱেলাইজ কৰাৰ পৰিবেশৰ বাবে 'top' আদেশৰ অনুৰূপ বৈশিষ্ট্য\n"
+"\n"
+"SUMMARY\n"
+"  virt-top [-options]\n"
+"\n"
+"OPTIONS"
 
 #: ../virt-top/virt_top.ml:42
 msgid "virt-top was compiled without support for CSV files"

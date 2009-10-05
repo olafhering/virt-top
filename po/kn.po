@@ -1,10 +1,10 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: virt-top.tip\n"
+"Project-Id-Version: virt-top.tip.kn\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-28 17:30+0000\n"
-"PO-Revision-Date: 2008-10-16 14:03+0530\n"
+"POT-Creation-Date: 2008-11-03 12:11+0000\n"
+"PO-Revision-Date: 2009-09-08 17:08+0530\n"
 "Last-Translator: Shankar Prasad <svenkate@redhat.com>\n"
 "Language-Team: Kannada <en@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -15,7 +15,7 @@ msgstr ""
 
 #: ../virt-top/virt_top.ml:1492
 msgid "# %s virt-top configuration file\\n"
-msgstr ""
+msgstr "# %s virt-top ಸಂರಚನಾ ಕಡತ\\n"
 
 #: ../virt-top/virt_top.ml:1510
 msgid "# Enable CSV output to the named file\\n"
@@ -23,11 +23,15 @@ msgstr "# CSV ಔಟ್‌ಪುಟ್ ಅನ್ನು ಹೆಸರಿಸಲಾ�
 
 #: ../virt-top/virt_top.ml:1513
 msgid "# To protect this file from being overwritten, uncomment next line\\n"
-msgstr "# ಈ ಕಡತವನ್ನು ತಿದ್ದಿ ಬರೆಯುವುದನ್ನು ತಪ್ಪಿಸಲು, ಮುಂದಿನ ಸಾಲಿನಲ್ಲಿರುವ # ಅನ್ನು ತೆಗೆದು ಹಾಕಿ\\n"
+msgstr ""
+"# ಈ ಕಡತವನ್ನು ತಿದ್ದಿ ಬರೆಯುವುದನ್ನು ತಪ್ಪಿಸಲು, ಮುಂದಿನ ಸಾಲಿನಲ್ಲಿರುವ # ಅನ್ನು ತೆಗೆದು ಹಾಕಿ"
+"\\n"
 
 #: ../virt-top/virt_top.ml:1507
 msgid "# To send debug and error messages to a file, uncomment next line\\n"
-msgstr "# ದೋಷ ನಿವಾರಣಾ ಹಾಗು ದೋಷ ಸಂದೇಶಗಳನ್ನು ಒಂದು ಕಡತಕ್ಕೆ ಕಳುಹಿಸಲು, ಮುಂದಿನ ಸಾಲಿನಲ್ಲಿರುವ # ಅನ್ನು ತೆಗೆದು ಹಾಕಿ\\n"
+msgstr ""
+"# ದೋಷ ನಿವಾರಣಾ ಹಾಗು ದೋಷ ಸಂದೇಶಗಳನ್ನು ಒಂದು ಕಡತಕ್ಕೆ ಕಳುಹಿಸಲು, ಮುಂದಿನ ಸಾಲಿನಲ್ಲಿರುವ # "
+"ಅನ್ನು ತೆಗೆದು ಹಾಕಿ\\n"
 
 #: ../virt-top/virt_top.ml:1493
 msgid "# generated on %s by %s\\n"
@@ -42,8 +46,12 @@ msgid "%MEM"
 msgstr "%MEM"
 
 #: ../virt-top/virt_top.ml:1146
-msgid "%d domains, %d active, %d running, %d sleeping, %d paused, %d inactive D:%d O:%d X:%d"
-msgstr "%d ಡೊಮೈನ್‌ಗಳು, %d ಸಕ್ರಿಯ, %d ಚಾಲಿತ, %d ಜಡ, %d ವಿರಮಿಸಿದ, %d ನಿಷ್ಕ್ರಿಯ D:%d O:%d X:%d"
+msgid ""
+"%d domains, %d active, %d running, %d sleeping, %d paused, %d inactive D:%d "
+"O:%d X:%d"
+msgstr ""
+"%d ಡೊಮೈನ್‌ಗಳು, %d ಸಕ್ರಿಯ, %d ಚಾಲಿತ, %d ಜಡ, %d ವಿರಮಿಸಿದ, %d ನಿಷ್ಕ್ರಿಯ D:%d O:%d X:%"
+"d"
 
 #: ../virt-top/virt_top.ml:107
 msgid "%s: display should be %s"
@@ -166,8 +174,12 @@ msgid "More help in virt-top(1) man page. Press any key to return."
 msgstr "ಹೆಚ್ಚಿನ ನೆರವು virt-top(1) man ಪುಟದಲ್ಲಿ ಲಭ್ಯವಿದೆ. ಮರಳಲು ಯಾವುದೆ ಕೀಲಿಯನ್ನು ಒತ್ತಿ."
 
 #: ../virt-top/virt_top.ml:260
-msgid "NB: If you want to monitor a local Xen hypervisor, you usually need to be root"
-msgstr "NB: ನೀವು ಒಂದು ಸ್ಥಳೀಯ Xen ಹೈಪರ್ವೈಸರ್ ಅನ್ನು ನೋಡಿಕೊಳ್ಳಬೇಕೆಂದರೆ, ನೀವು ಗಣಕ ನಿರ್ವಾಹಕರಾಗಿರಬೇಕು"
+msgid ""
+"NB: If you want to monitor a local Xen hypervisor, you usually need to be "
+"root"
+msgstr ""
+"NB: ನೀವು ಒಂದು ಸ್ಥಳೀಯ Xen ಹೈಪರ್ವೈಸರ್ ಅನ್ನು ನೋಡಿಕೊಳ್ಳಬೇಕೆಂದರೆ, ನೀವು ಗಣಕ "
+"ನಿರ್ವಾಹಕರಾಗಿರಬೇಕು"
 
 #: ../virt-top/virt_top.ml:70
 msgid "Net RX bytes"
@@ -294,8 +306,20 @@ msgid "virt-top %s (libvirt %d.%d.%d) by Red Hat"
 msgstr "Red Hat ನಿಂದ ನಿರ್ಮಿತಗೊಂಡ virt-top %s (libvirt %d.%d.%d)"
 
 #: ../virt-top/virt_top.ml:205
-msgid "virt-top : a 'top'-like utility for virtualization\n\nSUMMARY\n  virt-top [-options]\n\nOPTIONS"
-msgstr "virt-top : ವರ್ಚುವಲೈಸೇಶನ್‌ಗಾಗಿ ಒಂದು 'top'-ರೀತಿಯ ಸವಲತ್ತು\n\nಸಾರಾಂಶ\n  virt-top [-ಆಯ್ಕೆಗಳು]\n\nಆಯ್ಕೆಗಳು"
+msgid ""
+"virt-top : a 'top'-like utility for virtualization\n"
+"\n"
+"SUMMARY\n"
+"  virt-top [-options]\n"
+"\n"
+"OPTIONS"
+msgstr ""
+"virt-top : ವರ್ಚುವಲೈಸೇಶನ್‌ಗಾಗಿ ಒಂದು 'top'-ರೀತಿಯ ಸವಲತ್ತು\n"
+"\n"
+"ಸಾರಾಂಶ\n"
+"  virt-top [-ಆಯ್ಕೆಗಳು]\n"
+"\n"
+"ಆಯ್ಕೆಗಳು"
 
 #: ../virt-top/virt_top.ml:42
 msgid "virt-top was compiled without support for CSV files"

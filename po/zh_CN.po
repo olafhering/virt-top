@@ -3,8 +3,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: virt-top.tip\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-28 17:30+0000\n"
-"PO-Revision-Date: 2008-10-20 15:20+1000\n"
+"POT-Creation-Date: 2008-11-03 12:11+0000\n"
+"PO-Revision-Date: 2009-09-10 15:58+1000\n"
 "Last-Translator: Leah Liu <lliu@redhat.com>\n"
 "Language-Team: Simplified Chinese <zh@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -15,7 +15,7 @@ msgstr ""
 
 #: ../virt-top/virt_top.ml:1492
 msgid "# %s virt-top configuration file\\n"
-msgstr ""
+msgstr "# %s virt-top 配置文件\\n"
 
 #: ../virt-top/virt_top.ml:1510
 msgid "# Enable CSV output to the named file\\n"
@@ -42,8 +42,12 @@ msgid "%MEM"
 msgstr "%MEM"
 
 #: ../virt-top/virt_top.ml:1146
-msgid "%d domains, %d active, %d running, %d sleeping, %d paused, %d inactive D:%d O:%d X:%d"
-msgstr "%d domains, %d active, %d running, %d sleeping, %d paused, %d inactive D:%d O:%d X:%d"
+msgid ""
+"%d domains, %d active, %d running, %d sleeping, %d paused, %d inactive D:%d "
+"O:%d X:%d"
+msgstr ""
+"%d domains, %d active, %d running, %d sleeping, %d paused, %d inactive D:%d "
+"O:%d X:%d"
 
 #: ../virt-top/virt_top.ml:107
 msgid "%s: display should be %s"
@@ -166,7 +170,9 @@ msgid "More help in virt-top(1) man page. Press any key to return."
 msgstr "更多帮助请参考 virt-top(1) man page。按任意键返回。"
 
 #: ../virt-top/virt_top.ml:260
-msgid "NB: If you want to monitor a local Xen hypervisor, you usually need to be root"
+msgid ""
+"NB: If you want to monitor a local Xen hypervisor, you usually need to be "
+"root"
 msgstr "NB：如果您要监控本地 Xen 监控程序，您通常需要是根用户"
 
 #: ../virt-top/virt_top.ml:70
@@ -294,8 +300,20 @@ msgid "virt-top %s (libvirt %d.%d.%d) by Red Hat"
 msgstr "红帽公司的 virt-top %s (libvirt %d.%d.%d)"
 
 #: ../virt-top/virt_top.ml:205
-msgid "virt-top : a 'top'-like utility for virtualization\n\nSUMMARY\n  virt-top [-options]\n\nOPTIONS"
-msgstr "virt-top：一个用于虚拟化的类似 'top' 的工具 \n\n小结\n  virt-top [-options]\n\nOPTIONS"
+msgid ""
+"virt-top : a 'top'-like utility for virtualization\n"
+"\n"
+"SUMMARY\n"
+"  virt-top [-options]\n"
+"\n"
+"OPTIONS"
+msgstr ""
+"virt-top：一个用于虚拟化的类似 'top' 的工具 \n"
+"\n"
+"小结\n"
+"  virt-top [-options]\n"
+"\n"
+"OPTIONS"
 
 #: ../virt-top/virt_top.ml:42
 msgid "virt-top was compiled without support for CSV files"

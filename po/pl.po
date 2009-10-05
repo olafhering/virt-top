@@ -4,28 +4,28 @@ msgstr ""
 "Project-Id-Version: pl\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-03-28 17:30+0000\n"
-"PO-Revision-Date: 2008-04-12 21:09+0200\n"
+"PO-Revision-Date: 2009-10-04 20:17+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
-"Language-Team: Polish <pl@li.org>\n"
+"Language-Team: Polish <fedora-trans-pl@redhat.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #: ../virt-top/virt_top.ml:1492
 msgid "# %s virt-top configuration file\\n"
-msgstr ""
+msgstr "# plik konfiguracji programu virt-top %s\\n"
 
 #: ../virt-top/virt_top.ml:1510
 msgid "# Enable CSV output to the named file\\n"
-msgstr "# Włącz wyjście CSV do pliku named\\n"
+msgstr "# Włącza wyjście CSV do pliku named\\n"
 
 #: ../virt-top/virt_top.ml:1513
 msgid "# To protect this file from being overwritten, uncomment next line\\n"
-msgstr "# Aby ochronić ten plik przed zastąpieniem, usuń komentarz z następnego wiersza\\n"
+msgstr "# Aby ochronić ten plik przed zastąpieniem, należy usunąć komentarz z następnego wiersza\\n"
 
 #: ../virt-top/virt_top.ml:1507
 msgid "# To send debug and error messages to a file, uncomment next line\\n"
-msgstr "# Aby wysłać komunikaty debugowania i błędów do pliku, usuń komentarz z następnego wiersza\\n"
+msgstr "# Aby wysłać komunikaty debugowania i błędów do pliku, należy usunąć komentarz z następnego wiersza\\n"
 
 #: ../virt-top/virt_top.ml:1493
 msgid "# generated on %s by %s\\n"
@@ -41,7 +41,7 @@ msgstr "%MEM"
 
 #: ../virt-top/virt_top.ml:1146
 msgid "%d domains, %d active, %d running, %d sleeping, %d paused, %d inactive D:%d O:%d X:%d"
-msgstr "%d domeny, %d aktywne, %d uruchomionych, %d uśpionych, %d wstrzymanych, %d nieaktywnych D:%d O:%d X:%d"
+msgstr "%d domeny, %d aktywne, %d uruchomione, %d uśpione, %d wstrzymane, %d nieaktywne D:%d O:%d X:%d"
 
 #: ../virt-top/virt_top.ml:107
 msgid "%s: display should be %s"
@@ -61,7 +61,7 @@ msgstr "%s:%d: zignorowano element konfiguracji ``%s''\\n%!"
 
 #: ../virt-top/virt_top.ml:147
 msgid "-d: cannot set a negative delay"
-msgstr "-d: nie można ustawić negatywnego opóźnienia"
+msgstr "-d: nie można ustawić ujemnego opóźnienia"
 
 #: ../virt-top/virt_top.ml:169
 msgid "Batch mode"
@@ -89,7 +89,7 @@ msgstr "Połącz się z URI (domyślnie: Xen)"
 
 #: ../virt-top/virt_top.ml:1560
 msgid "Connect: %s; Hostname: %s"
-msgstr "Połącz się: %s; nazwa hosta: %s"
+msgstr "Połącz się: %s; nazwa gospodarza: %s"
 
 #: ../virt-top/virt_top.ml:1598
 msgid "DISPLAY MODES"
@@ -97,7 +97,7 @@ msgstr "TRYBY WYŚWIETLANIA"
 
 #: ../virt-top/virt_top.ml:1328
 msgid "Delay must be > 0"
-msgstr "Opóźnienie musi być > 0"
+msgstr "Opóźnienie musi wynosić > 0"
 
 #: ../virt-top/virt_top.ml:183
 msgid "Delay time interval (seconds)"
@@ -109,19 +109,19 @@ msgstr "Opóźnienie: %.1f sekundy; wsadowo: %s; bezpieczeństwo: %s; sortowanie
 
 #: ../virt-top/virt_top.ml:177
 msgid "Disable CPU stats in CSV"
-msgstr "Wyłącz statystyki procesora w CSV"
+msgstr "Wyłącza statystyki procesora w CSV"
 
 #: ../virt-top/virt_top.ml:179
 msgid "Disable block device stats in CSV"
-msgstr "Wyłącz statystyki urządzenia blokowego w CSV"
+msgstr "Wyłącza statystyki urządzenia blokowego w CSV"
 
 #: ../virt-top/virt_top.ml:181
 msgid "Disable net stats in CSV"
-msgstr "Wyłącz statystyki sieci w CSV"
+msgstr "Wyłącza statystyki sieci w CSV"
 
 #: ../virt-top/virt_top.ml:193
 msgid "Do not read init file"
-msgstr "Nie odczytuj pliku init"
+msgstr "Bez odczytu pliku init"
 
 #: ../virt-top/virt_top.ml:68
 msgid "Domain ID"
@@ -141,7 +141,7 @@ msgstr "Błąd"
 
 #: ../virt-top/virt_top.ml:187
 msgid "Exit at given time"
-msgstr "Zakończ o podanym czasie"
+msgstr "Kończy pracę o podanym czasie"
 
 #: ../virt-top/virt_top.ml:1582
 msgid "Help"
@@ -149,11 +149,11 @@ msgstr "Pomoc"
 
 #: ../virt-top/virt_top.ml:189
 msgid "Historical CPU delay"
-msgstr "Historyczne opóźnienie procsora"
+msgstr "Historyczne opóźnienie procesora"
 
 #: ../virt-top/virt_top.ml:175
 msgid "Log statistics to CSV file"
-msgstr "Zapisz statystyki do pliku CSV"
+msgstr "Zapisuje statystyki do pliku CSV"
 
 #: ../virt-top/virt_top.ml:1565
 msgid "MAIN KEYS"
@@ -161,11 +161,11 @@ msgstr "GŁÓWNE KLUCZE"
 
 #: ../virt-top/virt_top.ml:1619
 msgid "More help in virt-top(1) man page. Press any key to return."
-msgstr "Więcej pomocy na stronie podręcznika virt-top(1). Naciśnij dowolny klawisz, aby kontynuować."
+msgstr "Więcej pomocy na stronie podręcznika virt-top(1). Proszę nacisnąć dowolny klawisz, aby kontynuować."
 
 #: ../virt-top/virt_top.ml:260
 msgid "NB: If you want to monitor a local Xen hypervisor, you usually need to be root"
-msgstr "NB: jeśli chcesz monitorować lokalnego nadzorcę Xena, zwykle musisz być rootem"
+msgstr "NB: aby monitorować lokalnego nadzorcę Xena, zwykle należy być rootem"
 
 #: ../virt-top/virt_top.ml:70
 msgid "Net RX bytes"
@@ -181,7 +181,7 @@ msgstr "Nie jest prawidłowym numerem"
 
 #: ../virt-top/virt_top.ml:195
 msgid "Number of iterations to run"
-msgstr "Liczba iteracji do uruchomienia"
+msgstr "Liczba iteracji do wykonania"
 
 #: ../virt-top/virt_top.ml:1580
 msgid "Quit"
@@ -189,7 +189,7 @@ msgstr "Zakończ"
 
 #: ../virt-top/virt_top.ml:201
 msgid "Run from a script (no user interface)"
-msgstr "Uruchom ze skryptu (brak interfejsu użytkownika)"
+msgstr "Uruchamia ze skryptu (brak interfejsu użytkownika)"
 
 #: ../virt-top/virt_top.ml:1586
 msgid "SORTING"
@@ -201,55 +201,55 @@ msgstr "Tryb bezpieczny (\\\"kiosk\\\")"
 
 #: ../virt-top/virt_top.ml:1595
 msgid "Select sort field"
-msgstr "Wybierz pole sortowania"
+msgstr "Wybór pola sortowania"
 
 #: ../virt-top/virt_top.ml:185
 msgid "Send debug messages to file"
-msgstr "Wyślij komunikaty debugowania do pliku"
+msgstr "Wysyła komunikaty debugowania do pliku"
 
 #: ../virt-top/virt_top.ml:191
 msgid "Set name of init file"
-msgstr "Ustaw nazwę pliku init"
+msgstr "Ustawia nazwę pliku init"
 
 #: ../virt-top/virt_top.ml:197
 msgid "Set sort order (%s)"
-msgstr "Ustaw porządek sortowania (%s)"
+msgstr "Ustawia porządek sortowania (%s)"
 
 #: ../virt-top/virt_top.ml:1342
 msgid "Set sort order for main display"
-msgstr "Ustaw porządek sortowania dla głównego ekranu"
+msgstr "Ustawia porządek sortowania dla głównego ekranu"
 
 #: ../virt-top/virt_top.ml:1581
 msgid "Set update interval"
-msgstr "Ustaw czas między aktualizacjami"
+msgstr "Ustawia czas między aktualizacjami"
 
 #: ../virt-top/virt_top.ml:1591
 msgid "Sort by %CPU"
-msgstr "Uporządkuj według %CPU"
+msgstr "Uporządkowuje według %CPU"
 
 #: ../virt-top/virt_top.ml:1592
 msgid "Sort by %MEM"
-msgstr "Uporządkuj według %MEM"
+msgstr "Uporządkowuje według %MEM"
 
 #: ../virt-top/virt_top.ml:1594
 msgid "Sort by ID"
-msgstr "Uporządkuj według identyfikatorów"
+msgstr "Uporządkowuje według identyfikatorów"
 
 #: ../virt-top/virt_top.ml:1593
 msgid "Sort by TIME"
-msgstr "Uporządkuj według TIME"
+msgstr "Uporządkowuje według TIME"
 
 #: ../virt-top/virt_top.ml:167
 msgid "Start by displaying block devices"
-msgstr "Uruchom przez wyświetlenie urządzeń blokowych"
+msgstr "Uruchamia przez wyświetlenie urządzeń blokowych"
 
 #: ../virt-top/virt_top.ml:165
 msgid "Start by displaying network interfaces"
-msgstr "Uruchom przez wyświetlenie interfejsów sieciowych"
+msgstr "Uruchamia przez wyświetlenie interfejsów sieciowych"
 
 #: ../virt-top/virt_top.ml:163
 msgid "Start by displaying pCPUs (default: tasks)"
-msgstr "Uruchom przez wyświetlanie fizycznych procesorów (domyślnie: zadania)"
+msgstr "Uruchamia przez wyświetlanie fizycznych procesorów (domyślnie: zadania)"
 
 #: ../virt-top/virt_top.ml:67
 msgid "TIME (CPU time)"
@@ -257,27 +257,27 @@ msgstr "TIME (czas procesora)"
 
 #: ../virt-top/virt_top.ml:1615
 msgid "Toggle block devices"
-msgstr "Przełącz urządzenia blokowe"
+msgstr "Przełącza urządzenia blokowe"
 
 #: ../virt-top/virt_top.ml:1614
 msgid "Toggle network interfaces"
-msgstr "Przełącz interfejsy sieciowe"
+msgstr "Przełącza interfejsy sieciowe"
 
 #: ../virt-top/virt_top.ml:1613
 msgid "Toggle physical CPUs"
-msgstr "Przełącz fizyczne procesory"
+msgstr "Przełącza fizyczne procesory"
 
 #: ../virt-top/virt_top.ml:1343
 msgid "Type key or use up and down cursor keys."
-msgstr "Podaj klucz lub użyj klawiszy kursora w górę i w dół."
+msgstr "Proszę podać klucz lub użyć klawiszy kursora w górę i w dół."
 
 #: ../virt-top/virt_top.ml:1624
 msgid "Unknown command - try 'h' for help"
-msgstr "Nieznane polecenie - wypróbuj \"h\", aby uzyskać pomoc"
+msgstr "Nieznane polecenie - proszę spróbować \"h\", aby uzyskać pomoc"
 
 #: ../virt-top/virt_top.ml:1579
 msgid "Update display"
-msgstr "Zaktualizuj ekran"
+msgstr "Aktualizuje ekran"
 
 #: ../virt-top/virt_top.ml:1525
 msgid "Wrote settings to %s"
@@ -289,7 +289,7 @@ msgstr "get_xml_desc nie zwróciło <domain/>"
 
 #: ../virt-top/virt_top.ml:1545
 msgid "virt-top %s (libvirt %d.%d.%d) by Red Hat"
-msgstr "virt-top %s (libvirt %d.%d.%d) od Red Hata"
+msgstr "virt-top %s (libvirt %d.%d.%d) od firmy Red Hat"
 
 #: ../virt-top/virt_top.ml:205
 msgid "virt-top : a 'top'-like utility for virtualization\n\nSUMMARY\n  virt-top [-options]\n\nOPTIONS"
