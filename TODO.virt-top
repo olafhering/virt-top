@@ -64,7 +64,7 @@ and if so put in place the infrastructure to monitor it.
 
 *** 9 [jmh asked for] Configuration file or environment variable [DONE 0.3.2.8]
 
-Thinking about maybe this is something we could controly via a
+Thinking about maybe this is something we could control via a
 .virt-top-init file or an environment variable ?  The same could also
 be true for other options such as the selection of subsystems and/or
 ordering/sorting ?
