@@ -44,8 +44,8 @@ The code is structured into these files:
 
   virt_top_main.ml
 
-    This is just a small bit of code to glue whatever modules
-    (Virt_top + Virt_top_xml? + Virt_top_csv?) together.
+    This is just a small bit of code to glue the modules together
+    Virt_top + Virt_top_xml? + Virt_top_csv? + Virt_top_calendar?
 
 The man-page is generated from the single file:
 
