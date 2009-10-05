@@ -1181,7 +1181,9 @@ let write_csv_header () =
     [ "Hostname"; "Time"; "Arch"; "Physical CPUs";
       "Count"; "Running"; "Blocked"; "Paused"; "Shutdown";
       "Shutoff"; "Crashed"; "Active"; "Inactive";
-      "%CPU"; "Total memory (KB)"; "Total guest memory (KB)";
+      "%CPU";
+      "Total hardware memory (KB)";
+      "Total memory (KB)"; "Total guest memory (KB)";
       "Total CPU time (ns)" ] @
       (* These fields are repeated for each domain: *)
     [ "Domain ID"; "Domain name"; ] @
@@ -1212,6 +1214,7 @@ let append_csv
     string_of_int paused; string_of_int shutdown; string_of_int shutoff;
     string_of_int crashed; string_of_int active; string_of_int inactive;
     sprintf "%2.1f" percent_cpu;
+    Int64.to_string node_info.C.memory;
     Int64.to_string total_memory; Int64.to_string total_domU_memory;
     Int64.to_string (Int64.of_float total_cpu_time)
   ] in
