@@ -42,20 +42,6 @@ distclean: clean
 	rm -f Makefile
 	rm -f virt-top/Makefile
 
-# Windows installer (requires NSIS).
-
-WININSTALLER := $(PACKAGE)-$(VERSION).exe
-
-ifneq ($(MAKENSIS),)
-wininstaller: $(WININSTALLER)
-
-$(WININSTALLER): wininstaller.nsis all opt
-	"$(MAKENSIS)" \
-	  //DPACKAGE=$(PACKAGE) //DVERSION=$(VERSION) \
-	  //DOUTFILE=$@ $<
-	ls -l $@
-endif
-
 # Distribution.
 
 dist: ChangeLog
