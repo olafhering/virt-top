@@ -35,6 +35,9 @@ let (-^) = Int64.sub
 let ( *^ ) = Int64.mul
 let (/^) = Int64.div
 
+(* failwithf is a printf-like version of failwith. *)
+let failwithf fs = ksprintf failwith fs
+
 (* Input a whole file as a list of lines. *)
 let input_all_lines chan =
   let lines = ref [] in

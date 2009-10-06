@@ -80,9 +80,8 @@ let sort_order_of_cli = function
   | "netrx" -> NetRX | "nettx" -> NetTX
   | "blockrdrq" -> BlockRdRq | "blockwrrq" -> BlockWrRq
   | str ->
-      failwith
-	(sprintf (f_ "%s: sort order should be: %s")
-	   str "cpu|mem|time|id|name|netrx|nettx|blockrdrq|blockwrrq")
+      failwithf (f_ "%s: sort order should be: %s")
+	str "cpu|mem|time|id|name|netrx|nettx|blockrdrq|blockwrrq"
 let cli_of_sort_order = function
   | Processor -> "cpu"
   | Memory -> "mem"
@@ -103,9 +102,7 @@ let display_of_cli = function
   | "block" -> BlockDisplay
   | "net" -> NetDisplay
   | str ->
-      failwith
-	(sprintf (f_ "%s: display should be %s")
-	   str "task|pcpu|block|net")
+      failwithf (f_ "%s: display should be %s") str "task|pcpu|block|net"
 let cli_of_display = function
   | TaskDisplay -> "task"
   | PCPUDisplay -> "pcpu"

@@ -22,6 +22,9 @@
 (* Filename concatenation. *)
 val (//) : string -> string -> string
 
+(* failwithf is a printf-like version of failwith. *)
+val failwithf : ('a, unit, string, 'b) format4 -> 'a
+
 (* Read a configuration file as a list of (lineno, key, value) pairs.
  * If the config file is missing this returns an empty list.
  *)
