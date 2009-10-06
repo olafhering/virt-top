@@ -13,27 +13,27 @@ msgstr ""
 "Plural-Forms:  nplurals=2; plural=(n != 1);\n"
 "X-Generator: KBabel 1.11.4\n"
 
-#: ../virt-top/virt_top.ml:1492
+#: ../virt-top/virt_top.ml:1506
 msgid "# %s virt-top configuration file\\n"
 msgstr "# %s virt-top ಸಂರಚನಾ ಕಡತ\\n"
 
-#: ../virt-top/virt_top.ml:1510
+#: ../virt-top/virt_top.ml:1524
 msgid "# Enable CSV output to the named file\\n"
 msgstr "# CSV ಔಟ್‌ಪುಟ್ ಅನ್ನು ಹೆಸರಿಸಲಾದ ಕಡತಕ್ಕೆ ಶಕ್ತಗೊಳಿಸು\\n"
 
-#: ../virt-top/virt_top.ml:1513
+#: ../virt-top/virt_top.ml:1527
 msgid "# To protect this file from being overwritten, uncomment next line\\n"
 msgstr ""
 "# ಈ ಕಡತವನ್ನು ತಿದ್ದಿ ಬರೆಯುವುದನ್ನು ತಪ್ಪಿಸಲು, ಮುಂದಿನ ಸಾಲಿನಲ್ಲಿರುವ # ಅನ್ನು ತೆಗೆದು ಹಾಕಿ"
 "\\n"
 
-#: ../virt-top/virt_top.ml:1507
+#: ../virt-top/virt_top.ml:1521
 msgid "# To send debug and error messages to a file, uncomment next line\\n"
 msgstr ""
 "# ದೋಷ ನಿವಾರಣಾ ಹಾಗು ದೋಷ ಸಂದೇಶಗಳನ್ನು ಒಂದು ಕಡತಕ್ಕೆ ಕಳುಹಿಸಲು, ಮುಂದಿನ ಸಾಲಿನಲ್ಲಿರುವ # "
 "ಅನ್ನು ತೆಗೆದು ಹಾಕಿ\\n"
 
-#: ../virt-top/virt_top.ml:1493
+#: ../virt-top/virt_top.ml:1507
 msgid "# generated on %s by %s\\n"
 msgstr "# %s ನಲ್ಲಿ %s ಇಂದ ಉತ್ಪಾದಿಸಲ್ಪಟ್ಟಿದೆ\\n"
 
@@ -45,7 +45,7 @@ msgstr "%CPU"
 msgid "%MEM"
 msgstr "%MEM"
 
-#: ../virt-top/virt_top.ml:1146
+#: ../virt-top/virt_top.ml:1158
 msgid ""
 "%d domains, %d active, %d running, %d sleeping, %d paused, %d inactive D:%d "
 "O:%d X:%d"
@@ -53,27 +53,27 @@ msgstr ""
 "%d ಡೊಮೈನ್‌ಗಳು, %d ಸಕ್ರಿಯ, %d ಚಾಲಿತ, %d ಜಡ, %d ವಿರಮಿಸಿದ, %d ನಿಷ್ಕ್ರಿಯ D:%d O:%d X:%"
 "d"
 
-#: ../virt-top/virt_top.ml:107
+#: ../virt-top/virt_top.ml:105
 msgid "%s: display should be %s"
 msgstr "%s: ಪ್ರದರ್ಶಕವು %s ಆಗಿರಬೇಕು"
 
-#: ../virt-top/virt_top.ml:84
+#: ../virt-top/virt_top.ml:83
 msgid "%s: sort order should be: %s"
 msgstr "%s: ವಿಂಗಡಣಾ ಬಗೆಯು ಹೀಗಿರಬೇಕು: %s"
 
-#: ../virt-top/virt_top.ml:204
+#: ../virt-top/virt_top.ml:207
 msgid "%s: unknown parameter"
 msgstr "%s: ಗೊತ್ತಿರದ ನಿಯತಾಂಕ"
 
-#: ../virt-top/virt_top.ml:235
+#: ../virt-top/virt_top.ml:238
 msgid "%s:%d: configuration item ``%s'' ignored\\n%!"
 msgstr "%s:%d: ಸಂರಚನಾ ಅಂಶ ``%s'' ಅನ್ನು ಆಲಕ್ಷಿಸಲಾಗಿದೆ\\n%!"
 
-#: ../virt-top/virt_top.ml:147
+#: ../virt-top/virt_top.ml:144
 msgid "-d: cannot set a negative delay"
 msgstr "-d: ಋಣಾತ್ಮಕ ವಿಳಂಬವನ್ನು ಹೊಂದಿಸಲು ಸಾಧ್ಯವಾಗಿಲ್ಲ"
 
-#: ../virt-top/virt_top.ml:169
+#: ../virt-top/virt_top.ml:170
 msgid "Batch mode"
 msgstr "ಗುಂಪು ಕ್ರಮ"
 
@@ -85,51 +85,55 @@ msgstr "ಖಂಡದ ಓದಲು ಮನವಿಗಳು"
 msgid "Block write reqs"
 msgstr "ಖಂಡದ ಬರೆಯಲು ಮನವಿಗಳು"
 
-#: ../virt-top/virt_top.ml:1153
+#: ../virt-top/virt_top.ml:1165
 msgid "CPU: %2.1f%%  Mem: %Ld MB (%Ld MB by guests)"
 msgstr "CPU: %2.1f%%  Mem: %Ld MB (ಅತಿಥಿಗಳಿಂದ %Ld MB)"
 
-#: ../virt-top/virt_top.ml:1321
+#: ../virt-top/virt_top.ml:1335
 msgid "Change delay from %.1f to: "
 msgstr "ವಿಳಂಬವನ್ನು %.1f ಯಿಂದ ಇದಕ್ಕೆ ಬದಲಾಯಿಸಿ: "
 
-#: ../virt-top/virt_top.ml:173 ../virt-top/virt_top.ml:171
+#: ../virt-top/virt_top.ml:174 ../virt-top/virt_top.ml:172
 msgid "Connect to URI (default: Xen)"
 msgstr "URI ಗೆ ಸಂಪರ್ಕ ಕಲ್ಪಿಸು (ಡೀಫಾಲ್ಟ್‍: Xen)"
 
-#: ../virt-top/virt_top.ml:1560
+#: ../virt-top/virt_top.ml:1580
 msgid "Connect: %s; Hostname: %s"
 msgstr "ಸಂಪರ್ಕ: %s; ಅತಿಥೇಯ ಹೆಸರು: %s"
 
-#: ../virt-top/virt_top.ml:1598
+#: ../virt-top/virt_top.ml:1618
 msgid "DISPLAY MODES"
 msgstr "DISPLAY MODES"
 
-#: ../virt-top/virt_top.ml:1328
+#: ../virt-top/virt_top.ml:1342
 msgid "Delay must be > 0"
 msgstr "ವಿಳಂಬವು > 0 ಇರಬೇಕು"
 
-#: ../virt-top/virt_top.ml:183
+#: ../virt-top/virt_top.ml:184
 msgid "Delay time interval (seconds)"
 msgstr "ವಿಳಂಬದ ಕಾಲಾವಧಿ (ಸೆಕೆಂಡುಗಳಲ್ಲಿ)"
 
-#: ../virt-top/virt_top.ml:1554
+#: ../virt-top/virt_top.ml:1573
 msgid "Delay: %.1f secs; Batch: %s; Secure: %s; Sort: %s"
 msgstr "ವಿಳಂಬ: %.1f ಸೆಕೆಂಡುಗಳು; ಗುಂಪು: %s; ಸುರಕ್ಷತೆ: %s; ವಿಂಗಡಣೆ: %s"
 
-#: ../virt-top/virt_top.ml:177
+#: ../virt-top/virt_top.ml:178
 msgid "Disable CPU stats in CSV"
 msgstr "CSVಯಲ್ಲಿ CPU ಅಂಕಿಅಂಶಗಳನ್ನು ಅಶಕ್ತಗೊಳಿಸಿ"
 
-#: ../virt-top/virt_top.ml:179
+#: ../virt-top/virt_top.ml:180
 msgid "Disable block device stats in CSV"
 msgstr "CSVಯಲ್ಲಿ ಖಂಡ ಸಾಧನದ ಅಂಕಿಅಂಶಗಳನ್ನು ಅಶಕ್ತಗೊಳಿಸಿ"
 
-#: ../virt-top/virt_top.ml:181
+#: ../virt-top/virt_top.ml:182
 msgid "Disable net stats in CSV"
 msgstr "CSVಯಲ್ಲಿ ಜಾಲದ ಅಂಕಿಅಂಶಗಳನ್ನು ಅಶಕ್ತಗೊಳಿಸಿ"
 
-#: ../virt-top/virt_top.ml:193
+#: ../virt-top/virt_top.ml:204
+msgid "Display version number and exit"
+msgstr ""
+
+#: ../virt-top/virt_top.ml:194
 msgid "Do not read init file"
 msgstr "init ಕಡತವನ್ನು ಓದಬೇಡ"
 
@@ -141,39 +145,40 @@ msgstr "ಡೊಮೈನ್ ಐಡಿ"
 msgid "Domain name"
 msgstr "ಡೊಮೈನ್‌ ಹೆಸರು"
 
-#: ../virt-top/virt_top.ml:1612
+#: ../virt-top/virt_top.ml:1632
 msgid "Domains display"
 msgstr "ಡೊಮೈನ್‌ಗಳ ಪ್ರದರ್ಶನ"
 
-#: ../virt-top/virt_top_main.ml:47 ../virt-top/virt_top.ml:1530
+#: ../virt-top/virt_top_main.ml:47 ../virt-top/virt_top.ml:1547
+#. ../virt-top/virt_top.ml:1544
 msgid "Error"
 msgstr "ದೋಷ"
 
-#: ../virt-top/virt_top.ml:187
+#: ../virt-top/virt_top.ml:188
 msgid "Exit at given time"
 msgstr "ಒದಗಿಸಲಾದ ಸಮಯದಲ್ಲಿ ನಿರ್ಗಮಿಸು"
 
-#: ../virt-top/virt_top.ml:1582
+#: ../virt-top/virt_top.ml:1602
 msgid "Help"
 msgstr "ಸಹಾಯ"
 
-#: ../virt-top/virt_top.ml:189
+#: ../virt-top/virt_top.ml:190
 msgid "Historical CPU delay"
 msgstr "ಐತಿಹಾಸಿಕವಾದ CPU ವಿಳಂಬ"
 
-#: ../virt-top/virt_top.ml:175
+#: ../virt-top/virt_top.ml:176
 msgid "Log statistics to CSV file"
 msgstr "ಅಂಕಿಅಂಶಗಳನ್ನು CSV ಕಡತಕ್ಕೆ ದಾಖಲಿಸು"
 
-#: ../virt-top/virt_top.ml:1565
+#: ../virt-top/virt_top.ml:1585
 msgid "MAIN KEYS"
 msgstr "MAIN KEYS"
 
-#: ../virt-top/virt_top.ml:1619
+#: ../virt-top/virt_top.ml:1639
 msgid "More help in virt-top(1) man page. Press any key to return."
 msgstr "ಹೆಚ್ಚಿನ ನೆರವು virt-top(1) man ಪುಟದಲ್ಲಿ ಲಭ್ಯವಿದೆ. ಮರಳಲು ಯಾವುದೆ ಕೀಲಿಯನ್ನು ಒತ್ತಿ."
 
-#: ../virt-top/virt_top.ml:260
+#: ../virt-top/virt_top.ml:263
 msgid ""
 "NB: If you want to monitor a local Xen hypervisor, you usually need to be "
 "root"
@@ -189,79 +194,87 @@ msgstr "ಒಟ್ಟು RX ಬೈಟ್‌ಗಳು"
 msgid "Net TX bytes"
 msgstr "ಒಟ್ಟು TX ಬೈಟ್‌ಗಳು"
 
-#: ../virt-top/virt_top.ml:1334
+#: ../virt-top/virt_top.ml:1348
 msgid "Not a valid number"
 msgstr "ಒಂದು ಮಾನ್ಯವಾದ ಸಂಖ್ಯೆಯಲ್ಲ"
 
-#: ../virt-top/virt_top.ml:195
+#: ../virt-top/virt_top.ml:196
 msgid "Number of iterations to run"
 msgstr "ಚಲಾಯಿಸಬೇಕಿರುವ ಪುನರಾವೃತ್ತಿಗಳ ಸಂಖ್ಯೆ"
 
-#: ../virt-top/virt_top.ml:1580
+#: ../virt-top/virt_top.ml:1576 ../virt-top/virt_top.ml:1575
+msgid "Off"
+msgstr ""
+
+#: ../virt-top/virt_top.ml:1576 ../virt-top/virt_top.ml:1575
+msgid "On"
+msgstr ""
+
+#: ../virt-top/virt_top.ml:1600
 msgid "Quit"
 msgstr "ಬಿಟ್ಟು ಬಿಡು"
 
-#: ../virt-top/virt_top.ml:201
+#: ../virt-top/virt_top.ml:202
 msgid "Run from a script (no user interface)"
 msgstr "ಸ್ಕ್ರಿಪ್ಟಿನಿಂದ ಚಲಾಯಿಸು (ಬಳಕೆದಾರ ಸಂಪರ್ಕಸಾಧನವಿಲ್ಲ)"
 
-#: ../virt-top/virt_top.ml:1586
+#: ../virt-top/virt_top.ml:1606
 msgid "SORTING"
 msgstr "SORTING"
 
-#: ../virt-top/virt_top.ml:199
+#: ../virt-top/virt_top.ml:200
 msgid "Secure (\\\"kiosk\\\") mode"
 msgstr "ಸುರಕ್ಷಿತ (\\\"ಕಿಯೋಸ್ಕ್‍\\\") ಕ್ರಮ"
 
-#: ../virt-top/virt_top.ml:1595
+#: ../virt-top/virt_top.ml:1615
 msgid "Select sort field"
 msgstr "ವಿಂಗಡಣಾ ಕ್ಷೇತ್ರವನ್ನು ಆರಿಸು"
 
-#: ../virt-top/virt_top.ml:185
+#: ../virt-top/virt_top.ml:186
 msgid "Send debug messages to file"
 msgstr "ದೋಷ ನಿವಾರಣಾ ಸಂದೇಶಗಳನ್ನು ಕಡತಕ್ಕೆ ಕಳುಹಿಸು"
 
-#: ../virt-top/virt_top.ml:191
+#: ../virt-top/virt_top.ml:192
 msgid "Set name of init file"
 msgstr "init ಕಡತಕ್ಕೆ ಹೆಸರನ್ನು ಸೂಚಿಸು"
 
-#: ../virt-top/virt_top.ml:197
+#: ../virt-top/virt_top.ml:198
 msgid "Set sort order (%s)"
 msgstr "ವಿಂಗಡಣಾ ಕ್ರಮವನ್ನು (%s) ಸೂಚಿಸು"
 
-#: ../virt-top/virt_top.ml:1342
+#: ../virt-top/virt_top.ml:1356
 msgid "Set sort order for main display"
 msgstr "ಮುಖ್ಯ ಪ್ರದರ್ಶಕಕ್ಕಾಗಿ ವಿಂಗಡಣಾ ಕ್ರಮವನ್ನು ಸೂಚಿಸು"
 
-#: ../virt-top/virt_top.ml:1581
+#: ../virt-top/virt_top.ml:1601
 msgid "Set update interval"
 msgstr "ಅಪ್ಡೇಟ್ ಕಾಲಾವಧಿಯನ್ನು ಸೂಚಿಸು"
 
-#: ../virt-top/virt_top.ml:1591
+#: ../virt-top/virt_top.ml:1611
 msgid "Sort by %CPU"
 msgstr "%CPU ಆಧಾರದ ಮೇಲೆ ವಿಂಗಡಿಸು"
 
-#: ../virt-top/virt_top.ml:1592
+#: ../virt-top/virt_top.ml:1612
 msgid "Sort by %MEM"
 msgstr "%MEM ಆಧಾರದ ಮೇಲೆ ವಿಂಗಡಿಸು"
 
-#: ../virt-top/virt_top.ml:1594
+#: ../virt-top/virt_top.ml:1614
 msgid "Sort by ID"
 msgstr "ID ಆಧಾರದ ಮೇಲೆ ವಿಂಗಡಿಸು"
 
-#: ../virt-top/virt_top.ml:1593
+#: ../virt-top/virt_top.ml:1613
 msgid "Sort by TIME"
 msgstr "TIME ಆಧಾರದ ಮೇಲೆ ವಿಂಗಡಿಸು"
 
-#: ../virt-top/virt_top.ml:167
+#: ../virt-top/virt_top.ml:168
 msgid "Start by displaying block devices"
 msgstr "ಖಂಡ ಸಾಧನಗಳನ್ನು ತೋರಿಸಲು ಆರಂಭಿಸು"
 
-#: ../virt-top/virt_top.ml:165
+#: ../virt-top/virt_top.ml:166
 msgid "Start by displaying network interfaces"
 msgstr "ಜಾಲಬಂಧ ಸಂಪರ್ಕ ಸಾಧನಗಳನ್ನು ತೋರಿಸಲು ಆರಂಭಿಸು"
 
-#: ../virt-top/virt_top.ml:163
+#: ../virt-top/virt_top.ml:164
 msgid "Start by displaying pCPUs (default: tasks)"
 msgstr "pCPUಗಳನ್ನು ತೋರಿಸಲು ಆರಂಭಿಸು (ಡೀಫಾಲ್ಟ್‍: ಕಾರ್ಯಗಳು)"
 
@@ -269,43 +282,47 @@ msgstr "pCPUಗಳನ್ನು ತೋರಿಸಲು ಆರಂಭಿಸು (ಡ�
 msgid "TIME (CPU time)"
 msgstr "TIME (CPU ಸಮಯ)"
 
-#: ../virt-top/virt_top.ml:1615
+#: ../virt-top/virt_top.ml:1635
 msgid "Toggle block devices"
 msgstr "ಖಂಡ ಸಾಧನಗಳನ್ನು ಟಾಗಲ್ ಮಾಡು"
 
-#: ../virt-top/virt_top.ml:1614
+#: ../virt-top/virt_top.ml:1634
 msgid "Toggle network interfaces"
 msgstr "ಜಾಲಬಂಧ ಸಂಪರ್ಕಸಾಧನಗಳನ್ನು ಟಾಗಲ್ ಮಾಡು"
 
-#: ../virt-top/virt_top.ml:1613
+#: ../virt-top/virt_top.ml:1633
 msgid "Toggle physical CPUs"
 msgstr "ಭೌತಿಕ CPUಗಳನ್ನು ಟಾಗಲ್ ಮಾಡು"
 
-#: ../virt-top/virt_top.ml:1343
+#: ../virt-top/virt_top.ml:1357
 msgid "Type key or use up and down cursor keys."
 msgstr "ಕೀಲಿಯನ್ನು ಟೈಪಿಸಿ ಅಥವ ಅಪ್ ಹಾಗು ಡೌನ್ ತೆರೆಸೂಚಕ ಕೀಲಿಗಳನ್ನು ಬಳಸು."
 
-#: ../virt-top/virt_top.ml:1624
+#: ../virt-top/virt_top.ml:1644
 msgid "Unknown command - try 'h' for help"
 msgstr "ಗೊತ್ತಿರದ ಆಜ್ಞೆ - ನೆರವಿಗಾಗಿ 'h' ಅನ್ನು ಪ್ರಯತ್ನಿಸಿ"
 
-#: ../virt-top/virt_top.ml:1579
+#: ../virt-top/virt_top.ml:1599
 msgid "Update display"
 msgstr "ಅಪ್ಡೇಟಿನ ಪ್ರದರ್ಶನ"
 
-#: ../virt-top/virt_top.ml:1525
+#: ../virt-top/virt_top.ml:1539
 msgid "Wrote settings to %s"
 msgstr "ಸಂಯೋಜನೆಗಳನ್ನು %s ಗೆ ಬರೆಯಲಾಗಿದೆ"
+
+#: ../virt-top/virt_top.ml:1581
+msgid "default"
+msgstr ""
 
 #: ../virt-top/virt_top_xml.ml:46
 msgid "get_xml_desc didn't return <domain/>"
 msgstr "get_xml_desc <domain/> ಅನ್ನು ಮರಳಿಸಿಲ್ಲ"
 
-#: ../virt-top/virt_top.ml:1545
-msgid "virt-top %s (libvirt %d.%d.%d) by Red Hat"
-msgstr "Red Hat ನಿಂದ ನಿರ್ಮಿತಗೊಂಡ virt-top %s (libvirt %d.%d.%d)"
+#: ../virt-top/virt_top.ml:1561
+msgid "virt-top %s ocaml-libvirt %s libvirt %d.%d.%d by Red Hat"
+msgstr ""
 
-#: ../virt-top/virt_top.ml:205
+#: ../virt-top/virt_top.ml:208
 msgid ""
 "virt-top : a 'top'-like utility for virtualization\n"
 "\n"
