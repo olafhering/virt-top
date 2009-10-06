@@ -25,16 +25,16 @@ prefix		= @prefix@
 exec_prefix	= @exec_prefix@
 bindir		= @bindir@
 
-pkg_curses	= @pkg_curses@
-pkg_xml_light	= @pkg_xml_light@
-pkg_csv		= @pkg_csv@
-pkg_calendar    = @pkg_calendar@
-pkg_calendar2   = @pkg_calendar2@
-pkg_gettext	= @pkg_gettext@
+OCAML_PKG_curses    = @OCAML_PKG_curses@
+OCAML_PKG_xml_light = @OCAML_PKG_xml_light@
+OCAML_PKG_csv	    = @OCAML_PKG_csv@
+OCAML_PKG_calendar  = @OCAML_PKG_calendar@
+is_calendar2	    = @is_calendar2@
+OCAML_PKG_gettext   = @OCAML_PKG_gettext@
 
 OCAMLCPACKAGES	:= -package unix,extlib,curses,str,libvirt
 
-ifeq ($(pkg_gettext),yes)
+ifneq ($(OCAML_PKG_gettext),no)
 OCAMLCPACKAGES  += -package gettext-stub
 endif
 
@@ -43,21 +43,22 @@ OBJS		:= \
 		   virt_top_gettext.cmo \
 		   virt_top_utils.cmo \
 		   virt_top.cmo
-ifeq ($(pkg_xml_light),yes)
+ifneq ($(OCAML_PKG_xml_light),no)
 OBJS		+= virt_top_xml.cmo
 OCAMLCPACKAGES	+= -package xml-light
 endif
-ifeq ($(pkg_csv),yes)
+ifneq ($(OCAML_PKG_csv),no)
 OBJS		+= virt_top_csv.cmo
 OCAMLCPACKAGES	+= -package csv
 endif
-ifeq ($(pkg_calendar),yes)
+ifneq ($(OCAML_PKG_calendar),no)
+ifeq ($(is_calendar2),no)
 OBJS		+= virt_top_calendar1.cmo
 OCAMLCPACKAGES	+= -package calendar
-endif
-ifneq ($(pkg_calendar2),no)
+else
 OBJS		+= virt_top_calendar2.cmo
 OCAMLCPACKAGES	+= -package calendar
+endif
 endif
 OBJS		+= virt_top_main.cmo
 

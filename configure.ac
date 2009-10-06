@@ -18,6 +18,7 @@
 dnl Process this file with autoconf to produce a configure script.
 
 AC_INIT(virt-top,1.0.4)
+AC_CONFIG_MACRO_DIR([m4])
 
 AC_PROG_INSTALL
 
@@ -33,22 +34,22 @@ dnl Use ocamlfind to find the required packages ...
 
 dnl Check for required OCaml packages.
 AC_CHECK_OCAML_PKG(unix)
-if test "x$pkg_unix" != "xyes"; then
+if test "x$OCAML_PKG_unix" = "xno"; then
     AC_MSG_ERROR([Cannot find required OCaml package 'unix'])
 fi
 
 AC_CHECK_OCAML_PKG(extlib)
-if test "x$pkg_extlib" != "xyes"; then
+if test "x$OCAML_PKG_extlib" = "xno"; then
     AC_MSG_ERROR([Cannot find required OCaml package 'extlib'])
 fi
 
 AC_CHECK_OCAML_PKG(libvirt)
-if test "x$pkg_libvirt" != "xyes"; then
+if test "x$OCAML_PKG_libvirt" = "xno"; then
     AC_MSG_ERROR([Cannot find required OCaml package 'libvirt'])
 fi
 
 AC_CHECK_OCAML_PKG(curses)
-if test "x$pkg_curses" != "xyes"; then
+if test "x$OCAML_PKG_curses" = "xno"; then
     AC_MSG_ERROR([Cannot find required OCaml package 'curses'])
 fi
 
@@ -58,19 +59,19 @@ AC_CHECK_OCAML_PKG(xml-light)
 AC_CHECK_OCAML_PKG(csv)
 
 dnl Need to check which version of calendar is installed.
-AC_CHECK_OCAML_MODULE(calendar,pkg_calendar2,CalendarLib.Date,[+calendar])
-if test "x$pkg_calendar2" = "xno"; then
-    AC_CHECK_OCAML_PKG(calendar)
+AC_CHECK_OCAML_PKG(calendar)
+if test "x$OCAML_PKG_calendar" != "xno"; then
+    AC_CHECK_OCAML_MODULE(is_calendar2,calendar,[CalendarLib.Date],[+$OCAML_PKG_calendar])
 fi
 
-AC_SUBST(pkg_unix)
-AC_SUBST(pkg_extlib)
-AC_SUBST(pkg_curses)
-AC_SUBST(pkg_gettext)
-AC_SUBST(pkg_xml_light)
-AC_SUBST(pkg_csv)
-AC_SUBST(pkg_calendar)
-AC_SUBST(pkg_calendar2)
+AC_SUBST(OCAML_PKG_unix)
+AC_SUBST(OCAML_PKG_extlib)
+AC_SUBST(OCAML_PKG_curses)
+AC_SUBST(OCAML_PKG_gettext)
+AC_SUBST(OCAML_PKG_xml_light)
+AC_SUBST(OCAML_PKG_csv)
+AC_SUBST(OCAML_PKG_calendar)
+AC_SUBST(is_calendar2)
 
 dnl Check for optional perldoc (for building manual pages).
 AC_CHECK_PROG(HAVE_PERLDOC,perldoc,perldoc)
@@ -178,7 +179,7 @@ for d in virt-top; do
     AC_MSG_NOTICE([creating $d/$f])
     rm -f $d/$f
     echo "(* This file is generated automatically by ./configure. *)" > $d/$f
-    if test "x$pkg_gettext" != "xno"; then
+    if test "x$OCAML_PKG_gettext" != "xno"; then
         # Gettext module is available, so use it.
         cat <<EOT >>$d/$f
 module Gettext = Gettext.Program (
