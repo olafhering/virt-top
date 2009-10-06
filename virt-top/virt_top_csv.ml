@@ -1,5 +1,5 @@
 (* 'top'-like tool for libvirt domains.
-   (C) Copyright 2007 Richard W.M. Jones, Red Hat Inc.
+   (C) Copyright 2007-2009 Richard W.M. Jones, Red Hat Inc.
    http://libvirt.org/
 
    This program is free software; you can redistribute it and/or modify
