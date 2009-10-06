@@ -39,7 +39,7 @@ let parse_device_xml : (int -> [>`R] D.t -> string list * string list) ref =
 (* Hooks for CSV support (see virt_top_csv.ml). *)
 let csv_start : (string -> unit) ref =
   ref (
-    fun _ -> failwith (s_ "virt-top was compiled without support for CSV files")
+    fun _ -> failwith (s_"virt-top was compiled without support for CSV files")
   )
 let csv_write : (string list -> unit) ref =
   ref (
@@ -50,7 +50,7 @@ let csv_write : (string list -> unit) ref =
 let parse_date_time : (string -> float) ref =
   ref (
     fun _ ->
-      failwith (s_ "virt-top was compiled without support for dates and times")
+      failwith (s_"virt-top was compiled without support for dates and times")
   )
 
 (* Sort order. *)
@@ -62,15 +62,15 @@ let all_sort_fields = [
   NetRX; NetTX; BlockRdRq; BlockWrRq
 ]
 let printable_sort_order = function
-  | Processor -> s_ "%CPU"
-  | Memory -> s_ "%MEM"
-  | Time -> s_ "TIME (CPU time)"
-  | DomainID -> s_ "Domain ID"
-  | DomainName -> s_ "Domain name"
-  | NetRX -> s_ "Net RX bytes"
-  | NetTX -> s_ "Net TX bytes"
-  | BlockRdRq -> s_ "Block read reqs"
-  | BlockWrRq -> s_ "Block write reqs"
+  | Processor -> s_"%CPU"
+  | Memory -> s_"%MEM"
+  | Time -> s_"TIME (CPU time)"
+  | DomainID -> s_"Domain ID"
+  | DomainName -> s_"Domain name"
+  | NetRX -> s_"Net RX bytes"
+  | NetTX -> s_"Net TX bytes"
+  | BlockRdRq -> s_"Block read reqs"
+  | BlockWrRq -> s_"Block write reqs"
 let sort_order_of_cli = function
   | "cpu" | "processor" -> Processor
   | "mem" | "memory" -> Memory
@@ -80,7 +80,7 @@ let sort_order_of_cli = function
   | "netrx" -> NetRX | "nettx" -> NetTX
   | "blockrdrq" -> BlockRdRq | "blockwrrq" -> BlockWrRq
   | str ->
-      failwithf (f_ "%s: sort order should be: %s")
+      failwithf (f_"%s: sort order should be: %s")
 	str "cpu|mem|time|id|name|netrx|nettx|blockrdrq|blockwrrq"
 let cli_of_sort_order = function
   | Processor -> "cpu"
@@ -102,7 +102,7 @@ let display_of_cli = function
   | "block" -> BlockDisplay
   | "net" -> NetDisplay
   | str ->
-      failwithf (f_ "%s: display should be %s") str "task|pcpu|block|net"
+      failwithf (f_"%s: display should be %s") str "task|pcpu|block|net"
 let cli_of_display = function
   | TaskDisplay -> "task"
   | PCPUDisplay -> "pcpu"
@@ -141,7 +141,7 @@ let start_up () =
   (* Read command line arguments. *)
   let rec set_delay newdelay =
     if newdelay <= 0. then
-      failwith (s_ "-d: cannot set a negative delay");
+      failwith (s_"-d: cannot set a negative delay");
     delay := int_of_float (newdelay *. 1000.)
   and set_uri = function "" -> uri := None | u -> uri := Some u
   and set_sort order = sort_order := sort_order_of_cli order
@@ -161,51 +161,51 @@ let start_up () =
   in
   let argspec = Arg.align [
     "-1", Arg.Unit set_pcpu_mode,
-      " " ^ s_ "Start by displaying pCPUs (default: tasks)";
+      " " ^ s_"Start by displaying pCPUs (default: tasks)";
     "-2", Arg.Unit set_net_mode,
-      " " ^ s_ "Start by displaying network interfaces";
+      " " ^ s_"Start by displaying network interfaces";
     "-3", Arg.Unit set_block_mode,
-      " " ^ s_ "Start by displaying block devices";
+      " " ^ s_"Start by displaying block devices";
     "-b", Arg.Set batch_mode,
-      " " ^ s_ "Batch mode";
+      " " ^ s_"Batch mode";
     "-c", Arg.String set_uri,
-      "uri " ^ s_ "Connect to URI (default: Xen)";
+      "uri " ^ s_"Connect to URI (default: Xen)";
     "--connect", Arg.String set_uri,
-      "uri " ^ s_ "Connect to URI (default: Xen)";
+      "uri " ^ s_"Connect to URI (default: Xen)";
     "--csv", Arg.String set_csv,
-      "file " ^ s_ "Log statistics to CSV file";
+      "file " ^ s_"Log statistics to CSV file";
     "--no-csv-cpu", Arg.Clear csv_cpu,
-      " " ^ s_ "Disable CPU stats in CSV";
+      " " ^ s_"Disable CPU stats in CSV";
     "--no-csv-block", Arg.Clear csv_block,
-      " " ^ s_ "Disable block device stats in CSV";
+      " " ^ s_"Disable block device stats in CSV";
     "--no-csv-net", Arg.Clear csv_net,
-      " " ^ s_ "Disable net stats in CSV";
+      " " ^ s_"Disable net stats in CSV";
     "-d", Arg.Float set_delay,
-      "delay " ^ s_ "Delay time interval (seconds)";
+      "delay " ^ s_"Delay time interval (seconds)";
     "--debug", Arg.Set_string debug_file,
-      "file " ^ s_ "Send debug messages to file";
+      "file " ^ s_"Send debug messages to file";
     "--end-time", Arg.String set_end_time,
-      "time " ^ s_ "Exit at given time";
+      "time " ^ s_"Exit at given time";
     "--hist-cpu", Arg.Set_int historical_cpu_delay,
-      "secs " ^ s_ "Historical CPU delay";
+      "secs " ^ s_"Historical CPU delay";
     "--init-file", Arg.String set_init_file,
-      "file " ^ s_ "Set name of init file";
+      "file " ^ s_"Set name of init file";
     "--no-init-file", Arg.Unit no_init_file,
-      " " ^ s_ "Do not read init file";
+      " " ^ s_"Do not read init file";
     "-n", Arg.Set_int iterations,
-      "iterations " ^ s_ "Number of iterations to run";
+      "iterations " ^ s_"Number of iterations to run";
     "-o", Arg.String set_sort,
-      "sort " ^ sprintf (f_ "Set sort order (%s)") "cpu|mem|time|id|name";
+      "sort " ^ sprintf (f_"Set sort order (%s)") "cpu|mem|time|id|name";
     "-s", Arg.Set secure_mode,
-      " " ^ s_ "Secure (\"kiosk\") mode";
+      " " ^ s_"Secure (\"kiosk\") mode";
     "--script", Arg.Set script_mode,
-      " " ^ s_ "Run from a script (no user interface)";
+      " " ^ s_"Run from a script (no user interface)";
     "--version", Arg.Unit display_version,
-      " " ^ s_ "Display version number and exit";
+      " " ^ s_"Display version number and exit";
   ] in
   let anon_fun str =
-    raise (Arg.Bad (sprintf (f_ "%s: unknown parameter") str)) in
-  let usage_msg = s_ "virt-top : a 'top'-like utility for virtualization
+    raise (Arg.Bad (sprintf (f_"%s: unknown parameter") str)) in
+  let usage_msg = s_"virt-top : a 'top'-like utility for virtualization
 
 SUMMARY
   virt-top [-options]
@@ -235,7 +235,7 @@ OPTIONS" in
       | _, "end-time", t -> set_end_time t
       | _, "overwrite-init-file", "false" -> no_init_file ()
       | lineno, key, _ ->
-	  eprintf (f_ "%s:%d: configuration item ``%s'' ignored\n%!")
+	  eprintf (f_"%s:%d: configuration item ``%s'' ignored\n%!")
 	    filename lineno key
     ) config
   in
@@ -260,7 +260,7 @@ OPTIONS" in
 	prerr_endline (Libvirt.Virterror.to_string err);
 	(* If non-root and no explicit connection URI, print a warning. *)
 	if Unix.geteuid () <> 0 && name = None then (
-	  print_endline (s_ "NB: If you want to monitor a local Xen hypervisor, you usually need to be root");
+	  print_endline (s_"NB: If you want to monitor a local Xen hypervisor, you usually need to be root");
 	);
 	exit 1 in
 
@@ -1155,14 +1155,14 @@ let redraw =
 
     mvaddstr summary_lineno 0
       (sprintf
-	 (f_ "%d domains, %d active, %d running, %d sleeping, %d paused, %d inactive D:%d O:%d X:%d")
+	 (f_"%d domains, %d active, %d running, %d sleeping, %d paused, %d inactive D:%d O:%d X:%d")
 	 count active running blocked paused inactive shutdown shutoff crashed);
 
     (* Total %CPU used, and memory summary. *)
     let percent_cpu = 100. *. total_cpu_time /. total_cpu in
     mvaddstr (summary_lineno+1) 0
       (sprintf
-	 (f_ "CPU: %2.1f%%  Mem: %Ld MB (%Ld MB by guests)")
+	 (f_"CPU: %2.1f%%  Mem: %Ld MB (%Ld MB by guests)")
 	 percent_cpu (total_memory /^ 1024L) (total_domU_memory /^ 1024L));
 
     (* Time to grab another historical %CPU for the list? *)
@@ -1332,20 +1332,20 @@ and get_key_press setup =
 
 and change_delay () =
   print_msg
-    (sprintf (f_ "Change delay from %.1f to: ") (float !delay /. 1000.));
+    (sprintf (f_"Change delay from %.1f to: ") (float !delay /. 1000.));
   let str = get_string 16 in
   (* Try to parse the number. *)
   let error =
     try
       let newdelay = float_of_string str in
       if newdelay <= 0. then (
-	print_msg (s_ "Delay must be > 0"); true
+	print_msg (s_"Delay must be > 0"); true
       ) else (
 	delay := int_of_float (newdelay *. 1000.); false
       )
     with
       Failure "float_of_string" ->
-	print_msg (s_ "Not a valid number"); true in
+	print_msg (s_"Not a valid number"); true in
   refresh ();
   sleep (if error then 2 else 1)
 
@@ -1353,8 +1353,8 @@ and change_sort_order () =
   clear ();
   let lines, cols = get_size () in
 
-  mvaddstr top_lineno 0 (s_ "Set sort order for main display");
-  mvaddstr summary_lineno 0 (s_ "Type key or use up and down cursor keys.");
+  mvaddstr top_lineno 0 (s_"Set sort order for main display");
+  mvaddstr summary_lineno 0 (s_"Type key or use up and down cursor keys.");
 
   attron A.reverse;
   mvaddstr header_lineno 0 (pad cols "KEY   Sort field");
@@ -1503,8 +1503,8 @@ and _write_init_file filename =
 
     let fp = fprintf in
     let nl () = fp chan "\n" in
-    let () = fp chan (f_ "# %s virt-top configuration file\n") rcfile in
-    let () = fp chan (f_ "# generated on %s by %s\n") printable_date_time username in
+    let () = fp chan (f_"# %s virt-top configuration file\n") rcfile in
+    let () = fp chan (f_"# generated on %s by %s\n") printable_date_time username in
     nl ();
     fp chan "display %s\n" (cli_of_display !display_mode);
     fp chan "delay %g\n" (float !delay /. 1000.);
@@ -1518,13 +1518,13 @@ and _write_init_file filename =
     if !batch_mode = true then fp chan "batch true\n";
     if !secure_mode = true then fp chan "secure true\n";
     nl ();
-    output_string chan (s_ "# To send debug and error messages to a file, uncomment next line\n");
+    output_string chan (s_"# To send debug and error messages to a file, uncomment next line\n");
     fp chan "#debug virt-top.out\n";
     nl ();
-    output_string chan (s_ "# Enable CSV output to the named file\n");
+    output_string chan (s_"# Enable CSV output to the named file\n");
     fp chan "#csv virt-top.csv\n";
     nl ();
-    output_string chan (s_ "# To protect this file from being overwritten, uncomment next line\n");
+    output_string chan (s_"# To protect this file from being overwritten, uncomment next line\n");
     fp chan "#overwrite-init-file false\n";
 
     close_out chan;
@@ -1536,15 +1536,16 @@ and _write_init_file filename =
     (* Rename filename.new to filename. *)
     Unix.rename (filename ^ ".new") filename;
 
-    print_msg (sprintf (f_ "Wrote settings to %s") filename);
+    print_msg (sprintf (f_"Wrote settings to %s") filename);
     refresh ();
     sleep 2
   with
   | Sys_error err ->
-      print_msg (s_ "Error" ^ ": " ^ err);
+      print_msg (s_"Error" ^ ": " ^ err);
       refresh (); sleep 2
   | Unix.Unix_error (err, fn, str) ->
-      print_msg (s_ ("Error" ^ ": " ^ Unix.error_message err ^ fn ^ str));
+      print_msg (s_"Error" ^ ": " ^
+		   (Unix.error_message err) ^ " " ^ fn ^ " " ^ str);
       refresh ();
       sleep 2
 
@@ -1595,26 +1596,26 @@ and show_help (_, _, _, _, _, hostname,
     move lineno 1; attron A.bold; addstr keys; attroff A.bold;
     move lineno 10; addstr description
   in
-  key "space ^L" (s_ "Update display");
-  key "q"        (s_ "Quit");
-  key "d s"      (s_ "Set update interval");
-  key "h"        (s_ "Help");
+  key "space ^L" (s_"Update display");
+  key "q"        (s_"Quit");
+  key "d s"      (s_"Set update interval");
+  key "h"        (s_"Help");
 
   (* Sort order. *)
   ignore (get_lineno ());
-  let banner = pad 38 (s_ "SORTING") in
+  let banner = pad 38 (s_"SORTING") in
   attron A.reverse;
   mvaddstr (get_lineno ()) 1 banner;
   attroff A.reverse;
 
-  key "P" (s_ "Sort by %CPU");
-  key "M" (s_ "Sort by %MEM");
-  key "T" (s_ "Sort by TIME");
-  key "N" (s_ "Sort by ID");
-  key "F" (s_ "Select sort field");
+  key "P" (s_"Sort by %CPU");
+  key "M" (s_"Sort by %MEM");
+  key "T" (s_"Sort by TIME");
+  key "N" (s_"Sort by ID");
+  key "F" (s_"Select sort field");
 
   (* Display modes on right. *)
-  let banner = pad 39 (s_ "DISPLAY MODES") in
+  let banner = pad 39 (s_"DISPLAY MODES") in
   attron A.reverse;
   mvaddstr header_lineno 40 banner;
   attroff A.reverse;
@@ -1628,18 +1629,18 @@ and show_help (_, _, _, _, _, hostname,
     move lineno 40; attron A.bold; addstr keys; attroff A.bold;
     move lineno 49; addstr description
   in
-  key "0" (s_ "Domains display");
-  key "1" (s_ "Toggle physical CPUs");
-  key "2" (s_ "Toggle network interfaces");
-  key "3" (s_ "Toggle block devices");
+  key "0" (s_"Domains display");
+  key "1" (s_"Toggle physical CPUs");
+  key "2" (s_"Toggle network interfaces");
+  key "3" (s_"Toggle block devices");
 
   (* Update screen and wait for key press. *)
   mvaddstr (lines-1) 0
-    (s_ "More help in virt-top(1) man page. Press any key to return.");
+    (s_"More help in virt-top(1) man page. Press any key to return.");
   refresh ();
   ignore (getch ())
 
 and unknown_command k =
-  print_msg (s_ "Unknown command - try 'h' for help");
+  print_msg (s_"Unknown command - try 'h' for help");
   refresh ();
   sleep 1
