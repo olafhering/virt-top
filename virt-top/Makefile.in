@@ -64,11 +64,11 @@ OBJS		+= virt_top_main.cmo
 
 XOBJS		:= $(OBJS:.cmo=.cmx)
 
-OCAMLCFLAGS	:= -g -w s
+OCAMLCFLAGS	:= -g -warn-error A
 OCAMLCLIBS	:= -linkpkg
 
 OCAMLOPTPACKAGES := $(OCAMLCPACKAGES)
-OCAMLOPTFLAGS	:= -w s
+OCAMLOPTFLAGS	:= -warn-error A
 OCAMLOPTLIBS	:= $(OCAMLCLIBS)
 
 BYTE_TARGETS	:= virt-top

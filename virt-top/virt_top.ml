@@ -305,13 +305,13 @@ OPTIONS" in
 
   (* Curses voodoo (see ncurses(3)). *)
   if not !script_mode then (
-    initscr ();
-    cbreak ();
-    noecho ();
+    ignore (initscr ());
+    ignore (cbreak ());
+    ignore (noecho ());
     nonl ();
     let stdscr = stdscr () in
-    intrflush stdscr false;
-    keypad stdscr true;
+    ignore (intrflush stdscr false);
+    ignore (keypad stdscr true);
     ()
   );
 
@@ -345,10 +345,10 @@ let usleep n =
  * This helper function also enables echo temporarily.
  *)
 let get_string maxlen =
-  echo ();
+  ignore (echo ());
   let str = String.create maxlen in
   let ok = getstr str in (* Safe because binding calls getnstr. *)
-  noecho ();
+  ignore (noecho ());
   if not ok then ""
   else (
     (* Chop at first '\0'. *)
@@ -367,8 +367,8 @@ let header_lineno = 4
 let domains_lineno = 5
 
 (* Print in the "message area". *)
-let clear_msg () = move message_lineno 0; clrtoeol ()
-let print_msg str = clear_msg (); mvaddstr message_lineno 0 str; ()
+let clear_msg () = ignore (move message_lineno 0); clrtoeol ()
+let print_msg str = clear_msg (); ignore (mvaddstr message_lineno 0 str)
 
 (* Intermediate "domain + stats" structure that we use to collect
  * everything we know about a domain within the collect function.
@@ -754,12 +754,13 @@ let redraw =
     let lines, cols = get_size () in
 
     (* Time. *)
-    mvaddstr top_lineno 0 ("virt-top " ^ printable_time ^ " - ");
+    ignore (mvaddstr top_lineno 0 ("virt-top " ^ printable_time ^ " - "));
 
     (* Basic node_info. *)
-    addstr (sprintf "%s %d/%dCPU %dMHz %LdMB "
-	      node_info.C.model node_info.C.cpus nr_pcpus node_info.C.mhz
-	      (node_info.C.memory /^ 1024L));
+    ignore (addstr
+	      (sprintf "%s %d/%dCPU %dMHz %LdMB "
+		 node_info.C.model node_info.C.cpus nr_pcpus node_info.C.mhz
+		 (node_info.C.memory /^ 1024L)));
     (* Save the cursor position for when we come to draw the
      * historical CPU times (down in this function).
      *)
@@ -840,8 +841,9 @@ let redraw =
 
 	 (* Print domains. *)
 	 attron A.reverse;
-	 mvaddstr header_lineno 0
-	   (pad cols "   ID S RDRQ WRRQ RXBY TXBY %CPU %MEM    TIME   NAME");
+	 ignore (
+	   mvaddstr header_lineno 0
+	     (pad cols "   ID S RDRQ WRRQ RXBY TXBY %CPU %MEM    TIME   NAME"));
 	 attroff A.reverse;
 
 	 let rec loop lineno = function
@@ -864,7 +866,7 @@ let redraw =
 		   rd.rd_domid state rd_req wr_req rx_bytes tx_bytes
 		   percent_cpu percent_mem time name in
 		 let line = pad cols line in
-		 mvaddstr lineno 0 line;
+		 ignore (mvaddstr lineno 0 line);
 		 loop (lineno+1) doms
 	       )
 	   | (name, Inactive) :: doms -> (* inactive domain *)
@@ -874,7 +876,7 @@ let redraw =
 		     "    -                                           (%s)"
 		     name in
 		 let line = pad cols line in
-		 mvaddstr lineno 0 line;
+		 ignore (mvaddstr lineno 0 line);
 		 loop (lineno+1) doms
 	       )
 	 in
@@ -897,16 +899,17 @@ let redraw =
 	     ) doms
 	   ) in
 	 attron A.reverse;
-	 mvaddstr header_lineno 0 (pad cols ("PHYCPU %CPU " ^ dom_names));
+	 ignore (
+	   mvaddstr header_lineno 0 (pad cols ("PHYCPU %CPU " ^ dom_names)));
 	 attroff A.reverse;
 
 	 Array.iteri (
 	   fun p row ->
-	     mvaddstr (p+domains_lineno) 0 (sprintf "%4d   " p);
+	     ignore (mvaddstr (p+domains_lineno) 0 (sprintf "%4d   " p));
 	     let cpu_time = pcpus_cpu_time.(p) in (* ns used on this CPU *)
 	     let percent_cpu = 100. *. cpu_time /. total_cpu_per_pcpu in
-	     addstr (Show.percent percent_cpu);
-	     addch 32;
+	     ignore (addstr (Show.percent percent_cpu));
+	     ignore (addch 32);
 
 	     List.iteri (
 	       fun di (domid, name, _, _, _, _, _) ->
@@ -922,7 +925,7 @@ let redraw =
 		       (if is_average then '=' else ' ')
 		       (if is_running then '#' else ' ')
 		   ) in
-		 addstr (pad width str);
+		 ignore (addstr (pad width str));
 		 ()
 	     ) doms
 	 ) pcpus;
@@ -996,8 +999,9 @@ let redraw =
 
 	 (* Print the header for network devices. *)
 	 attron A.reverse;
-	 mvaddstr header_lineno 0
-	   (pad cols "   ID S RXBY TXBY RXPK TXPK DOMAIN       INTERFACE");
+	 ignore (
+	   mvaddstr header_lineno 0
+	     (pad cols "   ID S RXBY TXBY RXPK TXPK DOMAIN       INTERFACE"));
 	 attroff A.reverse;
 
 	 (* Print domains and devices. *)
@@ -1029,7 +1033,7 @@ let redraw =
 		   rx_packets tx_packets
 		   (pad 12 name) dev in
 		 let line = pad cols line in
-		 mvaddstr lineno 0 line;
+		 ignore (mvaddstr lineno 0 line);
 		 loop (lineno+1) devs
 	       )
 	 in
@@ -1104,8 +1108,9 @@ let redraw =
 
 	 (* Print the header for block devices. *)
 	 attron A.reverse;
-	 mvaddstr header_lineno 0
-	   (pad cols "   ID S RDBY WRBY RDRQ WRRQ DOMAIN       DEVICE");
+	 ignore (
+	   mvaddstr header_lineno 0
+	     (pad cols "   ID S RDBY WRBY RDRQ WRRQ DOMAIN       DEVICE"));
 	 attroff A.reverse;
 
 	 (* Print domains and devices. *)
@@ -1137,7 +1142,7 @@ let redraw =
 		   rd_req wr_req
 		   (pad 12 name) dev in
 		 let line = pad cols line in
-		 mvaddstr lineno 0 line;
+		 ignore (mvaddstr lineno 0 line);
 		 loop (lineno+1) devs
 	       )
 	 in
@@ -1148,16 +1153,18 @@ let redraw =
 	 crashed, active, inactive,
 	 total_cpu_time, total_memory, total_domU_memory) = totals in
 
-    mvaddstr summary_lineno 0
-      (sprintf (f_ "%d domains, %d active, %d running, %d sleeping, %d paused, %d inactive D:%d O:%d X:%d")
-	 count active running blocked paused inactive shutdown shutoff
-	 crashed);
+    ignore (
+      mvaddstr summary_lineno 0
+	(sprintf (f_ "%d domains, %d active, %d running, %d sleeping, %d paused, %d inactive D:%d O:%d X:%d")
+	   count active running blocked paused inactive shutdown shutoff
+	   crashed));
 
     (* Total %CPU used, and memory summary. *)
     let percent_cpu = 100. *. total_cpu_time /. total_cpu in
-    mvaddstr (summary_lineno+1) 0
-      (sprintf (f_ "CPU: %2.1f%%  Mem: %Ld MB (%Ld MB by guests)")
-	 percent_cpu (total_memory /^ 1024L) (total_domU_memory /^ 1024L));
+    ignore (
+      mvaddstr (summary_lineno+1) 0
+	(sprintf (f_ "CPU: %2.1f%%  Mem: %Ld MB (%Ld MB by guests)")
+	   percent_cpu (total_memory /^ 1024L) (total_domU_memory /^ 1024L)));
 
     (* Time to grab another historical %CPU for the list? *)
     if time >= !historical_cpu_last_time +. float !historical_cpu_delay
@@ -1174,11 +1181,12 @@ let redraw =
 	String.concat " "
 	  (List.map (sprintf "%2.1f%%") !historical_cpu) in
       let line = pad maxwidth line in
-      mvaddstr y x line;
+      ignore (mvaddstr y x line);
       () in
 
-    move message_lineno 0; (* Park cursor in message area, as with top. *)
-    refresh ();		   (* Refresh the display. *)
+    (* Park cursor in message area, as with top. *)
+    ignore (move message_lineno 0);
+    ignore (refresh ());		(* Refresh the display. *)
     ()
 
 (* Write CSV header row. *)
@@ -1341,18 +1349,18 @@ and change_delay () =
     with
       Failure "float_of_string" ->
 	print_msg (s_ "Not a valid number"); true in
-  refresh ();
+  ignore (refresh ());
   sleep (if error then 2 else 1)
 
 and change_sort_order () =
   clear ();
   let lines, cols = get_size () in
 
-  mvaddstr top_lineno 0 (s_ "Set sort order for main display");
-  mvaddstr summary_lineno 0 (s_ "Type key or use up and down cursor keys.");
+  ignore (mvaddstr top_lineno 0 (s_ "Set sort order for main display"));
+  ignore (mvaddstr summary_lineno 0 (s_ "Type key or use up and down cursor keys."));
 
   attron A.reverse;
-  mvaddstr header_lineno 0 (pad cols "KEY   Sort field");
+  ignore (mvaddstr header_lineno 0 (pad cols "KEY   Sort field"));
   attroff A.reverse;
 
   let accelerator_key = function
@@ -1380,15 +1388,15 @@ and change_sort_order () =
     fun i ord ->
       let selected = !sort_order = ord in
       if selected then selected_index := i;
-      mvaddstr (domains_lineno+i) 0
-	(sprintf "  %c %s %s %s"
-	   (key_of_int i) (if selected then "*" else " ")
-	   (printable_sort_order ord)
-	   (accelerator_key ord))
+      ignore (mvaddstr (domains_lineno+i) 0
+		(sprintf "  %c %s %s %s"
+		   (key_of_int i) (if selected then "*" else " ")
+		   (printable_sort_order ord)
+		   (accelerator_key ord)))
   ) all_sort_fields;
 
-  move message_lineno 0;
-  refresh ();
+  ignore (move message_lineno 0);
+  ignore (refresh ());
   let k = getch () in
   if k >= 0 && k <> 32 && k <> Char.code 'q' && k <> 13 then (
     let new_order, loop =
@@ -1432,7 +1440,7 @@ and change_sort_order () =
 	 print_msg (sprintf "Sort order changed to: %s"
 		      (printable_sort_order new_order));
 	 if not loop then (
-	   refresh ();
+	   ignore (refresh ());
 	   sleep 1
 	 )
     );
@@ -1532,14 +1540,15 @@ and _write_init_file filename =
     Unix.rename (filename ^ ".new") filename;
 
     print_msg (sprintf (f_ "Wrote settings to %s") filename);
-    refresh ();
+    ignore (refresh ());
     sleep 2
   with
   | Sys_error err ->
-      print_msg (s_ "Error" ^ ": " ^ err); refresh (); sleep 2
+      ignore (print_msg (s_ "Error" ^ ": " ^ err));
+      ignore (refresh ()); sleep 2
   | Unix.Unix_error (err, fn, str) ->
-      print_msg (s_ ("Error" ^ ": " ^ Unix.error_message err ^ fn ^ str));
-      refresh ();
+      ignore (print_msg (s_ ("Error" ^ ": " ^ Unix.error_message err ^ fn ^ str)));
+      ignore (refresh ());
       sleep 2
 
 and show_help (_, _, _, _, _, hostname,
@@ -1557,25 +1566,25 @@ and show_help (_, _, _, _, _, hostname,
       libvirt_major libvirt_minor libvirt_release in
   let banner = pad cols banner in
   attron A.reverse;
-  mvaddstr 0 0 banner;
+  ignore (mvaddstr 0 0 banner);
   attroff A.reverse;
 
   (* Status. *)
-  mvaddstr 1 0
-    (sprintf (f_ "Delay: %.1f secs; Batch: %s; Secure: %s; Sort: %s")
-       (float !delay /. 1000.)
-       (if !batch_mode then "On" else "Off")
-       (if !secure_mode then "On" else "Off")
-       (printable_sort_order !sort_order));
-  mvaddstr 2 0
-    (sprintf (f_ "Connect: %s; Hostname: %s")
-       (match !uri with None -> "default" | Some s -> s)
-       hostname);
+  ignore (mvaddstr 1 0
+	    (sprintf (f_ "Delay: %.1f secs; Batch: %s; Secure: %s; Sort: %s")
+	       (float !delay /. 1000.)
+	       (if !batch_mode then "On" else "Off")
+	       (if !secure_mode then "On" else "Off")
+	       (printable_sort_order !sort_order)));
+  ignore (mvaddstr 2 0
+	    (sprintf (f_ "Connect: %s; Hostname: %s")
+	       (match !uri with None -> "default" | Some s -> s)
+	       hostname));
 
   (* Misc keys on left. *)
   let banner = pad 38 (s_ "MAIN KEYS") in
   attron A.reverse;
-  mvaddstr header_lineno 1 banner;
+  ignore (mvaddstr header_lineno 1 banner);
   attroff A.reverse;
 
   let get_lineno =
@@ -1584,8 +1593,8 @@ and show_help (_, _, _, _, _, hostname,
   in
   let key keys description =
     let lineno = get_lineno () in
-    move lineno 1; attron A.bold; addstr keys; attroff A.bold;
-    move lineno 10; addstr description; ()
+    ignore (move lineno 1); attron A.bold; ignore (addstr keys); attroff A.bold;
+    ignore (move lineno 10); ignore (addstr description)
   in
   key "space ^L" (s_ "Update display");
   key "q"        (s_ "Quit");
@@ -1596,7 +1605,7 @@ and show_help (_, _, _, _, _, hostname,
   ignore (get_lineno ());
   let banner = pad 38 (s_ "SORTING") in
   attron A.reverse;
-  mvaddstr (get_lineno ()) 1 banner;
+  ignore (mvaddstr (get_lineno ()) 1 banner);
   attroff A.reverse;
 
   key "P" (s_ "Sort by %CPU");
@@ -1608,7 +1617,7 @@ and show_help (_, _, _, _, _, hostname,
   (* Display modes on right. *)
   let banner = pad 39 (s_ "DISPLAY MODES") in
   attron A.reverse;
-  mvaddstr header_lineno 40 banner;
+  ignore (mvaddstr header_lineno 40 banner);
   attroff A.reverse;
 
   let get_lineno =
@@ -1617,8 +1626,8 @@ and show_help (_, _, _, _, _, hostname,
   in
   let key keys description =
     let lineno = get_lineno () in
-    move lineno 40; attron A.bold; addstr keys; attroff A.bold;
-    move lineno 49; addstr description; ()
+    ignore (move lineno 40); attron A.bold; ignore (addstr keys); attroff A.bold;
+    ignore (move lineno 49); ignore (addstr description)
   in
   key "0" (s_ "Domains display");
   key "1" (s_ "Toggle physical CPUs");
@@ -1626,12 +1635,12 @@ and show_help (_, _, _, _, _, hostname,
   key "3" (s_ "Toggle block devices");
 
   (* Update screen and wait for key press. *)
-  mvaddstr (lines-1) 0
-    (s_ "More help in virt-top(1) man page. Press any key to return.");
-  refresh ();
+  ignore (mvaddstr (lines-1) 0
+	    (s_ "More help in virt-top(1) man page. Press any key to return."));
+  ignore (refresh ());
   ignore (getch ())
 
 and unknown_command k =
   print_msg (s_ "Unknown command - try 'h' for help");
-  refresh ();
+  ignore (refresh ());
   sleep 1
