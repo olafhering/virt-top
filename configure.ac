@@ -26,7 +26,7 @@ dnl Check for basic OCaml environment & findlib.
 AC_PROG_OCAML
 AC_PROG_FINDLIB
 
-if test "x$OCAMLFIND" = "x"; then
+if test "x$OCAMLFIND" = "xno"; then
     AC_MSG_ERROR([OCaml findlib is required])
 fi
 
