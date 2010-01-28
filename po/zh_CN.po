@@ -1,10 +1,11 @@
-#, fuzzy
+# translation of virt-top.master.po to Simplified Chinese
+# Leah Liu <lliu@redhat.com>, 2009.
 msgid ""
 msgstr ""
-"Project-Id-Version: virt-top.tip\n"
+"Project-Id-Version: virt-top.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-11-03 12:11+0000\n"
-"PO-Revision-Date: 2009-09-10 15:58+1000\n"
+"POT-Creation-Date: 2009-10-06 14:58+0000\n"
+"PO-Revision-Date: 2009-12-10 19:45+1000\n"
 "Last-Translator: Leah Liu <lliu@redhat.com>\n"
 "Language-Team: Simplified Chinese <zh@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -127,7 +128,7 @@ msgstr "在 CSV 中禁用网络统计"
 
 #: ../virt-top/virt_top.ml:204
 msgid "Display version number and exit"
-msgstr ""
+msgstr "显示版本号并退出"
 
 #: ../virt-top/virt_top.ml:194
 msgid "Do not read init file"
@@ -145,8 +146,8 @@ msgstr "域名"
 msgid "Domains display"
 msgstr "域显示"
 
-#: ../virt-top/virt_top_main.ml:47 ../virt-top/virt_top.ml:1547
 #. ../virt-top/virt_top.ml:1544
+#: ../virt-top/virt_top_main.ml:47 ../virt-top/virt_top.ml:1547
 msgid "Error"
 msgstr "错误"
 
@@ -198,11 +199,11 @@ msgstr "要运行的重复数"
 
 #: ../virt-top/virt_top.ml:1576 ../virt-top/virt_top.ml:1575
 msgid "Off"
-msgstr ""
+msgstr "关闭"
 
 #: ../virt-top/virt_top.ml:1576 ../virt-top/virt_top.ml:1575
 msgid "On"
-msgstr ""
+msgstr "打开"
 
 #: ../virt-top/virt_top.ml:1600
 msgid "Quit"
@@ -306,7 +307,7 @@ msgstr "将设置写入 %s"
 
 #: ../virt-top/virt_top.ml:1581
 msgid "default"
-msgstr ""
+msgstr "默认"
 
 #: ../virt-top/virt_top_xml.ml:46
 msgid "get_xml_desc didn't return <domain/>"
@@ -314,7 +315,7 @@ msgstr "get_xml_desc 没有返回 <domain/>"
 
 #: ../virt-top/virt_top.ml:1561
 msgid "virt-top %s ocaml-libvirt %s libvirt %d.%d.%d by Red Hat"
-msgstr ""
+msgstr "红帽提供的 virt-top %s ocaml-libvirt %s libvirt %d.%d.%d"
 
 #: ../virt-top/virt_top.ml:208
 msgid ""
