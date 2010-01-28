@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: pl\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-03-28 17:30+0000\n"
-"PO-Revision-Date: 2009-10-04 20:17+0200\n"
+"PO-Revision-Date: 2009-12-05 14:27+0100\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <fedora-trans-pl@redhat.com>\n"
 "MIME-Version: 1.0\n"
@@ -121,7 +121,7 @@ msgstr "Wyłącza statystyki sieci w CSV"
 
 #: ../virt-top/virt_top.ml:204
 msgid "Display version number and exit"
-msgstr ""
+msgstr "Wyświetla numer wersji i kończy działanie"
 
 #: ../virt-top/virt_top.ml:194
 msgid "Do not read init file"
@@ -190,11 +190,11 @@ msgstr "Liczba iteracji do wykonania"
 
 #: ../virt-top/virt_top.ml:1576 ../virt-top/virt_top.ml:1575
 msgid "Off"
-msgstr ""
+msgstr "Wyłączone"
 
 #: ../virt-top/virt_top.ml:1576 ../virt-top/virt_top.ml:1575
 msgid "On"
-msgstr ""
+msgstr "Włączone"
 
 #: ../virt-top/virt_top.ml:1600
 msgid "Quit"
@@ -298,7 +298,7 @@ msgstr "Zapisano ustawienia do %s"
 
 #: ../virt-top/virt_top.ml:1581
 msgid "default"
-msgstr ""
+msgstr "domyślne"
 
 #: ../virt-top/virt_top_xml.ml:46
 msgid "get_xml_desc didn't return <domain/>"
@@ -306,7 +306,7 @@ msgstr "get_xml_desc nie zwróciło <domain/>"
 
 #: ../virt-top/virt_top.ml:1561
 msgid "virt-top %s ocaml-libvirt %s libvirt %d.%d.%d by Red Hat"
-msgstr ""
+msgstr "virt-top %s ocaml-libvirt %s libvirt %d.%d.%d Red Hat"
 
 #: ../virt-top/virt_top.ml:208
 msgid "virt-top : a 'top'-like utility for virtualization\n\nSUMMARY\n  virt-top [-options]\n\nOPTIONS"
