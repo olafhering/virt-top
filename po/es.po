@@ -3,9 +3,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Fedora Spanish Tranlation of virt.top.tip\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-11-03 12:11+0000\n"
+"POT-Creation-Date: 2009-10-06 14:58+0000\n"
 "PO-Revision-Date: \n"
-"Last-Translator: héctor daniel cabrera <h.daniel.cabrera@gmail.com>\n"
+"Last-Translator: Héctor Daniel Cabrera <h.daniel.cabrera@gmail.com>\n"
 "Language-Team: Fedora Spanish <fedora-trans-es@redhat.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -130,7 +130,7 @@ msgstr "Deshabilita estadísticas de red en CVS"
 
 #: ../virt-top/virt_top.ml:204
 msgid "Display version number and exit"
-msgstr ""
+msgstr "Muestra el número de la versión y se cierra"
 
 #: ../virt-top/virt_top.ml:194
 msgid "Do not read init file"
@@ -199,11 +199,11 @@ msgstr "Número de iteraciones a ser ejecutadas"
 
 #: ../virt-top/virt_top.ml:1576 ../virt-top/virt_top.ml:1575
 msgid "Off"
-msgstr ""
+msgstr "Apagado"
 
 #: ../virt-top/virt_top.ml:1576 ../virt-top/virt_top.ml:1575
 msgid "On"
-msgstr ""
+msgstr "Encendido"
 
 #: ../virt-top/virt_top.ml:1600
 msgid "Quit"
@@ -307,7 +307,7 @@ msgstr "Configuraciones guardadas en %s"
 
 #: ../virt-top/virt_top.ml:1581
 msgid "default"
-msgstr ""
+msgstr "predeterminado"
 
 #: ../virt-top/virt_top_xml.ml:46
 msgid "get_xml_desc didn't return <domain/>"
@@ -315,7 +315,7 @@ msgstr "el get_xml_desc no ha retornado <domain/n>"
 
 #: ../virt-top/virt_top.ml:1561
 msgid "virt-top %s ocaml-libvirt %s libvirt %d.%d.%d by Red Hat"
-msgstr ""
+msgstr "virt-top %s ocaml-libvirt %s libvirt %d.%d.%d por Red Hat"
 
 #: ../virt-top/virt_top.ml:208
 msgid ""
