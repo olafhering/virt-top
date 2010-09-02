@@ -1174,7 +1174,7 @@ let redraw =
 
     (* Display historical CPU time. *)
     let () =
-      let x, y = historical_cursor in (* Yes, it's a bug in ocaml-curses *)
+      let y, x = historical_cursor in
       let maxwidth = cols - x in
       let line =
 	String.concat " "
