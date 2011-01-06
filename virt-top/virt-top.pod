@@ -69,7 +69,7 @@ is to run continuously.
 
 Set the sort order to one of:
 B<cpu> (sort by %CPU used),
-B<mem> (sort by memory used),
+B<mem> (sort by total memory),
 B<time> (sort by total time),
 B<id> (sort by domain ID),
 B<name> (sort by domain name),
@@ -252,7 +252,8 @@ Sort by %CPU.
 
 =item I<M>
 
-Sort by memory.
+Sort by total memory.  Note that this shows the total memory
+allocated to the guest, not the memory being used.
 
 =item I<T>
 
