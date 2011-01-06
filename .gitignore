@@ -10,7 +10,6 @@ config.cache
 Makefile
 Make.rules
 */Makefile
-aclocal.m4
 autom4te.cache
 core
 core.*
