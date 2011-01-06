@@ -375,7 +375,7 @@ L<top(1)>,
 L<virsh(1)>,
 L<http://www.libvirt.org/ocaml/>,
 L<http://www.libvirt.org/>,
-L<http://et.redhat.com/~rjones/>,
+L<http://people.redhat.com/~rjones/>,
 L<http://caml.inria.fr/>
 
 =head1 AUTHORS
@@ -384,7 +384,7 @@ Richard W.M. Jones <rjones @ redhat . com>
 
 =head1 COPYRIGHT
 
-(C) Copyright 2007 Red Hat Inc., Richard W.M. Jones
+(C) Copyright 2007-2011 Red Hat Inc., Richard W.M. Jones
 http://libvirt.org/
 
 This program is free software; you can redistribute it and/or modify
