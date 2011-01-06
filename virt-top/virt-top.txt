@@ -50,7 +50,7 @@ OPTIONS
 
     -o sort
         Set the sort order to one of: cpu (sort by %CPU used), mem (sort by
-        memory used), time (sort by total time), id (sort by domain ID),
+        total memory), time (sort by total time), id (sort by domain ID),
         name (sort by domain name), netrx (sort by network received bytes),
         nettx (sort by network transmitted bytes), blockrdrq (sort by block
         device [disk] read requests), blockwrrq (sort by block device [disk]
@@ -185,7 +185,8 @@ KEYS
 
     *P* Sort by %CPU.
 
-    *M* Sort by memory.
+    *M* Sort by total memory. Note that this shows the total memory
+        allocated to the guest, not the memory being used.
 
     *T* Sort by total time.
 
@@ -269,15 +270,16 @@ INIT FILE
     this behaviour may change in the future.
 
 SEE ALSO
-    top(1), virsh(1), xm(1), xentop(1), <http://www.libvirt.org/ocaml/>,
-    <http://www.libvirt.org/>, <http://et.redhat.com/~rjones/>,
+    top(1), virsh(1), <http://www.libvirt.org/ocaml/>,
+    <http://www.libvirt.org/>, <http://people.redhat.com/~rjones/>,
     <http://caml.inria.fr/>
 
 AUTHORS
     Richard W.M. Jones <rjones @ redhat . com>
 
 COPYRIGHT
-    (C) Copyright 2007 Red Hat Inc., Richard W.M. Jones http://libvirt.org/
+    (C) Copyright 2007-2011 Red Hat Inc., Richard W.M. Jones
+    http://libvirt.org/
 
     This program is free software; you can redistribute it and/or modify it
     under the terms of the GNU General Public License as published by the
