@@ -373,8 +373,6 @@ This is a bug and this behaviour may change in the future.
 
 L<top(1)>,
 L<virsh(1)>,
-L<xm(1)>,
-L<xentop(1)>,
 L<http://www.libvirt.org/ocaml/>,
 L<http://www.libvirt.org/>,
 L<http://et.redhat.com/~rjones/>,
