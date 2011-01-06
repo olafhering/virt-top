@@ -1,0 +1,57 @@
+The code is structured into these files:
+
+  virt_top_utils.mli / virt_top_utils.ml
+
+    String functions and other small utility functions.  This is
+    included directly into virt_top.ml.
+
+  virt_top.mli / virt_top.ml
+
+    This is the virt-top program.
+
+    The two interesting functions are called 'collect' and 'redraw'.
+
+    'collect' collects all the information about domains, etc.
+
+    'redraw' updates the display on each frame.
+
+    Another interesting function is 'start_up' which handles all
+    start-up stuff, eg. command line arguments, connecting to the
+    hypervisor, enabling curses.
+
+    The function 'main_loop' runs the main loop and has sub-functions
+    to deal with keypresses, help screens and so on.
+
+  virt_top_xml.ml
+
+    Any code which needs the optional xml-light library goes
+    in here.  Mainly for parsing domain XML descriptions to get
+    the list of block devices and network interfaces.
+
+    The reason for having it in a separate file is so that we
+    don't depend on xml-light.
+
+  virt_top_csv.ml
+
+    Any code which needs the optional ocaml-csv library goes
+    in here.  This implements the --csv command line option.
+
+  virt_top_calendar.ml
+
+    Any code which needs the optional ocaml-calendar library
+    goes in here.  This implements the --end-time command line
+    option.
+
+  virt_top_main.ml
+
+    This is just a small bit of code to glue the modules together
+    Virt_top + Virt_top_xml? + Virt_top_csv? + Virt_top_calendar?
+
+The man-page is generated from the single file:
+
+  virt-top.pod
+
+which generates (using perldoc) the following:
+
+  virt-top.1
+  virt-top.txt
