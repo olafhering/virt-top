@@ -1,4 +1,161 @@
+2011-01-06  Richard W.M. Jones  <rjones@redhat.com>
+
+	Version 1.0.5.
+
+	Add aclocal.m4 file to git.
+	This file is sort of generated, but at the moment only has
+	a single line which includes m4/ocaml.m4, that is vital for
+	the build.
+
+	Re-add virt-top/README file.
+	This seems to have been dropped during the hg->git transition.
+
+	Document background noise of RX packets from bridges (RHBZ#647987).
+	For more information see:
+	https://bugzilla.redhat.com/show_bug.cgi?id=647987#c9
+
+	man page: Remove excess blank line.
+
+	main: Record and print full exception stack traces.
+	This turns on stack trace recording unconditionally (the same
+	effect as if OCAMLRUNPARAM=b was always supplied), and also prints
+	stack traces to the log file if there is an exception.
+
+	See also:
+	http://caml.inria.fr/pub/docs/manual-ocaml/libref/Printexc.html
+
+	Note that this requires OCaml >= 3.11.0.
+
+	Fix pad function to work for negative widths (RHBZ#634435).
+	The pad function is supposed to pad a string to a width.  Under some
+	circumstances, the width parameter could be negative resulting in a
+	call to String.sub such as:
+
+	  String.sub str 0 (-1)
+
+	which caused an exception to be thrown and not caught, causing
+	virt-top to exit.  Fix the pad function to return an empty string if
+	width <= 0 instead of throwing an exception.
+
+	See also:
+	https://bugzilla.redhat.com/show_bug.cgi?id=634435
+
+	Update dependencies.
+
+	Update generated man pages.
+
+	Fix virt-top --end-time option when TZ<>UTC (RHBZ#637964).
+	Return the end time as seconds since 1970, and don't adjust it
+	for timezone.  In the main module the end time is compared against
+	the result of Unix.gettimeofday, which is also seconds since 1970,
+	so the comparison now works.
+
+	Tested with TZ=UTC-05, TZ=UTC and TZ=UTC+05.
+
+	NB: This has not been tested against ocaml-calendar 1.x, although
+	that version of calendar is obsolete and no one should be using it.
+
+	Update dependencies file.
+
+	man page: memory option shows total guest memory (RHBZ#647991).
+
+	man page: Update copyright date and link to web pages.
+
+	Remove references to xm/xentop manual pages (RHBZ#648186).
+	These Xen tools are obsolete since virsh/virt-top works across
+	all hypervisors.
+
+2010-09-02  Richard Jones  <rjones@redhat.com>
+
+	Change order of return values from getyx - fixes display of historical CPU.
+	In this commit:
+	http://cvs.savannah.gnu.org/viewvc/ocaml-tmk/functions.c?root=ocaml-tmk&r1=1.2&r2=1.3
+	Sam changed (fixed) the order that the coordinates are returned
+	from the ncurses 'getyx' call.  Since this commit was made 3 years
+	ago it should be safe to assume everyone is using the new ocaml-ncurses
+	by now.
+
+	This meant the historical %CPU was being displayed off the bottom of
+	the screen instead of on the top row at the right.  Now it is displayed
+	in the correct place.
+
+2010-06-15  Kiyoto Hashida  <khashida@redhat.com>
+
+	Update Japanese translations (RHBZ#493799).
+
+2010-03-05  Yulia  <ypoyarko@redhat.com>
+
+	Updated Russian translations (RHBZ#493799).
+
+2010-03-05  Richard Jones  <rjones@redhat.com>
+
+	Newer autoconf adds PACKAGE_URL definition.
+
+2010-02-12  Richard Jones  <rjones@redhat.com>
+
+	zh_CN: Remove bogus Plural-Forms line.
+
+	Japanese: update bogus 'Plural-Forms: Plural-Forms'.
+
+2010-02-12  Hajime Taira  <htaira@redhat.com>
+
+	Update Japanese translations (RHBZ#493799).
+
+2010-01-28  Richard Jones  <rjones@redhat.com>
+
+	Rename te_IN.po -> te.po (Piotr Drąg).
+
+	Telugu translation added by Krishna Babu K (RHBZ#493799c32)
+
+	Polish translation updated by Piotr Drag (RHBZ#493799c31)
+
+	Portuguese translation added by Glaucia Cintra (RHBZ#493799c30)
+
+	Chinese translation updated by Wei Liu (RHBZ#493799c29)
+
+	Oriya translation added by Manoj Kumar Giri (RHBZ#493799c28)
+
+	Spanish translation updated by Daniel Cabrera (RHBZ#493799c27)
+
+2009-12-30  Richard Jones  <rjones@redhat.com>
+
+	Update to ocaml-autoconf macros 1.1
+
+	Fix detection of ocaml-findlib.
+
+2009-10-06  Richard Jones  <rjones@trick.home.annexia.org>
+
+	HACKING file, update (C) messages.
+
+	Update PO files.
+
+	Remove extra spaces after s_ and f_ operators.
+
+	Safer curses functions.
+	Add safer curses functions which don't require use of dangerous
+	ignore() function.
+
+	Replace failwith (sprintf...) with failwithf
+
+	Remove -w s and fix so it compiles without warnings.
+
+	Remove NSIS installer.
+
+	Change over to using ocaml.m4 macros.
+
 2009-10-05  Richard Jones  <rjones@trick.home.annexia.org>
+
+	Updated MANIFEST.
+
+	TODO.virt-top renamed as TODO
+
+	Typo fixed.
+
+	Update manpage with --version option.
+
+	Add virt-top --version command line option.
+
+	Add the real virt-top version to help display.
 
 	Version 1.0.4 for release.
 
@@ -23,376 +180,3 @@
 	Update dependencies.
 
 	Rename .hgignore -> .gitignore, update dependencies.
-
-	New translations.
-
-	Unknown, empty change.
-
-	Added PO files.  For some reason the Japanese PO file has a parse error, so omitted it for now.
-
-	Updated MANIFEST
-
-	Added translations for zh_CN by Wei Liu
-
-	Added de translation by Fabian Affolter
-
-	Version 1.0.2 for release.
-
-	Fixed missing PO file in MANIFEST.
-
-	Rebuild ChangeLog file automatically when we distribute.
-
-	Brazilian Portuguese translation by Herli Joaquim de Menezes and revised by Igor Pires Soares.
-
-	Ignore tarball.
-
-	Avoid an error when gettext is not available.
-
-2008-04-17  rjones@thinkpad  <rjones@thinkpad>
-
-	Merge.
-
-	Remove bogus =end from end of manpage.
-
-2008-03-05  rjones@thinkpad.home.annexia.org  <rjones@thinkpad.home.annexia.org>
-
-	Don't link virt-df with ncurses.
-
-	Readded AC_PROG_INSTALL.
-
-	Version 0.4.1.0 for release.
-
-	Remove META file.
-
-	Restructure main window code slightly.
-
-	*** THIS REPO IS JUST FOR VIRT-TOP NOW ***  - See http://hg.et.redhat.com/applications/virt/ for bindings and    the other applications.
-
-	New connection dialog with support for Avahi detection of libvirtd.
-
-	Removed virt-ctrl, virt-df, ocaml-libvirt - now in separate repositories.
-
-	Updated deps.
-
-	Updated MANIFEST.
-
-	Added support for compiled-in icons from a GNOME theme.
-
-	Update manpage.
-
-	Updated MANIFEST.
-
-	Fix alignment in -t option
-
-	"Finish off" this program, add manpage.
-
-	LVM2 parsing complete and working.
-
-	Update list of dependencies.
-
-	Use offset_device
-
-	Update MANIFEST.
-
-	Added offset_device, canonical_uuid function, pass LV device with LV filesystems
-
-	Move connection dialog to its own module.  ocaml-dbus >= 0.04.
-
-	Minor clarifications to developer docs.
-
-	Upgrade to released storage API in libvirt CVS.
-
-	Make debug selectable at runtime.
-
-	Extra tasks for jmh
-
-	Almost complete VG & LV metadata parsing.
-
-	Move open_connection dialog.  - Move open_connection dialog into vc_mainwindow which is more logical.
-
-	Added range library function.
-
-	Combine historical data, provide accessor functions.  - Historical data combined into a single array of dhentrys.  - Provide accessor functions.  - Clamp %CPU to 0..100.
-
-	Redundant newline.
-
-	Store domain %CPU and memory history.
-
-	Removed some debugging prints.
-
-	Clean up memory handling.  - Call Gc.compact during timeout handler and when program exits to check    for memory errors.  - Don't allow timeout exceptions to propagate - causes a segfault in lablgtk.  - Tidy up the About dialog.
-
-	Removed text-mode annotation.
-
-	Added a separate file and dependency for DBus.
-
-	Added developer documentation.
-
-	Rewrite the requirements section of the README file to make it clearer.
-
-	Metadata parser.
-
-	Version 0.4.0.3 released.
-
-	Empty *.mli files to stop those modules from exporting symbols.
-
-	Minor fix for calendar 1.x
-
-2008-02-12  rjones@thinkpad.home.annexia.org  <rjones@thinkpad.home.annexia.org>
-
-	Support for calendar >= 2.0
-
-	Cosmetic fixes and comments.
-
-	Fix Volume.lookup_by_key and Volume.lookup_by_path 	* libvirt/libvirt.mli, libvirt/libvirt.ml: These functions take 	  a connection object, not a pool, as first parameter.
-
-	Read out the actual metadata.
-
-	Version 0.4.0.2 released.
-
-	Added a documentation note about RAID devices.
-
-	Updated MANIFEST
-
-	Read out metadata offset & length from PV header.
-
-	Implemented virStorageVolLookupByName & virStorageVolCreateXML.
-
-	Refactor the types so we have distinct PV & LV types.
-
-	Return UUID (packed byte array) correctly.
-
-	Infrastructure to detect filesystems on LVs.
-
-	Print signatures next to functions in the bindings.
-
-	Update deps.
-
-	Don't hard-code Storage API errors, in case building with older libvirt.
-
-	LVM2 PV detection.
-
-	Complete implementation of storage API.
-
-	Add PV detection framework.
-
-	Job functions should be marked as weak.
-
-	Don't need the ': device' typecasts any more.
-
-	Storage API almost completed, even more autogeneration.
-
-	Move main code to virt_df_main.ml and provide explicit interface virt_df.mli
-
-	Autogenerate *Free and *Destroy functions.
-
-	Added Polish translation (thanks: Piotr Drąg)
-
-	Documentation updates.
-
-	Complete rewrite of virt-df:   - Uses pa_bitmatch for robust parsing of disk structures.   - Completely modularized.
-
-	Autogenerate all GetUUID and GetUUIDString functions.
-
-	Updated deps.
-
-	Further work on storage API and autogenerating bindings.
-
-	pa_bitmatch package added. xml-light is now optional. MBR code now in its own file.
-
-	Notes.
-
-	Add new column for virt-df requirements.
-
-	Add 'make autostatus' target so we can test how we autogeneration of bindings is going.
-
-	Check for pa_bitmatch extension (now required by virt-df).
-
-	Ignore config.cache (./configure -C)
-
-	Allow extra OCAMLDEPFLAGS to be passed, eg to make syntax extensions possible.
-
-	More bindings autogenerated, more coverage of storage API.
-
-	Updated PO files.
-
-	Move to autogeneration of many C bindings. 	* configure.ac, libvirt/libvirt_c.c, libvirt/generator.pl: Many 	  C bindings can now be autogenerated using a Perl script. 	  Also includes preliminary support for the experimental 	  storage API.
-
-	Internationalize virt-top.
-
-	List functions to test one-per-line to make it simpler to add more.
-
-	Updated PO files.
-
-	Changing copyright notice for new year.
-
-	Internationalize virt-df program.
-
-	Get node_info just once for each connection. 	* vc_connections.ml: Get node_info just once for each connection, 	  which is more efficient. 	* vc_connections.mli: Tidy up.
-
-	Should always link to program gettext package.
-
-	Type Vc_domain_ops.dops_callback_fn for clarity. 	* virt-ctrl/vc_domain_ops.mli, virt-ctrl/vc_domain_ops.ml, 	  virt-ctrl/vc_mainwindow.mli: Give a type name to the domain_ops 	  callback type, for extra clarity.
-
-	Update translations.  Added a couple of Japanese translations for testing.
-
-	Change comments virt-manager -> virt-ctrl. 	* virt-ctrl/*.ml, virt-ctrl/*.mli: Change comments virt-manager -> 	  virt-ctrl.
-
-	Internationalize virt-ctrl.
-
-	Move programming information to libvirt generated doc. 	* README, libvirt/libvirt.mli: Moved programming information to 	  libvirt generated documentation, greatly expanded examples and 	  other issues. 	* examples/Makefile.in, examples/node_info.ml, examples/.depend: 	  Added node_info example program. 	* .hgignore, Makefile.in: Ignore, clean up node_info binary. 	* examples/list_domains.ml: Make a read-only connection.
-
-	Make mlvirsh localizable.
-
-	Bumped version number.
-
-	Basic infrastructure for using gettext to translate.
-
-	Clean up *.exe files. 	* Makefile.in: Clean up *.exe files.
-
-	Version 0.4.1.1 for release.
-
-	Version 0.4.0.1 released. 	* Makefile.in: Provide a 'winupload' target.
-
-	Install the *.cmi files as well.
-
-	Commit ChangeLog.
-
-	Generated file updated by previous commit.
-
-	Rename some dialogs in virt-ctrl. 	* virt-ctrl/vc_mainwindow.ml: Fix some "virtual machine manager" -> 	  "virt-ctrl" dialogs in main window.
-
-	Use CAMLnoreturn to avoid compiler warning.
-
-	Fix bad paths in wininstaller.nsis.in. 	* wininstaller.nsis.in: 	* .hgignore: Ignore *.orig files.
-
-	Update Windows installer license to include GPL, LGPL text.
-
-	Update MANIFEST.
-
-	Fix native virt-ctrl on Windows. 	* virt-ctrl/Makefile.in, virt-ctrl/mingw-gcc-wrapper.ml: Wrapper 	  around 'gcc' to fix native virt-ctrl builds on Windows/MinGW. 	* .hgignore: Ignore *.exe files.
-
-	Updated MANIFEST. 	* MANIFEST: Bring the MANIFEST file up to date.
-
-	mlvirtmanager renamed as virt-ctrl. 	* .hgignore, Makefile.in, configure.ac: Rename 	  mlvirtmanager as virt-ctrl to avoid any confusion with 	  the real virt-manager. 	* mlvirtmanager/, virt-ctrl/: Subdirectory moved. 	* README: Supporting documentation updated.
-
-	Missing virt-df/.depend.
-
-	Fix executable permissions added by Windoze.
-
-	Include mlvirtmanager in the Windows installer. 	* wininstaller.nsis.in: Include mlvirtmanager in the Windows 	  installer. 	* Makefile.in: Re-enable native code builds for Windows installer. 	* mlvirtmanager/Makefile.in: Pass $(LDFLAGS) when building on 	  Windows - you need to specify the location of $GTK/lib.
-
-	Bundle Gtk DLLs and support files in the Windows installer. 	* configure.ac: Detect library paths instead of hard- 	  coding them. 	* wininstaller.nsis (removed): This file is now autogenerated. 	* wininstaller.nsis.in: Bundle Gtk DLLs and support files. 	* Makefile.in: More verbose messages from NSIS.
-
-	Include required libraries in the Windows installer. 	* wininstaller.nsis: Include *.dll files.
-
-	Update ChangeLog for Windows installer details.
-
-	Basic framework for NSIS.
-
-	mlvirtmanager compiles and runs on Windows (MinGW). 	* configure.ac: Directories to search for optional modules were 	  specified incorrectly - fixed. 	* mlvirtmanager/Makefile.in: Changed so can build without 	  ocamlfind, and checked it can build on Windows.
-
-	mlvirsh can compile without extlib 	* mlvirsh/mlvirsh.ml: mlvirsh only needed three functions from 	  extlib, so copy them in here to avoid the dependency. 	* configure.ac: No dependency on extlib for mlvirsh. 	* mlvirsh/Makefile.in: Changed so can build without ocamlfind. 	* README: Updated documentation.
-
-	Update documentation for Windows. 	* README: Update documentation for Windows.
-
-	Build libvirt and examples on Windows (MinGW). 	* aclocal.m4: Add AC_CHECK_OCAML_MODULE to check for OCaml 	  modules directly (without ocamlfind being needed). 	* configure.ac: Remove requirement for ocamlfind. 	* config.guess, config.sub: Ship these files to guess host, 	  build and target. 	* libvirt/Makefile.in, examples/Makefile.in: Change these 	  so they don't require ocamlfind, do the right thing on MinGW. 	* Make.rules.in: Make.rules is now generated from this file. 	  File can use ocamlfind or direct ocaml commands as available. 	* .hgignore: Ignore some generated files on Windows.
-
-	Make extlib an optional dependency. 	* Makefile.in, README, configure.ac, examples/Makefile.in, 	  libvirt/Makefile.in, mlvirtmanager/Makefile.in: Much code 	  doesn't really need extlib, so make it optional. 	  Bail earlier in configure step if we don't have ocamlfind.
-
-	New exception Libvirt.Not_supported "function" 	* libvirt/libvirt.ml, libvirt/libvirt.mli, libvirt/libvirt_c.c: 	  Change the ad-hoc "foo not supported" exception into a 	  specific Libvirt.Not_supported "foo" exception. 	* virt-top/virt_top.ml: Change virt-top to understand new 	  exception type.
-
-	Version 0.4.0.0 for release. 	* configure.ac: Version 0.4.0.0 for release.
-
-	Enable multithreaded OCaml programs. 	* libvirt/libvirt_c.c: Use enter/leave_blocking_section around 	  synchronous libvirt API calls, so that multithreaded OCaml 	  programs can be used.
-
-		* libvirt/libvirt.mli, libvirt/libvirt.ml: New error numbers 	  in base libvirt. 	* libvirt/libvirt_c.c: Gracefully handle the case where libvirt 	  throws an error number we have not heard of before (eg. when 	  dynamic linking with newer libvirt). 	* configure.ac: Check <libvirt/virterror.h> exists. 	* configure.ac: Version 0.3.3.4.
-
-	Changed the ocaml-libvirt website in the manpage.
-
-	Example connection URIs in virt-top manpage (bug 390691). https://bugzilla.redhat.com/show_bug.cgi?id=390681
-
-	Version 0.3.3.3. 	* libvirt/libvirt.mli: Added filename = string type to clarify 	  some function signatures which take a filename.  Added lots 	  of function documentation. 	* libvirt/libvirt.ml: Added VIR_FROM_OPENVZ.
-
-	Version 0.3.3.2.  - New website is http://libvirt.org/ocaml/
-
-	Added changes to ChangeLog.
-
-	Start version 0.3.3.2.
-
-	Added support for new API calls:  - virNodeGetFreeMemory  - virNodeGetCellsFreeMemory
-	Release of 0.3.3.1.
-
-	Version 0.3.3.1.
-
-	Updated MANIFEST.
-
-	Updated virt-top.txt.
-
-		* virt-top/virt_top_calendar.ml: Added --end-time option. 	  Extra optional dep on ocaml-calendar. 	* virt-top/virt-top.pod: Document how to compress and split 	  CSV files.  Document --end-time option and time formats. 	* virt-top/virt_top.ml: Allow sub-second delays when in batch 	  and script mode.
-
-	Reorganised the code to put more utility functions into virt_top_utils. Added explicit interfaces for Virt_top_utils & Virt_top modules. Corrected use of endwin when _not_ in script mode.
-
-	Feature request 12.
-
-	Set version to 0.3.3.0 to match libvirt numbering.
-
-	Updated MANIFEST.
-
-	Added requests #10 & #11 from JMH.
-
-	Don't call curses endwin if we are in script mode.
-
-	Updated ChangeLog for previous changes
-
-	Added GNU GPL/LGPL copyright notices everywhere. Fixed display of time which was accidentally broken in previous code move.
-
-	Removed $Id$ everywhere. 'make distclean' now cleans more files.
-
-	Add the flags for enabling/disabling CPU, block and net stats.
-
-	Removed dep on libvirt & extlib -- unnecessary for this file.
-
-	Log domain data to CSV file.
-
-	Added --script option.
-	Rearranged the code so that there are now separate functions to collect
-	the data and update the display.
-
-		* configure.ac: Changed version to 0.3.2.9. 	* Makefile.in: Re-enable virt-df. 	* virt-df/virt_df*.ml: Mostly finished off the core of virt-df. 	  Ext2/3 support.  No LVM as yet. 	* virt-df/README: Added README file.
-
-	Just fixed the README file.
-
-	Updated ChangeLog.
-
-	Version 0.3.2.8. Added support for init files.
-
-		* virt-top/virt_top.ml: qemu:/// URIs (and others) don't support 	  virConnectGetHostname.  Catch this exception.
-
-		* Makefile.in: Disable virt-df in this release until I have 	  time to fix it properly. 	* Makefile.in: Fix 'check-manifest' rule.  Added 'make release'. 	* MANIFEST: Updated MANIFEST.
-
-		* Makefile.in: Disable virt-df in this release until I have 	  time to fix it properly.
-
-		* virt-top/virt_top.ml: Ignore transient error from 	  C.num_of_defined_domains when it cannot contact xend; that 	  was causing virt-top to exit when xend was restarted.
-
-	2007-09-18  Richard Jones  <rjones@redhat.com>
-		* virt-df/virt_df.ml: Handle domains with partition-backed
-		  block devices.
-
-		* virt-top/virt_top.ml: Don't fail on older libvirt which would
-		  give an error if list_domains or list_defined_domains was called
-		  with n = 0.
-
-		* ChangeLog: Start tracking changes.
-
-2007-09-04  rjones@amd  <rjones@amd>
-
-	Basic version, just prints the domains and disk/file mappings.
-
-	Remove a few more generated files.
-
-	Convert .cvsignore files to .cvsignore files, and remove some generated files.
-
-2007-08-30  rjones@localhost  <rjones@localhost>
-
-	Initial import from CVS.

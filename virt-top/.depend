@@ -2,6 +2,8 @@ virt_top_utils.cmi:
 virt_top.cmi:
 virt_top_gettext.cmo:
 virt_top_gettext.cmx:
+virt_top_utils.cmo: virt_top_gettext.cmo virt_top_utils.cmi
+virt_top_utils.cmx: virt_top_gettext.cmx virt_top_utils.cmi
 virt_top_main.cmo: virt_top_gettext.cmo virt_top.cmi
 virt_top_main.cmx: virt_top_gettext.cmx virt_top.cmx
 virt_top_csv.cmo: virt_top_gettext.cmo virt_top.cmi
@@ -10,8 +12,6 @@ virt_top_calendar1.cmo: virt_top_gettext.cmo virt_top.cmi
 virt_top_calendar1.cmx: virt_top_gettext.cmx virt_top.cmx
 virt_top_xml.cmo: virt_top_gettext.cmo virt_top.cmi
 virt_top_xml.cmx: virt_top_gettext.cmx virt_top.cmx
-virt_top_utils.cmo: virt_top_gettext.cmo virt_top_utils.cmi
-virt_top_utils.cmx: virt_top_gettext.cmx virt_top_utils.cmi
 virt_top_calendar2.cmo: virt_top_gettext.cmo virt_top.cmi
 virt_top_calendar2.cmx: virt_top_gettext.cmx virt_top.cmx
 virt_top_version.cmo:

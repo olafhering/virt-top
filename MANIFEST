@@ -7,11 +7,13 @@ config.sub
 configure.ac
 COPYING
 COPYING.LIB
+HACKING
 gitlog-to-changelog
 install-sh
 Makefile.in
 Make.rules.in
 MANIFEST
+m4/ocaml.m4
 po/as.po
 po/de.po
 po/es.po
@@ -23,10 +25,13 @@ po/LINGUAS
 po/Makefile.in
 po/ml.po
 po/mr.po
+po/or.po
 po/pl.po
 po/pt_BR.po
+po/pt.po
 po/POTFILES
 po/ru.po
+po/te.po
 po/virt-top.pot
 po/zh_CN.po
 README
@@ -47,5 +52,3 @@ virt-top/virt_top_utils.ml
 virt-top/virt_top_utils.mli
 virt-top/virt_top_version.ml.in
 virt-top/virt_top_xml.ml
-wininstaller.nsis.in
-winlicense.rtf
