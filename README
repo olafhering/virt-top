@@ -1,7 +1,7 @@
 virt-top
 ----------------------------------------------------------------------
 
-Copyright (C) 2007-2009 Richard W.M. Jones, Red Hat Inc.
+Copyright (C) 2007-2011 Richard W.M. Jones, Red Hat Inc.
 http://et.redhat.com/~rjones/virt-top/
 http://libvirt.org/ocaml/
 http://libvirt.org/
@@ -16,6 +16,9 @@ different virtualization systems.
 
 Building
 ----------------------------------------------------------------------
+
+Note that the minimum version of OCaml supported (since 1.0.5) is
+OCaml 3.11.0.
 
   ./configure           # Checks that you have all the required bits.
 
