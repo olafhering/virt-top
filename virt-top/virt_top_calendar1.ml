@@ -49,5 +49,8 @@ fun time ->
 
   eprintf "end time: %s\n" (Printer.CalendarPrinter.to_string cal);
 
-  (* Convert to a time_t, adjusting for the current timezone. *)
-  fst (Unix.mktime (Calendar.to_unixtm cal))
+  (* Convert to a time_t.  Note that we compare this against
+   * Unix.gettimeofday in the main module, so this must be returned as
+   * plain seconds from 1970 with no timezone adjustment.  (RHBZ#637964)
+   *)
+  Calendar.to_unixfloat cal
