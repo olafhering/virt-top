@@ -365,7 +365,6 @@ init file.
 
 =back
 
-
 Note that in the current implementation, options specified in
 the init file override options specified on the command line.
 This is a bug and this behaviour may change in the future.
