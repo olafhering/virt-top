@@ -109,10 +109,13 @@ let read_config_file filename =
 
 (* Pad a string to the full width with spaces.  If too long, truncate. *)
 let pad width str =
-  let n = String.length str in
-  if n = width then str
-  else if n > width then String.sub str 0 width
-  else (* if n < width then *) str ^ String.make (width-n) ' '
+  if width <= 0 then ""
+  else (
+    let n = String.length str in
+    if n = width then str
+    else if n > width then String.sub str 0 width
+    else (* if n < width then *) str ^ String.make (width-n) ' '
+  )
 
 module Show = struct
   (* Show a percentage in 4 chars. *)
