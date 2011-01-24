@@ -335,7 +335,7 @@ let show_state = function
 let sleep = Unix.sleep
 
 (* Sleep in milliseconds. *)
-let usleep n =
+let millisleep n =
   ignore (Unix.select [] [] [] (float n /. 1000.))
 
 (* The curses getstr/getnstr functions are just weird.
@@ -1279,36 +1279,47 @@ let rec main_loop ((_, batch_mode, script_mode, csv_enabled, _, _, _)
     (* Clear up unused virDomainPtr objects. *)
     Gc.compact ();
 
-    (* Get next key.  This does the sleep. *)
-    if not batch_mode && not script_mode then
-      get_key_press setup;
-
     (* Max iterations? *)
     if !iterations >= 0 then (
       decr iterations;
       if !iterations = 0 then quit := true
     );
 
-    (* End time? *)
-    (match !end_time with
-     | None -> ()
-     | Some end_time ->
-	 let (_, time, _, _, _, _, _, _) = state in
-	 let delay_secs = float !delay /. 1000. in
-	 if end_time <= time +. delay_secs then quit := true
-    );
-
-    (* Batch mode or script mode.  We didn't call get_key_press above, so
-     * we didn't sleep.  Sleep now, unless we are about to quit.
+    (* End time?  We might need to adjust the precise delay down if
+     * the delay would be longer than the end time (RHBZ#637964).  Note
+     * 'delay' is in milliseconds.
      *)
-    if batch_mode || script_mode then
-      if not !quit then
-	usleep !delay;
+    let delay =
+      match !end_time with
+      | None ->
+          (* No --end-time option, so use the current delay. *)
+          !delay
+      | Some end_time ->
+	  let (_, time, _, _, _, _, _, _) = state in
+	  let delay_secs = float !delay /. 1000. in
+	  if end_time <= time +. delay_secs then (
+            quit := true;
+            let delay = int_of_float (1000. *. (end_time -. time)) in
+            if delay >= 0 then delay else 0
+          ) else
+            !delay in
+    (*eprintf "adjusted delay = %d\n%!" delay;*)
+
+    (* Get next key.  This does the sleep. *)
+    if not batch_mode && not script_mode then
+      get_key_press setup delay
+    else (
+      (* Batch mode or script mode.  We didn't call get_key_press, so
+       * we didn't sleep.  Sleep now, unless we are about to quit.
+       *)
+      if not !quit || !end_time <> None then
+	millisleep delay
+    )
   done
 
-and get_key_press setup =
-  (* Read the next key, waiting up to !delay milliseconds. *)
-  timeout !delay;
+and get_key_press setup delay =
+  (* Read the next key, waiting up to 'delay' milliseconds. *)
+  timeout delay;
   let k = getch () in
   timeout (-1); (* Reset to blocking mode. *)
 
