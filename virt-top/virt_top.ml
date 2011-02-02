@@ -131,6 +131,7 @@ let csv_net = ref true
 let init_file = ref DefaultInitFile
 let script_mode = ref false
 let stream_mode = ref false
+let block_in_bytes = ref false
 
 (* Tuple of never-changing data returned by start_up function. *)
 type setup =
@@ -203,6 +204,8 @@ let start_up () =
       " " ^ s_"Run from a script (no user interface)";
     "--stream", Arg.Set stream_mode,
       " " ^ s_"dump output to stdout (no userinterface)";
+    "--block-in-bytes", Arg.Set block_in_bytes,
+      " " ^ s_"show block device load in bytes rather than reqs";
     "--version", Arg.Unit display_version,
       " " ^ s_"Display version number and exit";
   ] in
@@ -236,6 +239,7 @@ OPTIONS" in
       | _, "secure", b -> secure_mode := bool_of_string b
       | _, "script", b -> script_mode := bool_of_string b
       | _, "stream", b -> stream_mode := bool_of_string b
+      | _, "block-in-bytes", b -> block_in_bytes := bool_of_string b
       | _, "end-time", t -> set_end_time t
       | _, "overwrite-init-file", "false" -> no_init_file ()
       | lineno, key, _ ->
@@ -401,6 +405,12 @@ and rd_active = {
   (* The following are since the last slice, or None if cannot be calc'd: *)
   rd_block_rd_reqs : int64 option;      (* Number of block device read rqs. *)
   rd_block_wr_reqs : int64 option;      (* Number of block device write rqs. *)
+  rd_block_rd_bytes : int64 option;   (* Number of bytes block device read *)
+  rd_block_wr_bytes : int64 option;   (* Number of bytes block device write *)
+  (* _info fields includes the number considering --block_in_bytes option *)
+  rd_block_rd_info : int64 option;    (* Block device read info for user *)
+  rd_block_wr_info : int64 option;    (* Block device read info for user *)
+
   rd_net_rx_bytes : int64 option;	(* Number of bytes received. *)
   rd_net_tx_bytes : int64 option;	(* Number of bytes transmitted. *)
 }
@@ -501,6 +511,8 @@ let collect, clear_pcpu_display_data =
 		      rd_prev_interface_stats = prev_interface_stats;
 		      rd_cpu_time = 0.; rd_percent_cpu = 0.;
 		      rd_block_rd_reqs = None; rd_block_wr_reqs = None;
+                      rd_block_rd_bytes = None; rd_block_wr_bytes = None;
+                      rd_block_rd_info = None; rd_block_wr_info = None;
 		      rd_net_rx_bytes = None; rd_net_tx_bytes = None;
 		    })
 	    with
@@ -562,10 +574,23 @@ let collect, clear_pcpu_display_data =
 	      block_stats.D.rd_req -^ prev_block_stats.D.rd_req in
 	    let write_reqs =
 	      block_stats.D.wr_req -^ prev_block_stats.D.wr_req in
+            let read_bytes =
+              block_stats.D.rd_bytes -^ prev_block_stats.D.rd_bytes in
+            let write_bytes =
+              block_stats.D.wr_bytes -^ prev_block_stats.D.wr_bytes in
 
 	    let rd = { rd with
 			 rd_block_rd_reqs = Some read_reqs;
-			 rd_block_wr_reqs = Some write_reqs } in
+			 rd_block_wr_reqs = Some write_reqs;
+                         rd_block_rd_bytes = Some read_bytes;
+                         rd_block_wr_bytes = Some write_bytes;
+            } in
+            let rd = { rd with
+                         rd_block_rd_info = if !block_in_bytes then
+                         rd.rd_block_rd_bytes else rd.rd_block_rd_reqs;
+                         rd_block_wr_info = if !block_in_bytes then
+                         rd.rd_block_wr_bytes else rd.rd_block_wr_reqs;
+            } in
 	    name, Active rd
 	(* For all other domains we can't calculate it, so leave as None. *)
 	| rd -> rd
@@ -849,8 +874,12 @@ let redraw =
 
 	 (* Print domains. *)
 	 attron A.reverse;
-	 mvaddstr header_lineno 0
-	   (pad cols "   ID S RDRQ WRRQ RXBY TXBY %CPU %MEM    TIME   NAME");
+         let header_string = if !block_in_bytes
+         then "   ID S RDBY WRBY RXBY TXBY %CPU %MEM    TIME   NAME"
+         else "   ID S RDRQ WRRQ RXBY TXBY %CPU %MEM    TIME   NAME"
+         in
+	   mvaddstr header_lineno 0
+	    (pad cols header_string);
 	 attroff A.reverse;
 
 	 let rec loop lineno = function
@@ -858,8 +887,8 @@ let redraw =
 	   | (name, Active rd) :: doms ->
 	       if lineno < lines then (
 		 let state = show_state rd.rd_info.D.state in
-		 let rd_req = Show.int64_option rd.rd_block_rd_reqs in
-		 let wr_req = Show.int64_option rd.rd_block_wr_reqs in
+		 let rd_req = Show.int64_option rd.rd_block_rd_info in
+		 let wr_req = Show.int64_option rd.rd_block_wr_info in
 		 let rx_bytes = Show.int64_option rd.rd_net_rx_bytes in
 		 let tx_bytes = Show.int64_option rd.rd_net_tx_bytes in
 		 let percent_cpu = Show.percent rd.rd_percent_cpu in
@@ -1203,7 +1232,10 @@ let write_csv_header () =
       (* These fields are repeated for each domain: *)
     [ "Domain ID"; "Domain name"; ] @
     (if !csv_cpu then [ "CPU (ns)"; "%CPU"; ] else []) @
-    (if !csv_block then [ "Block RDRQ"; "Block WRRQ"; ] else []) @
+    (if !csv_block && not !block_in_bytes
+       then [ "Block RDRQ"; "Block WRRQ"; ] else []) @
+    (if !csv_block && !block_in_bytes
+       then [ "Block RDBY"; "Block WRBY"; ] else []) @
     (if !csv_net then [ "Net RXBY"; "Net TXBY" ] else [])
   )
 
@@ -1258,8 +1290,8 @@ let append_csv
 	   string_of_float rd.rd_cpu_time; string_of_float rd.rd_percent_cpu
 	 ] else []) @
 	(if !csv_block then [
-	   string_of_int64_option rd.rd_block_rd_reqs;
-	   string_of_int64_option rd.rd_block_wr_reqs;
+	   string_of_int64_option rd.rd_block_rd_info;
+	   string_of_int64_option rd.rd_block_wr_info;
 	 ] else []) @
 	(if !csv_net then [
 	   string_of_int64_option rd.rd_net_rx_bytes;
@@ -1283,7 +1315,10 @@ let dump_stdout
     printable_time hostname node_info.C.model node_info.C.cpus nr_pcpus
     node_info.C.mhz (node_info.C.memory /^ 1024L);
   (* dump domain information one by one *)
-  printf "   ID S RDRQ WRRQ RXBY TXBY %%CPU %%MEM   TIME    NAME\n";
+   let rd, wr = if !block_in_bytes then "RDBY", "WRBY" else "RDRQ", "WRRQ"
+   in
+     printf "   ID S %s %s RXBY TXBY %%CPU %%MEM   TIME    NAME\n" rd wr;
+
   (* sort by ID *)
   let doms =
     let compare =
@@ -1300,10 +1335,10 @@ let dump_stdout
   let dump_domain = fun name rd
   -> begin
     let state = show_state rd.rd_info.D.state in
-    let rd_req = if rd.rd_block_rd_reqs = None then "   0"
-    else Show.int64_option rd.rd_block_rd_reqs in
-    let wr_req = if rd.rd_block_wr_reqs = None then "   0"
-    else Show.int64_option rd.rd_block_wr_reqs in
+         let rd_req = if rd.rd_block_rd_info = None then "   0"
+                      else Show.int64_option rd.rd_block_rd_info in
+         let wr_req = if rd.rd_block_wr_info = None then "   0"
+                      else Show.int64_option rd.rd_block_wr_info in
     let rx_bytes = if rd.rd_net_rx_bytes = None then "   0"
     else Show.int64_option rd.rd_net_rx_bytes in
     let tx_bytes = if rd.rd_net_tx_bytes = None then "   0"
@@ -1401,6 +1436,7 @@ and get_key_press setup delay =
     else if k = Char.code '2' then toggle_net_display ()
     else if k = Char.code '3' then toggle_block_display ()
     else if k = Char.code 'W' then write_init_file ()
+    else if k = Char.code 'B' then toggle_block_in_bytes_mode ()
     else unknown_command k
   )
 
@@ -1546,6 +1582,12 @@ and toggle_block_display () =		(* key 3 *)
     | TaskDisplay | NetDisplay -> BlockDisplay
     | BlockDisplay -> TaskDisplay
 
+and toggle_block_in_bytes_mode () =      (* key B *)
+  block_in_bytes :=
+    match !block_in_bytes with
+    | false -> true
+    | true  -> false
+
 (* Write an init file. *)
 and write_init_file () =
   match !init_file with
@@ -1674,6 +1716,7 @@ and show_help (_, _, _, _, _, _, hostname,
   key "q"        (s_"Quit");
   key "d s"      (s_"Set update interval");
   key "h"        (s_"Help");
+  key "B"        (s_"toggle block info req/bytes");
 
   (* Sort order. *)
   ignore (get_lineno ());

@@ -158,6 +158,10 @@ when used together with the I<--csv> and I<-n> options.
 Stream mode.  All output is sent to stdout.  This can be used from
 shell scripts etc.  There is no user interface.
 
+=item B<--block-in-bytes>
+
+Show I/O statistics in Bytes. Default is shown in the number of Requests.
+
 =item B<--end-time time>
 
 The program will exit at the I<time> given.
@@ -230,6 +234,10 @@ Displays help.
 =item I<s> or I<d>
 
 Change the delay between screen updates.
+
+=item I<B>
+
+Toggle Block I/O statistics so they are shown in either bytes or requests.
 
 =item I<0> (number 0)
 
@@ -362,6 +370,10 @@ Sets script mode.
 
 Sets stream mode.
 
+=item B<block-in-bytes> I<true|false>
+
+Show block device statistics in bytes.
+
 =item B<end-time> I<time>
 
 Set the time at which the program exits.  See above for the
@@ -379,6 +391,12 @@ the init file override options specified on the command line.
 This is a bug and this behaviour may change in the future.
 
 =head1 NOTES
+
+=head2 Block I/O statistics
+
+This I/O value is the amount of I/O since the previous iteration
+of virt-top. To calculate speed of I/O, you should divide
+the number by delay secs.
 
 =head2 NETWORK RX BYTES AND PACKETS
 
