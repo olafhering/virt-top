@@ -124,7 +124,7 @@
 .\" ========================================================================
 .\"
 .IX Title "VIRT-TOP 1"
-.TH VIRT-TOP 1 "2011-01-06" "virt-top-1.0.4" "Virtualization Support"
+.TH VIRT-TOP 1 "2011-02-02" "virt-top-1.0.5" "Virtualization Support"
 .\" For nroff, turn off justification.  Always turn off hyphenation; it makes
 .\" way too many mistakes in technical documents.
 .if n .ad l
@@ -266,6 +266,13 @@ Do not read any init file.
 .IX Item "--script"
 Script mode.  There will be no user interface.  This is most useful
 when used together with the \fI\-\-csv\fR and \fI\-n\fR options.
+.IP "\fB\-\-stream\fR" 4
+.IX Item "--stream"
+Stream mode.  All output is sent to stdout.  This can be used from
+shell scripts etc.  There is no user interface.
+.IP "\fB\-\-block\-in\-bytes\fR" 4
+.IX Item "--block-in-bytes"
+Show I/O statistics in Bytes. Default is shown in the number of Requests.
 .IP "\fB\-\-end\-time time\fR" 4
 .IX Item "--end-time time"
 The program will exit at the \fItime\fR given.
@@ -327,6 +334,9 @@ Displays help.
 .IP "\fIs\fR or \fId\fR" 4
 .IX Item "s or d"
 Change the delay between screen updates.
+.IP "\fIB\fR" 4
+.IX Item "B"
+Toggle Block I/O statistics so they are shown in either bytes or requests.
 .IP "\fI0\fR (number 0)" 4
 .IX Item "0 (number 0)"
 Show the normal list of domains display.
@@ -425,6 +435,12 @@ Sets secure mode.
 .IP "\fBscript\fR \fItrue|false\fR" 4
 .IX Item "script true|false"
 Sets script mode.
+.IP "\fBstream\fR \fItrue|false\fR" 4
+.IX Item "stream true|false"
+Sets stream mode.
+.IP "\fBblock-in-bytes\fR \fItrue|false\fR" 4
+.IX Item "block-in-bytes true|false"
+Show block device statistics in bytes.
 .IP "\fBend-time\fR \fItime\fR" 4
 .IX Item "end-time time"
 Set the time at which the program exits.  See above for the
@@ -439,6 +455,11 @@ the init file override options specified on the command line.
 This is a bug and this behaviour may change in the future.
 .SH "NOTES"
 .IX Header "NOTES"
+.SS "Block I/O statistics"
+.IX Subsection "Block I/O statistics"
+This I/O value is the amount of I/O since the previous iteration
+of virt-top. To calculate speed of I/O, you should divide
+the number by delay secs.
 .SS "\s-1NETWORK\s0 \s-1RX\s0 \s-1BYTES\s0 \s-1AND\s0 \s-1PACKETS\s0"
 .IX Subsection "NETWORK RX BYTES AND PACKETS"
 Libvirt/virt\-top has no way to know that a packet transmitted to a

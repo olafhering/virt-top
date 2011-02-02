@@ -119,6 +119,14 @@ OPTIONS
         Script mode. There will be no user interface. This is most useful
         when used together with the *--csv* and *-n* options.
 
+    --stream
+        Stream mode. All output is sent to stdout. This can be used from
+        shell scripts etc. There is no user interface.
+
+    --block-in-bytes
+        Show I/O statistics in Bytes. Default is shown in the number of
+        Requests.
+
     --end-time time
         The program will exit at the *time* given.
 
@@ -169,6 +177,9 @@ KEYS
 
     *s* or *d*
         Change the delay between screen updates.
+
+    *B* Toggle Block I/O statistics so they are shown in either bytes or
+        requests.
 
     *0* (number 0)
         Show the normal list of domains display.
@@ -258,6 +269,12 @@ INIT FILE
     script *true|false*
         Sets script mode.
 
+    stream *true|false*
+        Sets stream mode.
+
+    block-in-bytes *true|false*
+        Show block device statistics in bytes.
+
     end-time *time*
         Set the time at which the program exits. See above for the time
         formats supported.
@@ -270,6 +287,11 @@ INIT FILE
     this behaviour may change in the future.
 
 NOTES
+  Block I/O statistics
+    This I/O value is the amount of I/O since the previous iteration of
+    virt-top. To calculate speed of I/O, you should divide the number by
+    delay secs.
+
   NETWORK RX BYTES AND PACKETS
     Libvirt/virt-top has no way to know that a packet transmitted to a guest
     was received (eg. if the guest is not listening). In the network RX
