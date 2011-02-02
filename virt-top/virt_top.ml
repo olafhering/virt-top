@@ -130,10 +130,11 @@ let csv_block = ref true
 let csv_net = ref true
 let init_file = ref DefaultInitFile
 let script_mode = ref false
+let stream_mode = ref false
 
 (* Tuple of never-changing data returned by start_up function. *)
 type setup =
-    Libvirt.ro C.t * bool * bool * bool * C.node_info * string *
+    Libvirt.ro C.t * bool * bool * bool * bool * C.node_info * string *
       (int * int * int)
 
 (* Function to read command line arguments and go into curses mode. *)
@@ -200,6 +201,8 @@ let start_up () =
       " " ^ s_"Secure (\"kiosk\") mode";
     "--script", Arg.Set script_mode,
       " " ^ s_"Run from a script (no user interface)";
+    "--stream", Arg.Set stream_mode,
+      " " ^ s_"dump output to stdout (no userinterface)";
     "--version", Arg.Unit display_version,
       " " ^ s_"Display version number and exit";
   ] in
@@ -232,6 +235,7 @@ OPTIONS" in
       | _, "batch", b -> batch_mode := bool_of_string b
       | _, "secure", b -> secure_mode := bool_of_string b
       | _, "script", b -> script_mode := bool_of_string b
+      | _, "stream", b -> stream_mode := bool_of_string b
       | _, "end-time", t -> set_end_time t
       | _, "overwrite-init-file", "false" -> no_init_file ()
       | lineno, key, _ ->
@@ -287,7 +291,7 @@ OPTIONS" in
    | "" -> (* No debug file specified, send stderr to /dev/null unless
 	    * we're in script mode.
 	    *)
-       if not !script_mode then (
+       if not !script_mode && not !stream_mode then (
 	 let fd = Unix.openfile "/dev/null" [Unix.O_WRONLY] 0o644 in
 	 Unix.dup2 fd Unix.stderr;
 	 Unix.close fd
@@ -301,7 +305,7 @@ OPTIONS" in
   );
 
   (* Curses voodoo (see ncurses(3)). *)
-  if not !script_mode then (
+  if not !script_mode && not !stream_mode then (
     ignore (initscr ());
     ignore (cbreak ());
     ignore (noecho ());
@@ -317,7 +321,7 @@ OPTIONS" in
    * main_loop.  See virt_top_main.ml.
    *)
   (conn,
-   !batch_mode, !script_mode, !csv_enabled, (* immutable modes *)
+   !batch_mode, !script_mode, !csv_enabled, !stream_mode, (* immutable modes *)
    node_info, hostname, libvirt_version (* info that doesn't change *)
   )
 
@@ -436,7 +440,7 @@ let collect, clear_pcpu_display_data =
     Hashtbl.clear last_vcpu_info
   in
 
-  let collect (conn, _, _, _, node_info, _, _) =
+  let collect (conn, _, _, _, _, node_info, _, _) =
     (* Number of physical CPUs (some may be disabled). *)
     let nr_pcpus = C.maxcpus_of_node_info node_info in
 
@@ -746,7 +750,7 @@ let redraw =
   let historical_cpu = ref [] in
   let historical_cpu_last_time = ref (Unix.gettimeofday ()) in
   fun
-  (_, _, _, _, node_info, _, _) (* setup *)
+  (_, _, _, _, _, node_info, _, _) (* setup *)
   (doms,
    time, printable_time,
    nr_pcpus, total_cpu, total_cpu_per_pcpu,
@@ -1205,7 +1209,7 @@ let write_csv_header () =
 
 (* Write summary data to CSV file. *)
 let append_csv
-    (_, _, _, _, node_info, hostname, _) (* setup *)
+    (_, _, _, _, _, node_info, hostname, _) (* setup *)
     (doms,
      _, printable_time,
      nr_pcpus, total_cpu, _,
@@ -1266,15 +1270,73 @@ let append_csv
 
   (!csv_write) (summary_fields @ domain_fields)
 
+let dump_stdout
+    (_, _, _, _, _, node_info, hostname, _) (* setup *)
+    (doms,
+     _, printable_time,
+     nr_pcpus, total_cpu, _,
+     totals,
+     _) (* state *) =
+
+  (* Header for this iteration *)
+  printf "virt-top time  %s Host %s %s %d/%dCPU %dMHz %LdMB \n"
+    printable_time hostname node_info.C.model node_info.C.cpus nr_pcpus
+    node_info.C.mhz (node_info.C.memory /^ 1024L);
+  (* dump domain information one by one *)
+  printf "   ID S RDRQ WRRQ RXBY TXBY %%CPU %%MEM   TIME    NAME\n";
+  (* sort by ID *)
+  let doms =
+    let compare =
+      (function
+       | Active {rd_domid = id1 }, Active {rd_domid = id2} ->
+           compare id1 id2
+       | Active _, Inactive -> -1
+       | Inactive, Active _ -> 1
+       | Inactive, Inactive -> 0)
+    in
+    let cmp  (name1, dom1) (name2, dom2) = compare(dom1, dom2) in
+    List.sort ~cmp doms in
+  (*Print domains *)
+  let dump_domain = fun name rd
+  -> begin
+    let state = show_state rd.rd_info.D.state in
+    let rd_req = if rd.rd_block_rd_reqs = None then "   0"
+    else Show.int64_option rd.rd_block_rd_reqs in
+    let wr_req = if rd.rd_block_wr_reqs = None then "   0"
+    else Show.int64_option rd.rd_block_wr_reqs in
+    let rx_bytes = if rd.rd_net_rx_bytes = None then "   0"
+    else Show.int64_option rd.rd_net_rx_bytes in
+    let tx_bytes = if rd.rd_net_tx_bytes = None then "   0"
+    else Show.int64_option rd.rd_net_tx_bytes in
+    let percent_cpu = Show.percent rd.rd_percent_cpu in
+    let percent_mem =
+      100L *^ rd.rd_info.D.memory /^ node_info.C.memory in
+    let percent_mem = Int64.to_float percent_mem in
+    let percent_mem = Show.percent percent_mem in
+    let time = Show.time rd.rd_info.D.cpu_time in
+    printf "%5d %c %s %s %s %s %s %s %s %s\n"
+      rd.rd_domid state rd_req wr_req rx_bytes tx_bytes
+      percent_cpu percent_mem time name;
+  end
+  in
+  List.iter (
+    function
+    | name, Active dom -> dump_domain name dom
+    | name, Inactive -> ()
+  ) doms;
+  flush stdout
+
 (* Main loop. *)
-let rec main_loop ((_, batch_mode, script_mode, csv_enabled, _, _, _)
+let rec main_loop ((_, batch_mode, script_mode, csv_enabled, stream_mode, _, _, _)
 		     as setup) =
   if csv_enabled then write_csv_header ();
 
   while not !quit do
     let state = collect setup in	        (* Collect stats. *)
-    if not script_mode then redraw setup state; (* Redraw display. *)
+    (* Redraw display. *)
+    if not script_mode && not stream_mode then redraw setup state;
     if csv_enabled then append_csv setup state; (* Update CSV file. *)
+    if stream_mode then dump_stdout setup state; (* dump to stdout *)
 
     (* Clear up unused virDomainPtr objects. *)
     Gc.compact ();
@@ -1306,11 +1368,12 @@ let rec main_loop ((_, batch_mode, script_mode, csv_enabled, _, _, _)
     (*eprintf "adjusted delay = %d\n%!" delay;*)
 
     (* Get next key.  This does the sleep. *)
-    if not batch_mode && not script_mode then
+    if not batch_mode && not script_mode && not stream_mode then
       get_key_press setup delay
     else (
-      (* Batch mode or script mode.  We didn't call get_key_press, so
-       * we didn't sleep.  Sleep now, unless we are about to quit.
+      (* Batch mode, script mode, stream mode.  We didn't call
+       * get_key_press, so we didn't sleep.  Sleep now, unless we are
+       * about to quit.
        *)
       if not !quit || !end_time <> None then
 	millisleep delay
@@ -1560,7 +1623,7 @@ and _write_init_file filename =
       refresh ();
       sleep 2
 
-and show_help (_, _, _, _, _, hostname,
+and show_help (_, _, _, _, _, _, hostname,
 	       (libvirt_major, libvirt_minor, libvirt_release)) =
   clear ();
 

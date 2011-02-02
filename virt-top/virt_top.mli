@@ -30,7 +30,7 @@ val parse_date_time : (string -> float) ref
 
 type setup =
     Libvirt.ro Libvirt.Connect.t	(* connection *)
-    * bool * bool * bool		(* batch, script, csv modes *)
+    * bool * bool * bool * bool		(* batch, script, csv, stream mode *)
     * Libvirt.Connect.node_info		(* node_info *)
     * string				(* hostname *)
     * (int * int * int)			(* libvirt version *)

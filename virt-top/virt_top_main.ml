@@ -31,21 +31,21 @@ open Virt_top
  * the program under --debug ...).
  *)
 let error =
-  let ((_, _, script_mode, _, _, _, _) as setup) = start_up () in
+  let ((_, _, script_mode, stream_mode, _, _, _, _) as setup) = start_up () in
 
   try
     Printexc.record_backtrace true;
     main_loop setup;
-    if not script_mode then endwin ();
+    if not script_mode && not stream_mode then endwin ();
     false
   with
   | Libvirt.Virterror err ->
-      if not script_mode then endwin ();
+      if not script_mode && not stream_mode then endwin ();
       prerr_endline (Libvirt.Virterror.to_string err);
       Printexc.print_backtrace stderr;
       true
   | exn ->
-      if not script_mode then endwin ();
+      if not script_mode && not stream_mode then endwin ();
       prerr_endline (s_ "Error" ^ ": " ^ Printexc.to_string exn);
       Printexc.print_backtrace stderr;
       true

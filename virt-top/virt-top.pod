@@ -153,6 +153,11 @@ Do not read any init file.
 Script mode.  There will be no user interface.  This is most useful
 when used together with the I<--csv> and I<-n> options.
 
+=item B<--stream>
+
+Stream mode.  All output is sent to stdout.  This can be used from
+shell scripts etc.  There is no user interface.
+
 =item B<--end-time time>
 
 The program will exit at the I<time> given.
@@ -352,6 +357,10 @@ Sets secure mode.
 =item B<script> I<true|false>
 
 Sets script mode.
+
+=item B<stream> I<true|false>
+
+Sets stream mode.
 
 =item B<end-time> I<time>
 
