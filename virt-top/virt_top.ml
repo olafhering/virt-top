@@ -402,6 +402,8 @@ and rd_active = {
   (* The following are since the last slice, or 0 if cannot be calculated: *)
   rd_cpu_time : float;			(* CPU time used in nanoseconds. *)
   rd_percent_cpu : float;		(* CPU time as percent of total. *)
+  rd_mem_bytes : int64;		        (* Memory usage in bytes *)
+  rd_mem_percent: int64;		(* Memory usage as percent of total *)
   (* The following are since the last slice, or None if cannot be calc'd: *)
   rd_block_rd_reqs : int64 option;      (* Number of block device read rqs. *)
   rd_block_wr_reqs : int64 option;      (* Number of block device write rqs. *)
@@ -510,6 +512,7 @@ let collect, clear_pcpu_display_data =
 		      rd_prev_block_stats = prev_block_stats;
 		      rd_prev_interface_stats = prev_interface_stats;
 		      rd_cpu_time = 0.; rd_percent_cpu = 0.;
+                      rd_mem_bytes = 0L; rd_mem_percent = 0L;
 		      rd_block_rd_reqs = None; rd_block_wr_reqs = None;
                       rd_block_rd_bytes = None; rd_block_wr_bytes = None;
                       rd_block_rd_info = None; rd_block_wr_info = None;
@@ -544,9 +547,14 @@ let collect, clear_pcpu_display_data =
 	    let cpu_time =
 	      Int64.to_float (rd.rd_info.D.cpu_time -^ prev_info.D.cpu_time) in
 	    let percent_cpu = 100. *. cpu_time /. total_cpu in
+            let mem_usage = rd.rd_info.D.memory in
+            let mem_percent =
+                100L *^ rd.rd_info.D.memory /^ node_info.C.memory in
 	    let rd = { rd with
 			 rd_cpu_time = cpu_time;
-			 rd_percent_cpu = percent_cpu } in
+			 rd_percent_cpu = percent_cpu;
+			 rd_mem_bytes = mem_usage;
+                         rd_mem_percent = mem_percent} in
 	    name, Active rd
 	(* For all other domains we can't calculate it, so leave as 0 *)
 	| rd -> rd
@@ -892,9 +900,7 @@ let redraw =
 		 let rx_bytes = Show.int64_option rd.rd_net_rx_bytes in
 		 let tx_bytes = Show.int64_option rd.rd_net_tx_bytes in
 		 let percent_cpu = Show.percent rd.rd_percent_cpu in
-		 let percent_mem =
-		   100L *^ rd.rd_info.D.memory /^ node_info.C.memory in
-		 let percent_mem = Int64.to_float percent_mem in
+		 let percent_mem = Int64.to_float rd.rd_mem_percent in
 		 let percent_mem = Show.percent percent_mem in
 		 let time = Show.time rd.rd_info.D.cpu_time in
 
@@ -1344,9 +1350,7 @@ let dump_stdout
     let tx_bytes = if rd.rd_net_tx_bytes = None then "   0"
     else Show.int64_option rd.rd_net_tx_bytes in
     let percent_cpu = Show.percent rd.rd_percent_cpu in
-    let percent_mem =
-      100L *^ rd.rd_info.D.memory /^ node_info.C.memory in
-    let percent_mem = Int64.to_float percent_mem in
+    let percent_mem = Int64.to_float rd.rd_mem_percent in
     let percent_mem = Show.percent percent_mem in
     let time = Show.time rd.rd_info.D.cpu_time in
     printf "%5d %c %s %s %s %s %s %s %s %s\n"
