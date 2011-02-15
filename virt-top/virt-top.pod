@@ -122,6 +122,10 @@ I<output.csv.00>, I<output.csv.01> etc.
 
 Disable domain CPU stats in CSV output.
 
+=item B<--no-csv-mem>
+
+Disable domain memory stats in CSV output.
+
 =item B<--no-csv-block>
 
 Disable domain block device stats in CSV output.
@@ -345,6 +349,10 @@ Enables CSV output to the named file.
 =item B<csv-cpu> I<true|false>
 
 Enable or disable domain CPU stats in CSV output.
+
+=item B<csv-mem> I<true|false>
+
+Enable or disable domain memory stats in CSV output.
 
 =item B<csv-block> I<true|false>
 

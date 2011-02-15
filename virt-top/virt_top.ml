@@ -126,6 +126,7 @@ let uri = ref None
 let debug_file = ref ""
 let csv_enabled = ref false
 let csv_cpu = ref true
+let csv_mem = ref true
 let csv_block = ref true
 let csv_net = ref true
 let init_file = ref DefaultInitFile
@@ -178,6 +179,8 @@ let start_up () =
       "file " ^ s_"Log statistics to CSV file";
     "--no-csv-cpu", Arg.Clear csv_cpu,
       " " ^ s_"Disable CPU stats in CSV";
+    "--no-csv-mem", Arg.Clear csv_mem,
+      " " ^ s_"Disable memory stats in CSV";
     "--no-csv-block", Arg.Clear csv_block,
       " " ^ s_"Disable block device stats in CSV";
     "--no-csv-net", Arg.Clear csv_net,
@@ -233,6 +236,7 @@ OPTIONS" in
       | _, "debug", filename -> debug_file := filename
       | _, "csv", filename -> set_csv filename
       | _, "csv-cpu", b -> csv_cpu := bool_of_string b
+      | _, "csv-mem", b -> csv_mem := bool_of_string b
       | _, "csv-block", b -> csv_block := bool_of_string b
       | _, "csv-net", b -> csv_net := bool_of_string b
       | _, "batch", b -> batch_mode := bool_of_string b
@@ -1238,6 +1242,7 @@ let write_csv_header () =
       (* These fields are repeated for each domain: *)
     [ "Domain ID"; "Domain name"; ] @
     (if !csv_cpu then [ "CPU (ns)"; "%CPU"; ] else []) @
+    (if !csv_mem then [ "Mem (bytes)"; "%Mem";] else []) @
     (if !csv_block && not !block_in_bytes
        then [ "Block RDRQ"; "Block WRRQ"; ] else []) @
     (if !csv_block && !block_in_bytes
@@ -1295,6 +1300,9 @@ let append_csv
 	(if !csv_cpu then [
 	   string_of_float rd.rd_cpu_time; string_of_float rd.rd_percent_cpu
 	 ] else []) @
+        (if !csv_mem then [
+            Int64.to_string rd.rd_mem_bytes; Int64.to_string rd.rd_mem_percent
+         ] else []) @
 	(if !csv_block then [
 	   string_of_int64_option rd.rd_block_rd_info;
 	   string_of_int64_option rd.rd_block_wr_info;
