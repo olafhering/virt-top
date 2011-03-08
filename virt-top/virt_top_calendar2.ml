@@ -38,18 +38,28 @@ fun time ->
 	  Calendar.Period.make 0 0 0 hh mm ss
 	) else				(* +seconds *)
 	  Calendar.Period.second (int_of_string period) in
-      (* Add it as an offset from the current time. *)
+      (* Add it as an offset from the current time.
+       *
+       * Note that the default for the Calendar library is to return
+       * Calendar.now in the UTC time zone, which is in fact what we
+       * need below.
+       *)
       Calendar.add (Calendar.now ()) period
     ) else (
-      if String.contains time '-' then	(* YYYY-MM-DD HH:MM:SS *)
-	Printer.CalendarPrinter.from_string time
-      else (				(* HH:MM:SS *)
-	let time = Printer.TimePrinter.from_string time in
-	Calendar.create (Date.today ()) time
-      )
+      let cal =
+        if String.contains time '-' then (* YYYY-MM-DD HH:MM:SS *)
+	  Printer.CalendarPrinter.from_string time
+        else (				 (* HH:MM:SS *)
+	  let time = Printer.TimePrinter.from_string time in
+	  Calendar.create (Date.today ()) time
+        ) in
+      (* Assume the user has entered a local time.  Convert it to
+       * UTC time zone which is what we need below.  (RHBZ#680344)
+       *)
+      Calendar.convert cal Time_Zone.Local Time_Zone.UTC
     ) in
 
-  eprintf "end time: %s\n" (Printer.CalendarPrinter.to_string cal);
+  eprintf "end time (UTC): %s\n" (Printer.CalendarPrinter.to_string cal);
 
   (* Convert to a time_t.  Note that we compare this against
    * Unix.gettimeofday in the main module, so this must be returned as
