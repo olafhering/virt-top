@@ -45,3 +45,5 @@ virt-df/virt_df_lvm2_lexer.ml
 virt-df/virt_df_lvm2_parser.ml
 virt-df/virt_df_lvm2_parser.mli
 virt-top-*.tar.gz
+virt-top/virt-top.1
+virt-top/virt-top.txt
