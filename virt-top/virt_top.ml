@@ -172,9 +172,9 @@ let start_up () =
     "-b", Arg.Set batch_mode,
       " " ^ s_"Batch mode";
     "-c", Arg.String set_uri,
-      "uri " ^ s_"Connect to URI (default: Xen)";
+      "uri " ^ s_"Connect to libvirt URI";
     "--connect", Arg.String set_uri,
-      "uri " ^ s_"Connect to URI (default: Xen)";
+      "uri " ^ s_"Connect to libvirt URI";
     "--csv", Arg.String set_csv,
       "file " ^ s_"Log statistics to CSV file";
     "--no-csv-cpu", Arg.Clear csv_cpu,
@@ -272,7 +272,7 @@ OPTIONS" in
 	prerr_endline (Libvirt.Virterror.to_string err);
 	(* If non-root and no explicit connection URI, print a warning. *)
 	if Unix.geteuid () <> 0 && name = None then (
-	  print_endline (s_"NB: If you want to monitor a local Xen hypervisor, you usually need to be root");
+	  print_endline (s_"NB: If you want to monitor a local hypervisor, you usually need to be root");
 	);
 	exit 1 in
 

@@ -43,16 +43,21 @@ Batch mode.  In this mode keypresses are ignored.
 
 =item B<-c uri> or B<--connect uri>
 
-Connect to URI given.  The default is to connect to the Xen
-hypervisor.
+Connect to the libvirt URI given.
 
 To connect to QEMU/KVM you would normally do I<-c qemu:///system>
 
-To connect to libvirtd on a remote machine you would normally do
-I<-c xen://host/>
+To connect to Xen on the same host, do I<-c xen:///>
 
-Full details on connection URIs is available at
-L<http://libvirt.org/uri.html>
+To connect to libvirtd on a remote machine you would normally do
+I<-c qemu://host/system>
+
+If this option is not given then virt-top connects by default
+to whatever is the default hypervisor for libvirt, although
+this can be overridden by setting environment variables.
+
+See the libvirt documentation at L<http://libvirt.org/uri.html>
+for further information.
 
 =item B<-d delay>
 
