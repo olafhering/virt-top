@@ -1,21 +1,25 @@
-#, fuzzy
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
 msgid ""
 msgstr ""
-"Project-Id-Version: virt-top.tip\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-28 17:30+0000\n"
-"PO-Revision-Date: 2008-10-10 11:51+0530\n"
-"Last-Translator: Sandeep Shedmake <sandeep.shedmake@gmail.com>\n"
-"Language-Team: marathi\n"
+"Project-Id-Version: virt-top\n"
+"Report-Msgid-Bugs-To: https://bugzilla.redhat.com/\n"
+"POT-Creation-Date: 2009-10-06 14:58+0000\n"
+"PO-Revision-Date: 2011-03-22 15:29+0000\n"
+"Last-Translator: sandeeps <sshedmak@redhat.com>\n"
+"Language-Team: Marathi <None>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n!=1);\n"
-"X-Generator: KBabel 1.11.4\n"
+"Language: mr\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
 #: ../virt-top/virt_top.ml:1506
 msgid "# %s virt-top configuration file\\n"
-msgstr ""
+msgstr "# %s virt-top संरचना फाइल\\n"
 
 #: ../virt-top/virt_top.ml:1524
 msgid "# Enable CSV output to the named file\\n"
@@ -23,11 +27,14 @@ msgstr "# नामांकीत फाइल करीता CSV आऊटप
 
 #: ../virt-top/virt_top.ml:1527
 msgid "# To protect this file from being overwritten, uncomment next line\\n"
-msgstr "# ही फाइल खोडून पुन्हा लिहीण्यापासून, पुढिल ओळीतील टिपण्णी काढून टाका\\n"
+msgstr ""
+"# ही फाइल खोडून पुन्हा लिहीण्यापासून, पुढिल ओळीतील टिपण्णी काढून टाका\\n"
 
 #: ../virt-top/virt_top.ml:1521
 msgid "# To send debug and error messages to a file, uncomment next line\\n"
-msgstr "# फाइल करीता डीबग व त्रुटी संदेश पाठविण्याकरीता, पुढिल ओळीतील टिपण्णीत काढून टाका\\n"
+msgstr ""
+"# फाइल करीता डीबग व त्रुटी संदेश पाठविण्याकरीता, पुढिल ओळीतील टिपण्णीत काढून"
+" टाका\\n"
 
 #: ../virt-top/virt_top.ml:1507
 msgid "# generated on %s by %s\\n"
@@ -42,8 +49,12 @@ msgid "%MEM"
 msgstr "%MEM"
 
 #: ../virt-top/virt_top.ml:1158
-msgid "%d domains, %d active, %d running, %d sleeping, %d paused, %d inactive D:%d O:%d X:%d"
-msgstr "%d क्षेत्र, %d सक्रीय, %d कार्यरत, %d अकार्यक्षम, %d स्तब्ध, %d निष्क्रीय D:%d O:%d X:%d"
+msgid ""
+"%d domains, %d active, %d running, %d sleeping, %d paused, %d inactive D:%d "
+"O:%d X:%d"
+msgstr ""
+"%d क्षेत्र, %d सक्रीय, %d कार्यरत, %d अकार्यक्षम, %d स्तब्ध, %d निष्क्रीय "
+"D:%d O:%d X:%d"
 
 #: ../virt-top/virt_top.ml:105
 msgid "%s: display should be %s"
@@ -123,7 +134,7 @@ msgstr "CSV अंतर्गत नेट आकडेवारी अका�
 
 #: ../virt-top/virt_top.ml:204
 msgid "Display version number and exit"
-msgstr ""
+msgstr "आवृत्ती क्रमांक दाखवा व बाहेर पडा"
 
 #: ../virt-top/virt_top.ml:194
 msgid "Do not read init file"
@@ -141,8 +152,8 @@ msgstr "क्षेत्र नाव"
 msgid "Domains display"
 msgstr "क्षेत्र प्रदर्शन"
 
-#: ../virt-top/virt_top_main.ml:47 ../virt-top/virt_top.ml:1547
 #. ../virt-top/virt_top.ml:1544
+#: ../virt-top/virt_top_main.ml:47 ../virt-top/virt_top.ml:1547
 msgid "Error"
 msgstr "चूक"
 
@@ -171,8 +182,11 @@ msgid "More help in virt-top(1) man page. Press any key to return."
 msgstr "virt-top(1) man पान अंतर्गत अधिक मदत. पहाण्याकरीता कुठलिही कि दाबा."
 
 #: ../virt-top/virt_top.ml:263
-msgid "NB: If you want to monitor a local Xen hypervisor, you usually need to be root"
-msgstr "NB: स्थानीय Xen हायपरवाइजर मॉनीटर करायचे असल्यास, तुम्हाला रूट व्हावे लागेल"
+msgid ""
+"NB: If you want to monitor a local Xen hypervisor, you usually need to be "
+"root"
+msgstr ""
+"NB: स्थानीय Xen हायपरवाइजर मॉनीटर करायचे असल्यास, तुम्हाला रूट व्हावे लागेल"
 
 #: ../virt-top/virt_top.ml:70
 msgid "Net RX bytes"
@@ -192,11 +206,11 @@ msgstr "चालविण्याजोगी काळचक्रची स�
 
 #: ../virt-top/virt_top.ml:1576 ../virt-top/virt_top.ml:1575
 msgid "Off"
-msgstr ""
+msgstr "बंद करा"
 
 #: ../virt-top/virt_top.ml:1576 ../virt-top/virt_top.ml:1575
 msgid "On"
-msgstr ""
+msgstr "सुरू करा"
 
 #: ../virt-top/virt_top.ml:1600
 msgid "Quit"
@@ -300,19 +314,31 @@ msgstr "%s करीता संयोजना लिहीले"
 
 #: ../virt-top/virt_top.ml:1581
 msgid "default"
-msgstr ""
+msgstr "पूर्वनिर्धारित"
 
 #: ../virt-top/virt_top_xml.ml:46
 msgid "get_xml_desc didn't return <domain/>"
-msgstr "get_xml_desc ने <domain/> पाठविले नाही"
+msgstr "get_xml_desc ने <domain/> पुरवले नाही"
 
 #: ../virt-top/virt_top.ml:1561
 msgid "virt-top %s ocaml-libvirt %s libvirt %d.%d.%d by Red Hat"
-msgstr ""
+msgstr "virt-top %s ocaml-libvirt %s libvirt %d.%d.%d, Red Hat द्वारे"
 
 #: ../virt-top/virt_top.ml:208
-msgid "virt-top : a 'top'-like utility for virtualization\n\nSUMMARY\n  virt-top [-options]\n\nOPTIONS"
-msgstr "virt-top : आभासीकरण करीता 'top'-नुरूप उपकार्यक्रम\n\nसारांश\n  virt-top [-options]\n\nपर्याय"
+msgid ""
+"virt-top : a 'top'-like utility for virtualization\n"
+"\n"
+"SUMMARY\n"
+"  virt-top [-options]\n"
+"\n"
+"OPTIONS"
+msgstr ""
+"virt-top : आभासीकरण करीता 'top'-नुरूप उपकार्यक्रम\n"
+"\n"
+"सारांश\n"
+"  virt-top [-options]\n"
+"\n"
+"पर्याय"
 
 #: ../virt-top/virt_top.ml:42
 msgid "virt-top was compiled without support for CSV files"
@@ -321,4 +347,3 @@ msgstr "virt-top ला CSV फाइल करीता समर्थन न 
 #: ../virt-top/virt_top.ml:53
 msgid "virt-top was compiled without support for dates and times"
 msgstr "virt-top ला दिनांक व वेळ करीता समर्थन न पुरविता कंपाईल केले गेले"
-

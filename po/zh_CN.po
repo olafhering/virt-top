@@ -1,17 +1,21 @@
-# translation of virt-top.master.po to Simplified Chinese
-# Leah Liu <lliu@redhat.com>, 2009.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
 msgid ""
 msgstr ""
-"Project-Id-Version: virt-top.master\n"
-"Report-Msgid-Bugs-To: \n"
+"Project-Id-Version: virt-top\n"
+"Report-Msgid-Bugs-To: https://bugzilla.redhat.com/\n"
 "POT-Creation-Date: 2009-10-06 14:58+0000\n"
-"PO-Revision-Date: 2009-12-10 19:45+1000\n"
-"Last-Translator: Leah Liu <lliu@redhat.com>\n"
-"Language-Team: Simplified Chinese <zh@li.org>\n"
+"PO-Revision-Date: 2011-03-22 15:29+0000\n"
+"Last-Translator: rjones <rjones@redhat.com>\n"
+"Language-Team: Chinese (China) <None>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.11.4\n"
+"Language: zh_CN\n"
+"Plural-Forms: nplurals=1; plural=0\n"
 
 #: ../virt-top/virt_top.ml:1506
 msgid "# %s virt-top configuration file\\n"
@@ -339,4 +343,3 @@ msgstr "virt-top 是以不支持 CSV 文件的形式编译"
 #: ../virt-top/virt_top.ml:53
 msgid "virt-top was compiled without support for dates and times"
 msgstr "virt-top 是以不支持日期和时间的形式编译"
-

@@ -9,325 +9,323 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://bugzilla.redhat.com/\n"
 "POT-Creation-Date: 2009-10-06 14:58+0000\n"
 "PO-Revision-Date: 2011-03-22 15:29+0000\n"
-"Last-Translator: rjones <rjones@redhat.com>\n"
-"Language-Team: Spanish (Castilian) <trans-es@lists.fedoraproject.org>\n"
+"Last-Translator: yurchor <yurchor@ukr.net>\n"
+"Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: es\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"Language: uk\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
 
 #: ../virt-top/virt_top.ml:1506
 msgid "# %s virt-top configuration file\\n"
-msgstr "# %s archivo de configuración de virt-top\\n"
+msgstr "# Файл налаштування virt-top %s\\n"
 
 #: ../virt-top/virt_top.ml:1524
 msgid "# Enable CSV output to the named file\\n"
-msgstr "# Habilita la salida de CVS para el archivo indicado\\n"
+msgstr "# Увімкнути виведення даних у форматі CSV до вказаного файла\\n"
 
 #: ../virt-top/virt_top.ml:1527
 msgid "# To protect this file from being overwritten, uncomment next line\\n"
 msgstr ""
-"# Para proteger este archivo y que no sea sobreescrito, que la siguiente "
-"línea esté sin comentar\\n"
+"# Щоб захистити цей файл від перезапису, розкоментуйте наступний рядок\\n"
 
 #: ../virt-top/virt_top.ml:1521
 msgid "# To send debug and error messages to a file, uncomment next line\\n"
 msgstr ""
-"# Para enviar mensajes de error, o de depuración a un archivo, que la "
-"siguiente línea esté sin comentar\\n "
+"# Щоб надіслати діагностичні повідомлення до файла, розкоментуйте наступний "
+"рядок\\n"
 
 #: ../virt-top/virt_top.ml:1507
 msgid "# generated on %s by %s\\n"
-msgstr "# generado en %s por %s\\n"
+msgstr "# створено %s за допомогою %s\\n"
 
 #: ../virt-top/virt_top.ml:65
 msgid "%CPU"
-msgstr "%CPU"
+msgstr "%ЦП"
 
 #: ../virt-top/virt_top.ml:66
 msgid "%MEM"
-msgstr "%MEM"
+msgstr "%ПАМ"
 
 #: ../virt-top/virt_top.ml:1158
 msgid ""
 "%d domains, %d active, %d running, %d sleeping, %d paused, %d inactive D:%d "
 "O:%d X:%d"
 msgstr ""
-"%d dominios, %d activo, %d ejecutándose, %d adormecido, %d pausado, %d "
-"inactivo D:%d O:%d X:%d"
+"%d доменів, %d активних, %d запущених, %d приспаних, %d призупинених, %d "
+"неактивних D:%d O:%d X:%d"
 
 #: ../virt-top/virt_top.ml:105
 msgid "%s: display should be %s"
-msgstr "%s: se debería ver %s"
+msgstr "%s: має бути показано %s"
 
 #: ../virt-top/virt_top.ml:83
 msgid "%s: sort order should be: %s"
-msgstr "%s: el orden de clasificación debería ser: %s"
+msgstr "%s: впорядкуванням має бути: %s"
 
 #: ../virt-top/virt_top.ml:207
 msgid "%s: unknown parameter"
-msgstr "%s: parámetro desconocido"
+msgstr "%s: невідомий параметр"
 
 #: ../virt-top/virt_top.ml:238
 msgid "%s:%d: configuration item ``%s'' ignored\\n%!"
-msgstr "%s:%d: item de configuración ``%s'' ignorado\\n%! "
+msgstr "%s:%d: пункт налаштування «%s» проігноровано\\n%!"
 
 #: ../virt-top/virt_top.ml:144
 msgid "-d: cannot set a negative delay"
-msgstr "-d: no se puede establecer un retraso negativo"
+msgstr "-d: не можна використовувати від’ємну затримку"
 
 #: ../virt-top/virt_top.ml:170
 msgid "Batch mode"
-msgstr "Modo en lotes"
+msgstr "Пакетний режим"
 
 #: ../virt-top/virt_top.ml:72
 msgid "Block read reqs"
-msgstr "Pedidos de lectura en bloques"
+msgstr "Запити читання блоків"
 
 #: ../virt-top/virt_top.ml:73
 msgid "Block write reqs"
-msgstr "Pedidos de escritura en bloques"
+msgstr "Запити запису блоків"
 
 #: ../virt-top/virt_top.ml:1165
 msgid "CPU: %2.1f%%  Mem: %Ld MB (%Ld MB by guests)"
-msgstr "CPU: %2.1f%%  Mem: %Ld MB (%Ld MB por huéspedes)"
+msgstr "ЦП: %2.1f%%  Пам: %Ld МБ (%Ld МБ гостьових)"
 
 #: ../virt-top/virt_top.ml:1335
 msgid "Change delay from %.1f to: "
-msgstr "Cambiar retraso de %.1f a:"
+msgstr "Змінити затримку з %.1f на: "
 
 #: ../virt-top/virt_top.ml:174 ../virt-top/virt_top.ml:172
 msgid "Connect to URI (default: Xen)"
-msgstr "Conectar a URI (por defecto: Xen)"
+msgstr "З’єднатися з адресою (типово: Xen)"
 
 #: ../virt-top/virt_top.ml:1580
 msgid "Connect: %s; Hostname: %s"
-msgstr "Conectar: %s; Nombre de máquina: %s"
+msgstr "З’єднання: %s; назва вузла: %s"
 
 #: ../virt-top/virt_top.ml:1618
 msgid "DISPLAY MODES"
-msgstr "MODOS de EXHIBICION"
+msgstr "РЕЖИМИ ПОКАЗУ"
 
 #: ../virt-top/virt_top.ml:1342
 msgid "Delay must be > 0"
-msgstr "El retraso debe ser > 0"
+msgstr "Затримкою має бути величина > 0"
 
 #: ../virt-top/virt_top.ml:184
 msgid "Delay time interval (seconds)"
-msgstr "Intervalo de tiempo de retraso (segundos)"
+msgstr "Інтервал затримки (у секундах)"
 
 #: ../virt-top/virt_top.ml:1573
 msgid "Delay: %.1f secs; Batch: %s; Secure: %s; Sort: %s"
-msgstr "Retraso: %.1f secs; Lote: %s; Seguro: %s; Clasificado: %s"
+msgstr "Затримка: %.1f с; пакет: %s; захист: %s; впорядкування: %s"
 
 #: ../virt-top/virt_top.ml:178
 msgid "Disable CPU stats in CSV"
-msgstr "Deshabilita estadísticas del CPU en CVS"
+msgstr "Вимкнути статистику процесора у CSV"
 
 #: ../virt-top/virt_top.ml:180
 msgid "Disable block device stats in CSV"
-msgstr "Deshabilita stadísticas del dispositivo de bloque en CVS"
+msgstr "Вимкнути статистику блокових пристроїв у CSV"
 
 #: ../virt-top/virt_top.ml:182
 msgid "Disable net stats in CSV"
-msgstr "Deshabilita estadísticas de red en CVS"
+msgstr "Вимкнути статистику мережі у CSV"
 
 #: ../virt-top/virt_top.ml:204
 msgid "Display version number and exit"
-msgstr "Muestra el número de la versión y se cierra"
+msgstr "Показати дані щодо версії і завершити роботу"
 
 #: ../virt-top/virt_top.ml:194
 msgid "Do not read init file"
-msgstr "No lee el archivo init"
+msgstr "Не читати файл ініціалізації"
 
 #: ../virt-top/virt_top.ml:68
 msgid "Domain ID"
-msgstr "ID de dominio"
+msgstr "Ід. домену"
 
 #: ../virt-top/virt_top.ml:69
 msgid "Domain name"
-msgstr "Nombre del dominio"
+msgstr "Назва домену"
 
 #: ../virt-top/virt_top.ml:1632
 msgid "Domains display"
-msgstr "Exhibe los dominios"
+msgstr "Показ доменів"
 
 #. ../virt-top/virt_top.ml:1544
 #: ../virt-top/virt_top_main.ml:47 ../virt-top/virt_top.ml:1547
 msgid "Error"
-msgstr "Error"
+msgstr "Помилка"
 
 #: ../virt-top/virt_top.ml:188
 msgid "Exit at given time"
-msgstr "Sale en un tiempo determinado"
+msgstr "Вийти у вказаний час"
 
 #: ../virt-top/virt_top.ml:1602
 msgid "Help"
-msgstr "Ayuda"
+msgstr "Довідка"
 
 #: ../virt-top/virt_top.ml:190
 msgid "Historical CPU delay"
-msgstr "Histórico de retraso del CPU"
+msgstr "Історична затримка процесора"
 
 #: ../virt-top/virt_top.ml:176
 msgid "Log statistics to CSV file"
-msgstr "Estadísticas de log para el archivo CVS"
+msgstr "Записувати статистичні дані до файла CSV"
 
 #: ../virt-top/virt_top.ml:1585
 msgid "MAIN KEYS"
-msgstr "TECLAS PRINCIPALES"
+msgstr "ОСНОВНІ КЛЮЧІ"
 
 #: ../virt-top/virt_top.ml:1639
 msgid "More help in virt-top(1) man page. Press any key to return."
 msgstr ""
-"Más ayuda en la página del manual (man) de virt-top(1). Presione cualquier "
-"tecla para volver."
+"Докладніше — на сторінці довідки (man) virt-top(1). Натисніть будь-яку "
+"клавішу для повернення."
 
 #: ../virt-top/virt_top.ml:263
 msgid ""
 "NB: If you want to monitor a local Xen hypervisor, you usually need to be "
 "root"
 msgstr ""
-"NB: Si quiere monitorear un hypervisor local Xen, generalmente necesita ser "
-"root"
+"NB: для спостереження за локальним гіпервізором Xen, зазвичай, потрібні "
+"права root"
 
 #: ../virt-top/virt_top.ml:70
 msgid "Net RX bytes"
-msgstr "Cantidad neta de bytes recibidos"
+msgstr "Передано байтів"
 
 #: ../virt-top/virt_top.ml:71
 msgid "Net TX bytes"
-msgstr "Cantidad neta de bytes transmitidos"
+msgstr "Отримано байтів"
 
 #: ../virt-top/virt_top.ml:1348
 msgid "Not a valid number"
-msgstr "No es un número válido"
+msgstr "Некоректне число"
 
 #: ../virt-top/virt_top.ml:196
 msgid "Number of iterations to run"
-msgstr "Número de iteraciones a ser ejecutadas"
+msgstr "Кількість ітерацій"
 
 #: ../virt-top/virt_top.ml:1576 ../virt-top/virt_top.ml:1575
 msgid "Off"
-msgstr "Apagado"
+msgstr "Вимкн."
 
 #: ../virt-top/virt_top.ml:1576 ../virt-top/virt_top.ml:1575
 msgid "On"
-msgstr "Encendido"
+msgstr "Увімкн."
 
 #: ../virt-top/virt_top.ml:1600
 msgid "Quit"
-msgstr "Salir"
+msgstr "Вийти"
 
 #: ../virt-top/virt_top.ml:202
 msgid "Run from a script (no user interface)"
-msgstr "Ejecutar desde un programa (sin interfase de usuario)"
+msgstr "Запуск без скрипту (без інтерфейсу користувача)"
 
 #: ../virt-top/virt_top.ml:1606
 msgid "SORTING"
-msgstr "CLASIFICANDO"
+msgstr "ВПОРЯДКУВАННЯ"
 
 #: ../virt-top/virt_top.ml:200
 msgid "Secure (\\\"kiosk\\\") mode"
-msgstr "Modo seguro (\\\"kiosco\\\")"
+msgstr "Безпечний режим («кіоск»)"
 
 #: ../virt-top/virt_top.ml:1615
 msgid "Select sort field"
-msgstr "Seleccionar un campo para clasificar"
+msgstr "Вибрати поле впорядкування"
 
 #: ../virt-top/virt_top.ml:186
 msgid "Send debug messages to file"
-msgstr "Enviar los mensajes de depuración al archivo"
+msgstr "Надіслати діагностичні повідомлення до файла"
 
 #: ../virt-top/virt_top.ml:192
 msgid "Set name of init file"
-msgstr "Establece el nombre del archivo init"
+msgstr "Встановити назву файла ініціалізації"
 
 #: ../virt-top/virt_top.ml:198
 msgid "Set sort order (%s)"
-msgstr "Establece el orden de clasificación (%s)"
+msgstr "Встановити впорядкування (%s)"
 
 #: ../virt-top/virt_top.ml:1356
 msgid "Set sort order for main display"
-msgstr "Establece el orden de clasificación para la exhibición principal"
+msgstr "Встановити впорядкування для основного показу"
 
 #: ../virt-top/virt_top.ml:1601
 msgid "Set update interval"
-msgstr "Establece el intervalo de actualización"
+msgstr "Встановити інтервал оновлення"
 
 #: ../virt-top/virt_top.ml:1611
 msgid "Sort by %CPU"
-msgstr "Clasificación por %CPU"
+msgstr "Впорядкувати за %ЦП"
 
 #: ../virt-top/virt_top.ml:1612
 msgid "Sort by %MEM"
-msgstr "Clasificación por %MEM"
+msgstr "Впорядкувати за %ПАМ"
 
 #: ../virt-top/virt_top.ml:1614
 msgid "Sort by ID"
-msgstr "Clasificación por ID"
+msgstr "Впорядкувати за ІДЕНТИФІКАТОРОМ"
 
 #: ../virt-top/virt_top.ml:1613
 msgid "Sort by TIME"
-msgstr "Clasificación por TIEMPO"
+msgstr "Впорядкувати за ЧАСОМ"
 
 #: ../virt-top/virt_top.ml:168
 msgid "Start by displaying block devices"
-msgstr "Empieza con la exhibición de los dispositivos de bloque"
+msgstr "Показати першими блокові пристрої"
 
 #: ../virt-top/virt_top.ml:166
 msgid "Start by displaying network interfaces"
-msgstr "Empieza con la exhibición de las interfases de red"
+msgstr "Показати першими інтерфейси мережі"
 
 #: ../virt-top/virt_top.ml:164
 msgid "Start by displaying pCPUs (default: tasks)"
-msgstr "Empieza con la exhibición de los pCPUs (por defecto: tareas)"
+msgstr "Показати першими фізичні процесори (типово: завдання)"
 
 #: ../virt-top/virt_top.ml:67
 msgid "TIME (CPU time)"
-msgstr "TIEMPO (tiempo del CPU)"
+msgstr "ЧАС (процесорний час)"
 
 #: ../virt-top/virt_top.ml:1635
 msgid "Toggle block devices"
-msgstr "Alterna entre los dispositivos de bloque"
+msgstr "Увімкнути або вимкнути блокові пристрої"
 
 #: ../virt-top/virt_top.ml:1634
 msgid "Toggle network interfaces"
-msgstr "Alterna entre las interfases de red"
+msgstr "Увімкнути або вимкнути мережеві інтерфейси"
 
 #: ../virt-top/virt_top.ml:1633
 msgid "Toggle physical CPUs"
-msgstr "Alterna entre los CPUs físicos"
+msgstr "Увімкнути або вимкнути фізичні процесори"
 
 #: ../virt-top/virt_top.ml:1357
 msgid "Type key or use up and down cursor keys."
-msgstr ""
-"Presione una tecla o utilice teclas de navegación para arriba o para abajo."
+msgstr "Натисніть клавішу або скористайтеся клавішами стрілок вгору/вниз."
 
 #: ../virt-top/virt_top.ml:1644
 msgid "Unknown command - try 'h' for help"
-msgstr "Comando desconocido - intente con 'h' para obtener ayuda"
+msgstr "Невідома команда. Скористайтеся «h» для отримання довідки."
 
 #: ../virt-top/virt_top.ml:1599
 msgid "Update display"
-msgstr "Actualiza la exhibición"
+msgstr "Оновити показ"
 
 #: ../virt-top/virt_top.ml:1539
 msgid "Wrote settings to %s"
-msgstr "Configuraciones guardadas en %s"
+msgstr "Параметри записано до %s"
 
 #: ../virt-top/virt_top.ml:1581
 msgid "default"
-msgstr "predeterminado"
+msgstr "типовий"
 
 #: ../virt-top/virt_top_xml.ml:46
 msgid "get_xml_desc didn't return <domain/>"
-msgstr "el get_xml_desc no ha retornado <domain/n>"
+msgstr "get_xml_desc не повернуто <domain/>"
 
 #: ../virt-top/virt_top.ml:1561
 msgid "virt-top %s ocaml-libvirt %s libvirt %d.%d.%d by Red Hat"
-msgstr "virt-top %s ocaml-libvirt %s libvirt %d.%d.%d por Red Hat"
+msgstr "virt-top %s ocaml-libvirt %s libvirt %d.%d.%d, створено у Red Hat"
 
 #: ../virt-top/virt_top.ml:208
 msgid ""
@@ -338,17 +336,17 @@ msgid ""
 "\n"
 "OPTIONS"
 msgstr ""
-"virt-top : una herramienta de tipo \"top\" para virtualizaciones\n"
+"virt-top : top-подібна програм для віртуалізації\n"
 "\n"
-"SUMARIO\n"
-"  virt-top [-options]\n"
+"РЕЗЮМЕ\n"
+"  virt-top [-параметри]\n"
 "\n"
-"OPCIONES"
+"ПАРАМЕТРИ"
 
 #: ../virt-top/virt_top.ml:42
 msgid "virt-top was compiled without support for CSV files"
-msgstr "virt-top fue compilado sin soporte para archivos CSV"
+msgstr "virt-top було зібрано без підтримки файлів CSV"
 
 #: ../virt-top/virt_top.ml:53
 msgid "virt-top was compiled without support for dates and times"
-msgstr "virt-top fue compilado sin soporte para fechas y horas"
+msgstr "virt-top було зібрано без підтримки показу дат і часу"

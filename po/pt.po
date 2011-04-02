@@ -1,20 +1,21 @@
-# translation of virt-top.master.pt_BR.po to Portuguese
-# Glaucia Cintra <gcintra@redhat.com>, 2009.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
 msgid ""
 msgstr ""
-"Project-Id-Version: virt-top.master.pt_BR\n"
-"Report-Msgid-Bugs-To: \n"
+"Project-Id-Version: virt-top\n"
+"Report-Msgid-Bugs-To: https://bugzilla.redhat.com/\n"
 "POT-Creation-Date: 2009-10-06 14:58+0000\n"
-"PO-Revision-Date: 2009-12-09 15:04+1000\n"
-"Last-Translator: Glaucia Cintra <gcintra@redhat.com>\n"
-"Language-Team: Portuguese <en@li.org>\n"
+"PO-Revision-Date: 2011-03-22 15:29+0000\n"
+"Last-Translator: rjones <rjones@redhat.com>\n"
+"Language-Team: Portuguese <trans-pt@lists.fedoraproject.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: KBabel 1.11.4\n"
-"X-Poedit-Language: Portuguese\n"
-"X-Poedit-Country: BRAZIL\n"
+"Language: pt\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
 #: ../virt-top/virt_top.ml:1506
 msgid "# %s virt-top configuration file\\n"
@@ -301,7 +302,8 @@ msgstr "Alterna entre as CPUs físicas"
 
 #: ../virt-top/virt_top.ml:1357
 msgid "Type key or use up and down cursor keys."
-msgstr "Pressione uma tecla ou use as teclas de navegação para cima e para baixo."
+msgstr ""
+"Pressione uma tecla ou use as teclas de navegação para cima e para baixo."
 
 #: ../virt-top/virt_top.ml:1644
 msgid "Unknown command - try 'h' for help"
@@ -350,4 +352,3 @@ msgstr "o virt-top foi compilado sem suporte para arquivos CSV "
 #: ../virt-top/virt_top.ml:53
 msgid "virt-top was compiled without support for dates and times"
 msgstr "o virt-top foi compilado sem suporte para datas e horas "
-

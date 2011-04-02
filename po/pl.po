@@ -1,15 +1,21 @@
-#, fuzzy
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
 msgid ""
 msgstr ""
-"Project-Id-Version: pl\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-28 17:30+0000\n"
-"PO-Revision-Date: 2009-12-05 14:27+0100\n"
-"Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
-"Language-Team: Polish <fedora-trans-pl@redhat.com>\n"
+"Project-Id-Version: virt-top\n"
+"Report-Msgid-Bugs-To: https://bugzilla.redhat.com/\n"
+"POT-Creation-Date: 2009-10-06 14:58+0000\n"
+"PO-Revision-Date: 2011-03-22 15:29+0000\n"
+"Last-Translator: rjones <rjones@redhat.com>\n"
+"Language-Team: Polish <None>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: pl\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
 
 #: ../virt-top/virt_top.ml:1506
 msgid "# %s virt-top configuration file\\n"
@@ -21,11 +27,15 @@ msgstr "# Włącza wyjście CSV do pliku named\\n"
 
 #: ../virt-top/virt_top.ml:1527
 msgid "# To protect this file from being overwritten, uncomment next line\\n"
-msgstr "# Aby ochronić ten plik przed zastąpieniem, należy usunąć komentarz z następnego wiersza\\n"
+msgstr ""
+"# Aby ochronić ten plik przed zastąpieniem, należy usunąć komentarz z "
+"następnego wiersza\\n"
 
 #: ../virt-top/virt_top.ml:1521
 msgid "# To send debug and error messages to a file, uncomment next line\\n"
-msgstr "# Aby wysłać komunikaty debugowania i błędów do pliku, należy usunąć komentarz z następnego wiersza\\n"
+msgstr ""
+"# Aby wysłać komunikaty debugowania i błędów do pliku, należy usunąć "
+"komentarz z następnego wiersza\\n"
 
 #: ../virt-top/virt_top.ml:1507
 msgid "# generated on %s by %s\\n"
@@ -40,8 +50,12 @@ msgid "%MEM"
 msgstr "%MEM"
 
 #: ../virt-top/virt_top.ml:1158
-msgid "%d domains, %d active, %d running, %d sleeping, %d paused, %d inactive D:%d O:%d X:%d"
-msgstr "%d domeny, %d aktywne, %d uruchomione, %d uśpione, %d wstrzymane, %d nieaktywne D:%d O:%d X:%d"
+msgid ""
+"%d domains, %d active, %d running, %d sleeping, %d paused, %d inactive D:%d "
+"O:%d X:%d"
+msgstr ""
+"%d domeny, %d aktywne, %d uruchomione, %d uśpione, %d wstrzymane, %d "
+"nieaktywne D:%d O:%d X:%d"
 
 #: ../virt-top/virt_top.ml:105
 msgid "%s: display should be %s"
@@ -105,7 +119,8 @@ msgstr "Czas między opóźnieniami (sekundy)"
 
 #: ../virt-top/virt_top.ml:1573
 msgid "Delay: %.1f secs; Batch: %s; Secure: %s; Sort: %s"
-msgstr "Opóźnienie: %.1f sekundy; wsadowo: %s; bezpieczeństwo: %s; sortowanie: %s"
+msgstr ""
+"Opóźnienie: %.1f sekundy; wsadowo: %s; bezpieczeństwo: %s; sortowanie: %s"
 
 #: ../virt-top/virt_top.ml:178
 msgid "Disable CPU stats in CSV"
@@ -139,8 +154,8 @@ msgstr "Nazwa domeny"
 msgid "Domains display"
 msgstr "Ekran domen"
 
-#: ../virt-top/virt_top_main.ml:47 ../virt-top/virt_top.ml:1547
 #. ../virt-top/virt_top.ml:1544
+#: ../virt-top/virt_top_main.ml:47 ../virt-top/virt_top.ml:1547
 msgid "Error"
 msgstr "Błąd"
 
@@ -166,10 +181,14 @@ msgstr "GŁÓWNE KLUCZE"
 
 #: ../virt-top/virt_top.ml:1639
 msgid "More help in virt-top(1) man page. Press any key to return."
-msgstr "Więcej pomocy na stronie podręcznika virt-top(1). Proszę nacisnąć dowolny klawisz, aby kontynuować."
+msgstr ""
+"Więcej pomocy na stronie podręcznika virt-top(1). Proszę nacisnąć dowolny "
+"klawisz, aby kontynuować."
 
 #: ../virt-top/virt_top.ml:263
-msgid "NB: If you want to monitor a local Xen hypervisor, you usually need to be root"
+msgid ""
+"NB: If you want to monitor a local Xen hypervisor, you usually need to be "
+"root"
 msgstr "NB: aby monitorować lokalnego nadzorcę Xena, zwykle należy być rootem"
 
 #: ../virt-top/virt_top.ml:70
@@ -262,7 +281,8 @@ msgstr "Uruchamia przez wyświetlenie interfejsów sieciowych"
 
 #: ../virt-top/virt_top.ml:164
 msgid "Start by displaying pCPUs (default: tasks)"
-msgstr "Uruchamia przez wyświetlanie fizycznych procesorów (domyślnie: zadania)"
+msgstr ""
+"Uruchamia przez wyświetlanie fizycznych procesorów (domyślnie: zadania)"
 
 #: ../virt-top/virt_top.ml:67
 msgid "TIME (CPU time)"
@@ -309,8 +329,20 @@ msgid "virt-top %s ocaml-libvirt %s libvirt %d.%d.%d by Red Hat"
 msgstr "virt-top %s ocaml-libvirt %s libvirt %d.%d.%d Red Hat"
 
 #: ../virt-top/virt_top.ml:208
-msgid "virt-top : a 'top'-like utility for virtualization\n\nSUMMARY\n  virt-top [-options]\n\nOPTIONS"
-msgstr "virt-top: narzędzie podobne do \"top\" dla wirtualizacji\n\nPODSUMOWANIE\n  virt-top [-opcje]\n\nOPCJE"
+msgid ""
+"virt-top : a 'top'-like utility for virtualization\n"
+"\n"
+"SUMMARY\n"
+"  virt-top [-options]\n"
+"\n"
+"OPTIONS"
+msgstr ""
+"virt-top: narzędzie podobne do \"top\" dla wirtualizacji\n"
+"\n"
+"PODSUMOWANIE\n"
+"  virt-top [-opcje]\n"
+"\n"
+"OPCJE"
 
 #: ../virt-top/virt_top.ml:42
 msgid "virt-top was compiled without support for CSV files"
@@ -319,4 +351,3 @@ msgstr "virt-top został skompilowany bez obsługi plików CSV"
 #: ../virt-top/virt_top.ml:53
 msgid "virt-top was compiled without support for dates and times"
 msgstr "virt-top został skompilowany bez obsługi dat i czasu"
-
