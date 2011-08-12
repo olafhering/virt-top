@@ -1,3 +1,78 @@
+2011-08-12  Richard W.M. Jones  <rjones@redhat.com>
+
+	Fix ordering of csv_mode and stream_mode in tuple.
+	Note that this bug could have been avoided by using a struct instead
+	of a tuple here.
+
+	This updates commit daf79631f3eff904ba89297148c4125ac7dfee39.
+
+2011-08-11  Richard W.M. Jones  <rjones@redhat.com>
+
+	docs: Explain how to debug libvirt initialization problems (RHBZ#680031).
+
+2011-04-02  Richard W.M. Jones  <rjones@redhat.com>
+
+	Pull translations from Transifex.
+
+2011-03-08  Richard W.M. Jones  <rjones@redhat.com>
+
+	Fix --end-time option with absolute times.
+	Assume the user enters a local time, and convert it to UTC.
+
+	This also adds some clarifying comments to the relative time
+	code (but doesn't change that code).
+
+	Note that the obsolete Calendar1 code is *not* updated by this change.
+
+	docs: Fix documentation for virt-top -c option.
+	Because of changes in libvirt, this no longer connects to Xen by
+	default.  Instead the default is to connect to the libvirt default
+	hypervisor (which could be Xen, KVM or others).  Update the --help
+	documentation and manual page accordingly.
+
+	Remove generated man pages from git.
+
+2011-03-07  KAMEZAWA Hiroyuki  <kamezawa@bluextal.(none)>
+
+	add memory stats to --csv mode.
+	In csv mode, memory usage in kbytes and %mem against total system
+	memory is shown.
+
+2011-03-07  KAMEZAWA Hiroyuki  <kamezawa.hiroyu@jp.fujitsu.com>
+
+	Record memory statistics information to 'rd' object.
+	This helps to share the calculation (between modes) and
+	will help to show memory statistics in --csv mode
+
+	Signged-off-by: KAMEZAWA Hiroyuki <kamezawa.hiroyu@jp.fujitsu.com>
+
+2011-03-07  Richard W.M. Jones  <rjones@redhat.com>
+
+	Import virt-top into transifex.
+	http://www.transifex.net/projects/p/virttop/
+
+2011-02-02  Richard W.M. Jones  <rjones@redhat.com>
+
+	Update generated man page files.
+
+2011-02-02  KAMEZAWA Hiroyuki  <kamezawa.hiroyu@jp.fujitsu.com>
+
+	Add --block-in-bytes option.
+	This option and the 'B' key toggles block I/O stats between
+	requests and bytes.
+
+	Add --stream flag.
+	Output is sent to stdout (similar to the top -b option).
+
+2011-01-24  Richard W.M. Jones  <rjones@redhat.com>
+
+	Obey virt-top --end-time down to near millisecond accuracy (RHBZ#637964).
+	Adjust the final delay down so that the --end-time option is obeyed
+	down to near millisecond accuracy.
+
+	The 'usleep' function has been renamed more accurately as 'millisleep'
+	since it sleeps for milliseconds not microseconds.
+
 2011-01-06  Richard W.M. Jones  <rjones@redhat.com>
 
 	Version 1.0.5.
