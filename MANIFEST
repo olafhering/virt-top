@@ -17,6 +17,7 @@ m4/ocaml.m4
 po/as.po
 po/de.po
 po/es.po
+po/fr.po
 po/gu.po
 po/it.po
 po/ja.po
@@ -25,6 +26,7 @@ po/LINGUAS
 po/Makefile.in
 po/ml.po
 po/mr.po
+po/nl.po
 po/or.po
 po/pl.po
 po/pt_BR.po
@@ -32,16 +34,17 @@ po/pt.po
 po/POTFILES
 po/ru.po
 po/te.po
+po/uk.po
 po/virt-top.pot
 po/zh_CN.po
+po/zh_TW.po
 README
 TODO
+.tx/config
 virt-top/.depend
 virt-top/Makefile.in
 virt-top/README
-virt-top/virt-top.1
 virt-top/virt-top.pod
-virt-top/virt-top.txt
 virt-top/virt_top.ml
 virt-top/virt_top.mli
 virt-top/virt_top_calendar1.ml
