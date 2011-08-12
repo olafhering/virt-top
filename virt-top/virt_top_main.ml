@@ -31,7 +31,7 @@ open Virt_top
  * the program under --debug ...).
  *)
 let error =
-  let ((_, _, script_mode, stream_mode, _, _, _, _) as setup) = start_up () in
+  let ((_, _, script_mode, _, stream_mode, _, _, _) as setup) = start_up () in
 
   try
     Printexc.record_backtrace true;
