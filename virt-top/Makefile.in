@@ -76,6 +76,7 @@ OPT_TARGETS	:= virt-top.opt
 
 ifeq ($(HAVE_PERLDOC),perldoc)
 BYTE_TARGETS	+= virt-top.1 virt-top.txt
+OPT_TARGETS	+= virt-top.1 virt-top.txt
 endif
 
 all: $(BYTE_TARGETS)
