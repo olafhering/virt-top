@@ -446,14 +446,14 @@ let collect, clear_pcpu_display_data =
   let last_info = Hashtbl.create 13 in
   let last_time = ref (Unix.gettimeofday ()) in
 
-  (* Save vcpuinfo structures across redraws too (only for pCPU display). *)
-  let last_vcpu_info = Hashtbl.create 13 in
+  (* Save pcpu_usages structures across redraws too (only for pCPU display). *)
+  let last_pcpu_usages = Hashtbl.create 13 in
 
   let clear_pcpu_display_data () =
-    (* Clear out vcpu_info used by PCPUDisplay display_mode
+    (* Clear out pcpu_usages used by PCPUDisplay display_mode
      * when we switch back to TaskDisplay mode.
      *)
-    Hashtbl.clear last_vcpu_info
+    Hashtbl.clear last_pcpu_usages
   in
 
   let collect (conn, _, _, _, _, node_info, _, _) =
@@ -652,22 +652,28 @@ let collect, clear_pcpu_display_data =
 	      (try
 		 let domid = rd.rd_domid in
 		 let maplen = C.cpumaplen nr_pcpus in
+		 let cpu_stats = D.get_cpu_stats rd.rd_dom nr_pcpus in
+		 let rec find_usages_from_stats = function
+		   | ("cpu_time", D.TypedFieldUInt64 usages) :: _ -> usages
+		   | _ :: params -> find_usages_from_stats params
+		   | [] -> 0L in
+		 let pcpu_usages = Array.map find_usages_from_stats cpu_stats in
 		 let maxinfo = rd.rd_info.D.nr_virt_cpu in
 		 let nr_vcpus, vcpu_infos, cpumaps =
 		   D.get_vcpus rd.rd_dom maxinfo maplen in
 
-		 (* Got previous vcpu_infos for this domain? *)
-		 let prev_vcpu_infos =
-		   try Some (Hashtbl.find last_vcpu_info domid)
+		 (* Got previous pcpu_usages for this domain? *)
+		 let prev_pcpu_usages =
+		   try Some (Hashtbl.find last_pcpu_usages domid)
 		   with Not_found -> None in
-		 (* Update last_vcpu_info. *)
-		 Hashtbl.replace last_vcpu_info domid vcpu_infos;
+		 (* Update last_pcpu_usages. *)
+		 Hashtbl.replace last_pcpu_usages domid pcpu_usages;
 
-		 (match prev_vcpu_infos with
-		  | Some prev_vcpu_infos
-		      when Array.length prev_vcpu_infos = Array.length vcpu_infos ->
-		      Some (domid, name, nr_vcpus, vcpu_infos, prev_vcpu_infos,
-			    cpumaps, maplen)
+		 (match prev_pcpu_usages with
+		  | Some prev_pcpu_usages
+		      when Array.length prev_pcpu_usages = Array.length pcpu_usages ->
+		      Some (domid, name, nr_vcpus, vcpu_infos, pcpu_usages,
+			    prev_pcpu_usages, cpumaps, maplen)
 		  | _ -> None (* ignore missing / unequal length prev_vcpu_infos *)
 		 );
 	       with
@@ -680,37 +686,15 @@ let collect, clear_pcpu_display_data =
 	(* Rearrange the data into a matrix.  Major axis (down) is
 	 * pCPUs.  Minor axis (right) is domains.  At each node we store:
 	 *  cpu_time (on this pCPU only, nanosecs),
-	 *  average? (if set, then cpu_time is an average because the
-	 *     vCPU is pinned to more than one pCPU)
-	 *  running? (if set, we were instantaneously running on this pCPU)
 	 *)
-	let empty_node = (0L, false, false) in
-	let pcpus = Array.make_matrix nr_pcpus nr_doms empty_node in
+	let pcpus = Array.make_matrix nr_pcpus nr_doms 0L in
 
 	List.iteri (
-	  fun di (domid, name, nr_vcpus, vcpu_infos, prev_vcpu_infos,
-		  cpumaps, maplen) ->
+	  fun di (domid, name, nr_vcpus, vcpu_infos, pcpu_usages,
+		  prev_pcpu_usages, cpumaps, maplen) ->
 	    (* Which pCPUs can this dom run on? *)
-	    for v = 0 to nr_vcpus-1 do
-	      let pcpu = vcpu_infos.(v).D.cpu in (* instantaneous pCPU *)
-	      let nr_poss_pcpus = ref 0 in (* how many pcpus can it run on? *)
-	      for p = 0 to nr_pcpus-1 do
-		(* vcpu v can reside on pcpu p *)
-		if C.cpu_usable cpumaps maplen v p then
-		  incr nr_poss_pcpus
-	      done;
-	      let nr_poss_pcpus = Int64.of_int !nr_poss_pcpus in
-	      for p = 0 to nr_pcpus-1 do
-		(* vcpu v can reside on pcpu p *)
-		if C.cpu_usable cpumaps maplen v p then
-		  let vcpu_time_on_pcpu =
-		    vcpu_infos.(v).D.vcpu_time
-		    -^ prev_vcpu_infos.(v).D.vcpu_time in
-		  let vcpu_time_on_pcpu =
-		    vcpu_time_on_pcpu /^ nr_poss_pcpus in
-		  pcpus.(p).(di) <-
-		    (vcpu_time_on_pcpu, nr_poss_pcpus > 1L, p = pcpu)
-	      done
+	    for p = 0 to Array.length pcpu_usages - 1 do
+	      pcpus.(p).(di) <- pcpu_usages.(p) -^ prev_pcpu_usages.(p)
 	    done
 	) doms;
 
@@ -719,7 +703,7 @@ let collect, clear_pcpu_display_data =
 	  fun row ->
 	    let cpu_time = ref 0L in
 	    for di = 0 to Array.length row-1 do
-	      let t, _, _ = row.(di) in
+	      let t = row.(di) in
 	      cpu_time := !cpu_time +^ t
 	    done;
 	    Int64.to_float !cpu_time
@@ -938,7 +922,7 @@ let redraw =
 	 let dom_names =
 	   String.concat "" (
 	     List.map (
-	       fun (_, name, _, _, _, _, _) ->
+	       fun (_, name, _, _, _, _, _, _) ->
 		 let len = String.length name in
 		 let width = max (len+1) 7 in
 		 pad width name
@@ -957,8 +941,8 @@ let redraw =
 	     addch ' ';
 
 	     List.iteri (
-	       fun di (domid, name, _, _, _, _, _) ->
-		 let t, is_average, is_running = pcpus.(p).(di) in
+	       fun di (domid, name, _, _, _, _, _, _) ->
+		 let t = pcpus.(p).(di) in
 		 let len = String.length name in
 		 let width = max (len+1) 7 in
 		 let str =
@@ -966,9 +950,7 @@ let redraw =
 		   else (
 		     let t = Int64.to_float t in
 		     let percent = 100. *. t /. total_cpu_per_pcpu in
-		     sprintf "%s%c%c " (Show.percent percent)
-		       (if is_average then '=' else ' ')
-		       (if is_running then '#' else ' ')
+		     sprintf "%s " (Show.percent percent)
 		   ) in
 		 addstr (pad width str);
 		 ()
