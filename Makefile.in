@@ -50,6 +50,7 @@ dist: ChangeLog
 	mkdir $(PACKAGE)-$(VERSION)
 	tar -cf - -T MANIFEST | tar -C $(PACKAGE)-$(VERSION) -xf -
 	$(INSTALL) -m 0755 configure $(PACKAGE)-$(VERSION)/
+	$(INSTALL) -m 0644 aclocal.m4 $(PACKAGE)-$(VERSION)/
 	$(INSTALL) -m 0644 virt-top/virt-top.1 $(PACKAGE)-$(VERSION)/virt-top/
 	$(INSTALL) -m 0644 virt-top/virt-top.txt $(PACKAGE)-$(VERSION)/virt-top/
 	tar zcf $(PACKAGE)-$(VERSION).tar.gz $(PACKAGE)-$(VERSION)

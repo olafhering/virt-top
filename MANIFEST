@@ -1,5 +1,4 @@
 .gitignore
-aclocal.m4
 ChangeLog
 config.guess
 config.h.in

@@ -1,3 +1,4 @@
+aclocal.m4
 META
 ocaml-libvirt-*.tar.gz
 ocaml-libvirt-*.exe
