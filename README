@@ -14,11 +14,25 @@ It uses libvirt so it capable of showing stats across a variety of
 different virtualization systems.
 
 
-Building
+Requirements
 ----------------------------------------------------------------------
 
-Note that the minimum version of OCaml supported (since 1.0.5) is
-OCaml 3.11.0.
+OCaml >= 3.11.0
+ocaml-libvirt >= 0.6.1.1 (for virDomainGetCPUStats support)
+OCaml extlib
+OCaml curses
+
+Optional:
+OCaml gettext
+OCaml xml-light
+OCaml CSV
+OCaml Calendar, version 2 is preferred
+perldoc
+msgfmt
+
+
+Building
+----------------------------------------------------------------------
 
   ./configure           # Checks that you have all the required bits.
 
