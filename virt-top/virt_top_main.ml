@@ -30,27 +30,43 @@ open Virt_top
  * that all allocated resources are being counted properly (by running
  * the program under --debug ...).
  *)
-let error =
-  let ((_, _, script_mode, _, stream_mode, _, _, _) as setup) = start_up () in
 
+let () = Printexc.record_backtrace true
+
+let ((_, _, script_mode, _, stream_mode, _, _, _) as setup) =
+  try start_up ()
+  with
+  | Failure msg ->
+      prerr_endline msg;
+      Printexc.print_backtrace stderr;
+      exit 1
+  | exn ->
+      prerr_endline (s_ "Error" ^ ": " ^ Printexc.to_string exn);
+      Printexc.print_backtrace stderr;
+      exit 1
+
+let () =
   try
-    Printexc.record_backtrace true;
     main_loop setup;
     if not script_mode && not stream_mode then endwin ();
-    false
+    Gc.compact ();
+    exit 0
   with
   | Libvirt.Virterror err ->
       if not script_mode && not stream_mode then endwin ();
       prerr_endline (Libvirt.Virterror.to_string err);
       Printexc.print_backtrace stderr;
-      true
+      Gc.compact ();
+      exit 1
+  | Failure msg ->
+      if not script_mode && not stream_mode then endwin ();
+      prerr_endline msg;
+      Printexc.print_backtrace stderr;
+      Gc.compact ();
+      exit 1
   | exn ->
       if not script_mode && not stream_mode then endwin ();
       prerr_endline (s_ "Error" ^ ": " ^ Printexc.to_string exn);
       Printexc.print_backtrace stderr;
-      true
-
-let () =
-  Gc.compact (); (* See note above. *)
-
-  exit (if error then 1 else 0)
+      Gc.compact ();
+      exit 1
