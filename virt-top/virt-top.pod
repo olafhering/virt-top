@@ -453,7 +453,7 @@ Richard W.M. Jones <rjones @ redhat . com>
 
 =head1 COPYRIGHT
 
-(C) Copyright 2007-2011 Red Hat Inc., Richard W.M. Jones
+(C) Copyright 2007-2012 Red Hat Inc., Richard W.M. Jones
 http://libvirt.org/
 
 This program is free software; you can redistribute it and/or modify
