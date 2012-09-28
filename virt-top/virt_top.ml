@@ -200,7 +200,8 @@ let start_up () =
     "-n", Arg.Set_int iterations,
       "iterations " ^ s_"Number of iterations to run";
     "-o", Arg.String set_sort,
-      "sort " ^ sprintf (f_"Set sort order (%s)") "cpu|mem|time|id|name";
+      "sort " ^ sprintf (f_"Set sort order (%s)")
+        "cpu|mem|time|id|name|netrx|nettx|blockrdrq|blockwrrq";
     "-s", Arg.Set secure_mode,
       " " ^ s_"Secure (\"kiosk\") mode";
     "--script", Arg.Set script_mode,
