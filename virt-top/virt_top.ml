@@ -226,6 +226,24 @@ OPTIONS" in
   (* Read the init file. *)
   let try_to_read_init_file filename =
     let config = read_config_file filename in
+    (* Replacement functions that raise better errors when
+     * parsing the init file.
+     *)
+    let int_of_string s =
+      try int_of_string s
+      with Invalid_argument _ ->
+        failwithf (f_"%s: could not parse '%s' in init file: expecting an integer")
+          filename s in
+    let float_of_string s =
+      try float_of_string s
+      with Invalid_argument _ ->
+        failwithf (f_"%s: could not parse '%s' in init file: expecting a number")
+          filename s in
+    let bool_of_string s =
+      try bool_of_string s
+      with Invalid_argument _ ->
+        failwithf (f_"%s: could not parse '%s' in init file: expecting %s")
+          filename s "true|false" in
     List.iter (
       function
       | _, "display", mode -> display_mode := display_of_cli mode
