@@ -403,6 +403,113 @@ Note that in the current implementation, options specified in
 the init file override options specified on the command line.
 This is a bug and this behaviour may change in the future.
 
+=head1 COLUMN HEADINGS
+
+=over 4
+
+=item B<%CPU>
+
+Percentage of CPU used.  As with L<top(1)>, 100% means that
+all physical CPUs are being fully used.
+
+=item B<DEVICE>
+
+The block device name.
+
+=item B<DOMAIN>
+
+=item B<NAME>
+
+The name of the libvirt domain.
+
+=item B<ID>
+
+The libvirt domain ID.
+
+=item B<INTERFACE>
+
+The network interface name.
+
+=item B<%MEM>
+
+The percentage of host memory assigned to the guest.
+
+=item B<PHYCPU>
+
+The physical CPU.
+
+=item B<RDBY>
+
+Disk bytes read since last displayed.
+
+=item B<RDRQ>
+
+Disk read requests since last displayed.
+
+=item B<RXBY>
+
+Network bytes received since last displayed.
+
+=item B<RXPK>
+
+Network packets received since last displayed.
+
+=item B<S>
+
+The state of the domain, one of:
+
+=over 4
+
+=item B<?>
+
+Unknown.
+
+=item B<R>
+
+Running.
+
+=item B<S>
+
+Blocked.
+
+=item B<P>
+
+Paused.
+
+=item B<D>
+
+=item B<O>
+
+Shutdown.
+
+=item B<X>
+
+Crashed.
+
+=back
+
+=item B<TIME>
+
+Total CPU time used.
+
+=item B<TXBY>
+
+Network bytes transmitted since last displayed.
+
+=item B<TXPK>
+
+Network packets transmitted since last displayed.
+
+=item B<WRBY>
+
+Disk bytes written since last displayed.
+
+=item B<WRRQ>
+
+Disk write requests since last displayed.
+
+=back
+
 =head1 NOTES
 
 =head2 Block I/O statistics
