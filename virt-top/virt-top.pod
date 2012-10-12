@@ -22,6 +22,12 @@ different virtualization systems.
 =item B<-1>
 
 Display physical CPUs by default (instead of domains).
+
+Under each domain column, two numbers are shown.  The first is
+the percentage of the physical CPU used by the domain and the
+hypervisor together.  The second is the percentage used by just
+the domain.
+
 When virt-top is running, use the I<1> key to toggle
 between physical CPUs and domains display.
 
