@@ -672,11 +672,11 @@ let collect, clear_pcpu_display_data =
 		 let domid = rd.rd_domid in
 		 let maplen = C.cpumaplen nr_pcpus in
 		 let cpu_stats = D.get_cpu_stats rd.rd_dom in
-		 let rec find_usages_from_stats = function
+		 let rec find_cpu_usages = function
 		   | ("cpu_time", D.TypedFieldUInt64 usages) :: _ -> usages
-		   | _ :: params -> find_usages_from_stats params
+		   | _ :: params -> find_cpu_usages params
 		   | [] -> 0L in
-		 let pcpu_usages = Array.map find_usages_from_stats cpu_stats in
+		 let pcpu_usages = Array.map find_cpu_usages cpu_stats in
 		 let maxinfo = rd.rd_info.D.nr_virt_cpu in
 		 let nr_vcpus, vcpu_infos, cpumaps =
 		   D.get_vcpus rd.rd_dom maxinfo maplen in
