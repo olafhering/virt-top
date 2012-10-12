@@ -1,3 +1,48 @@
+2012-10-12  Richard W.M. Jones  <rjones@redhat.com>
+
+	Version 1.0.8.
+
+2012-10-12  Hu Tao  <hutao@cn.fujitsu.com>
+
+	show `vcpu usages' by `virt-top -1'
+	Before this patch, `virt-top -1' shows total cpu usages
+	which euqal to `vcpu usages' + `hypervisor usages'. This
+	patch adds another column for domains showing `vcpu
+	usages'. An example is:
+
+	PHYCPU %CPU example_domain
+	   0   10.4 10.4  0.8
+	   1    1.6  1.6  1.4
+	   2    2.6  2.6  2.6
+	   3    0.0  0.0  0.1
+
+	RWMJ: I cleaned up this patch a little, but it should be
+	functionally the same.
+
+	Rename find_usages_from_stats as find_cpu_usages.
+	This is just code motion.
+
+2012-10-12  Richard W.M. Jones  <rjones@redhat.com>
+
+	OCaml stable dependencies.
+
+	Remove D.get_cpu_stats second parameter.
+	In upstream ocaml-libvirt, this second parameter has been removed,
+	because it was found that nr_pcpus can be found by calling the libvirt
+	API directly.
+
+2012-09-28  Richard W.M. Jones  <rjones@redhat.com>
+
+	Make the main code and exception handling simpler.
+
+	Better error messages when parsing the init file (RHBZ#836231).
+
+	Add missing sort order options in --help output (RHBZ#807176).
+
+	Man page: Add an explanation of columns (RHBZ#834208).
+
+	man page: Update copyright date.
+
 2012-03-06  Richard W.M. Jones  <rjones@redhat.com>
 
 	Version 1.0.7.
