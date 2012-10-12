@@ -51,12 +51,22 @@ depend: .depend
 
 ifneq ($(OCAMLFIND),)
 .depend: $(wildcard *.mli) $(wildcard *.ml)
-	rm -f .depend
-	$(OCAMLFIND) ocamldep $(OCAMLCPACKAGES) $(OCAMLDEPFLAGS) $^ > $@
+	rm -f $@ $@-t
+	$(OCAMLFIND) ocamldep $(OCAMLCPACKAGES) $(OCAMLDEPFLAGS) $^ | \
+	  sed 's/ :/:/' | \
+	  sed 's/ *$$//' | \
+	  sed -e :a -e '/ *\\$$/N; s/ *\\\n */ /; ta' | \
+          sort > $@-t
+	mv $@-t $@
 else
 .depend: $(wildcard *.mli) $(wildcard *.ml)
-	rm -f .depend
-	$(OCAMLDEP) $(OCAMLCINCS) $(OCAMLDEPFLAGS) $^ > $@
+	rm -f $@ $@-t
+	$(OCAMLDEP) $(OCAMLCINCS) $(OCAMLDEPFLAGS) $^ | \
+	  sed 's/ :/:/' | \
+	  sed 's/ *$$//' | \
+	  sed -e :a -e '/ *\\$$/N; s/ *\\\n */ /; ta' | \
+          sort > $@-t
+	mv $@-t $@
 endif
 
 ifeq ($(wildcard .depend),.depend)
