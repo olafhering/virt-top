@@ -1,45 +1,42 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+# Translators:
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-10-06 14:58+0000\n"
-"PO-Revision-Date: 2011-03-22 11:29-0400\n"
-"Last-Translator: rjones <rjones@redhat.com>\n"
-"Language-Team: Portuguese <trans-pt@lists.fedoraproject.org>\n"
+"PO-Revision-Date: 2013-11-20 06:00-0500\n"
+"Last-Translator: Victor Ibragimov <victor.ibragimov@gmail.com>\n"
+"Language-Team: Tajik (http://www.transifex.com/projects/p/virttop/language/tg/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: pt\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"Language: tg\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Zanata 3.5.1\n"
 
 #: ../virt-top/virt_top.ml:1506
 msgid "# %s virt-top configuration file\\n"
-msgstr "# arquivo de configuração do virt-top %s\\n"
+msgstr ""
 
 #: ../virt-top/virt_top.ml:1524
 msgid "# Enable CSV output to the named file\\n"
-msgstr "# Habilita a saída CSV para o arquivo indicado\\n"
+msgstr ""
 
 #: ../virt-top/virt_top.ml:1527
 msgid "# To protect this file from being overwritten, uncomment next line\\n"
 msgstr ""
-"# Para proteger este arquivo contra sobreescrita, desmarque o sinal de "
-"comentário da próxima linha\\n"
 
 #: ../virt-top/virt_top.ml:1521
 msgid "# To send debug and error messages to a file, uncomment next line\\n"
 msgstr ""
-"# Para enviar mensagens de erro e de depuração para um arquivo, desmarque o "
-"comentário da próxima linha\\n"
 
 #: ../virt-top/virt_top.ml:1507
 msgid "# generated on %s by %s\\n"
-msgstr "# gerado em %s por %s\\n"
+msgstr ""
 
 #: ../virt-top/virt_top.ml:65
 msgid "%CPU"
@@ -54,280 +51,273 @@ msgid ""
 "%d domains, %d active, %d running, %d sleeping, %d paused, %d inactive D:%d "
 "O:%d X:%d"
 msgstr ""
-"%d domínios, %d ativo, %d executando, %d adormecido, %d pausado, %d inativo "
-"D.%d O.%d X.%d"
 
 #: ../virt-top/virt_top.ml:105
 msgid "%s: display should be %s"
-msgstr "%s: a exibição deveria ser %s"
+msgstr ""
 
 #: ../virt-top/virt_top.ml:83
 msgid "%s: sort order should be: %s"
-msgstr "%s: a ordem da classificação deveria ser: %s"
+msgstr ""
 
 #: ../virt-top/virt_top.ml:207
 msgid "%s: unknown parameter"
-msgstr "%s: parâmetro desconhecido"
+msgstr ""
 
 #: ../virt-top/virt_top.ml:238
 msgid "%s:%d: configuration item ``%s'' ignored\\n%!"
-msgstr "%s:%d: o item de configuração ``%s'' foi ignorado\\n%!"
+msgstr ""
 
 #: ../virt-top/virt_top.ml:144
 msgid "-d: cannot set a negative delay"
-msgstr "-d: não é possível atribuir um atraso negativo"
+msgstr ""
 
 #: ../virt-top/virt_top.ml:170
 msgid "Batch mode"
-msgstr "Modo em lotes"
+msgstr ""
 
 #: ../virt-top/virt_top.ml:72
 msgid "Block read reqs"
-msgstr "Requisições de leitura em blocos"
+msgstr ""
 
 #: ../virt-top/virt_top.ml:73
 msgid "Block write reqs"
-msgstr "Requisições de escrita em blocos"
+msgstr ""
 
 #: ../virt-top/virt_top.ml:1165
 msgid "CPU: %2.1f%%  Mem: %Ld MB (%Ld MB by guests)"
-msgstr "CPU: %2.1f%%  Mem: %Ld MB (%Ld MB para convidados)"
+msgstr ""
 
 #: ../virt-top/virt_top.ml:1335
 msgid "Change delay from %.1f to: "
-msgstr "Alterar o atraso de %.1f para:"
+msgstr ""
 
 #: ../virt-top/virt_top.ml:174 ../virt-top/virt_top.ml:172
 msgid "Connect to URI (default: Xen)"
-msgstr "Conectar a uma URI (padrão: Xen)"
+msgstr ""
 
 #: ../virt-top/virt_top.ml:1580
 msgid "Connect: %s; Hostname: %s"
-msgstr "Conectar:%s; Nome de máquina: %s"
+msgstr ""
 
 #: ../virt-top/virt_top.ml:1618
 msgid "DISPLAY MODES"
-msgstr "MODOS DE EXIBIÇÃO"
+msgstr ""
 
 #: ../virt-top/virt_top.ml:1342
 msgid "Delay must be > 0"
-msgstr "O atraso deve ser > 0"
+msgstr ""
 
 #: ../virt-top/virt_top.ml:184
 msgid "Delay time interval (seconds)"
-msgstr "Intervalo de tempo do atraso (segundos)"
+msgstr ""
 
 #: ../virt-top/virt_top.ml:1573
 msgid "Delay: %.1f secs; Batch: %s; Secure: %s; Sort: %s"
-msgstr "Atraso: %.1f segs; Lote: %s, Seguro: %s; Classificação: %s"
+msgstr ""
 
 #: ../virt-top/virt_top.ml:178
 msgid "Disable CPU stats in CSV"
-msgstr "Desabilita a estatística da CPU no CSV"
+msgstr ""
 
 #: ../virt-top/virt_top.ml:180
 msgid "Disable block device stats in CSV"
-msgstr "Desabilita as estatísticas de bloco no CSV"
+msgstr ""
 
 #: ../virt-top/virt_top.ml:182
 msgid "Disable net stats in CSV"
-msgstr "Desabilita as estatísticas de rede no CSV"
+msgstr ""
 
 #: ../virt-top/virt_top.ml:204
 msgid "Display version number and exit"
-msgstr "Exibir número da versão e saída"
+msgstr ""
 
 #: ../virt-top/virt_top.ml:194
 msgid "Do not read init file"
-msgstr "Não lê o arquivo init"
+msgstr ""
 
 #: ../virt-top/virt_top.ml:68
 msgid "Domain ID"
-msgstr "ID do domínio"
+msgstr ""
 
 #: ../virt-top/virt_top.ml:69
 msgid "Domain name"
-msgstr "Nome do domínio"
+msgstr ""
 
 #: ../virt-top/virt_top.ml:1632
 msgid "Domains display"
-msgstr "Exibe os domínios"
+msgstr ""
 
 #. ../virt-top/virt_top.ml:1544
 #: ../virt-top/virt_top_main.ml:47 ../virt-top/virt_top.ml:1547
 msgid "Error"
-msgstr "Erro"
+msgstr "Хатогӣ"
 
 #: ../virt-top/virt_top.ml:188
 msgid "Exit at given time"
-msgstr "Sai em um dado tempo"
+msgstr ""
 
 #: ../virt-top/virt_top.ml:1602
 msgid "Help"
-msgstr "Ajuda"
+msgstr "Роҳнамо"
 
 #: ../virt-top/virt_top.ml:190
 msgid "Historical CPU delay"
-msgstr "Histórico do atraso da CPU"
+msgstr ""
 
 #: ../virt-top/virt_top.ml:176
 msgid "Log statistics to CSV file"
-msgstr "Estatísticas de log para o arquivo CSV"
+msgstr ""
 
 #: ../virt-top/virt_top.ml:1585
 msgid "MAIN KEYS"
-msgstr "MAIN KEYS"
+msgstr ""
 
 #: ../virt-top/virt_top.ml:1639
 msgid "More help in virt-top(1) man page. Press any key to return."
 msgstr ""
-"Mais ajuda na página do manual do vit-top(1). Pressione qualquer tecla para "
-"retornar."
 
 #: ../virt-top/virt_top.ml:263
 msgid ""
 "NB: If you want to monitor a local Xen hypervisor, you usually need to be "
 "root"
 msgstr ""
-"NB: Se você quiser monitorar um hipervisor local do Xen, você precisa ser "
-"root."
 
 #: ../virt-top/virt_top.ml:70
 msgid "Net RX bytes"
-msgstr "Quantidade líquida de bytes recebidos"
+msgstr ""
 
 #: ../virt-top/virt_top.ml:71
 msgid "Net TX bytes"
-msgstr "Quantidade líquida de bytes transmitidos"
+msgstr ""
 
 #: ../virt-top/virt_top.ml:1348
 msgid "Not a valid number"
-msgstr "Número inválido"
+msgstr ""
 
 #: ../virt-top/virt_top.ml:196
 msgid "Number of iterations to run"
-msgstr "Número de iterações a serem executadas"
+msgstr ""
 
 #: ../virt-top/virt_top.ml:1576 ../virt-top/virt_top.ml:1575
 msgid "Off"
-msgstr "Desligado"
+msgstr "Хомӯш"
 
 #: ../virt-top/virt_top.ml:1576 ../virt-top/virt_top.ml:1575
 msgid "On"
-msgstr "Ligado"
+msgstr "Фаъол"
 
 #: ../virt-top/virt_top.ml:1600
 msgid "Quit"
-msgstr "Sair"
+msgstr "Баромад"
 
 #: ../virt-top/virt_top.ml:202
 msgid "Run from a script (no user interface)"
-msgstr "Executa a partir de um script (sem interface do usuário)"
+msgstr ""
 
 #: ../virt-top/virt_top.ml:1606
 msgid "SORTING"
-msgstr "CLASSIFICANDO"
+msgstr ""
 
 #: ../virt-top/virt_top.ml:200
 msgid "Secure (\\\"kiosk\\\") mode"
-msgstr "Modo seguro (\\\"quiosque\\\")"
+msgstr ""
 
 #: ../virt-top/virt_top.ml:1615
 msgid "Select sort field"
-msgstr "Selecione o campo para classificação"
+msgstr ""
 
 #: ../virt-top/virt_top.ml:186
 msgid "Send debug messages to file"
-msgstr "Envia as mensagens de depuração para um arquivo"
+msgstr ""
 
 #: ../virt-top/virt_top.ml:192
 msgid "Set name of init file"
-msgstr "Define o nome do arquivo init"
+msgstr ""
 
 #: ../virt-top/virt_top.ml:198
 msgid "Set sort order (%s)"
-msgstr "Define a ordem da classificação (%s)"
+msgstr ""
 
 #: ../virt-top/virt_top.ml:1356
 msgid "Set sort order for main display"
-msgstr "Define a ordem de classificação para a exibição principal"
+msgstr ""
 
 #: ../virt-top/virt_top.ml:1601
 msgid "Set update interval"
-msgstr "Define o intervalo de atualização"
+msgstr ""
 
 #: ../virt-top/virt_top.ml:1611
 msgid "Sort by %CPU"
-msgstr "Classificação por %CPU"
+msgstr ""
 
 #: ../virt-top/virt_top.ml:1612
 msgid "Sort by %MEM"
-msgstr "Classificação por %MEM"
+msgstr ""
 
 #: ../virt-top/virt_top.ml:1614
 msgid "Sort by ID"
-msgstr "Classificação por ID"
+msgstr ""
 
 #: ../virt-top/virt_top.ml:1613
 msgid "Sort by TIME"
-msgstr "Classificação por TIME"
+msgstr ""
 
 #: ../virt-top/virt_top.ml:168
 msgid "Start by displaying block devices"
-msgstr "Inicia pela apresentação dos dispositivos de bloco"
+msgstr ""
 
 #: ../virt-top/virt_top.ml:166
 msgid "Start by displaying network interfaces"
-msgstr "Inicia pela apresentação das interfaces de rede"
+msgstr ""
 
 #: ../virt-top/virt_top.ml:164
 msgid "Start by displaying pCPUs (default: tasks)"
-msgstr "Inicia pela apresentação das pCPUs (padrão: tarefas)"
+msgstr ""
 
 #: ../virt-top/virt_top.ml:67
 msgid "TIME (CPU time)"
-msgstr "TIME (tempo de CPU)"
+msgstr "ВАҚТ (вақти CPU)"
 
 #: ../virt-top/virt_top.ml:1635
 msgid "Toggle block devices"
-msgstr "Alterna entre os dispositivos de bloco"
+msgstr ""
 
 #: ../virt-top/virt_top.ml:1634
 msgid "Toggle network interfaces"
-msgstr "Alterna entre as interfaces de rede"
+msgstr ""
 
 #: ../virt-top/virt_top.ml:1633
 msgid "Toggle physical CPUs"
-msgstr "Alterna entre as CPUs físicas"
+msgstr ""
 
 #: ../virt-top/virt_top.ml:1357
 msgid "Type key or use up and down cursor keys."
 msgstr ""
-"Pressione uma tecla ou use as teclas de navegação para cima e para baixo."
 
 #: ../virt-top/virt_top.ml:1644
 msgid "Unknown command - try 'h' for help"
-msgstr "Comando desconhecido - tente \"h\" para ajuda"
+msgstr ""
 
 #: ../virt-top/virt_top.ml:1599
 msgid "Update display"
-msgstr "Atualiza a exibição"
+msgstr ""
 
 #: ../virt-top/virt_top.ml:1539
 msgid "Wrote settings to %s"
-msgstr "Configurações gravadas em %s"
+msgstr ""
 
 #: ../virt-top/virt_top.ml:1581
 msgid "default"
-msgstr "padrão"
+msgstr "пешфарз"
 
 #: ../virt-top/virt_top_xml.ml:46
 msgid "get_xml_desc didn't return <domain/>"
-msgstr "o get_xml_desc não retornou <domain/>"
+msgstr ""
 
 #: ../virt-top/virt_top.ml:1561
 msgid "virt-top %s ocaml-libvirt %s libvirt %d.%d.%d by Red Hat"
-msgstr "virt-top %s ocaml-libvirt %s libvirt %d.%d.%d por Red Hat"
+msgstr ""
 
 #: ../virt-top/virt_top.ml:208
 msgid ""
@@ -338,17 +328,11 @@ msgid ""
 "\n"
 "OPTIONS"
 msgstr ""
-"virt-top: um utilitário do tipo \"top\" para virtualização\n"
-"\n"
-"SUMÁRIO\n"
-"  virt-top [-options]\n"
-"\n"
-"OPÇÕES"
 
 #: ../virt-top/virt_top.ml:42
 msgid "virt-top was compiled without support for CSV files"
-msgstr "o virt-top foi compilado sem suporte para arquivos CSV "
+msgstr ""
 
 #: ../virt-top/virt_top.ml:53
 msgid "virt-top was compiled without support for dates and times"
-msgstr "o virt-top foi compilado sem suporte para datas e horas "
+msgstr ""

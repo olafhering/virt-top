@@ -2,13 +2,12 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# 
 msgid ""
 msgstr ""
-"Project-Id-Version: virt-top\n"
-"Report-Msgid-Bugs-To: https://bugzilla.redhat.com/\n"
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-10-06 14:58+0000\n"
-"PO-Revision-Date: 2011-03-22 15:29+0000\n"
+"PO-Revision-Date: 2011-03-22 11:29-0400\n"
 "Last-Translator: sandeeps <sshedmak@redhat.com>\n"
 "Language-Team: Marathi <None>\n"
 "MIME-Version: 1.0\n"
@@ -16,6 +15,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: mr\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"X-Generator: Zanata 3.5.1\n"
 
 #: ../virt-top/virt_top.ml:1506
 msgid "# %s virt-top configuration file\\n"
