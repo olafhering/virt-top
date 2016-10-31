@@ -22,25 +22,22 @@ INSTALL		= @INSTALL@
 
 MAKENSIS	= @MAKENSIS@
 
-SUBDIRS		= virt-top
+SUBDIRS		= src
 
 all opt depend install:
-	for d in $(SUBDIRS); do \
-	  $(MAKE) -C $$d $@; \
-	  if [ $$? -ne 0 ]; then exit 1; fi; \
-	done
+	$(MAKE) -C src $@
 
 clean:
 	for d in . $(SUBDIRS); do \
 	  (cd $$d; rm -f *.cmi *.cmo *.cmx *.cma *.cmxa *.o *.a *.so *.opt *~ *.dll *.exe core); \
 	done
-	rm -f virt-top/virt-top
+	rm -f src/virt-top
 
 distclean: clean
 	rm -f config.h config.log config.status configure
 	rm -rf autom4te.cache
 	rm -f Makefile
-	rm -f virt-top/Makefile
+	rm -f src/Makefile
 
 # Distribution.
 
@@ -51,8 +48,8 @@ dist: ChangeLog
 	tar -cf - -T MANIFEST | tar -C $(PACKAGE)-$(VERSION) -xf -
 	$(INSTALL) -m 0755 configure $(PACKAGE)-$(VERSION)/
 	$(INSTALL) -m 0644 aclocal.m4 $(PACKAGE)-$(VERSION)/
-	$(INSTALL) -m 0644 virt-top/virt-top.1 $(PACKAGE)-$(VERSION)/virt-top/
-	$(INSTALL) -m 0644 virt-top/virt-top.txt $(PACKAGE)-$(VERSION)/virt-top/
+	$(INSTALL) -m 0644 src/virt-top.1 $(PACKAGE)-$(VERSION)/src/
+	$(INSTALL) -m 0644 src/virt-top.txt $(PACKAGE)-$(VERSION)/src/
 	tar zcf $(PACKAGE)-$(VERSION).tar.gz $(PACKAGE)-$(VERSION)
 	rm -rf $(PACKAGE)-$(VERSION)
 	ls -l $(PACKAGE)-$(VERSION).tar.gz

@@ -39,28 +39,28 @@ OCAMLCPACKAGES  += -package gettext-stub
 endif
 
 OBJS		:= \
-		   virt_top_version.cmo \
-		   virt_top_gettext.cmo \
-		   virt_top_utils.cmo \
-		   virt_top.cmo
+		   version.cmo \
+		   opt_gettext.cmo \
+		   utils.cmo \
+		   top.cmo
 ifneq ($(OCAML_PKG_xml_light),no)
-OBJS		+= virt_top_xml.cmo
+OBJS		+= opt_xml.cmo
 OCAMLCPACKAGES	+= -package xml-light
 endif
 ifneq ($(OCAML_PKG_csv),no)
-OBJS		+= virt_top_csv.cmo
+OBJS		+= opt_csv.cmo
 OCAMLCPACKAGES	+= -package csv
 endif
 ifneq ($(OCAML_PKG_calendar),no)
 ifeq ($(is_calendar2),no)
-OBJS		+= virt_top_calendar1.cmo
+OBJS		+= opt_calendar1.cmo
 OCAMLCPACKAGES	+= -package calendar
 else
-OBJS		+= virt_top_calendar2.cmo
+OBJS		+= opt_calendar2.cmo
 OCAMLCPACKAGES	+= -package calendar
 endif
 endif
-OBJS		+= virt_top_main.cmo
+OBJS		+= main.cmo
 
 XOBJS		:= $(OBJS:.cmo=.cmx)
 

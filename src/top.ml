@@ -21,8 +21,8 @@ open Printf
 open ExtList
 open Curses
 
-open Virt_top_gettext.Gettext
-open Virt_top_utils
+open Opt_gettext.Gettext
+open Utils
 
 module C = Libvirt.Connect
 module D = Libvirt.Domain
@@ -159,7 +159,7 @@ let start_up () =
   and set_end_time time = end_time := Some ((!parse_date_time) time)
   and display_version () =
     printf "virt-top %s ocaml-libvirt %s\n"
-      Virt_top_version.version Libvirt_version.version;
+      Version.version Libvirt_version.version;
     exit 0
   in
   let argspec = Arg.align [
@@ -1723,7 +1723,7 @@ and show_help (_, _, _, _, _, _, hostname,
   (* Banner at the top of the screen. *)
   let banner =
     sprintf (f_"virt-top %s ocaml-libvirt %s libvirt %d.%d.%d by Red Hat")
-      Virt_top_version.version
+      Version.version
       Libvirt_version.version
       libvirt_major libvirt_minor libvirt_release in
   let banner = pad cols banner in

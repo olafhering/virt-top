@@ -84,26 +84,24 @@ AC_CHECK_PROG(MSGFMT,msgfmt,msgfmt)
 
 dnl Write gettext modules for the programs.
 dnl http://www.le-gall.net/sylvain+violaine/documentation/ocaml-gettext/html/reference-manual/ch03s04.html
-for d in virt-top; do
-    f=`echo $d | tr - _`_gettext.ml
-    AC_MSG_NOTICE([creating $d/$f])
-    rm -f $d/$f
-    echo "(* This file is generated automatically by ./configure. *)" > $d/$f
-    if test "x$OCAML_PKG_gettext" != "xno"; then
-        # Gettext module is available, so use it.
-        cat <<EOT >>$d/$f
+AC_MSG_NOTICE([creating src/opt_gettext.ml])
+rm -f src/opt_gettext.ml
+echo "(* This file is generated automatically by ./configure. *)" > src/opt_gettext.ml
+if test "x$OCAML_PKG_gettext" != "xno"; then
+    # Gettext module is available, so use it.
+    cat <<EOT >>src/opt_gettext.ml
 module Gettext = Gettext.Program (
   struct
-    let textdomain = "$d"
+    let textdomain = "virt-top"
     let codeset = None
     let dir = None
     let dependencies = [[]]
   end
 ) (GettextStub.Native)
 EOT
-    else
-        # No gettext module is available, so fake the translation functions.
-        cat <<EOT >>$d/$f
+else
+    # No gettext module is available, so fake the translation functions.
+    cat <<EOT >>src/opt_gettext.ml
 module Gettext = struct
   external s_ : string -> string = "%identity"
   external f_ : ('a -> 'b, 'c, 'd) format -> ('a -> 'b, 'c, 'd) format
@@ -115,8 +113,7 @@ module Gettext = struct
     = fun s p n -> if n = 1 then s else p
 end
 EOT
-    fi
-done
+fi
 
 dnl Summary.
 echo "------------------------------------------------------------"
@@ -128,7 +125,7 @@ AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_FILES([Makefile
 	Make.rules
 	po/Makefile
-	virt-top/Makefile
-	virt-top/virt_top_version.ml
+	src/Makefile
+	src/version.ml
 	])
 AC_OUTPUT

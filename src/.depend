@@ -1,0 +1,20 @@
+main.cmo: top.cmi opt_gettext.cmo
+main.cmx: top.cmx opt_gettext.cmx
+opt_calendar1.cmo: top.cmi opt_gettext.cmo
+opt_calendar1.cmx: top.cmx opt_gettext.cmx
+opt_calendar2.cmo: top.cmi opt_gettext.cmo
+opt_calendar2.cmx: top.cmx opt_gettext.cmx
+opt_csv.cmo: top.cmi opt_gettext.cmo
+opt_csv.cmx: top.cmx opt_gettext.cmx
+opt_gettext.cmo:
+opt_gettext.cmx:
+opt_xml.cmo: top.cmi opt_gettext.cmo
+opt_xml.cmx: top.cmx opt_gettext.cmx
+top.cmi:
+top.cmo: version.cmo utils.cmi opt_gettext.cmo top.cmi
+top.cmx: version.cmx utils.cmx opt_gettext.cmx top.cmi
+utils.cmi:
+utils.cmo: opt_gettext.cmo utils.cmi
+utils.cmx: opt_gettext.cmx utils.cmi
+version.cmo:
+version.cmx:

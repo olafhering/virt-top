@@ -21,13 +21,13 @@
 
 open ExtList
 
-open Virt_top_gettext.Gettext
+open Opt_gettext.Gettext
 
 module C = Libvirt.Connect
 module D = Libvirt.Domain
 module N = Libvirt.Network ;;
 
-Virt_top.parse_device_xml :=
+Top.parse_device_xml :=
 fun id dom ->
   try
     let xml = D.get_xml_desc dom in

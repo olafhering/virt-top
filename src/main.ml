@@ -21,8 +21,8 @@
 
 open Curses
 
-open Virt_top_gettext.Gettext
-open Virt_top
+open Opt_gettext.Gettext
+open Top
 
 (* Note: make sure we catch any exceptions and clean up the display.
  *

@@ -1,3 +1,33 @@
+2016-10-31  Richard W.M. Jones  <rjones@redhat.com>
+
+	Rename source directory and files.
+	This renames the source directory from virt-top to src/ and removes
+	the unnecessary virt_top_* prefix from many source files.
+
+	This is entirely refactoring and makes no functional change.
+
+	Also this fixes the MANIFEST file and removes old Transifex
+	configuration, fixing commit defe5bdd4a32e0206a786d279e0f9cfc238e5e17.
+
+2016-01-04  Richard W.M. Jones  <rjones@redhat.com>
+
+	build: Add -g flag to ocamlopt.
+	Modern ocamlopt supports the -g flag fine (very old versions did not).
+
+2015-02-21  Richard W.M. Jones  <rjones@redhat.com>
+
+	Update translations from Zanata.
+
+	Move upstream translations from Tranifex to Zanata.
+	This is at the request of the Fedora localization team.
+	For further information see:
+
+	https://www.redhat.com/archives/libguestfs/2015-February/msg00168.html
+
+2014-08-02  Richard W.M. Jones  <rjones@redhat.com>
+
+	Disable warning about immutable strings (for OCaml 4.02).
+
 2012-10-12  Richard W.M. Jones  <rjones@redhat.com>
 
 	Version 1.0.8.

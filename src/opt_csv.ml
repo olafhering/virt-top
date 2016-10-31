@@ -19,16 +19,16 @@
    This file contains all code which requires CSV support.
 *)
 
-open Virt_top_gettext.Gettext
+open Opt_gettext.Gettext
 
 (* Output channel, or None if CSV output not enabled. *)
 let chan = ref None ;;
 
-Virt_top.csv_start :=
+Top.csv_start :=
   fun filename ->
     chan := Some (open_out filename) ;;
 
-Virt_top.csv_write :=
+Top.csv_write :=
   fun row ->
     match !chan with
     | None -> ()			(* CSV output not enabled. *)

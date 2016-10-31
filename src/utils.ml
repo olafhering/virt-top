@@ -21,7 +21,7 @@
 
 open Printf
 
-open Virt_top_gettext.Gettext
+open Opt_gettext.Gettext
 
 module C = Libvirt.Connect
 module D = Libvirt.Domain

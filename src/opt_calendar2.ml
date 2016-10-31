@@ -24,9 +24,9 @@ open CalendarLib
 open Printf
 open ExtString
 
-open Virt_top_gettext.Gettext ;;
+open Opt_gettext.Gettext ;;
 
-Virt_top.parse_date_time :=
+Top.parse_date_time :=
 fun time ->
   let cal : Calendar.t =
     if String.starts_with time "+" then ( (* +something *)

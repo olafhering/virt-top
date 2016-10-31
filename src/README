@@ -1,11 +1,11 @@
 The code is structured into these files:
 
-  virt_top_utils.mli / virt_top_utils.ml
+  utils.mli, utils.ml
 
     String functions and other small utility functions.  This is
     included directly into virt_top.ml.
 
-  virt_top.mli / virt_top.ml
+  top.mli, top.ml
 
     This is the virt-top program.
 
@@ -22,7 +22,11 @@ The code is structured into these files:
     The function 'main_loop' runs the main loop and has sub-functions
     to deal with keypresses, help screens and so on.
 
-  virt_top_xml.ml
+  opt_gettext.ml
+    A generated file which adds gettext support if ocaml-gettext
+    was found at configure time, or else stubs it out.
+
+  opt_xml.ml
 
     Any code which needs the optional xml-light library goes
     in here.  Mainly for parsing domain XML descriptions to get
@@ -31,21 +35,21 @@ The code is structured into these files:
     The reason for having it in a separate file is so that we
     don't depend on xml-light.
 
-  virt_top_csv.ml
+  opt_csv.ml
 
     Any code which needs the optional ocaml-csv library goes
     in here.  This implements the --csv command line option.
 
-  virt_top_calendar.ml
+  opt_calendar1.ml, opt_calendar2.ml
 
     Any code which needs the optional ocaml-calendar library
-    goes in here.  This implements the --end-time command line
-    option.
+    (v1 or v2) goes in here.  This implements the --end-time
+    command line option.
 
-  virt_top_main.ml
+  main.ml
 
     This is just a small bit of code to glue the modules together
-    Virt_top + Virt_top_xml? + Virt_top_csv? + Virt_top_calendar?
+    Top + Opt_xml? + Opt_csv? + Opt_calendar{1,2}?
 
 The man-page is generated from the single file:
 
