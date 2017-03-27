@@ -46,12 +46,3 @@ module Show : sig
   val int64 : int64 -> string
   val time : int64 -> string
 end
-
-(* Helpers for manipulating block_stats & interface_stats. *)
-open Libvirt.Domain
-
-val sum_block_stats : block_stats list -> block_stats
-val diff_block_stats : block_stats -> block_stats -> block_stats
-
-val sum_interface_stats : interface_stats list -> interface_stats
-val diff_interface_stats : interface_stats -> interface_stats -> interface_stats

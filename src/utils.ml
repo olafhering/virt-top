@@ -21,12 +21,6 @@
 
 open Printf
 
-open Opt_gettext.Gettext
-
-module C = Libvirt.Connect
-module D = Libvirt.Domain
-module N = Libvirt.Network
-
 let (//) = Filename.concat
 
 (* Int64 operators for convenience. *)
@@ -166,62 +160,3 @@ module Show = struct
       sprintf "%3Ldd%02Ld:%02Ld" days hours mins
     )
 end
-
-(* Sum Domain.block_stats structures together.  Missing fields
- * get forced to 0.  Empty list returns all 0.
- *)
-let zero_block_stats =
-  { D.rd_req = 0L; rd_bytes = 0L; wr_req = 0L; wr_bytes = 0L; errs = 0L }
-let add_block_stats bs1 bs2 =
-  let add f1 f2 = if f1 >= 0L && f2 >= 0L then f1 +^ f2 else 0L in
-  { D.rd_req = add bs1.D.rd_req   bs2.D.rd_req;
-    rd_bytes = add bs1.D.rd_bytes bs2.D.rd_bytes;
-    wr_req   = add bs1.D.wr_req   bs2.D.wr_req;
-    wr_bytes = add bs1.D.wr_bytes bs2.D.wr_bytes;
-    errs     = add bs1.D.errs     bs2.D.errs }
-let sum_block_stats =
-  List.fold_left add_block_stats zero_block_stats
-
-(* Get the difference between two block_stats structures.  Missing data
- * forces the difference to -1.
- *)
-let diff_block_stats curr prev =
-  let sub f1 f2 = if f1 >= 0L && f2 >= 0L then f1 -^ f2 else -1L in
-  { D.rd_req = sub curr.D.rd_req   prev.D.rd_req;
-    rd_bytes = sub curr.D.rd_bytes prev.D.rd_bytes;
-    wr_req   = sub curr.D.wr_req   prev.D.wr_req;
-    wr_bytes = sub curr.D.wr_bytes prev.D.wr_bytes;
-    errs     = sub curr.D.errs     prev.D.errs }
-
-(* Sum Domain.interface_stats structures together.  Missing fields
- * get forced to 0.  Empty list returns all 0.
- *)
-let zero_interface_stats =
-  { D.rx_bytes = 0L; rx_packets = 0L; rx_errs = 0L; rx_drop = 0L;
-    tx_bytes = 0L; tx_packets = 0L; tx_errs = 0L; tx_drop = 0L }
-let add_interface_stats is1 is2 =
-  let add f1 f2 = if f1 >= 0L && f2 >= 0L then f1 +^ f2 else 0L in
-  { D.rx_bytes = add is1.D.rx_bytes   is2.D.rx_bytes;
-    rx_packets = add is1.D.rx_packets is2.D.rx_packets;
-    rx_errs    = add is1.D.rx_errs    is2.D.rx_errs;
-    rx_drop    = add is1.D.rx_drop    is2.D.rx_drop;
-    tx_bytes   = add is1.D.tx_bytes   is2.D.tx_bytes;
-    tx_packets = add is1.D.tx_packets is2.D.tx_packets;
-    tx_errs    = add is1.D.tx_errs    is2.D.tx_errs;
-    tx_drop    = add is1.D.tx_drop    is2.D.tx_drop }
-let sum_interface_stats =
-  List.fold_left add_interface_stats zero_interface_stats
-
-(* Get the difference between two interface_stats structures.
- * Missing data forces the difference to -1.
- *)
-let diff_interface_stats curr prev =
-  let sub f1 f2 = if f1 >= 0L && f2 >= 0L then f1 -^ f2 else -1L in
-  { D.rx_bytes = sub curr.D.rx_bytes   prev.D.rx_bytes;
-    rx_packets = sub curr.D.rx_packets prev.D.rx_packets;
-    rx_errs    = sub curr.D.rx_errs    prev.D.rx_errs;
-    rx_drop    = sub curr.D.rx_drop    prev.D.rx_drop;
-    tx_bytes   = sub curr.D.tx_bytes   prev.D.tx_bytes;
-    tx_packets = sub curr.D.tx_packets prev.D.tx_packets;
-    tx_errs    = sub curr.D.tx_errs    prev.D.tx_errs;
-    tx_drop    = sub curr.D.tx_drop    prev.D.tx_drop }

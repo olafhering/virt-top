@@ -5,19 +5,37 @@ The code is structured into these files:
     String functions and other small utility functions.  This is
     included directly into virt_top.ml.
 
+  types.mli, types.ml
+
+    Various internally used types and functions operating on those
+    types.
+
+  collect.mli, collect.ml
+
+    Stats information is collected in these functions.
+
+  screen.mli, screen.ml
+
+    Various useful functions for drawing to the curses screen.
+
+  redraw.mli, redraw.ml
+
+    Redraw the main display.
+
+  csv_output.mli, csv_output.ml
+
+    Functions which implement --csv mode.
+
+  stream_output.mli, stream_output.ml
+
+    Functions which implement --stream mode.
+
   top.mli, top.ml
 
     This is the virt-top program.
 
-    The two interesting functions are called 'collect' and 'redraw'.
-
-    'collect' collects all the information about domains, etc.
-
-    'redraw' updates the display on each frame.
-
-    Another interesting function is 'start_up' which handles all
-    start-up stuff, eg. command line arguments, connecting to the
-    hypervisor, enabling curses.
+    'start_up' handles all start-up stuff, eg. command line arguments,
+    connecting to the hypervisor, enabling curses.
 
     The function 'main_loop' runs the main loop and has sub-functions
     to deal with keypresses, help screens and so on.
@@ -38,7 +56,7 @@ The code is structured into these files:
   opt_csv.ml
 
     Any code which needs the optional ocaml-csv library goes
-    in here.  This implements the --csv command line option.
+    in here.
 
   opt_calendar.ml
 

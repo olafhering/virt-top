@@ -1,5 +1,5 @@
 (* 'top'-like tool for libvirt domains.
-   (C) Copyright 2007-2009 Richard W.M. Jones, Red Hat Inc.
+   (C) Copyright 2007-2017 Richard W.M. Jones, Red Hat Inc.
    http://libvirt.org/
 
    This program is free software; you can redistribute it and/or modify
@@ -15,26 +15,8 @@
    You should have received a copy of the GNU General Public License
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
-
-   This file contains all code which requires CSV support.
 *)
 
-open Opt_gettext.Gettext
+(** [--stream] mode output functions. *)
 
-(* Output channel, or None if CSV output not enabled. *)
-let chan = ref None ;;
-
-Top.csv_start :=
-  fun filename ->
-    chan := Some (open_out filename) ;;
-
-Csv_output.csv_write :=
-  fun row ->
-    match !chan with
-    | None -> ()			(* CSV output not enabled. *)
-    | Some chan ->
-	Csv.save_out chan [row];
-	(* Flush the output to the file immediately because we don't
-	 * explicitly close this file.
-	 *)
-	flush chan
+val append_stream : Types.setup -> bool -> Collect.stats -> unit

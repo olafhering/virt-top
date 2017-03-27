@@ -42,6 +42,12 @@ OBJS		:= \
 		   version.cmo \
 		   opt_gettext.cmo \
 		   utils.cmo \
+		   types.cmo \
+		   collect.cmo \
+		   screen.cmo \
+		   redraw.cmo \
+		   csv_output.cmo \
+		   stream_output.cmo \
 		   top.cmo
 ifneq ($(OCAML_PKG_xml_light),no)
 OBJS		+= opt_xml.cmo

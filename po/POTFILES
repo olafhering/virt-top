@@ -1,8 +1,14 @@
+../src/collect.ml
+../src/csv_output.ml
 ../src/main.ml
 ../src/opt_calendar.ml
 ../src/opt_csv.ml
 ../src/opt_gettext.ml
 ../src/opt_xml.ml
+../src/redraw.ml
+../src/screen.ml
+../src/stream.ml
 ../src/top.ml
+../src/types.ml
 ../src/utils.ml
 ../src/version.ml

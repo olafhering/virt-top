@@ -1,5 +1,5 @@
 (* 'top'-like tool for libvirt domains.
-   (C) Copyright 2007-2009 Richard W.M. Jones, Red Hat Inc.
+   (C) Copyright 2007-2017 Richard W.M. Jones, Red Hat Inc.
    http://libvirt.org/
 
    This program is free software; you can redistribute it and/or modify
@@ -17,23 +17,11 @@
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 *)
 
-(* Hook for [Opt_xml] to override (if present). *)
-val parse_device_xml :
-  (int -> [ `R ] Libvirt.Domain.t -> string list * string list) ref
-
-(* Hooks for [Opt_csv] to override (if present). *)
+(* Hook for [Opt_csv] to override (if present). *)
 val csv_start : (string -> unit) ref
-val csv_write : (string list -> unit) ref
 
 (* Hook for [Opt_calendar] to override (if present). *)
 val parse_date_time : (string -> float) ref
 
-type setup =
-    Libvirt.ro Libvirt.Connect.t	(* connection *)
-    * bool * bool * bool * bool		(* batch, script, csv, stream mode *)
-    * Libvirt.Connect.node_info		(* node_info *)
-    * string				(* hostname *)
-    * (int * int * int)			(* libvirt version *)
-
-val start_up : unit -> setup
-val main_loop : setup -> unit
+val start_up : unit -> Types.setup
+val main_loop : Types.setup -> unit

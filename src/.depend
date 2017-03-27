@@ -1,18 +1,36 @@
+collect.cmi: types.cmi
+collect.cmo: utils.cmi types.cmi collect.cmi
+collect.cmx: utils.cmx types.cmx collect.cmi
+csv_output.cmi: types.cmi collect.cmi
+csv_output.cmo: collect.cmi csv_output.cmi
+csv_output.cmx: collect.cmx csv_output.cmi
 main.cmo: top.cmi opt_gettext.cmo
 main.cmx: top.cmx opt_gettext.cmx
 opt_calendar.cmo: top.cmi opt_gettext.cmo
 opt_calendar.cmx: top.cmx opt_gettext.cmx
-opt_csv.cmo: top.cmi opt_gettext.cmo
-opt_csv.cmx: top.cmx opt_gettext.cmx
+opt_csv.cmo: top.cmi opt_gettext.cmo csv_output.cmi
+opt_csv.cmx: top.cmx opt_gettext.cmx csv_output.cmx
 opt_gettext.cmo:
 opt_gettext.cmx:
-opt_xml.cmo: top.cmi opt_gettext.cmo
-opt_xml.cmx: top.cmx opt_gettext.cmx
-top.cmi:
-top.cmo: version.cmo utils.cmi opt_gettext.cmo top.cmi
-top.cmx: version.cmx utils.cmx opt_gettext.cmx top.cmi
+opt_xml.cmo: opt_gettext.cmo collect.cmi
+opt_xml.cmx: opt_gettext.cmx collect.cmx
+redraw.cmi: types.cmi collect.cmi
+redraw.cmo: utils.cmi types.cmi screen.cmi opt_gettext.cmo collect.cmi redraw.cmi
+redraw.cmx: utils.cmx types.cmx screen.cmx opt_gettext.cmx collect.cmx redraw.cmi
+screen.cmi:
+screen.cmo: screen.cmi
+screen.cmx: screen.cmi
+stream_output.cmi: types.cmi collect.cmi
+stream_output.cmo: utils.cmi screen.cmi collect.cmi stream_output.cmi
+stream_output.cmx: utils.cmx screen.cmx collect.cmx stream_output.cmi
+top.cmi: types.cmi
+top.cmo: version.cmo utils.cmi types.cmi stream_output.cmi screen.cmi redraw.cmi opt_gettext.cmo csv_output.cmi collect.cmi top.cmi
+top.cmx: version.cmx utils.cmx types.cmx stream_output.cmx screen.cmx redraw.cmx opt_gettext.cmx csv_output.cmx collect.cmx top.cmi
+types.cmi:
+types.cmo: utils.cmi opt_gettext.cmo types.cmi
+types.cmx: utils.cmx opt_gettext.cmx types.cmi
 utils.cmi:
-utils.cmo: opt_gettext.cmo utils.cmi
-utils.cmx: opt_gettext.cmx utils.cmi
+utils.cmo: utils.cmi
+utils.cmx: utils.cmi
 version.cmo:
 version.cmx:
