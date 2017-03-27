@@ -64,7 +64,7 @@ OBJS		+= main.cmo
 
 XOBJS		:= $(OBJS:.cmo=.cmx)
 
-OCAMLCFLAGS	:= -g -warn-error A-3
+OCAMLCFLAGS	:= -g -warn-error CDEFLMPSUVYZX-3
 OCAMLCLIBS	:= -linkpkg
 
 OCAMLOPTPACKAGES := $(OCAMLCPACKAGES)
