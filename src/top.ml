@@ -30,13 +30,13 @@ module N = Libvirt.Network
 
 let rcfile = ".virt-toprc"
 
-(* Hook for XML support (see virt_top_xml.ml). *)
+(* Hook for XML support (see [opt_xml.ml]). *)
 let parse_device_xml : (int -> [>`R] D.t -> string list * string list) ref =
   ref (
     fun _ _ -> [], []
   )
 
-(* Hooks for CSV support (see virt_top_csv.ml). *)
+(* Hooks for CSV support (see [opt_csv.ml]). *)
 let csv_start : (string -> unit) ref =
   ref (
     fun _ -> failwith (s_"virt-top was compiled without support for CSV files")
@@ -46,7 +46,7 @@ let csv_write : (string list -> unit) ref =
     fun _ -> ()
   )
 
-(* Hook for calendar support (see virt_top_calendar.ml). *)
+(* Hook for calendar support (see [opt_calendar.ml]). *)
 let parse_date_time : (string -> float) ref =
   ref (
     fun _ ->
@@ -345,7 +345,7 @@ OPTIONS" in
 
   (* This tuple of static information is called 'setup' in other parts
    * of this program, and is passed to other functions such as redraw and
-   * main_loop.  See virt_top_main.ml.
+   * main_loop.  See [main.ml].
    *)
   (conn,
    !batch_mode, !script_mode, !csv_enabled, !stream_mode, (* immutable modes *)

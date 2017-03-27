@@ -17,15 +17,15 @@
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 *)
 
-(* Hook for virt_top_xml to override (if present). *)
+(* Hook for [Opt_xml] to override (if present). *)
 val parse_device_xml :
   (int -> [ `R ] Libvirt.Domain.t -> string list * string list) ref
 
-(* Hooks for virt_top_csv to override (if present). *)
+(* Hooks for [Opt_csv] to override (if present). *)
 val csv_start : (string -> unit) ref
 val csv_write : (string list -> unit) ref
 
-(* Hook for virt_top_calendar to override (if present). *)
+(* Hook for [Opt_calendar] to override (if present). *)
 val parse_date_time : (string -> float) ref
 
 type setup =
