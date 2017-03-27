@@ -319,7 +319,7 @@ let rec main_loop ((_, batch_mode, script_mode, csv_enabled, stream_mode, _, _, 
 
   while not !quit do
     (* Collect stats. *)
-    let state = collect setup !block_in_bytes in
+    let state = collect setup in
     let pcpu_display =
       if !display_mode = PCPUDisplay then Some (collect_pcpu state)
       else None in
@@ -331,7 +331,7 @@ let rec main_loop ((_, batch_mode, script_mode, csv_enabled, stream_mode, _, _, 
 
     (* Update CSV file. *)
     if csv_enabled then
-      Csv_output.append_csv setup csv_flags state;
+      Csv_output.append_csv setup csv_flags !block_in_bytes state;
 
     (* Append to stream output file. *)
     if stream_mode then

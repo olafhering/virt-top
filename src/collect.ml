@@ -57,12 +57,8 @@ and rd_active = {
   (* The following are since the last slice, or None if cannot be calc'd: *)
   rd_block_rd_reqs : int64 option;      (* Number of block device read rqs. *)
   rd_block_wr_reqs : int64 option;      (* Number of block device write rqs. *)
-  rd_block_rd_bytes : int64 option;   (* Number of bytes block device read *)
-  rd_block_wr_bytes : int64 option;   (* Number of bytes block device write *)
-  (* _info fields includes the number considering --block_in_bytes option *)
-  rd_block_rd_info : int64 option;    (* Block device read info for user *)
-  rd_block_wr_info : int64 option;    (* Block device read info for user *)
-
+  rd_block_rd_bytes : int64 option;     (* Number of bytes block device read *)
+  rd_block_wr_bytes : int64 option;     (* Number of bytes block device write *)
   rd_net_rx_bytes : int64 option;	(* Number of bytes received. *)
   rd_net_tx_bytes : int64 option;	(* Number of bytes transmitted. *)
 }
@@ -114,7 +110,7 @@ let last_pcpu_usages = Hashtbl.create 13
 let clear_pcpu_display_data () =
   Hashtbl.clear last_pcpu_usages
 
-let collect (conn, _, _, _, _, node_info, _, _) block_in_bytes =
+let collect (conn, _, _, _, _, node_info, _, _) =
   (* Number of physical CPUs (some may be disabled). *)
   let nr_pcpus = C.maxcpus_of_node_info node_info in
 
@@ -178,7 +174,6 @@ let collect (conn, _, _, _, _, node_info, _, _) block_in_bytes =
                       rd_mem_bytes = 0L; rd_mem_percent = 0L;
 		      rd_block_rd_reqs = None; rd_block_wr_reqs = None;
                       rd_block_rd_bytes = None; rd_block_wr_bytes = None;
-                      rd_block_rd_info = None; rd_block_wr_info = None;
 		      rd_net_rx_bytes = None; rd_net_tx_bytes = None;
 		    })
 	  with
@@ -255,14 +250,6 @@ let collect (conn, _, _, _, _, node_info, _, _) block_in_bytes =
 		    rd_block_wr_reqs = Some write_reqs;
                     rd_block_rd_bytes = Some read_bytes;
                     rd_block_wr_bytes = Some write_bytes;
-         } in
-         let rd = { rd with
-                    rd_block_rd_info =
-                      if block_in_bytes then
-                        rd.rd_block_rd_bytes else rd.rd_block_rd_reqs;
-                    rd_block_wr_info =
-                      if block_in_bytes then
-                        rd.rd_block_wr_bytes else rd.rd_block_wr_reqs;
          } in
 	 name, Active rd
       (* For all other domains we can't calculate it, so leave as None. *)

@@ -59,10 +59,16 @@ let append_stream (_, _, _, _, _, node_info, hostname, _) (* setup *)
   let dump_domain = fun name rd
   -> begin
     let state = Screen.show_state rd.rd_info.D.state in
-         let rd_req = if rd.rd_block_rd_info = None then "   0"
-                      else Show.int64_option rd.rd_block_rd_info in
-         let wr_req = if rd.rd_block_wr_info = None then "   0"
-                      else Show.int64_option rd.rd_block_wr_info in
+         let rd_req =
+           if rd.rd_block_rd_reqs = None then "   0"
+           else
+             if block_in_bytes then Show.int64_option rd.rd_block_rd_bytes
+             else Show.int64_option rd.rd_block_rd_reqs in
+         let wr_req =
+           if rd.rd_block_wr_reqs = None then "   0"
+           else
+             if block_in_bytes then Show.int64_option rd.rd_block_wr_bytes
+             else Show.int64_option rd.rd_block_wr_reqs in
     let rx_bytes = if rd.rd_net_rx_bytes = None then "   0"
     else Show.int64_option rd.rd_net_rx_bytes in
     let tx_bytes = if rd.rd_net_tx_bytes = None then "   0"

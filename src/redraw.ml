@@ -155,8 +155,12 @@ let redraw display_mode sort_order
 	| (name, Active rd) :: doms ->
 	   if lineno < lines then (
 	     let state = show_state rd.rd_info.D.state in
-	     let rd_req = Show.int64_option rd.rd_block_rd_info in
-	     let wr_req = Show.int64_option rd.rd_block_wr_info in
+	     let rd_info =
+               if block_in_bytes then Show.int64_option rd.rd_block_rd_bytes
+               else Show.int64_option rd.rd_block_rd_reqs in
+	     let wr_info =
+               if block_in_bytes then Show.int64_option rd.rd_block_wr_bytes
+               else Show.int64_option rd.rd_block_wr_reqs in
 	     let rx_bytes = Show.int64_option rd.rd_net_rx_bytes in
 	     let tx_bytes = Show.int64_option rd.rd_net_tx_bytes in
 	     let percent_cpu = Show.percent rd.rd_percent_cpu in
@@ -166,7 +170,7 @@ let redraw display_mode sort_order
 
 	     let line =
                sprintf "%5d %c %s %s %s %s %s %s %s %s"
-		       rd.rd_domid state rd_req wr_req rx_bytes tx_bytes
+		       rd.rd_domid state rd_info wr_info rx_bytes tx_bytes
 		       percent_cpu percent_mem time name in
 	     let line = pad cols line in
 	     mvaddstr lineno 0 line;

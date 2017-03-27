@@ -56,6 +56,7 @@ let write_csv_header (csv_cpu, csv_mem, csv_block, csv_net) block_in_bytes =
 (* Write summary data to CSV file. *)
 let append_csv (_, _, _, _, _, node_info, hostname, _) (* setup *)
                (csv_cpu, csv_mem, csv_block, csv_net)
+               block_in_bytes
                { rd_doms = doms;
                  rd_printable_time = printable_time;
                  rd_nr_pcpus = nr_pcpus; rd_total_cpu = total_cpu;
@@ -104,10 +105,15 @@ let append_csv (_, _, _, _, _, node_info, hostname, _) (* setup *)
         (if csv_mem then [
             Int64.to_string rd.rd_mem_bytes; Int64.to_string rd.rd_mem_percent
          ] else []) @
-	(if csv_block then [
-	   string_of_int64_option rd.rd_block_rd_info;
-	   string_of_int64_option rd.rd_block_wr_info;
-	 ] else []) @
+	(if csv_block then
+           if block_in_bytes then [
+	     string_of_int64_option rd.rd_block_rd_bytes;
+	     string_of_int64_option rd.rd_block_wr_bytes;
+	   ] else [
+	     string_of_int64_option rd.rd_block_rd_reqs;
+	     string_of_int64_option rd.rd_block_wr_reqs;
+           ]
+         else []) @
 	(if csv_net then [
 	   string_of_int64_option rd.rd_net_rx_bytes;
 	   string_of_int64_option rd.rd_net_tx_bytes;

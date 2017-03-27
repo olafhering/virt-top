@@ -48,10 +48,6 @@ and rd_active = {
   rd_block_wr_reqs : int64 option;      (* Number of block device write rqs. *)
   rd_block_rd_bytes : int64 option;     (* Number of bytes block device read *)
   rd_block_wr_bytes : int64 option;     (* Number of bytes block device write *)
-  (* _info fields includes the number considering --block_in_bytes option *)
-  rd_block_rd_info : int64 option;      (* Block device read info for user *)
-  rd_block_wr_info : int64 option;      (* Block device read info for user *)
-
   rd_net_rx_bytes : int64 option;	(* Number of bytes received. *)
   rd_net_tx_bytes : int64 option;	(* Number of bytes transmitted. *)
 }
@@ -75,7 +71,7 @@ type pcpu_stats = {
   rd_pcpu_pcpus_cpu_time : float array
 }
 
-val collect : Types.setup -> bool -> stats
+val collect : Types.setup -> stats
 (** Collect statistics. *)
 
 val collect_pcpu : stats -> pcpu_stats
