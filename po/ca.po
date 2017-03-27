@@ -1,9 +1,4 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# 
-# Translators:
-# Robert Antoni Buj i Gelonch, 2015
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
@@ -19,39 +14,35 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Zanata 3.5.1\n"
 
-#: ../virt-top/virt_top.ml:1506
-msgid "# %s virt-top configuration file\\n"
-msgstr "# %s fitxer de configuració de virt-top\\n"
-
-#: ../virt-top/virt_top.ml:1524
-msgid "# Enable CSV output to the named file\\n"
-msgstr "# Habilita la sortida CSV al fitxer named\\n"
-
-#: ../virt-top/virt_top.ml:1527
-msgid "# To protect this file from being overwritten, uncomment next line\\n"
+#: ../src/top.ml:1670
+msgid "# %s virt-top configuration file\n"
 msgstr ""
-"# Per protegir aquest fitxer sigui sobreescrit, descomenteu la següent "
-"línia\\n"
 
-#: ../virt-top/virt_top.ml:1521
-msgid "# To send debug and error messages to a file, uncomment next line\\n"
+#: ../src/top.ml:1688
+msgid "# Enable CSV output to the named file\n"
 msgstr ""
-"# Per a enviar missatges de depuració o d'error a un fitxer, descomenteu la "
-"següent línia\\n"
 
-#: ../virt-top/virt_top.ml:1507
-msgid "# generated on %s by %s\\n"
-msgstr "# generat el %s per %s\\n"
+#: ../src/top.ml:1691
+msgid "# To protect this file from being overwritten, uncomment next line\n"
+msgstr ""
 
-#: ../virt-top/virt_top.ml:65
+#: ../src/top.ml:1685
+msgid "# To send debug and error messages to a file, uncomment next line\n"
+msgstr ""
+
+#: ../src/top.ml:1671
+msgid "# generated on %s by %s\n"
+msgstr ""
+
+#: ../src/top.ml:65
 msgid "%CPU"
 msgstr "%CPU"
 
-#: ../virt-top/virt_top.ml:66
+#: ../src/top.ml:66
 msgid "%MEM"
 msgstr "%MEM"
 
-#: ../virt-top/virt_top.ml:1158
+#: ../src/top.ml:1237
 msgid ""
 "%d domains, %d active, %d running, %d sleeping, %d paused, %d inactive D:%d "
 "O:%d X:%d"
@@ -59,278 +50,301 @@ msgstr ""
 "%d dominis, %d en actiu, %d en execució, %d dormint, %d en pausa, %d "
 "inactius D:%d O:%d X:%d"
 
-#: ../virt-top/virt_top.ml:105
+#: ../src/top.ml:245
+msgid "%s: could not parse '%s' in init file: expecting %s"
+msgstr ""
+
+#: ../src/top.ml:240
+msgid "%s: could not parse '%s' in init file: expecting a number"
+msgstr ""
+
+#: ../src/top.ml:235
+msgid "%s: could not parse '%s' in init file: expecting an integer"
+msgstr ""
+
+#: ../src/top.ml:105
 msgid "%s: display should be %s"
 msgstr "%s: la pantalla hauria de ser %s"
 
-#: ../virt-top/virt_top.ml:83
+#: ../src/top.ml:83
 msgid "%s: sort order should be: %s"
 msgstr "%s: l'ordre d'ordenació hauria de ser: %s"
 
-#: ../virt-top/virt_top.ml:207
+#: ../src/top.ml:217
 msgid "%s: unknown parameter"
 msgstr "%s: paràmetre desconegut"
 
-#: ../virt-top/virt_top.ml:238
-msgid "%s:%d: configuration item ``%s'' ignored\\n%!"
-msgstr "%s:%d: l'element de la configuració «%s» s'ha ignorat\\n%!"
+#: ../src/top.ml:269
+msgid "%s:%d: configuration item ``%s'' ignored\n%!"
+msgstr ""
 
-#: ../virt-top/virt_top.ml:144
+#: ../src/top.ml:147
 msgid "-d: cannot set a negative delay"
 msgstr "-d: no pot establir un retard negatiu"
 
-#: ../virt-top/virt_top.ml:170
+#: ../src/top.ml:173
 msgid "Batch mode"
 msgstr "Mode per lots"
 
-#: ../virt-top/virt_top.ml:72
+#: ../src/top.ml:72
 msgid "Block read reqs"
 msgstr "Sol·licituds de lectura de blocs"
 
-#: ../virt-top/virt_top.ml:73
+#: ../src/top.ml:73
 msgid "Block write reqs"
 msgstr "Sol·licituds d'escriptura de blocs"
 
-#: ../virt-top/virt_top.ml:1165
+#: ../src/top.ml:1244
 msgid "CPU: %2.1f%%  Mem: %Ld MB (%Ld MB by guests)"
 msgstr "CPU: %2.1f%%  Mem: %Ld MB (%Ld MB per als amfitrions)"
 
-#: ../virt-top/virt_top.ml:1335
+#: ../src/top.ml:1493
 msgid "Change delay from %.1f to: "
 msgstr "Canvia el retard de %.1f a: "
 
-#: ../virt-top/virt_top.ml:174 ../virt-top/virt_top.ml:172
-msgid "Connect to URI (default: Xen)"
-msgstr "Connecta a la URI (predeterminat: Xen)"
+#: ../src/top.ml:177 ../src/top.ml:175
+msgid "Connect to libvirt URI"
+msgstr ""
 
-#: ../virt-top/virt_top.ml:1580
+#: ../src/top.ml:1744
 msgid "Connect: %s; Hostname: %s"
 msgstr "Connexió: %s; Nom d'amfitrió: %s"
 
-#: ../virt-top/virt_top.ml:1618
+#: ../src/top.ml:1783
 msgid "DISPLAY MODES"
 msgstr "MODES DE VISUALITZACIÓ"
 
-#: ../virt-top/virt_top.ml:1342
+#: ../src/top.ml:1500
 msgid "Delay must be > 0"
 msgstr "El retard ha de ser > 0"
 
-#: ../virt-top/virt_top.ml:184
+#: ../src/top.ml:189
 msgid "Delay time interval (seconds)"
 msgstr "Interval del retard (segons)"
 
-#: ../virt-top/virt_top.ml:1573
+#: ../src/top.ml:1737
 msgid "Delay: %.1f secs; Batch: %s; Secure: %s; Sort: %s"
 msgstr "Retard: %.1f seg; Per lots: %s; Seguretat: %s; Ordenació: %s"
 
-#: ../virt-top/virt_top.ml:178
+#: ../src/top.ml:181
 msgid "Disable CPU stats in CSV"
 msgstr "En el CSV, deshabilita les estadístiques de la CPU"
 
-#: ../virt-top/virt_top.ml:180
+#: ../src/top.ml:185
 msgid "Disable block device stats in CSV"
 msgstr "En el CSV, deshabilita les estadístiques dels dispositius de blocs"
 
-#: ../virt-top/virt_top.ml:182
+#: ../src/top.ml:183
+msgid "Disable memory stats in CSV"
+msgstr ""
+
+#: ../src/top.ml:187
 msgid "Disable net stats in CSV"
 msgstr "En el CSV, deshabilita les estadístiques de la xarxa"
 
-#: ../virt-top/virt_top.ml:204
+#: ../src/top.ml:214
 msgid "Display version number and exit"
 msgstr "Mostra la versió i surt"
 
-#: ../virt-top/virt_top.ml:194
+#: ../src/top.ml:199
 msgid "Do not read init file"
 msgstr "No llegeix el fitxer d'inicialització"
 
-#: ../virt-top/virt_top.ml:68
+#: ../src/top.ml:68
 msgid "Domain ID"
 msgstr "ID del domini"
 
-#: ../virt-top/virt_top.ml:69
+#: ../src/top.ml:69
 msgid "Domain name"
 msgstr "Nom del domini"
 
-#: ../virt-top/virt_top.ml:1632
+#: ../src/top.ml:1797
 msgid "Domains display"
 msgstr "Visualització dels dominis"
 
-#. ../virt-top/virt_top.ml:1544
-#: ../virt-top/virt_top_main.ml:47 ../virt-top/virt_top.ml:1547
+#: ../src/main.ml:69 ../src/main.ml:44 ../src/top.ml:1711 ../src/top.ml:1708
 msgid "Error"
 msgstr "Error"
 
-#: ../virt-top/virt_top.ml:188
+#: ../src/top.ml:193
 msgid "Exit at given time"
 msgstr "Surt en l'hora indicada"
 
-#: ../virt-top/virt_top.ml:1602
+#: ../src/top.ml:1766
 msgid "Help"
 msgstr "Ajuda"
 
-#: ../virt-top/virt_top.ml:190
+#: ../src/top.ml:195
 msgid "Historical CPU delay"
 msgstr "Retard en l'històric de la CPU"
 
-#: ../virt-top/virt_top.ml:176
+#: ../src/top.ml:179
 msgid "Log statistics to CSV file"
 msgstr "Enregistra les estadístiques al fitxer CSV"
 
-#: ../virt-top/virt_top.ml:1585
+#: ../src/top.ml:1749
 msgid "MAIN KEYS"
 msgstr "TECLES PRINCIPALS"
 
-#: ../virt-top/virt_top.ml:1639
+#: ../src/top.ml:1804
 msgid "More help in virt-top(1) man page. Press any key to return."
 msgstr ""
 "Més informació en la pàgina man virt-top(1). Premeu qualsevol tecla per "
 "tornar."
 
-#: ../virt-top/virt_top.ml:263
-msgid ""
-"NB: If you want to monitor a local Xen hypervisor, you usually need to be "
-"root"
+#: ../src/top.ml:294
+msgid "NB: If you want to monitor a local hypervisor, you usually need to be root"
 msgstr ""
-"N.B.: Si voleu supervisar un hipervisor Xen local, normalment heu de ser "
-"root"
 
-#: ../virt-top/virt_top.ml:70
+#: ../src/top.ml:70
 msgid "Net RX bytes"
 msgstr "Xarxa RX bytes"
 
-#: ../virt-top/virt_top.ml:71
+#: ../src/top.ml:71
 msgid "Net TX bytes"
 msgstr "Xarxa TX bytes"
 
-#: ../virt-top/virt_top.ml:1348
+#: ../src/top.ml:1506
 msgid "Not a valid number"
 msgstr "No és un número vàlid"
 
-#: ../virt-top/virt_top.ml:196
+#: ../src/top.ml:201
 msgid "Number of iterations to run"
 msgstr "Número d'iteracions a executar"
 
-#: ../virt-top/virt_top.ml:1576 ../virt-top/virt_top.ml:1575
+#: ../src/top.ml:1740 ../src/top.ml:1739
 msgid "Off"
 msgstr "Apagat"
 
-#: ../virt-top/virt_top.ml:1576 ../virt-top/virt_top.ml:1575
+#: ../src/top.ml:1740 ../src/top.ml:1739
 msgid "On"
 msgstr "Encés"
 
-#: ../virt-top/virt_top.ml:1600
+#: ../src/top.ml:1764
 msgid "Quit"
 msgstr "Surt"
 
-#: ../virt-top/virt_top.ml:202
+#: ../src/top.ml:208
 msgid "Run from a script (no user interface)"
 msgstr "Executa des d'una seqüència d'ordres (sense interfície gràfica)"
 
-#: ../virt-top/virt_top.ml:1606
+#: ../src/top.ml:1771
 msgid "SORTING"
 msgstr "ORDENACIÓ"
 
-#: ../virt-top/virt_top.ml:200
-msgid "Secure (\\\"kiosk\\\") mode"
-msgstr "Mode (\\\"kiosk\\\") segur"
+#: ../src/top.ml:206
+msgid "Secure (\"kiosk\") mode"
+msgstr ""
 
-#: ../virt-top/virt_top.ml:1615
+#: ../src/top.ml:1780
 msgid "Select sort field"
 msgstr "Selecciona camp d'ordenació"
 
-#: ../virt-top/virt_top.ml:186
+#: ../src/top.ml:191
 msgid "Send debug messages to file"
 msgstr "Envia els missatges de depuració al fitxer"
 
-#: ../virt-top/virt_top.ml:192
+#: ../src/top.ml:197
 msgid "Set name of init file"
 msgstr "Estableix el nom del fitxer d'inicialització"
 
-#: ../virt-top/virt_top.ml:198
+#: ../src/top.ml:203
 msgid "Set sort order (%s)"
 msgstr "Estableix el mètode d'ordenació (%s)"
 
-#: ../virt-top/virt_top.ml:1356
+#: ../src/top.ml:1514
 msgid "Set sort order for main display"
 msgstr "Estableix el mètode d'ordenació per a la pantalla principal"
 
-#: ../virt-top/virt_top.ml:1601
+#: ../src/top.ml:1765
 msgid "Set update interval"
 msgstr "Interval d'actualització"
 
-#: ../virt-top/virt_top.ml:1611
+#: ../src/top.ml:1776
 msgid "Sort by %CPU"
 msgstr "Ordena per %CPU"
 
-#: ../virt-top/virt_top.ml:1612
+#: ../src/top.ml:1777
 msgid "Sort by %MEM"
 msgstr "Ordena per %MEM"
 
-#: ../virt-top/virt_top.ml:1614
+#: ../src/top.ml:1779
 msgid "Sort by ID"
 msgstr "Ordena per ID"
 
-#: ../virt-top/virt_top.ml:1613
+#: ../src/top.ml:1778
 msgid "Sort by TIME"
 msgstr "Ordena per TEMPS"
 
-#: ../virt-top/virt_top.ml:168
+#: ../src/top.ml:171
 msgid "Start by displaying block devices"
 msgstr "Comença mostrant els dispositius de blocs"
 
-#: ../virt-top/virt_top.ml:166
+#: ../src/top.ml:169
 msgid "Start by displaying network interfaces"
 msgstr "Comença mostrant les interfícies de xarxa"
 
-#: ../virt-top/virt_top.ml:164
+#: ../src/top.ml:167
 msgid "Start by displaying pCPUs (default: tasks)"
 msgstr "Comença mostrant pCPUs (predeterminat: tasques)"
 
-#: ../virt-top/virt_top.ml:67
+#: ../src/top.ml:67
 msgid "TIME (CPU time)"
 msgstr "TEMPS (temps de CPU)"
 
-#: ../virt-top/virt_top.ml:1635
+#: ../src/top.ml:1800
 msgid "Toggle block devices"
 msgstr "Commuta dispositius de blocs"
 
-#: ../virt-top/virt_top.ml:1634
+#: ../src/top.ml:1799
 msgid "Toggle network interfaces"
 msgstr "Commuta interfícies de xarxa"
 
-#: ../virt-top/virt_top.ml:1633
+#: ../src/top.ml:1798
 msgid "Toggle physical CPUs"
 msgstr "Commuta CPU físiques"
 
-#: ../virt-top/virt_top.ml:1357
+#: ../src/top.ml:1515
 msgid "Type key or use up and down cursor keys."
 msgstr "Teclegeu una tecla o utilitzeu les fletxes del cursor amunt o abaix."
 
-#: ../virt-top/virt_top.ml:1644
+#: ../src/top.ml:1809
 msgid "Unknown command - try 'h' for help"
 msgstr "Ordre no reconeguda - proveu 'h' per l'ajuda"
 
-#: ../virt-top/virt_top.ml:1599
+#: ../src/top.ml:1763
 msgid "Update display"
 msgstr "Actualitza la pantalla"
 
-#: ../virt-top/virt_top.ml:1539
+#: ../src/top.ml:1703
 msgid "Wrote settings to %s"
 msgstr "S'ha escrit les preferències a %s"
 
-#: ../virt-top/virt_top.ml:1581
+#: ../src/top.ml:1745
 msgid "default"
 msgstr "predet."
 
-#: ../virt-top/virt_top_xml.ml:46
+#: ../src/top.ml:210
+msgid "dump output to stdout (no userinterface)"
+msgstr ""
+
+#: ../src/opt_xml.ml:46
 msgid "get_xml_desc didn't return <domain/>"
 msgstr "get_xml_desc no va retornar <domain/>"
 
-#: ../virt-top/virt_top.ml:1561
+#: ../src/top.ml:212
+msgid "show block device load in bytes rather than reqs"
+msgstr ""
+
+#: ../src/top.ml:1767
+msgid "toggle block info req/bytes"
+msgstr ""
+
+#: ../src/top.ml:1725
 msgid "virt-top %s ocaml-libvirt %s libvirt %d.%d.%d by Red Hat"
 msgstr "virt-top %s ocaml-libvirt %s libvirt %d.%d.%d per Red Hat"
 
-#: ../virt-top/virt_top.ml:208
+#: ../src/top.ml:218
 msgid ""
 "virt-top : a 'top'-like utility for virtualization\n"
 "\n"
@@ -346,10 +360,11 @@ msgstr ""
 "\n"
 "OPCIONS"
 
-#: ../virt-top/virt_top.ml:42
+#: ../src/top.ml:42
 msgid "virt-top was compiled without support for CSV files"
 msgstr "virt-top fou compilat sense compatibilitat per a fitxers CSV"
 
-#: ../virt-top/virt_top.ml:53
+#: ../src/top.ml:53
 msgid "virt-top was compiled without support for dates and times"
 msgstr "virt-top fou compilat sense compatibilitat per data i hora"
+

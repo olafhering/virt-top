@@ -1,7 +1,4 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
@@ -17,35 +14,35 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0\n"
 "X-Generator: Zanata 3.5.1\n"
 
-#: ../virt-top/virt_top.ml:1506
-msgid "# %s virt-top configuration file\\n"
-msgstr "# %s virt-top 配置文件\\n"
+#: ../src/top.ml:1670
+msgid "# %s virt-top configuration file\n"
+msgstr ""
 
-#: ../virt-top/virt_top.ml:1524
-msgid "# Enable CSV output to the named file\\n"
-msgstr "# 启用 CSV 输出到命名文件\\n"
+#: ../src/top.ml:1688
+msgid "# Enable CSV output to the named file\n"
+msgstr ""
 
-#: ../virt-top/virt_top.ml:1527
-msgid "# To protect this file from being overwritten, uncomment next line\\n"
-msgstr "# 保护这个文件不被覆盖，下一行取消注释\\n"
+#: ../src/top.ml:1691
+msgid "# To protect this file from being overwritten, uncomment next line\n"
+msgstr ""
 
-#: ../virt-top/virt_top.ml:1521
-msgid "# To send debug and error messages to a file, uncomment next line\\n"
-msgstr "# 将 debug 和出错信息发送到一个文件，下一行取消注释\\n"
+#: ../src/top.ml:1685
+msgid "# To send debug and error messages to a file, uncomment next line\n"
+msgstr ""
 
-#: ../virt-top/virt_top.ml:1507
-msgid "# generated on %s by %s\\n"
-msgstr "# 使用 %s 在 %s 中创建\\n"
+#: ../src/top.ml:1671
+msgid "# generated on %s by %s\n"
+msgstr ""
 
-#: ../virt-top/virt_top.ml:65
+#: ../src/top.ml:65
 msgid "%CPU"
 msgstr "%CPU"
 
-#: ../virt-top/virt_top.ml:66
+#: ../src/top.ml:66
 msgid "%MEM"
 msgstr "%MEM"
 
-#: ../virt-top/virt_top.ml:1158
+#: ../src/top.ml:1237
 msgid ""
 "%d domains, %d active, %d running, %d sleeping, %d paused, %d inactive D:%d "
 "O:%d X:%d"
@@ -53,274 +50,299 @@ msgstr ""
 "%d domains, %d active, %d running, %d sleeping, %d paused, %d inactive D:%d "
 "O:%d X:%d"
 
-#: ../virt-top/virt_top.ml:105
+#: ../src/top.ml:245
+msgid "%s: could not parse '%s' in init file: expecting %s"
+msgstr ""
+
+#: ../src/top.ml:240
+msgid "%s: could not parse '%s' in init file: expecting a number"
+msgstr ""
+
+#: ../src/top.ml:235
+msgid "%s: could not parse '%s' in init file: expecting an integer"
+msgstr ""
+
+#: ../src/top.ml:105
 msgid "%s: display should be %s"
 msgstr "%s：显示应该为 %s"
 
-#: ../virt-top/virt_top.ml:83
+#: ../src/top.ml:83
 msgid "%s: sort order should be: %s"
 msgstr "%s：排列顺寻应该为：%s"
 
-#: ../virt-top/virt_top.ml:207
+#: ../src/top.ml:217
 msgid "%s: unknown parameter"
 msgstr "%s：未知参数"
 
-#: ../virt-top/virt_top.ml:238
-msgid "%s:%d: configuration item ``%s'' ignored\\n%!"
-msgstr "%s：%d：忽略配置项目 ``%s''\\n%!"
+#: ../src/top.ml:269
+msgid "%s:%d: configuration item ``%s'' ignored\n%!"
+msgstr ""
 
-#: ../virt-top/virt_top.ml:144
+#: ../src/top.ml:147
 msgid "-d: cannot set a negative delay"
 msgstr "-d：无法设定负延迟"
 
-#: ../virt-top/virt_top.ml:170
+#: ../src/top.ml:173
 msgid "Batch mode"
 msgstr "批模式"
 
-#: ../virt-top/virt_top.ml:72
+#: ../src/top.ml:72
 msgid "Block read reqs"
 msgstr "块读取请求"
 
-#: ../virt-top/virt_top.ml:73
+#: ../src/top.ml:73
 msgid "Block write reqs"
 msgstr "块写入请求"
 
-#: ../virt-top/virt_top.ml:1165
+#: ../src/top.ml:1244
 msgid "CPU: %2.1f%%  Mem: %Ld MB (%Ld MB by guests)"
 msgstr "CPU: %2.1f%%  Mem: %Ld MB（客户端 %Ld MB）"
 
-#: ../virt-top/virt_top.ml:1335
+#: ../src/top.ml:1493
 msgid "Change delay from %.1f to: "
 msgstr "将延迟从 %.1f 更改至："
 
-#: ../virt-top/virt_top.ml:174 ../virt-top/virt_top.ml:172
-msgid "Connect to URI (default: Xen)"
-msgstr "连接到 URI（默认：Xen）"
+#: ../src/top.ml:177 ../src/top.ml:175
+msgid "Connect to libvirt URI"
+msgstr ""
 
-#: ../virt-top/virt_top.ml:1580
+#: ../src/top.ml:1744
 msgid "Connect: %s; Hostname: %s"
 msgstr "连接：%s；主机名：%s"
 
-#: ../virt-top/virt_top.ml:1618
+#: ../src/top.ml:1783
 msgid "DISPLAY MODES"
 msgstr "显示模式"
 
-#: ../virt-top/virt_top.ml:1342
+#: ../src/top.ml:1500
 msgid "Delay must be > 0"
 msgstr "延迟必须 > 0"
 
-#: ../virt-top/virt_top.ml:184
+#: ../src/top.ml:189
 msgid "Delay time interval (seconds)"
 msgstr "延迟时间间隔（秒）"
 
-#: ../virt-top/virt_top.ml:1573
+#: ../src/top.ml:1737
 msgid "Delay: %.1f secs; Batch: %s; Secure: %s; Sort: %s"
 msgstr "Delay: %.1f secs; Batch: %s; Secure: %s; Sort: %s"
 
-#: ../virt-top/virt_top.ml:178
+#: ../src/top.ml:181
 msgid "Disable CPU stats in CSV"
 msgstr "在 CSV 中禁用 XPU 统计"
 
-#: ../virt-top/virt_top.ml:180
+#: ../src/top.ml:185
 msgid "Disable block device stats in CSV"
 msgstr "在 CSV 中禁用块设备统计"
 
-#: ../virt-top/virt_top.ml:182
+#: ../src/top.ml:183
+msgid "Disable memory stats in CSV"
+msgstr ""
+
+#: ../src/top.ml:187
 msgid "Disable net stats in CSV"
 msgstr "在 CSV 中禁用网络统计"
 
-#: ../virt-top/virt_top.ml:204
+#: ../src/top.ml:214
 msgid "Display version number and exit"
 msgstr "显示版本号并退出"
 
-#: ../virt-top/virt_top.ml:194
+#: ../src/top.ml:199
 msgid "Do not read init file"
 msgstr "不读取初始化文件"
 
-#: ../virt-top/virt_top.ml:68
+#: ../src/top.ml:68
 msgid "Domain ID"
 msgstr "域 ID"
 
-#: ../virt-top/virt_top.ml:69
+#: ../src/top.ml:69
 msgid "Domain name"
 msgstr "域名"
 
-#: ../virt-top/virt_top.ml:1632
+#: ../src/top.ml:1797
 msgid "Domains display"
 msgstr "域显示"
 
-#. ../virt-top/virt_top.ml:1544
-#: ../virt-top/virt_top_main.ml:47 ../virt-top/virt_top.ml:1547
+#: ../src/main.ml:69 ../src/main.ml:44 ../src/top.ml:1711 ../src/top.ml:1708
 msgid "Error"
 msgstr "错误"
 
-#: ../virt-top/virt_top.ml:188
+#: ../src/top.ml:193
 msgid "Exit at given time"
 msgstr "在指定时间退出"
 
-#: ../virt-top/virt_top.ml:1602
+#: ../src/top.ml:1766
 msgid "Help"
 msgstr "帮助"
 
-#: ../virt-top/virt_top.ml:190
+#: ../src/top.ml:195
 msgid "Historical CPU delay"
 msgstr "CPU 延迟历史记录"
 
-#: ../virt-top/virt_top.ml:176
+#: ../src/top.ml:179
 msgid "Log statistics to CSV file"
 msgstr "将统计记录到 CSV 文件中作为日志"
 
-#: ../virt-top/virt_top.ml:1585
+#: ../src/top.ml:1749
 msgid "MAIN KEYS"
 msgstr "主要密钥"
 
-#: ../virt-top/virt_top.ml:1639
+#: ../src/top.ml:1804
 msgid "More help in virt-top(1) man page. Press any key to return."
 msgstr "更多帮助请参考 virt-top(1) man page。按任意键返回。"
 
-#: ../virt-top/virt_top.ml:263
-msgid ""
-"NB: If you want to monitor a local Xen hypervisor, you usually need to be "
-"root"
-msgstr "NB：如果您要监控本地 Xen 监控程序，您通常需要是根用户"
+#: ../src/top.ml:294
+msgid "NB: If you want to monitor a local hypervisor, you usually need to be root"
+msgstr ""
 
-#: ../virt-top/virt_top.ml:70
+#: ../src/top.ml:70
 msgid "Net RX bytes"
 msgstr "纯 RX 字节"
 
-#: ../virt-top/virt_top.ml:71
+#: ../src/top.ml:71
 msgid "Net TX bytes"
 msgstr "纯 TX 字节"
 
-#: ../virt-top/virt_top.ml:1348
+#: ../src/top.ml:1506
 msgid "Not a valid number"
 msgstr "非有效数字"
 
-#: ../virt-top/virt_top.ml:196
+#: ../src/top.ml:201
 msgid "Number of iterations to run"
 msgstr "要运行的重复数"
 
-#: ../virt-top/virt_top.ml:1576 ../virt-top/virt_top.ml:1575
+#: ../src/top.ml:1740 ../src/top.ml:1739
 msgid "Off"
 msgstr "关闭"
 
-#: ../virt-top/virt_top.ml:1576 ../virt-top/virt_top.ml:1575
+#: ../src/top.ml:1740 ../src/top.ml:1739
 msgid "On"
 msgstr "打开"
 
-#: ../virt-top/virt_top.ml:1600
+#: ../src/top.ml:1764
 msgid "Quit"
 msgstr "退出"
 
-#: ../virt-top/virt_top.ml:202
+#: ../src/top.ml:208
 msgid "Run from a script (no user interface)"
 msgstr "从脚本运行（而不是用户界面）"
 
-#: ../virt-top/virt_top.ml:1606
+#: ../src/top.ml:1771
 msgid "SORTING"
 msgstr "排序"
 
-#: ../virt-top/virt_top.ml:200
-msgid "Secure (\\\"kiosk\\\") mode"
-msgstr "安全默认是（\\\"kiosk\\\"）"
+#: ../src/top.ml:206
+msgid "Secure (\"kiosk\") mode"
+msgstr ""
 
-#: ../virt-top/virt_top.ml:1615
+#: ../src/top.ml:1780
 msgid "Select sort field"
 msgstr "选择排序字段"
 
-#: ../virt-top/virt_top.ml:186
+#: ../src/top.ml:191
 msgid "Send debug messages to file"
 msgstr "将 debug 信息发送到文件中"
 
-#: ../virt-top/virt_top.ml:192
+#: ../src/top.ml:197
 msgid "Set name of init file"
 msgstr "设定初始化文件名称"
 
-#: ../virt-top/virt_top.ml:198
+#: ../src/top.ml:203
 msgid "Set sort order (%s)"
 msgstr "设定排序顺序（%s）"
 
-#: ../virt-top/virt_top.ml:1356
+#: ../src/top.ml:1514
 msgid "Set sort order for main display"
 msgstr "为主显示设定排序顺序"
 
-#: ../virt-top/virt_top.ml:1601
+#: ../src/top.ml:1765
 msgid "Set update interval"
 msgstr "设定更新间隔"
 
-#: ../virt-top/virt_top.ml:1611
+#: ../src/top.ml:1776
 msgid "Sort by %CPU"
 msgstr "根据 %CPU 排序"
 
-#: ../virt-top/virt_top.ml:1612
+#: ../src/top.ml:1777
 msgid "Sort by %MEM"
 msgstr "根据 %MEM 排序"
 
-#: ../virt-top/virt_top.ml:1614
+#: ../src/top.ml:1779
 msgid "Sort by ID"
 msgstr "根据 ID 排序"
 
-#: ../virt-top/virt_top.ml:1613
+#: ../src/top.ml:1778
 msgid "Sort by TIME"
 msgstr "根据时间排序"
 
-#: ../virt-top/virt_top.ml:168
+#: ../src/top.ml:171
 msgid "Start by displaying block devices"
 msgstr "用显示的块设备启动"
 
-#: ../virt-top/virt_top.ml:166
+#: ../src/top.ml:169
 msgid "Start by displaying network interfaces"
 msgstr "用显示的网络接口启动"
 
-#: ../virt-top/virt_top.ml:164
+#: ../src/top.ml:167
 msgid "Start by displaying pCPUs (default: tasks)"
 msgstr "用显示的 pCPU 启动（默认：任务）"
 
-#: ../virt-top/virt_top.ml:67
+#: ../src/top.ml:67
 msgid "TIME (CPU time)"
 msgstr "时间（CPU 时间）"
 
-#: ../virt-top/virt_top.ml:1635
+#: ../src/top.ml:1800
 msgid "Toggle block devices"
 msgstr "触发块设备"
 
-#: ../virt-top/virt_top.ml:1634
+#: ../src/top.ml:1799
 msgid "Toggle network interfaces"
 msgstr "触发网络接口"
 
-#: ../virt-top/virt_top.ml:1633
+#: ../src/top.ml:1798
 msgid "Toggle physical CPUs"
 msgstr "触发物理 CPU"
 
-#: ../virt-top/virt_top.ml:1357
+#: ../src/top.ml:1515
 msgid "Type key or use up and down cursor keys."
 msgstr "输入密钥或者使用上下箭头键。"
 
-#: ../virt-top/virt_top.ml:1644
+#: ../src/top.ml:1809
 msgid "Unknown command - try 'h' for help"
 msgstr "未知命令 - 试用 ‘h’获得帮助"
 
-#: ../virt-top/virt_top.ml:1599
+#: ../src/top.ml:1763
 msgid "Update display"
 msgstr "更新显示"
 
-#: ../virt-top/virt_top.ml:1539
+#: ../src/top.ml:1703
 msgid "Wrote settings to %s"
 msgstr "将设置写入 %s"
 
-#: ../virt-top/virt_top.ml:1581
+#: ../src/top.ml:1745
 msgid "default"
 msgstr "默认"
 
-#: ../virt-top/virt_top_xml.ml:46
+#: ../src/top.ml:210
+msgid "dump output to stdout (no userinterface)"
+msgstr ""
+
+#: ../src/opt_xml.ml:46
 msgid "get_xml_desc didn't return <domain/>"
 msgstr "get_xml_desc 没有返回 <domain/>"
 
-#: ../virt-top/virt_top.ml:1561
+#: ../src/top.ml:212
+msgid "show block device load in bytes rather than reqs"
+msgstr ""
+
+#: ../src/top.ml:1767
+msgid "toggle block info req/bytes"
+msgstr ""
+
+#: ../src/top.ml:1725
 msgid "virt-top %s ocaml-libvirt %s libvirt %d.%d.%d by Red Hat"
 msgstr "红帽提供的 virt-top %s ocaml-libvirt %s libvirt %d.%d.%d"
 
-#: ../virt-top/virt_top.ml:208
+#: ../src/top.ml:218
 msgid ""
 "virt-top : a 'top'-like utility for virtualization\n"
 "\n"
@@ -336,10 +358,11 @@ msgstr ""
 "\n"
 "OPTIONS"
 
-#: ../virt-top/virt_top.ml:42
+#: ../src/top.ml:42
 msgid "virt-top was compiled without support for CSV files"
 msgstr "virt-top 是以不支持 CSV 文件的形式编译"
 
-#: ../virt-top/virt_top.ml:53
+#: ../src/top.ml:53
 msgid "virt-top was compiled without support for dates and times"
 msgstr "virt-top 是以不支持日期和时间的形式编译"
+

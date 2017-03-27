@@ -1,7 +1,4 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
@@ -17,39 +14,35 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 "X-Generator: Zanata 3.5.1\n"
 
-#: ../virt-top/virt_top.ml:1506
-msgid "# %s virt-top configuration file\\n"
-msgstr "# %s virt-top ക്രമീകരണ ഫയല്‍\\n"
-
-#: ../virt-top/virt_top.ml:1524
-msgid "# Enable CSV output to the named file\\n"
-msgstr "# പറഞ്ഞിരിക്കുന്ന ഫയലിലേക്ക് CSV ഔട്പുട് പ്രാവര്‍ത്തികമാക്കുക\\n"
-
-#: ../virt-top/virt_top.ml:1527
-msgid "# To protect this file from being overwritten, uncomment next line\\n"
+#: ../src/top.ml:1670
+msgid "# %s virt-top configuration file\n"
 msgstr ""
-"# ഈ ഫയലിന്റെ മുകളിലേക്ക് എഴുതാതിരിക്കാതെ സൂക്ഷിക്കാന്‍, അടുത്ത വരി "
-"അണ്‍കമെന്റ് ചെയ്യുക (കമെന്റ് മാറ്റുക) \\n"
 
-#: ../virt-top/virt_top.ml:1521
-msgid "# To send debug and error messages to a file, uncomment next line\\n"
+#: ../src/top.ml:1688
+msgid "# Enable CSV output to the named file\n"
 msgstr ""
-"# പിശകു്‌, ഡീബഗ് സന്ദേശങ്ങള്‍ ഒരു ഫയലിലേക്ക് അയക്കുവാന്‍, അടുത്ത വരി "
-"അണ്‍കമെന്റ് ചെയ്യുക (കമെന്റ് മാറ്റുക) \\n"
 
-#: ../virt-top/virt_top.ml:1507
-msgid "# generated on %s by %s\\n"
-msgstr "#ഉണ്ടാക്കിയത് ഈ സമയം: %s , %s വക \\n"
+#: ../src/top.ml:1691
+msgid "# To protect this file from being overwritten, uncomment next line\n"
+msgstr ""
 
-#: ../virt-top/virt_top.ml:65
+#: ../src/top.ml:1685
+msgid "# To send debug and error messages to a file, uncomment next line\n"
+msgstr ""
+
+#: ../src/top.ml:1671
+msgid "# generated on %s by %s\n"
+msgstr ""
+
+#: ../src/top.ml:65
 msgid "%CPU"
 msgstr "%CPU"
 
-#: ../virt-top/virt_top.ml:66
+#: ../src/top.ml:66
 msgid "%MEM"
 msgstr "%MEM"
 
-#: ../virt-top/virt_top.ml:1158
+#: ../src/top.ml:1237
 msgid ""
 "%d domains, %d active, %d running, %d sleeping, %d paused, %d inactive D:%d "
 "O:%d X:%d"
@@ -57,281 +50,304 @@ msgstr ""
 "%d ഡൊമേനുകള്‍, %d സജീവം, %d പ്രവര്‍ത്തിക്കുന്നു, %d ഉറങ്ങുന്നു, %d "
 "താല്‍കാലികമായി നിര്‍ത്തിയിരിക്കുന്നു, %d നിര്‍ജ്ജീവം  D:%d O:%d X:%d"
 
-#: ../virt-top/virt_top.ml:105
+#: ../src/top.ml:245
+msgid "%s: could not parse '%s' in init file: expecting %s"
+msgstr ""
+
+#: ../src/top.ml:240
+msgid "%s: could not parse '%s' in init file: expecting a number"
+msgstr ""
+
+#: ../src/top.ml:235
+msgid "%s: could not parse '%s' in init file: expecting an integer"
+msgstr ""
+
+#: ../src/top.ml:105
 msgid "%s: display should be %s"
 msgstr "%s: ഡിസ്പ്ലേ %s ആകണം"
 
-#: ../virt-top/virt_top.ml:83
+#: ../src/top.ml:83
 msgid "%s: sort order should be: %s"
 msgstr "%s: ക്രമം %s ആകണം"
 
-#: ../virt-top/virt_top.ml:207
+#: ../src/top.ml:217
 msgid "%s: unknown parameter"
 msgstr "%s: അറിയാത്ത ചരം (പാരാമീറ്റര്‍)"
 
-#: ../virt-top/virt_top.ml:238
-msgid "%s:%d: configuration item ``%s'' ignored\\n%!"
-msgstr "%s:%d: ക്രമീകരണ ഇനം ``%s'' അവഗണിച്ചു\\n%!"
+#: ../src/top.ml:269
+msgid "%s:%d: configuration item ``%s'' ignored\n%!"
+msgstr ""
 
-#: ../virt-top/virt_top.ml:144
+#: ../src/top.ml:147
 msgid "-d: cannot set a negative delay"
 msgstr "-d: പൂജ്യത്തിനു താഴെ ഡിലേ (കാത്തിരിക്കേണ്ട സമയം) വെക്കാന്‍ കഴിയില്ല"
 
-#: ../virt-top/virt_top.ml:170
+#: ../src/top.ml:173
 msgid "Batch mode"
 msgstr "ബാച് സ്ഥിതി"
 
-#: ../virt-top/virt_top.ml:72
+#: ../src/top.ml:72
 msgid "Block read reqs"
 msgstr "ബ്ലോക്ക് വായിക്കാന്‍ ആവശ്യങ്ങള്‍"
 
-#: ../virt-top/virt_top.ml:73
+#: ../src/top.ml:73
 msgid "Block write reqs"
 msgstr "ബ്ലോക്ക് എഴുതാന്‍ ആവശ്യങ്ങള്‍"
 
-#: ../virt-top/virt_top.ml:1165
+#: ../src/top.ml:1244
 msgid "CPU: %2.1f%%  Mem: %Ld MB (%Ld MB by guests)"
 msgstr "CPU: %2.1f%%  Mem: %Ld MB (%Ld MB അഥിതികള്‍ വക)"
 
-#: ../virt-top/virt_top.ml:1335
+#: ../src/top.ml:1493
 msgid "Change delay from %.1f to: "
 msgstr "ഡിലേ %.1fല്‍ നിന്നും മാറ്റുക ഇതിലേക്ക് :"
 
-#: ../virt-top/virt_top.ml:174 ../virt-top/virt_top.ml:172
-msgid "Connect to URI (default: Xen)"
-msgstr "ഈ URI-ലേക്ക് കണക്ട് ചെയ്യുക (സ്വാഭാവികം : Xen)"
+#: ../src/top.ml:177 ../src/top.ml:175
+msgid "Connect to libvirt URI"
+msgstr ""
 
-#: ../virt-top/virt_top.ml:1580
+#: ../src/top.ml:1744
 msgid "Connect: %s; Hostname: %s"
 msgstr "കണക്ട് :  %s; ആഥിതേയന്റെ പേരു്‌: %s"
 
-#: ../virt-top/virt_top.ml:1618
+#: ../src/top.ml:1783
 msgid "DISPLAY MODES"
 msgstr "കാണിക്കാനുള്ള ദശകള്‍"
 
-#: ../virt-top/virt_top.ml:1342
+#: ../src/top.ml:1500
 msgid "Delay must be > 0"
 msgstr "ഡിലേ (കാത്തിരിക്കേണ്ട സമയം) > 0 ആകണം"
 
-#: ../virt-top/virt_top.ml:184
+#: ../src/top.ml:189
 msgid "Delay time interval (seconds)"
 msgstr "ഡിലേ (കാത്തിരിക്കേണ്ട സമയം) സെകന്റില്‍"
 
-#: ../virt-top/virt_top.ml:1573
+#: ../src/top.ml:1737
 msgid "Delay: %.1f secs; Batch: %s; Secure: %s; Sort: %s"
 msgstr ""
 "ഡിലേ (കാത്തിരിക്കേണ്ട സമയം) : %.1f secs; ബാച്ച്: %s; സുരക്ഷിതം: %s;ക്രമം: %s"
 
-#: ../virt-top/virt_top.ml:178
+#: ../src/top.ml:181
 msgid "Disable CPU stats in CSV"
 msgstr "CSV-ല്‍ CPU അവസ്ഥ പ്രവര്‍ത്തന രഹിതമാക്കുക"
 
-#: ../virt-top/virt_top.ml:180
+#: ../src/top.ml:185
 msgid "Disable block device stats in CSV"
 msgstr "CSV-ല്‍ ബ്ലോക്ക് ഡിവൈസ് അവസ്ഥ പ്രവര്‍ത്തന രഹിതമാക്കുക"
 
-#: ../virt-top/virt_top.ml:182
+#: ../src/top.ml:183
+msgid "Disable memory stats in CSV"
+msgstr ""
+
+#: ../src/top.ml:187
 msgid "Disable net stats in CSV"
 msgstr "CSV-ല്‍ net അവസ്ഥ പ്രവര്‍ത്തന രഹിതമാക്കുക"
 
-#: ../virt-top/virt_top.ml:204
+#: ../src/top.ml:214
 msgid "Display version number and exit"
 msgstr ""
 
-#: ../virt-top/virt_top.ml:194
+#: ../src/top.ml:199
 msgid "Do not read init file"
 msgstr "ഇനിറ്റ്( init) ഫയല്‍ വായിക്കരുത്"
 
-#: ../virt-top/virt_top.ml:68
+#: ../src/top.ml:68
 msgid "Domain ID"
 msgstr "ഡൊമേന്‍ തിരിച്ചറിയല്‍"
 
-#: ../virt-top/virt_top.ml:69
+#: ../src/top.ml:69
 msgid "Domain name"
 msgstr "ഡൊമേന്‍ പേരു്‌"
 
-#: ../virt-top/virt_top.ml:1632
+#: ../src/top.ml:1797
 msgid "Domains display"
 msgstr "ഡൊമേന്‍സ് ഡിസ്പ്ലേ"
 
-#. ../virt-top/virt_top.ml:1544
-#: ../virt-top/virt_top_main.ml:47 ../virt-top/virt_top.ml:1547
+#: ../src/main.ml:69 ../src/main.ml:44 ../src/top.ml:1711 ../src/top.ml:1708
 msgid "Error"
 msgstr "പിശക്"
 
-#: ../virt-top/virt_top.ml:188
+#: ../src/top.ml:193
 msgid "Exit at given time"
 msgstr "തന്ന സമയത്തില്‍ പുറത്തിറങ്ങുക"
 
-#: ../virt-top/virt_top.ml:1602
+#: ../src/top.ml:1766
 msgid "Help"
 msgstr "സഹായം"
 
-#: ../virt-top/virt_top.ml:190
+#: ../src/top.ml:195
 msgid "Historical CPU delay"
 msgstr "ഹിസ്റ്റോറിക്കല്‍ സിപിയു ഡിലേ"
 
-#: ../virt-top/virt_top.ml:176
+#: ../src/top.ml:179
 msgid "Log statistics to CSV file"
 msgstr "CSV ഫയലിലേക്കുള്ള ലോഗ് സ്ഥിതിവിവരക്കണക്കുകള്‍"
 
-#: ../virt-top/virt_top.ml:1585
+#: ../src/top.ml:1749
 msgid "MAIN KEYS"
 msgstr "പ്രധാന കീകള്‍"
 
-#: ../virt-top/virt_top.ml:1639
+#: ../src/top.ml:1804
 msgid "More help in virt-top(1) man page. Press any key to return."
 msgstr ""
 "virt-top(1) man താളില്‍ കൂടുതല്‍ സഹായം. തിരികെ പോകുന്നതിനായി ഏതെങ്കിലും കീ "
 "അമര്‍ത്തുക."
 
-#: ../virt-top/virt_top.ml:263
-msgid ""
-"NB: If you want to monitor a local Xen hypervisor, you usually need to be "
-"root"
+#: ../src/top.ml:294
+msgid "NB: If you want to monitor a local hypervisor, you usually need to be root"
 msgstr ""
-"കുറിപ്പു്: ഒരു ലോക്കല്‍ ക്സെന്‍ ഹൈപ്പര്‍വൈസര്‍ നിരീക്ഷിക്കുന്നതിനു്, ഒരു "
-"റൂട്ടായി പാടുള്ളൂ."
 
-#: ../virt-top/virt_top.ml:70
+#: ../src/top.ml:70
 msgid "Net RX bytes"
 msgstr "നെറ്റ് RX ബൈറ്റുകള്‍"
 
-#: ../virt-top/virt_top.ml:71
+#: ../src/top.ml:71
 msgid "Net TX bytes"
 msgstr "നെറ്റ് TX ബൈറ്റുകള്‍"
 
-#: ../virt-top/virt_top.ml:1348
+#: ../src/top.ml:1506
 msgid "Not a valid number"
 msgstr "ശരിയായ അക്കം അല്ല"
 
-#: ../virt-top/virt_top.ml:196
+#: ../src/top.ml:201
 msgid "Number of iterations to run"
 msgstr "Number of iterations to run"
 
-#: ../virt-top/virt_top.ml:1576 ../virt-top/virt_top.ml:1575
+#: ../src/top.ml:1740 ../src/top.ml:1739
 msgid "Off"
 msgstr ""
 
-#: ../virt-top/virt_top.ml:1576 ../virt-top/virt_top.ml:1575
+#: ../src/top.ml:1740 ../src/top.ml:1739
 msgid "On"
 msgstr ""
 
-#: ../virt-top/virt_top.ml:1600
+#: ../src/top.ml:1764
 msgid "Quit"
 msgstr "നിര്‍ത്തുക"
 
-#: ../virt-top/virt_top.ml:202
+#: ../src/top.ml:208
 msgid "Run from a script (no user interface)"
 msgstr "ഒരു സ്ക്രിപ്റ്റില്‍ നിന്നും പ്രവര്‍ത്തിപ്പിക്കുക (no user interface)"
 
-#: ../virt-top/virt_top.ml:1606
+#: ../src/top.ml:1771
 msgid "SORTING"
 msgstr "ക്രമീകരിക്കുന്നു"
 
-#: ../virt-top/virt_top.ml:200
-msgid "Secure (\\\"kiosk\\\") mode"
-msgstr "സെക്യുര്‍ (\\\"kiosk\\\") മോഡ്"
+#: ../src/top.ml:206
+msgid "Secure (\"kiosk\") mode"
+msgstr ""
 
-#: ../virt-top/virt_top.ml:1615
+#: ../src/top.ml:1780
 msgid "Select sort field"
 msgstr "സോര്‍ട്ട് ഫീള്‍ഡ് തെരഞ്ഞെടുക്കുക"
 
-#: ../virt-top/virt_top.ml:186
+#: ../src/top.ml:191
 msgid "Send debug messages to file"
 msgstr "ഫയലിലേക്കു് ഡീബഗ് സന്ദേശങ്ങള്‍ അയയ്ക്കുക"
 
-#: ../virt-top/virt_top.ml:192
+#: ../src/top.ml:197
 msgid "Set name of init file"
 msgstr "init ഫയലിനുള്ള പേരു് സജ്ജമാക്കുക"
 
-#: ../virt-top/virt_top.ml:198
+#: ../src/top.ml:203
 msgid "Set sort order (%s)"
 msgstr "ക്രമം സജ്ജമാക്കുക (%s)"
 
-#: ../virt-top/virt_top.ml:1356
+#: ../src/top.ml:1514
 msgid "Set sort order for main display"
 msgstr "Set sort order for main display"
 
-#: ../virt-top/virt_top.ml:1601
+#: ../src/top.ml:1765
 msgid "Set update interval"
 msgstr "പരിഷ്കരണത്തിനുള്ള ഇടവേള ക്രമികരിക്കുക"
 
-#: ../virt-top/virt_top.ml:1611
+#: ../src/top.ml:1776
 msgid "Sort by %CPU"
 msgstr "%CPU അനുസരിച്ചു് ക്രമത്തിലാക്കുക"
 
-#: ../virt-top/virt_top.ml:1612
+#: ../src/top.ml:1777
 msgid "Sort by %MEM"
 msgstr "%MEM അനുസരിച്ചു് ക്രമത്തിലാക്കുക"
 
-#: ../virt-top/virt_top.ml:1614
+#: ../src/top.ml:1779
 msgid "Sort by ID"
 msgstr "ഐഡി അനുസരിച്ചു് ക്രമത്തിലാക്കുക"
 
-#: ../virt-top/virt_top.ml:1613
+#: ../src/top.ml:1778
 msgid "Sort by TIME"
 msgstr "സമയമനുസരിച്ചു് ക്രമത്തിലാക്കുക"
 
-#: ../virt-top/virt_top.ml:168
+#: ../src/top.ml:171
 msgid "Start by displaying block devices"
 msgstr "ബ്ലോക്ക് ഡിവൈസകുള്‍ കാണിച്ചു് ആരംഭിക്കുക"
 
-#: ../virt-top/virt_top.ml:166
+#: ../src/top.ml:169
 msgid "Start by displaying network interfaces"
 msgstr "സംയോജക ഘടകങ്ങള്‍ കാണിച്ചു് ആരംഭിക്കുക"
 
-#: ../virt-top/virt_top.ml:164
+#: ../src/top.ml:167
 msgid "Start by displaying pCPUs (default: tasks)"
 msgstr "pCPU കാണിച്ചു് ആരംഭിക്കുക (default: tasks)"
 
-#: ../virt-top/virt_top.ml:67
+#: ../src/top.ml:67
 msgid "TIME (CPU time)"
 msgstr "സമയം (CPU സമയം)"
 
-#: ../virt-top/virt_top.ml:1635
+#: ../src/top.ml:1800
 msgid "Toggle block devices"
 msgstr "ബ്ലോക്ക് ഡിവൈസുകള്‍ ടൊഗിള്‍ ചെയ്യുക"
 
-#: ../virt-top/virt_top.ml:1634
+#: ../src/top.ml:1799
 msgid "Toggle network interfaces"
 msgstr "നെറ്റ്‌വര്‍ക്ക് സംയോജകഘടകങ്ങള്‍ ടൊഗിള്‍ ചെയ്യുക"
 
-#: ../virt-top/virt_top.ml:1633
+#: ../src/top.ml:1798
 msgid "Toggle physical CPUs"
 msgstr "ഫിസിക്കല്‍ സിപിയുകള്‍ ടൊഗിള്‍ ചെയ്യുക"
 
-#: ../virt-top/virt_top.ml:1357
+#: ../src/top.ml:1515
 msgid "Type key or use up and down cursor keys."
 msgstr ""
 "കീ ടൈപ്പ് ചെയ്യുക അല്ലെങ്കില്‍ മുകളിലേക്കും താഴേക്കുമുള്ള കര്‍സര്‍ കീകള്‍ "
 "ഉപയോഗിക്കുക"
 
-#: ../virt-top/virt_top.ml:1644
+#: ../src/top.ml:1809
 msgid "Unknown command - try 'h' for help"
 msgstr "സഹായത്തിനായി അപരിചിതമായ നിര്‍ദ്ദേശം - try 'h' ഉപയോഗിക്കുക"
 
-#: ../virt-top/virt_top.ml:1599
+#: ../src/top.ml:1763
 msgid "Update display"
 msgstr "ഡിസ്പ്ലേ പുതുക്കുക"
 
-#: ../virt-top/virt_top.ml:1539
+#: ../src/top.ml:1703
 msgid "Wrote settings to %s"
 msgstr "%s-ലേക്കു് ക്രമികരണങ്ങളിക്ക് എഴുതപ്പെട്ടിരിക്കുന്നു"
 
-#: ../virt-top/virt_top.ml:1581
+#: ../src/top.ml:1745
 msgid "default"
 msgstr ""
 
-#: ../virt-top/virt_top_xml.ml:46
+#: ../src/top.ml:210
+msgid "dump output to stdout (no userinterface)"
+msgstr ""
+
+#: ../src/opt_xml.ml:46
 msgid "get_xml_desc didn't return <domain/>"
 msgstr "get_xml_desc didn't return <domain/>"
 
-#: ../virt-top/virt_top.ml:1561
+#: ../src/top.ml:212
+msgid "show block device load in bytes rather than reqs"
+msgstr ""
+
+#: ../src/top.ml:1767
+msgid "toggle block info req/bytes"
+msgstr ""
+
+#: ../src/top.ml:1725
 msgid "virt-top %s ocaml-libvirt %s libvirt %d.%d.%d by Red Hat"
 msgstr ""
 
-#: ../virt-top/virt_top.ml:208
+#: ../src/top.ml:218
 msgid ""
 "virt-top : a 'top'-like utility for virtualization\n"
 "\n"
@@ -347,13 +363,14 @@ msgstr ""
 "\n"
 "OPTIONS"
 
-#: ../virt-top/virt_top.ml:42
+#: ../src/top.ml:42
 msgid "virt-top was compiled without support for CSV files"
 msgstr ""
 "CSV ഫയലുകള്‍ക്കുള്ള പിന്തുണ ലഭ്യമല്ലാതെ virt-top കംപൈല്‍ ചെയ്തിരിക്കുന്നു"
 
-#: ../virt-top/virt_top.ml:53
+#: ../src/top.ml:53
 msgid "virt-top was compiled without support for dates and times"
 msgstr ""
 "തീയതികള്‍ക്കും സമയങ്ങള്‍ക്കുമുള്ള പിന്തുണ ലഭ്യമല്ലാതെ virt-top കംപൈല്‍ "
 "ചെയ്തിരിക്കുന്നു"
+
