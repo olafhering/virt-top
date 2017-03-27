@@ -52,13 +52,8 @@ OBJS		+= opt_csv.cmo
 OCAMLCPACKAGES	+= -package csv
 endif
 ifneq ($(OCAML_PKG_calendar),no)
-ifeq ($(is_calendar2),no)
-OBJS		+= opt_calendar1.cmo
+OBJS		+= opt_calendar.cmo
 OCAMLCPACKAGES	+= -package calendar
-else
-OBJS		+= opt_calendar2.cmo
-OCAMLCPACKAGES	+= -package calendar
-endif
 endif
 OBJS		+= main.cmo
 

@@ -57,12 +57,7 @@ dnl Check for optional OCaml packages.
 AC_CHECK_OCAML_PKG(gettext)
 AC_CHECK_OCAML_PKG(xml-light)
 AC_CHECK_OCAML_PKG(csv)
-
-dnl Need to check which version of calendar is installed.
 AC_CHECK_OCAML_PKG(calendar)
-if test "x$OCAML_PKG_calendar" != "xno"; then
-    AC_CHECK_OCAML_MODULE(is_calendar2,calendar,[CalendarLib.Date],[+$OCAML_PKG_calendar])
-fi
 
 AC_SUBST(OCAML_PKG_unix)
 AC_SUBST(OCAML_PKG_extlib)
@@ -71,7 +66,6 @@ AC_SUBST(OCAML_PKG_gettext)
 AC_SUBST(OCAML_PKG_xml_light)
 AC_SUBST(OCAML_PKG_csv)
 AC_SUBST(OCAML_PKG_calendar)
-AC_SUBST(is_calendar2)
 
 dnl Check for optional perldoc (for building manual pages).
 AC_CHECK_PROG(HAVE_PERLDOC,perldoc,perldoc)

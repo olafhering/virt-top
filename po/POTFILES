@@ -1,6 +1,5 @@
 ../src/main.ml
-../src/opt_calendar1.ml
-../src/opt_calendar2.ml
+../src/opt_calendar.ml
 ../src/opt_csv.ml
 ../src/opt_gettext.ml
 ../src/opt_xml.ml

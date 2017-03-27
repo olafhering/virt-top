@@ -40,16 +40,16 @@ The code is structured into these files:
     Any code which needs the optional ocaml-csv library goes
     in here.  This implements the --csv command line option.
 
-  opt_calendar1.ml, opt_calendar2.ml
+  opt_calendar.ml
 
     Any code which needs the optional ocaml-calendar library
-    (v1 or v2) goes in here.  This implements the --end-time
-    command line option.
+    (v2) goes in here.  This implements the --end-time command
+    line option.
 
   main.ml
 
     This is just a small bit of code to glue the modules together
-    Top + Opt_xml? + Opt_csv? + Opt_calendar{1,2}?
+    Top + Opt_xml? + Opt_csv? + Opt_calendar?
 
 The man-page is generated from the single file:
 
