@@ -1,7 +1,9 @@
-../virt-top/virt_top_calendar1.ml
-../virt-top/virt_top_calendar2.ml
-../virt-top/virt_top_csv.ml
-../virt-top/virt_top_main.ml
-../virt-top/virt_top.ml
-../virt-top/virt_top_utils.ml
-../virt-top/virt_top_xml.ml
+../src/main.ml
+../src/opt_calendar1.ml
+../src/opt_calendar2.ml
+../src/opt_csv.ml
+../src/opt_gettext.ml
+../src/opt_xml.ml
+../src/top.ml
+../src/utils.ml
+../src/version.ml
