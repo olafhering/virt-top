@@ -27,6 +27,7 @@ val parse_device_xml :
 type rd_domain = Inactive | Active of rd_active
 and rd_active = {
   rd_domid : int;			(* Domain ID. *)
+  rd_domuuid : Libvirt.uuid;            (* Domain UUID. *)
   rd_dom : [`R] Libvirt.Domain.t;       (* Domain object. *)
   rd_info : Libvirt.Domain.info;        (* Domain CPU info now. *)
   rd_block_stats : (string * Libvirt.Domain.block_stats) list;

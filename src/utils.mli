@@ -25,6 +25,9 @@ val (//) : string -> string -> string
 (* failwithf is a printf-like version of failwith. *)
 val failwithf : ('a, unit, string, 'b) format4 -> 'a
 
+(* Return the list of integers [a..b] (inclusive). *)
+val range : int -> int -> int list
+
 (* Read a configuration file as a list of (lineno, key, value) pairs.
  * If the config file is missing this returns an empty list.
  *)

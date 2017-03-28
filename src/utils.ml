@@ -32,6 +32,12 @@ let (/^) = Int64.div
 (* failwithf is a printf-like version of failwith. *)
 let failwithf fs = ksprintf failwith fs
 
+let rec range a b =
+  if a <= b then
+    a :: range (a+1) b
+  else
+    []
+
 (* Input a whole file as a list of lines. *)
 let input_all_lines chan =
   let lines = ref [] in
