@@ -29,7 +29,6 @@ OCAML_PKG_curses    = @OCAML_PKG_curses@
 OCAML_PKG_xml_light = @OCAML_PKG_xml_light@
 OCAML_PKG_csv	    = @OCAML_PKG_csv@
 OCAML_PKG_calendar  = @OCAML_PKG_calendar@
-is_calendar2	    = @is_calendar2@
 OCAML_PKG_gettext   = @OCAML_PKG_gettext@
 
 OCAMLCPACKAGES	:= -package unix,extlib,curses,str,libvirt
