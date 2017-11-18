@@ -296,17 +296,20 @@ let millisleep n =
  *)
 let get_string maxlen =
   ignore (echo ());
-  let str = String.create maxlen in
-  let ok = getstr str in (* Safe because binding calls getnstr. *)
+  let str = Bytes.create maxlen in
+  (* Safe because binding calls getnstr.  However the unsafe cast
+   * to string is required because ocaml-curses needs to be fixed.
+   *)
+  let ok = getstr (Obj.magic str) in
   ignore (noecho ());
   if not ok then ""
   else (
     (* Chop at first '\0'. *)
     try
-      let i = String.index str '\000' in
-      String.sub str 0 i
+      let i = Bytes.index str '\000' in
+      Bytes.sub_string str 0 i
     with
-      Not_found -> str (* it is full maxlen bytes *)
+      Not_found -> Bytes.to_string str (* it is full maxlen bytes *)
   )
 
 (* Main loop. *)
