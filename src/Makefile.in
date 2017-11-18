@@ -84,11 +84,14 @@ all: $(BYTE_TARGETS)
 opt: $(OPT_TARGETS)
 
 virt-top: $(OBJS)
-	ocamlfind ocamlc $(OCAMLCPACKAGES) $(OCAMLCFLAGS) $(OCAMLCLIBS) -o $@ $^
+	ocamlfind ocamlc $(OCAMLCPACKAGES) $(OCAMLCFLAGS) $(OCAMLCLIBS) \
+	  -runtime-variant _pic \
+	  -o $@ $^
 
 virt-top.opt: $(XOBJS)
 	ocamlfind ocamlopt \
 	  $(OCAMLOPTPACKAGES) $(OCAMLOPTFLAGS) $(OCAMLOPTLIBS) \
+	  -runtime-variant _pic \
 	  -o $@ $^
 
 # Manual page.
