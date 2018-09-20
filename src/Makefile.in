@@ -64,8 +64,8 @@ OBJS		+= main.cmo
 
 XOBJS		:= $(OBJS:.cmo=.cmx)
 
-OCAMLCFLAGS	:= -g -warn-error CDEFLMPSUVYZX-3
-OCAMLCLIBS	:= -linkpkg
+OCAMLCFLAGS	:= -g -warn-error CDEFLMPSUVYZX-3 -ccopt '@CFLAGS@'
+OCAMLCLIBS	:= -linkpkg -runtime-variant _pic -cclib '@LDFLAGS@'
 
 OCAMLOPTPACKAGES := $(OCAMLCPACKAGES)
 OCAMLOPTFLAGS	:= $(OCAMLCFLAGS)
@@ -85,13 +85,11 @@ opt: $(OPT_TARGETS)
 
 virt-top: $(OBJS)
 	ocamlfind ocamlc $(OCAMLCPACKAGES) $(OCAMLCFLAGS) $(OCAMLCLIBS) \
-	  -runtime-variant _pic \
 	  -o $@ $^
 
 virt-top.opt: $(XOBJS)
 	ocamlfind ocamlopt \
 	  $(OCAMLOPTPACKAGES) $(OCAMLOPTFLAGS) $(OCAMLOPTLIBS) \
-	  -runtime-variant _pic \
 	  -o $@ $^
 
 # Manual page.

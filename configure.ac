@@ -76,6 +76,10 @@ AC_CHECK_PROG(OCAML_GETTEXT,ocaml-gettext,ocaml-gettext)
 dnl Check for msgfmt tool.
 AC_CHECK_PROG(MSGFMT,msgfmt,msgfmt)
 
+dnl Substitute CFLAGS and LDFLAGS if set.
+AC_SUBST([CFLAGS])
+AC_SUBST([LDFLAGS])
+
 dnl Write gettext modules for the programs.
 dnl http://www.le-gall.net/sylvain+violaine/documentation/ocaml-gettext/html/reference-manual/ch03s04.html
 AC_MSG_NOTICE([creating src/opt_gettext.ml])
