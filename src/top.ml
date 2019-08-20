@@ -420,7 +420,7 @@ and change_delay () =
 	delay := int_of_float (newdelay *. 1000.); false
       )
     with
-      Failure "float_of_string" ->
+      Failure _ ->
 	print_msg (s_"Not a valid number"); true in
   refresh ();
   sleep (if error then 2 else 1)
