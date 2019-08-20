@@ -1,3 +1,81 @@
+2019-08-20  Richard W.M. Jones  <rjones@redhat.com>
+
+	Version 1.0.9.
+
+	src/top.ml: Don't depend on exact value of Failure argument.
+	File "top.ml", line 423, characters 14-31:
+	423 |       Failure "float_of_string" ->
+	                    ^^^^^^^^^^^^^^^^^
+	Warning 52: Code should not depend on the actual values of
+	this constructor's arguments. They are only for information
+	and may change in future versions. (See manual section 9.5)
+
+2018-09-20  Richard W.M. Jones  <rjones@redhat.com>
+
+	build: Pass through CFLAGS and LDFLAGS to ocaml compiler (RHBZ#1630636).
+
+2017-11-18  Richard W.M. Jones  <rjones@redhat.com>
+
+	Link with -fPIC runtime.
+
+	Fixes for -safe-string in OCaml 4.06.
+
+2017-03-28  Richard W.M. Jones  <rjones@redhat.com>
+
+	chmod -x COPYING* files.
+
+	Use virConnectGetAllDomainStats API to collect domain stats (RHBZ#1422795).
+	This is much faster than using the basic libvirt APIs to collect
+	stats for each domain individually.
+
+	Note this will not work unless you have the latest ocaml-libvirt
+	package which includes this new API binding.
+
+	Remove unused variable is_calendar2.
+	Fixes commit effd1ec5897a2cac6e897ae7bce72f6b1e617b90.
+
+2017-03-27  Richard W.M. Jones  <rjones@redhat.com>
+
+	Move block_in_bytes entirely to the presentation layer.
+	Simplifies and updates commit dbef8dd3bf00417e75a12c851b053e49c9e1a79e.
+
+	Split up huge Top module into smaller modules.
+	This change is hopefully pure refactoring, splitting up the very large
+	and highly interlinked module into more manageable modules with
+	well-defined (or at least *better*-defined) interfaces between them.
+
+	src: Fix some comments which referred to the old filenames.
+	Fixes commit b7c3ef13cbd9c9cd49005a32ffb70faf6f5bbe8c.
+
+	Remove support for OCaml Calendar v1.
+	Calendar v2 was released in 2008 (9 years ago!), thus remove support
+	for v1.
+
+	This was already broken by commit dc0e217390132f7e76a4d9c0a8a81a9556d19081
+	so it likely didn't work anyway.
+
+	Update PO files.
+
+	Fix po/POTFILES for new location of source files.
+	Fixes commit b7c3ef13cbd9c9cd49005a32ffb70faf6f5bbe8c.
+
+	Refresh HACKING file.
+	Fixes commit b7c3ef13cbd9c9cd49005a32ffb70faf6f5bbe8c.
+
+	Remove +x (executable) permission on several source files.
+	Not sure why it was there, but it was incorrect.
+
+	Enable same warnings as libguestfs.
+	In particular 'warning 3' was still enabled before, meaning that the
+	code would fail with newer OCaml compilers:
+
+	  File "top.ml", line 377, characters 12-25:
+	  Warning 3: deprecated: String.create
+	  Use Bytes.create instead.
+
+	Since we want to continue using old OCaml for now, don't enable
+	this warning.
+
 2016-10-31  Richard W.M. Jones  <rjones@redhat.com>
 
 	Rename source directory and files.
