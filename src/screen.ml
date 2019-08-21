@@ -50,3 +50,4 @@ let show_state = function
   | D.InfoShutdown -> 'D'
   | D.InfoShutoff -> 'O'
   | D.InfoCrashed -> 'X'
+  | D.InfoPMSuspended -> 'M'

@@ -492,6 +492,10 @@ Shutdown.
 
 Crashed.
 
+=item B<M>
+
+Suspended by guest power management.
+
 =back
 
 =item B<TIME>
