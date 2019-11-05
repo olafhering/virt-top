@@ -1,0 +1,10 @@
+(executable
+ (name main)
+ (public_name virt-top)
+ (libraries curses extlib gettext gettext-stub libvirt str)
+ (flags -w -50-27-9-32))
+
+(rule
+ (target version.ml)
+ (action
+  (write-file %{target} "let version = \"%{version:virt-top}\"")))
