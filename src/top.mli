@@ -17,11 +17,5 @@
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 *)
 
-(* Hook for [Opt_csv] to override (if present). *)
-val csv_start : (string -> unit) ref
-
-(* Hook for [Opt_calendar] to override (if present). *)
-val parse_date_time : (string -> float) ref
-
 val start_up : unit -> Types.setup
 val main_loop : Types.setup -> unit

@@ -25,12 +25,7 @@ open ExtList
 
 open Utils
 open Types
-
-(* Hook for XML support (see [opt_xml.ml]). *)
-let parse_device_xml : (int -> [>`R] D.t -> string list * string list) ref =
-  ref (
-    fun _ _ -> [], []
-  )
+open Opt_xml
 
 (* Intermediate "domain + stats" structure that we use to collect
  * everything we know about a domain within the collect function.
@@ -95,7 +90,7 @@ let devices = Hashtbl.create 13
 let get_devices id dom =
   try Hashtbl.find devices id
   with Not_found ->
-    let blkdevs, netifs = (!parse_device_xml) id dom in
+    let blkdevs, netifs = parse_device_xml id dom in
     Hashtbl.replace devices id (blkdevs, netifs);
     blkdevs, netifs
 

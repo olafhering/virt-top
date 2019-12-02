@@ -23,18 +23,13 @@ open Printf
 open ExtList
 
 open Collect
+open Opt_csv
 
 module C = Libvirt.Connect
 
-(* Hook for CSV support (see [opt_csv.ml]). *)
-let csv_write : (string list -> unit) ref =
-  ref (
-    fun _ -> ()
-  )
-
 (* Write CSV header row. *)
 let write_csv_header (csv_cpu, csv_mem, csv_block, csv_net) block_in_bytes =
-  (!csv_write) (
+  Opt_csv.csv_write (
     [ "Hostname"; "Time"; "Arch"; "Physical CPUs";
       "Count"; "Running"; "Blocked"; "Paused"; "Shutdown";
       "Shutoff"; "Crashed"; "Active"; "Inactive";
@@ -121,4 +116,4 @@ let append_csv (_, _, _, _, _, node_info, hostname, _) (* setup *)
   ) doms in
   let domain_fields = List.flatten domain_fields in
 
-  (!csv_write) (summary_fields @ domain_fields)
+  Opt_csv.csv_write (summary_fields @ domain_fields)

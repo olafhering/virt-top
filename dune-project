@@ -21,8 +21,12 @@
  (description
    "virt-top is a top-like utility for showing stats of virtualized domains. Many keys and command line options are the same as for ordinary top. .")
  (depends
+  (ocaml
+   (>= 4.02.0))
   (dune
    (>= 1.11))
+  calendar
+  csv
   dune.configurator
-  (ocaml
-   (>= 4.02.0))))
+  gettext
+  xml-light))

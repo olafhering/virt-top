@@ -1,7 +1,10 @@
 (executable
  (name main)
  (public_name virt-top)
- (libraries curses extlib gettext gettext-stub libvirt str)
+ (modules collect csv_output main opt_calendar opt_csv opt_gettext opt_xml
+   redraw screen stream_output top types utils version)
+ (libraries calendar csv curses extlib gettext gettext-stub libvirt str
+   xml-light)
  (flags -w -50-27-9-32))
 
 (rule

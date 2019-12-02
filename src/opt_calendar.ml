@@ -26,7 +26,7 @@ open ExtString
 
 open Opt_gettext.Gettext ;;
 
-Top.parse_date_time :=
+let parse_date_time =
 fun time ->
   let cal : Calendar.t =
     if String.starts_with time "+" then ( (* +something *)

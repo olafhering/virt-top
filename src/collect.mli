@@ -17,10 +17,6 @@
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 *)
 
-(* Hook for [Opt_xml] to override (if present). *)
-val parse_device_xml :
-  (int -> [ `R ] Libvirt.Domain.t -> string list * string list) ref
-
 (* Intermediate "domain + stats" structure that we use to collect
  * everything we know about a domain within the collect function.
  *)

@@ -19,9 +19,6 @@
 
 (** CSV output functions. *)
 
-(* Hook for [Opt_csv] to override (if present). *)
-val csv_write : (string list -> unit) ref
-
 val write_csv_header : bool * bool * bool * bool -> bool -> unit
 
 val append_csv : Types.setup -> bool * bool * bool * bool -> bool -> Collect.stats -> unit

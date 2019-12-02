@@ -22,6 +22,8 @@ open ExtList
 open Curses
 
 open Opt_gettext.Gettext
+open Opt_calendar
+open Opt_csv
 open Utils
 open Types
 open Collect
@@ -37,13 +39,6 @@ let rcfile = ".virt-toprc"
 let csv_start : (string -> unit) ref =
   ref (
     fun _ -> failwith (s_"virt-top was compiled without support for CSV files")
-  )
-
-(* Hook for calendar support (see [opt_calendar.ml]). *)
-let parse_date_time : (string -> float) ref =
-  ref (
-    fun _ ->
-      failwith (s_"virt-top was compiled without support for dates and times")
   )
 
 (* Init file. *)
@@ -84,11 +79,11 @@ let start_up () =
   and set_net_mode () = display_mode := NetDisplay
   and set_block_mode () = display_mode := BlockDisplay
   and set_csv filename =
-    (!csv_start) filename;
+    Opt_csv.csv_start filename;
     csv_enabled := true
   and no_init_file () = init_file := NoInitFile
   and set_init_file filename = init_file := InitFile filename
-  and set_end_time time = end_time := Some ((!parse_date_time) time)
+  and set_end_time time = end_time := Some (Opt_calendar.parse_date_time time)
   and display_version () =
     printf "virt-top %s ocaml-libvirt %s\n"
       Version.version Libvirt_version.version;

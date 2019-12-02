@@ -24,11 +24,11 @@ open Opt_gettext.Gettext
 (* Output channel, or None if CSV output not enabled. *)
 let chan = ref None ;;
 
-Top.csv_start :=
+let csv_start =
   fun filename ->
     chan := Some (open_out filename) ;;
 
-Csv_output.csv_write :=
+let csv_write =
   fun row ->
     match !chan with
     | None -> ()			(* CSV output not enabled. *)

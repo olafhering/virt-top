@@ -27,7 +27,7 @@ module C = Libvirt.Connect
 module D = Libvirt.Domain
 module N = Libvirt.Network ;;
 
-Collect.parse_device_xml :=
+let parse_device_xml =
 fun id dom ->
   try
     let xml = D.get_xml_desc dom in
